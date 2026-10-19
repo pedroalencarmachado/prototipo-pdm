@@ -1,0 +1,523 @@
+<title>Entrevistas com as Redes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Raleway:wght@600;700;800&display=swap">
+
+<style>
+:root{
+  --bg:#FAFBFD; --surface:#FFFFFF; --surface-2:#F2F5FA;
+  --ink:#16202E; --ink-2:#4B5A6F; --ink-3:#77869B;
+  --line:#E1E7F0; --line-2:#EDF1F7;
+  --blue:#1351B4; --blue-soft:#EAF0FA;
+  --green:#137C1E; --green-soft:#E7F5E9;
+  --new:#6C2EB9; --new-soft:#F4EEFC; --new-line:#DECCF3;
+  --rev:#0A7B83; --rev-soft:#E6F4F5;
+  --util:#B1500A; --util-soft:#FDF1E6;
+  --warn:#B04E00; --warn-soft:#FCF2E7;
+  --font-ui:"Public Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display:"Raleway", "Public Sans", -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1520; --surface:#161F2C; --surface-2:#1B2634;
+    --ink:#E7EDF6; --ink-2:#A8B5C8; --ink-3:#7E8DA3;
+    --line:#2A3648; --line-2:#222D3D;
+    --blue:#84AAF2; --blue-soft:#17263E;
+    --green:#61C46F; --green-soft:#16281A;
+    --new:#C39CF2; --new-soft:#241B36; --new-line:#3C2C5C;
+    --rev:#4FC7CE; --rev-soft:#10292B;
+    --util:#E0944B; --util-soft:#2E2113;
+    --warn:#E5A05B; --warn-soft:#2C2317;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1520; --surface:#161F2C; --surface-2:#1B2634;
+  --ink:#E7EDF6; --ink-2:#A8B5C8; --ink-3:#7E8DA3;
+  --line:#2A3648; --line-2:#222D3D;
+  --blue:#84AAF2; --blue-soft:#17263E;
+  --green:#61C46F; --green-soft:#16281A;
+  --new:#C39CF2; --new-soft:#241B36; --new-line:#3C2C5C;
+  --rev:#4FC7CE; --rev-soft:#10292B;
+  --util:#E0944B; --util-soft:#2E2113;
+  --warn:#E5A05B; --warn-soft:#2C2317;
+}
+
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-ui); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--font-display); margin:0; text-wrap:balance; letter-spacing:-.015em}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--blue); outline-offset:3px; border-radius:3px}
+code{font-family:ui-monospace,"Cascadia Mono",Menlo,monospace; font-size:.88em; background:var(--surface-2); border:1px solid var(--line-2); border-radius:4px; padding:1px 6px; font-variant-numeric:tabular-nums}
+.num{font-variant-numeric:tabular-nums}
+
+.wrap{max-width:1020px; margin:0 auto; padding:0 28px 90px}
+header.doc{border-bottom:1px solid var(--line); padding:52px 0 32px; margin-bottom:38px}
+.eyebrow{font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--rev); display:flex; align-items:center; gap:10px}
+.eyebrow::after{content:""; height:1px; flex:1; background:var(--line); max-width:200px}
+header.doc h1{font-size:clamp(32px,5vw,46px); font-weight:800; line-height:1.05; margin:16px 0 0}
+header.doc .lede{font-size:18px; color:var(--ink-2); margin:18px 0 0; max-width:66ch}
+.meta{display:flex; gap:26px; flex-wrap:wrap; margin-top:26px; padding-top:20px; border-top:1px solid var(--line-2); font-size:13px}
+.meta div .k{color:var(--ink-3); text-transform:uppercase; letter-spacing:.07em; font-size:11px; font-weight:700}
+.meta div .v{margin-top:3px; font-weight:500}
+
+section{margin-bottom:46px}
+h2{font-size:23px; font-weight:700; margin-bottom:6px}
+h2 + .dek{color:var(--ink-2); margin:0 0 20px; max-width:68ch}
+h3{font-size:16px; font-weight:700; margin:26px 0 8px}
+p{margin:0 0 14px; max-width:70ch}
+ul{max-width:70ch; padding-left:22px; margin:0 0 14px}
+li{margin-bottom:7px}
+
+.callout{border-left:4px solid var(--blue); background:var(--blue-soft); border-radius:0 8px 8px 0; padding:16px 20px; margin:22px 0; max-width:76ch}
+.callout .h{font-weight:700; font-size:14.5px; margin-bottom:5px; color:var(--blue)}
+.callout p:last-child{margin-bottom:0}
+.callout.warn{border-left-color:var(--warn); background:var(--warn-soft)}
+.callout.warn .h{color:var(--warn)}
+.callout.util{border-left-color:var(--util); background:var(--util-soft)}
+.callout.util .h{color:var(--util)}
+
+.tbl{overflow-x:auto; margin:20px 0; border:1px solid var(--line); border-radius:8px; background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-size:14.5px}
+th{text-align:left; font-weight:700; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); padding:12px 16px; border-bottom:1px solid var(--line); white-space:nowrap}
+td{padding:12px 16px; border-bottom:1px solid var(--line-2); vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600}
+.opt{display:inline-block; background:var(--surface-2); border:1px solid var(--line); border-radius:99px; padding:1px 9px; font-size:12.5px; margin:2px 4px 2px 0; white-space:nowrap}
+
+.bloco-h{display:flex; align-items:baseline; gap:12px; margin:40px 0 4px; padding-top:22px; border-top:2px solid var(--line)}
+.bloco-h .letra{font-family:var(--font-display); font-size:26px; font-weight:800; color:var(--rev); line-height:1}
+.bloco-h h2{font-size:20px}
+.bloco-h .qt{margin-left:auto; color:var(--ink-3); font-size:12.5px; white-space:nowrap}
+.bloco-d{color:var(--ink-2); font-size:14.5px; margin:0 0 20px; max-width:72ch}
+
+.cen{background:var(--surface); border:1px solid var(--line); border-radius:8px; margin-bottom:14px; overflow:hidden}
+.cen-h{display:flex; align-items:flex-start; gap:14px; padding:16px 20px}
+.cen-n{flex:none; width:30px; height:30px; border-radius:50%; background:var(--rev-soft); color:var(--rev); border:1px solid var(--rev); display:grid; place-items:center; font-size:13px; font-weight:700; font-variant-numeric:tabular-nums}
+.cen-t{flex:1}
+.cen-t .tarefa{font-size:16.5px; font-weight:600; line-height:1.45; color:var(--ink)}
+.cen-t .obj{color:var(--ink-3); font-size:12.5px; margin-top:5px; text-transform:uppercase; letter-spacing:.05em; font-weight:600}
+.cen-b{display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line-2)}
+.cen-b > div{padding:13px 20px}
+.cen-b > div + div{border-left:1px solid var(--line-2)}
+.cen-b .k{font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); margin-bottom:5px}
+.cen-b .v{font-size:14px; color:var(--ink-2); line-height:1.5}
+.cen-b .v b{color:var(--ink)}
+.cen-b .gab{background:var(--green-soft)}
+.cen-b .gab .k{color:var(--green)}
+.cen-b .gab .v b{color:var(--green)}
+.perguntar{padding:12px 20px; border-top:1px solid var(--line-2); background:var(--util-soft); font-size:14px; color:var(--ink-2)}
+.perguntar b{color:var(--util)}
+.perguntar .q{display:block; margin-top:5px; color:var(--ink)}
+@media (max-width:720px){ .cen-b{grid-template-columns:1fr} .cen-b > div + div{border-left:0; border-top:1px solid var(--line-2)} }
+
+.chip{display:inline-block; font-size:11px; font-weight:700; letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--surface-2); color:var(--ink-2); border:1px solid var(--line); margin-left:6px; text-transform:uppercase}
+.chip.dificil{background:var(--warn-soft); color:var(--warn); border-color:var(--warn)}
+.chip.util{background:var(--util-soft); color:var(--util); border-color:var(--util)}
+
+.foot{border-top:1px solid var(--line); margin-top:54px; padding-top:20px; color:var(--ink-3); font-size:13px; display:flex; gap:14px; flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="doc">
+  <div class="eyebrow">Teste de usabilidade · Janelas de Processamento</div>
+  <h1>Entrevistas com as redes</h1>
+  <p class="lede">
+    Quinze tarefas para aplicar no protótipo, da leitura mais geral até a busca por um CPF específico.
+    Todas são executáveis na versão publicada — cada uma tem caminho esperado e gabarito.
+  </p>
+  <div class="meta">
+    <div><div class="k">Duração estimada</div><div class="v">1 hora por participante</div></div>
+    <div><div class="k">Perfil</div><div class="v">Operadores de rede estadual</div></div>
+    <div><div class="k">Protótipo</div><div class="v"><a href="https://prototipo-portalpdm.pages.dev">prototipo-portalpdm.pages.dev ↗</a></div></div>
+  </div>
+</header>
+
+<!-- ─────────────── como conduzir ─────────────── -->
+<section>
+  <h2>Antes de começar</h2>
+  <p class="dek">Alguns minutos de preparo que mudam a qualidade do que você vai colher.</p>
+
+  <p>
+    Abra o protótipo com <strong>as duas chaves de destaque desligadas</strong>. Elas existem para apresentar a proposta
+    a quem já conhece o portal — durante a entrevista, contornos coloridos entregam a resposta e contaminam a medição.
+  </p>
+  <p>
+    Diga ao participante que <strong>quem está sendo avaliado é a tela, não ele</strong>. Peça que pense em voz alta.
+    Quando travar, não ensine: pergunte “o que você esperava encontrar aqui?”. O travamento é o dado mais valioso da sessão.
+  </p>
+
+  <h3>Comece com 3 minutos de navegação livre</h3>
+  <p>
+    Antes da primeira tarefa, dê <strong>3 minutos para o participante explorar o protótipo por conta própria</strong>:
+    entrar onde quiser, abrir os links que chamarem a atenção, percorrer as telas sem roteiro. Peça que fale em voz alta
+    durante todo o tempo — o que está vendo, o que imagina que cada coisa faz, o que acha estranho, o que já entendeu.
+  </p>
+  <p>
+    Não responda perguntas nesses 3 minutos; apenas anote. É a única parte da sessão em que você observa a pessoa sem
+    nenhuma tarefa orientando o olhar dela, e costuma ser onde aparecem as primeiras impressões mais honestas sobre
+    vocabulário e hierarquia da tela.
+  </p>
+
+  <div class="callout warn">
+    <div class="h">Diga isto na abertura</div>
+    <p style="margin-bottom:0">
+      “Os números que você vai ver são fictícios, montados só para o teste. Nada aqui é dado real da sua rede,
+      e nada do que você fizer altera qualquer sistema.”
+    </p>
+  </div>
+
+  <h3>O que registrar em cada tarefa</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th style="width:22%">Medida</th><th>Como anotar</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Concluiu</td>
+          <td>
+            <span class="opt">Sim, com facilidade</span>
+            <span class="opt">Sim, com dificuldade</span>
+            <span class="opt">Não</span>
+            <div style="margin-top:6px">“Com dificuldade” = chegou lá depois de caminho errado, hesitação longa ou tentativa e erro.</div>
+          </td>
+        </tr>
+        <tr>
+          <td>Utilidade</td>
+          <td>
+            De 1 a 5: <em>“o quão útil essa informação é para o seu dia a dia como operador?”</em>
+            Só nas tarefas marcadas com <span class="chip util">utilidade</span> — perguntar em todas cansa e nivela as respostas.
+            Anote também o motivo, em uma frase.
+          </td>
+        </tr>
+        <tr><td>Tempo</td><td>Do fim da leitura da tarefa até a resposta em voz alta. Não avise que está cronometrando.</td></tr>
+        <tr><td>Caminho</td><td>Anote a sequência de cliques só quando divergir do caminho esperado — é o que revela o modelo mental dele.</td></tr>
+        <tr><td>Primeiro clique</td><td>Onde a pessoa clicou primeiro. Acerto no primeiro clique é o melhor preditor de sucesso na tarefa.</td></tr>
+        <tr><td>Vocabulário</td><td>Palavra que a pessoa usa para o conceito. Se ela nunca disser “janela”, isso é resultado — anote o que ela diz no lugar.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout util">
+    <div class="h">A pergunta de utilidade, na íntegra</div>
+    <p style="margin-bottom:0">
+      <strong>“De 1 a 5, o quão útil essa informação é para o seu dia a dia como operador?”</strong>
+      Faça logo após a pessoa responder a tarefa, antes de passar para a próxima, e sempre com a mesma redação —
+      é o que permite comparar as notas entre participantes.
+    </p>
+  </div>
+</section>
+
+<!-- ─────────────── BLOCO A ─────────────── -->
+<div class="bloco-h">
+  <span class="letra">A</span>
+  <h2>Orientação inicial</h2>
+  <span class="qt">tarefas 1 a 3</span>
+</div>
+<p class="bloco-d">
+  Sem dizer nada sobre a funcionalidade nova. Estas três medem se a pessoa <em>descobre</em> a leitura por data sozinha,
+  partindo da tela inicial. Se ela não achar, isso já é o principal resultado do teste.
+</p>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">1</span>
+    <div class="cen-t">
+      <div class="tarefa">“Olhe esta tela e me diga: quando foi a última vez que o programa processou informações da sua rede?”</div>
+      <div class="obj">Descoberta espontânea · sem clique obrigatório</div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Rolar a tela inicial até o bloco <b>Último processamento</b>.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>26/08/2026</b>, concluído às 07:48.</div></div>
+  </div>
+</div>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">2</span>
+    <div class="cen-t">
+      <div class="tarefa">“Quantas matrículas foram processadas nesse último processamento?”</div>
+      <div class="obj">Leitura do cartão · compreensão do número agregado</div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Ler no próprio cartão da tela inicial, sem abrir a janela.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">1.319.109</b> matrículas — o mesmo total de <b>Matrículas na Rede</b> sem filtro, já que esta janela processou os três ciclos.</div></div>
+  </div>
+</div>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">3</span>
+    <div class="cen-t">
+      <div class="tarefa">“Quantos processamentos foram realizados neste ciclo?”</div>
+      <div class="obj">Descoberta do menu · nomenclatura</div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Menu <b>Processamentos</b>, ou o botão “Ver todas as janelas”.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>6 processamentos</b> no ciclo 2026, de 25/03/2026 a 26/08/2026.</div></div>
+  </div>
+</div>
+
+<!-- ─────────────── BLOCO B ─────────────── -->
+<div class="bloco-h">
+  <span class="letra">B</span>
+  <h2>Leitura de uma janela</h2>
+  <span class="qt">tarefas 4 a 7</span>
+</div>
+<p class="bloco-d">
+  O núcleo da proposta. As tarefas 4 e 6 são propositalmente parecidas, mas pedem métricas diferentes — uma pede
+  <strong>quantidade de parcelas</strong>, a outra pede <strong>valor em reais</strong>. É assim que se verifica se o
+  operador está lendo o conceito ou só apontando para o número mais destacado da tela.
+</p>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">4</span>
+    <div class="cen-t">
+      <div class="tarefa">“Quantas parcelas foram liberadas na janela de processamento de agosto de 2026?”</div>
+      <div class="obj">Atenção à métrica · quantidade, não valor</div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Processamentos → janela de 26/08/2026 → total de parcelas no cabeçalho da tabela ou no cartão de Pagamento.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">227.942</b> parcelas. Se responder <em>R$ 50.819.600,00</em>, registre como <b>não concluiu</b>: leu valor no lugar de quantidade.</div></div>
+  </div>
+</div>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">5</span>
+    <div class="cen-t">
+      <div class="tarefa">“Quais ciclos foram afetados nesse processamento de agosto?”</div>
+      <div class="obj">O conceito que a janela existe para revelar <span class="chip util">utilidade</span></div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Cabeçalho da janela, ou as etiquetas coloridas na tabela por ciclo.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>2024, 2025 e 2026</b>.</div></div>
+  </div>
+  <div class="perguntar"><b>Perguntar ao final:</b>
+    <span class="q">“De 1 a 5, o quão útil essa informação é para o seu dia a dia como operador?”</span>
+  </div>
+</div>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">6</span>
+    <div class="cen-t">
+      <div class="tarefa">“Qual foi o valor monetário de parcelas liberado nessa janela só para o ciclo de 2024?”</div>
+      <div class="obj">Atenção à métrica · valor, não quantidade</div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Linha do ciclo 2024 em “O que foi processado, por ciclo”, coluna <b>Valor liberado</b>.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>R$ 1.879.800,00</b>. Se responder <em>9.399</em>, registre como <b>não concluiu</b>: leu quantidade no lugar de valor.</div></div>
+  </div>
+</div>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">7</span>
+    <div class="cen-t">
+      <div class="tarefa">“Quantas matrículas do ciclo de 2024 tiveram a elegibilidade alterada nessa janela?”</div>
+      <div class="obj">Distinguir matrícula processada de matrícula alterada</div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Coluna “Situação alterada”, linha do ciclo 2024.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">3.417</b> — de <b class="num">431.208</b> processadas. Observe se a pessoa confunde as duas colunas.</div></div>
+  </div>
+</div>
+
+<!-- ─────────────── BLOCO C ─────────────── -->
+<div class="bloco-h">
+  <span class="letra">C</span>
+  <h2>Cruzamentos e filtros</h2>
+  <span class="qt">tarefas 8 a 11</span>
+</div>
+<p class="bloco-d">
+  Aqui se testa a mecânica de filtro pai e filho — janela primeiro, ciclo dentro dela. É a decisão de desenho
+  mais arriscada da revisão: se o operador não entender que um filtro restringe o outro, precisamos repensá-la.
+</p>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">8</span>
+    <div class="cen-t">
+      <div class="tarefa">“Compare os processamentos de julho e de agosto. Qual liberou mais pagamento?”</div>
+      <div class="obj">Descoberta da aba de comparação</div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Processamentos → aba <b>Comparar janelas</b> → Janela A = 24/07, Janela B = 26/08. Também é válido abrir as duas janelas em sequência.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>Agosto</b>, com <b>R$ 7.810.400,00</b> a mais que julho (R$ 43.009.200,00). A tela só permite comparar uma janela com outra posterior a ela.</div></div>
+  </div>
+</div>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">9</span>
+    <div class="cen-t">
+      <div class="tarefa">“Descubra em quantos processamentos deste ciclo o ciclo de 2024 apareceu.”</div>
+      <div class="obj">Filtro por ciclo afetado <span class="chip dificil">difícil</span> <span class="chip util">utilidade</span></div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Processamentos → filtro <b>Ciclo afetado = 2024</b>. Ou, em qualquer listagem, escolher o ciclo 2024 e abrir o filtro de janela.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>Um só</b> — a janela de 26/08/2026.</div></div>
+  </div>
+  <div class="perguntar"><b>Perguntar ao final:</b>
+    <span class="q">“De 1 a 5, o quão útil essa informação é para o seu dia a dia como operador?”</span>
+  </div>
+</div>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">10</span>
+    <div class="cen-t">
+      <div class="tarefa">“Na tela de Pagamento, no Ensino Médio Regular, veja só os pagamentos da janela de agosto que são do ciclo de 2025. Que tipo de incentivo foi pago?”</div>
+      <div class="obj">Filtro pai e filho combinados <span class="chip dificil">difícil</span> <span class="chip util">utilidade</span></div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Pagamento → aba <b>Ensino Médio Regular</b> → Janela = 26/08/2026 → Ciclo = 2025.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>Conclusão</b> · <b class="num">6.539</b> parcelas · R$ 6.539.000,00.</div></div>
+  </div>
+  <div class="perguntar"><b>Perguntar ao final:</b>
+    <span class="q">“De 1 a 5, o quão útil essa informação é para o seu dia a dia como operador?”</span>
+  </div>
+</div>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">11</span>
+    <div class="cen-t">
+      <div class="tarefa">“Ainda na janela de agosto, encontre os estudantes que possuem pagamento com situação ‘Aguardando Pagamento’.”</div>
+      <div class="obj">Filtro de situação dentro do recorte da janela</div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Pagamento → Janela = 26/08/2026 → Situação = <b>Aguardando Pagamento</b>.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">56.074</b> pagamentos aguardando — o mesmo número do gráfico. A lista mostra a primeira página e informa o total ao lado.</div></div>
+  </div>
+</div>
+
+<!-- ─────────────── BLOCO D ─────────────── -->
+<div class="bloco-h">
+  <span class="letra">D</span>
+  <h2>Busca por estudante</h2>
+  <span class="qt">tarefas 12 a 15</span>
+</div>
+<p class="bloco-d">
+  O trabalho do dia a dia da rede: alguém liga perguntando do próprio benefício. Estas quatro medem se a janela
+  atrapalha a busca que o operador já faz hoje — e se ela ajuda a explicar ao estudante o que mudou no caso dele.
+  <strong>Entregue os números impressos ou por mensagem</strong>, não os dite.
+</p>
+<div class="callout" style="margin-top:0">
+  <div class="h">Uma coisa para o moderador saber</div>
+  <p style="margin-bottom:0">
+    A busca por nome, CPF, NIS ou matrícula <strong>atravessa os ciclos</strong> — encontra a pessoa mesmo que o filtro
+    de ciclo esteja em outro ano, e avisa isso ao lado da contagem. Já os filtros de lista (situação, município,
+    frequência acumulada) respeitam o ciclo selecionado. Se o participante estranhar essa diferença, anote:
+    é uma decisão de desenho que ainda não foi validada.
+  </p>
+</div>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">12</span>
+    <div class="cen-t">
+      <div class="tarefa">“Localize o estudante de NIS <code>20055510001</code> e diga qual é a elegibilidade dele no Pé-de-Meia, no Ensino Médio Regular.”</div>
+      <div class="obj">Busca por NIS <span class="chip util">utilidade</span></div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Elegibilidade → aba Ensino Médio Regular → campo de busca.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>Estudante 1000068739</b> — <b>Elegível</b>, matrícula 30279793, Salvador.</div></div>
+  </div>
+  <div class="perguntar"><b>Perguntar ao final, nesta ordem:</b>
+    <span class="q">“De 1 a 5, o quão útil essa informação é para o seu dia a dia como operador?”</span>
+    <span class="q">“Você vê algum problema de sobreposição com o Consulta Estudante aqui?”</span>
+    <span class="q">“Você utiliza o campo NIS para encontrar estudante?”</span>
+  </div>
+</div>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">13</span>
+    <div class="cen-t">
+      <div class="tarefa">“Na tela de Frequência, encontre os estudantes com frequência acumulada abaixo de 80%.”</div>
+      <div class="obj">Filtro de faixa · percepção do recorte de ciclo</div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Frequência → filtro <b>Frequência acumulada</b> → Abaixo de 80%.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v">
+      No recorte em que a tela abre (ciclo 2026): <b>1 estudante</b> — 5712230375, com 76,15% (amarelo).
+      Trocando o ciclo para <b>Todos</b>, aparece também 6180442379, com 74,4% (vermelho).
+      O ponto de observação é se a pessoa percebe que o resultado depende do ciclo selecionado.
+    </div></div>
+  </div>
+</div>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">14</span>
+    <div class="cen-t">
+      <div class="tarefa">“A matrícula <code>26440817</code> mudou de situação recentemente. Descubra em qual processamento isso aconteceu e qual era a situação anterior.”</div>
+      <div class="obj">Rastrear a origem de uma mudança <span class="chip util">utilidade</span></div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Elegibilidade → busca pela matrícula → ícone de detalhe. Ou abrir a janela de 26/08 e consultar o bloco de matrículas alteradas.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v">Janela de <b>26/08/2026</b>; antes era <b>Não elegível</b>, no <b>ciclo 2024</b>.</div></div>
+  </div>
+  <div class="perguntar"><b>Perguntar ao final:</b>
+    <span class="q">“De 1 a 5, o quão útil essa informação é para o seu dia a dia como operador?”</span>
+  </div>
+</div>
+
+<div class="cen">
+  <div class="cen-h">
+    <span class="cen-n">15</span>
+    <div class="cen-t">
+      <div class="tarefa">“O estudante de CPF <code>123.456.789-01</code> ligou perguntando quantas parcelas já recebeu. Descubra, e diga em qual processamento elas saíram.”</div>
+      <div class="obj">Tarefa completa · busca, detalhe e volta à janela <span class="chip dificil">difícil</span></div>
+    </div>
+  </div>
+  <div class="cen-b">
+    <div><div class="k">Caminho esperado</div><div class="v">Qualquer listagem → busca pelo CPF → ícone de detalhe → bloco de pagamentos.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>2 parcelas</b>, ambas pagas: uma de <b>Matrícula</b> e uma de <b>Frequência</b>, as duas liberadas na janela de <b>26/08/2026</b>, ciclo 2024.</div></div>
+  </div>
+</div>
+
+<!-- ─────────────── fechamento ─────────────── -->
+<section style="margin-top:48px; padding-top:28px; border-top:2px solid var(--line)">
+  <h2>Ao final da sessão</h2>
+  <p class="dek">Três perguntas de conversa aberta, depois das tarefas — nunca antes, para não induzir.</p>
+  <ul>
+    <li><strong>“Isso substitui ou complementa o jeito que você usa o portal hoje?”</strong></li>
+    <li><strong>“Em que situação real do seu trabalho você abriria essa tela?”</strong> Se não houver resposta concreta, a funcionalidade ainda não encontrou seu caso de uso.</li>
+    <li><strong>“Faltou alguma informação que você esperava ver aqui?”</strong> — atenção especial a quem sentir falta de frequência, que foi retirada desta visão nesta revisão.</li>
+  </ul>
+
+  <div class="callout">
+    <div class="h">Amostra</div>
+    <p style="margin-bottom:0">
+      <strong>4 participantes</strong> nesta rodada. A partir do quarto, os achados começam a se repetir — e vale mais
+      corrigir o que apareceu e rodar uma segunda rodada do que entrevistar muita gente na mesma versão.
+      Se possível, misture quem usa o portal diariamente com quem entra uma vez por mês: são modelos mentais diferentes.
+    </p>
+  </div>
+</section>
+
+<div class="foot">
+  <span>Roteiro de teste de usabilidade — Janelas de Processamento</span><span>·</span>
+  <span>Revisão 3 do protótipo · outubro de 2026</span><span>·</span>
+  <span>Números do gabarito conferidos na versão publicada</span>
+</div>
+
+</div>

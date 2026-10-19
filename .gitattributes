@@ -1,0 +1,6 @@
+# Preserva os bytes exatamente como estao (as fontes sao CRLF e o deploy/index.html
+# mistura CRLF e LF). Sem isto, o core.autocrlf de cada maquina pode reescrever as
+# quebras de linha e o gerar-pacote deixa de reproduzir o publicado byte a byte.
+* -text
+*.pdf binary
+*.zip binary

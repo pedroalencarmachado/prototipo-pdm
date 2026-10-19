@@ -1,0 +1,1761 @@
+<title>Janelas de Processamento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Raleway:wght@600;700;800&display=swap">
+
+<style>
+:root{
+  /* Paleta institucional gov.br — base do portal atual */
+  --blue:#1351B4;
+  --blue-dark:#0C326F;
+  --blue-soft:#E8EFFA;
+  --blue-line:#C5D4EB;
+  --green:#168821;
+  --green-soft:#E3F5E6;
+  --red:#E52207;
+  --red-soft:#FDEAE7;
+  --orange:#C25400;
+  --orange-soft:#FDF0E3;
+  --yellow:#FFCD07;
+
+  /* Roxo = a camada proposta. Teal = o que mudou após a revisão com o MEC. */
+  --new:#6C2EB9;
+  --new-soft:#F3EDFB;
+  --new-line:#D9C7F0;
+  --rev:#0A7B83;
+  --rev-soft:#E6F4F5;
+
+  /* cores dos ciclos — usadas no gráfico e nas etiquetas */
+  --c26:#1351B4;
+  --c25:#00A0A8;
+  --c24:#8E44AD;
+
+  --ink:#16202E;
+  --ink-2:#48566B;
+  --ink-3:#71809A;
+  --line:#DCE3ED;
+  --line-2:#EDF1F7;
+  --surface:#FFFFFF;
+  --surface-2:#F7F9FC;
+  --ground:#F1F4F9;
+
+  --shadow:0 1px 2px rgba(22,32,46,.06), 0 4px 14px rgba(22,32,46,.05);
+  --radius:6px;
+
+  --font-ui:"Public Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display:"Raleway", "Public Sans", -apple-system, "Segoe UI", sans-serif;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--font-ui); font-size:14px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--font-display); margin:0; text-wrap:balance; letter-spacing:-.01em}
+button{font:inherit; color:inherit; cursor:pointer}
+a{color:var(--blue); text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:3px solid var(--blue); outline-offset:2px; border-radius:3px}
+table{border-collapse:collapse; width:100%}
+.num{font-variant-numeric:tabular-nums}
+input,select{font:inherit}
+
+/* ─────────── faixa de protótipo ─────────── */
+.proto-bar{
+  position:sticky; top:0; z-index:60;
+  background:var(--ink); color:#fff;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:7px 24px; font-size:12px;
+}
+.proto-bar strong{
+  font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+  background:var(--new); padding:2px 7px; border-radius:3px; font-size:11px;
+}
+.proto-bar .msg{color:#C3CCDA}
+.proto-bar .spacer{flex:1}
+.toggle{
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.22);
+  color:#fff; border-radius:99px; padding:4px 12px 4px 6px; font-size:12px;
+  white-space:nowrap;
+}
+.toggle:hover{background:rgba(255,255,255,.16)}
+.toggle .dot{
+  width:26px; height:15px; border-radius:99px; background:rgba(255,255,255,.28);
+  position:relative; transition:background .18s; flex:none;
+}
+.toggle .dot::after{
+  content:""; position:absolute; top:2px; left:2px; width:11px; height:11px;
+  border-radius:50%; background:#fff; transition:transform .18s;
+}
+body.mark .toggle.t-new .dot{background:#9B5DE5}
+body.mark .toggle.t-new .dot::after{transform:translateX(11px)}
+body.mark2 .toggle.t-rev .dot{background:#1FB6BF}
+body.mark2 .toggle.t-rev .dot::after{transform:translateX(11px)}
+
+/* ─────────── chrome do portal ─────────── */
+.topbar{background:var(--surface); border-bottom:1px solid var(--line); position:sticky; top:31px; z-index:50}
+.topbar-inner{max-width:1240px; margin:0 auto; padding:0 24px; display:flex; align-items:center; gap:28px; height:62px}
+.brand{font-family:var(--font-display); font-weight:800; font-size:19px; letter-spacing:.06em; color:var(--blue-dark); white-space:nowrap}
+.nav{display:flex; gap:4px; margin-left:auto}
+.nav a{padding:8px 13px; border-radius:var(--radius); font-weight:600; font-size:14px; color:var(--blue); position:relative}
+.nav a:hover{background:var(--blue-soft); text-decoration:none}
+.nav a.on{background:var(--blue-soft); color:var(--blue-dark)}
+.nav a.is-new{color:var(--new)}
+.nav a.is-new:hover,.nav a.is-new.on{background:var(--new-soft); color:var(--new)}
+.nav a .tag-new{
+  position:absolute; top:-5px; right:-4px; background:var(--new); color:#fff;
+  font-size:9px; font-weight:700; letter-spacing:.06em; padding:1px 4px; border-radius:3px; text-transform:uppercase;
+}
+.user{display:flex; align-items:center; gap:10px; padding-left:24px; border-left:1px solid var(--line); margin-left:8px}
+.user .who{text-align:right; line-height:1.25}
+.user .who b{display:block; font-weight:600; font-size:13px}
+.user .who small{color:var(--ink-3); font-size:12px}
+.user .av{width:32px; height:32px; border-radius:50%; background:var(--green); color:#fff; display:grid; place-items:center; font-size:11px; font-weight:700}
+
+.crumbs{background:var(--surface); border-bottom:1px solid var(--line-2)}
+.crumbs-inner{max-width:1240px; margin:0 auto; padding:9px 24px; font-size:12px; color:var(--ink-3); display:flex; gap:8px; align-items:center}
+.crumbs-inner a{color:var(--blue)}
+.crumbs-inner .sep{color:var(--blue-line)}
+
+.page{max-width:1240px; margin:0 auto; padding:26px 24px 72px}
+
+/* ─────────── títulos e blocos ─────────── */
+.page-head{display:flex; align-items:flex-start; gap:20px; margin-bottom:22px}
+.page-head h1{font-size:23px; font-weight:700}
+.page-head .sub{color:var(--ink-2); font-size:14px; margin-top:3px; max-width:78ch}
+.page-head .mark{margin-left:auto; font-family:var(--font-display); font-weight:800; letter-spacing:.06em; color:var(--blue-dark); font-size:16px; white-space:nowrap}
+
+.filters{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:20px}
+.field{display:flex; align-items:center; gap:9px}
+.field > label{color:var(--ink-2); font-size:13px}
+select, .inp{
+  font-size:13px; color:var(--ink); background:var(--surface-2);
+  border:1px solid var(--line); border-radius:var(--radius); padding:7px 10px; min-width:104px;
+}
+select:hover{border-color:var(--blue-line)}
+.field.pai > label{color:var(--new); font-weight:600}
+.field.pai select{border-color:var(--new-line); background:var(--new-soft); min-width:210px; font-weight:500}
+.field.filho > label{color:var(--ink-2)}
+.field.filho select{min-width:190px}
+.field .hint{color:var(--ink-3); font-size:11.5px; margin-left:-4px}
+
+.notice{background:var(--surface-2); border:1px solid var(--line-2); border-radius:var(--radius); padding:13px 16px; color:var(--ink-2); font-size:13px; margin-bottom:22px}
+.notice b{color:var(--ink)}
+
+.tabs{display:flex; gap:2px; border-bottom:1px solid var(--line); margin-bottom:24px}
+.tabs button{background:none; border:0; border-bottom:3px solid transparent; margin-bottom:-1px; padding:10px 16px; font-size:14px; color:var(--ink-2)}
+.tabs button.on{color:var(--blue-dark); border-bottom-color:var(--blue); font-weight:600}
+.tabs button:hover{color:var(--blue)}
+
+.section-title{display:flex; align-items:center; gap:10px; margin:32px 0 12px; font-size:15px; font-weight:700; font-family:var(--font-display)}
+.section-title:first-child{margin-top:0}
+.section-title .ico{color:var(--ink-3); font-size:15px}
+.section-title .act{margin-left:auto}
+
+.btn{display:inline-flex; align-items:center; gap:7px; border-radius:99px; border:1px solid var(--blue); color:var(--blue); background:transparent; padding:7px 16px; font-size:13px; font-weight:600}
+.btn:hover{background:var(--blue-soft)}
+.btn.solid{background:var(--blue); color:#fff; border-color:var(--blue)}
+.btn.solid:hover{background:var(--blue-dark)}
+.btn.new{border-color:var(--new); color:var(--new)}
+.btn.new:hover{background:var(--new-soft)}
+.btn.new.solid{background:var(--new); color:#fff}
+.btn.new.solid:hover{background:#571E9B}
+.btn.sm{padding:5px 12px; font-size:12px}
+
+/* ─────────── cartões de indicador ─────────── */
+.kpis{display:grid; grid-template-columns:repeat(5,1fr); background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden}
+.kpi{padding:14px 16px 16px; border-left:1px solid var(--line-2); border-top:3px solid var(--c,var(--blue))}
+.kpi:first-child{border-left:0}
+.kpi .lbl{display:flex; align-items:center; gap:6px; justify-content:space-between; color:var(--ink-2); font-size:12.5px; min-height:32px}
+.kpi .val{font-size:26px; font-weight:700; color:var(--c,var(--blue)); margin-top:4px}
+.info{width:15px; height:15px; border-radius:50%; background:var(--ink); color:#fff; flex:none; font-size:10px; font-weight:700; display:grid; place-items:center; cursor:help}
+
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:22px}
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius)}
+.panel-rows{display:grid; grid-template-columns:1fr 1fr}
+.cell{padding:13px 16px; border-top:1px solid var(--line-2); border-left:1px solid var(--line-2)}
+.cell:nth-child(odd){border-left:0}
+.cell.wide{grid-column:1 / -1; border-top:0; background:var(--surface-2)}
+.cell .lbl{display:flex; align-items:center; gap:6px; color:var(--ink-2); font-size:12.5px}
+.cell .val{font-size:19px; font-weight:600; margin-top:2px}
+.cell.wide .val{font-size:20px}
+
+/* ─────────── tabelas ─────────── */
+.tbl-wrap{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow-x:auto}
+table th{text-align:left; font-size:12.5px; font-weight:600; color:var(--blue); padding:12px 14px; border-bottom:1px solid var(--line); white-space:nowrap}
+table td{padding:12px 14px; border-bottom:1px solid var(--line-2); vertical-align:top; font-size:13px}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--surface-2)}
+td .prim{font-weight:500}
+td .sec{color:var(--ink-3); font-size:11.5px; margin-top:2px}
+td.r,th.r{text-align:right}
+.eye{color:var(--blue); font-size:15px; background:none; border:0; padding:2px 4px; border-radius:4px}
+.eye:hover{background:var(--blue-soft)}
+.empty{padding:34px 16px; text-align:center; color:var(--ink-2)}
+.empty b{display:block; color:var(--ink); margin-bottom:4px}
+
+.pill{display:inline-block; padding:2px 9px; border-radius:99px; font-size:11.5px; font-weight:600; white-space:nowrap}
+.pill.ok{background:var(--green-soft); color:var(--green)}
+.pill.no{background:var(--red-soft); color:var(--red)}
+.pill.wait{background:var(--orange-soft); color:var(--orange)}
+.pill.blue{background:var(--blue-soft); color:var(--blue-dark)}
+.pill.gray{background:var(--line-2); color:var(--ink-2)}
+.pill.c26{background:#E8EFFA; color:var(--c26)}
+.pill.c25{background:#E0F5F6; color:#00767D}
+.pill.c24{background:#F3E9F8; color:var(--c24)}
+
+.freq{text-align:center; font-variant-numeric:tabular-nums; font-weight:500}
+.freq.hi{background:#E8F6EA}
+.freq.mid{background:#FBF3E4}
+.freq.lo{background:#FCEBE8}
+.freq.acc{font-weight:700}
+
+.searchbar{display:flex; gap:10px; align-items:center; margin-bottom:12px; flex-wrap:wrap}
+.searchbox{flex:1; min-width:280px; display:flex; align-items:center; gap:10px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:0 14px}
+.searchbox input{flex:1; border:0; background:none; padding:11px 0; font-size:13px; color:var(--ink); outline:none}
+.searchbox .mag{color:var(--blue); font-size:15px}
+.searchbox button.clr{border:0; background:none; color:var(--ink-3); font-size:16px; line-height:1}
+.count{color:var(--ink-2); font-size:12.5px; white-space:nowrap}
+
+.export{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:20px 22px; margin-bottom:24px}
+.export h3{font-size:15px; margin-bottom:14px}
+.export .box{background:var(--surface-2); border-radius:var(--radius); padding:16px 18px; display:flex; align-items:center; gap:20px}
+.export .box p{margin:3px 0 0; color:var(--ink-2); font-size:13px; max-width:62ch}
+.export .box b{font-size:13.5px}
+.export .box .btn{margin-left:auto; flex:none}
+
+/* ─────────── faixa de contexto de janela ─────────── */
+.window-bar{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  background:var(--new-soft); border:1px solid var(--new-line);
+  border-left:4px solid var(--new); border-radius:var(--radius);
+  padding:12px 16px; margin-bottom:20px; font-size:13px;
+}
+.window-bar .t{font-weight:600; color:var(--new)}
+.window-bar .d{color:var(--ink-2)}
+.window-bar .actions{margin-left:auto; display:flex; gap:8px}
+
+/* ─────────── lista de janelas ─────────── */
+.window-list{display:flex; flex-direction:column; gap:12px}
+.window-card{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+  border-left:4px solid var(--blue-line);
+  display:grid; grid-template-columns:200px 1fr 210px 230px; gap:22px;
+  padding:18px 20px; align-items:center; text-align:left; width:100%; font:inherit; cursor:pointer;
+}
+.window-card:hover{border-color:var(--blue-line); border-left-color:var(--new); box-shadow:var(--shadow)}
+.window-card.hot{border-left-color:var(--new)}
+.wc-date .day{font-size:21px; font-weight:700; font-family:var(--font-display); line-height:1.1}
+.wc-date .mon{color:var(--ink-2); font-size:12.5px; margin-top:3px}
+.wc-cycles .cap, .wc-res .cap{color:var(--ink-3); font-size:11px; text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px}
+.wc-cycles .pills{display:flex; gap:6px; flex-wrap:wrap}
+.wc-res .big{font-size:19px; font-weight:700; font-variant-numeric:tabular-nums}
+.wc-res .money{color:var(--green); font-weight:600; font-variant-numeric:tabular-nums; font-size:13px}
+.bar{height:5px; border-radius:99px; background:var(--line-2); overflow:hidden; margin-top:7px}
+.bar span{display:block; height:100%; background:var(--blue); border-radius:99px}
+.window-card.hot .bar span{background:var(--new)}
+
+/* ─────────── detalhe da janela ─────────── */
+.win-head{background:var(--surface); border:1px solid var(--line); border-top:4px solid var(--new); border-radius:var(--radius); padding:22px 24px; margin-bottom:24px}
+.win-head .row{display:flex; align-items:flex-start; gap:16px; flex-wrap:wrap}
+.win-head h1{font-size:24px; font-weight:700}
+.win-head .meta{display:flex; gap:28px; margin-top:16px; flex-wrap:wrap}
+.win-head .meta div .k{color:var(--ink-3); font-size:11.5px; text-transform:uppercase; letter-spacing:.05em}
+.win-head .meta div .v{font-weight:600; font-size:13.5px; margin-top:3px; font-variant-numeric:tabular-nums}
+.win-head .acts{margin-left:auto; display:flex; gap:8px}
+
+.res-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+.res{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); display:flex; flex-direction:column}
+.res-h{display:flex; align-items:center; gap:9px; padding:13px 16px; border-bottom:1px solid var(--line-2); font-weight:700; font-size:14px; font-family:var(--font-display)}
+.res-h .chip{margin-left:auto; font-size:11px; font-weight:600; color:var(--ink-2); background:var(--surface-2); border:1px solid var(--line-2); border-radius:99px; padding:2px 9px}
+.res-b{padding:6px 16px 14px; flex:1}
+.res-f{padding:11px 16px; border-top:1px solid var(--line-2); background:var(--surface-2)}
+.dl{display:flex; align-items:baseline; justify-content:space-between; gap:12px; padding:9px 0; border-bottom:1px dotted var(--line)}
+.dl:last-child{border-bottom:0}
+.dl .k{color:var(--ink-2); font-size:13px}
+.dl .v{font-weight:600; font-variant-numeric:tabular-nums; font-size:14px; display:flex; align-items:baseline; gap:8px}
+.delta{font-size:11.5px; font-weight:700; border-radius:99px; padding:1px 7px; font-variant-numeric:tabular-nums}
+.delta.up{background:var(--green-soft); color:var(--green)}
+.delta.down{background:var(--red-soft); color:var(--red)}
+.delta.flat{background:var(--line-2); color:var(--ink-3)}
+
+.donut-row{display:flex; align-items:center; gap:24px; padding:14px 0 6px; flex-wrap:wrap}
+.donut{width:132px; height:132px; border-radius:50%; flex:none; display:grid; place-items:center}
+.donut .hole{width:92px; height:92px; border-radius:50%; background:var(--surface); display:grid; place-items:center; text-align:center; line-height:1.15}
+.donut .hole b{font-size:12.5px; letter-spacing:-.02em; font-variant-numeric:tabular-nums; display:block}
+.donut .hole small{font-size:10px; color:var(--ink-3)}
+.legend{display:flex; flex-direction:column; gap:9px; font-size:12.5px; flex:1; min-width:210px}
+.legend .lrow{display:flex; align-items:center; gap:9px}
+.legend i{width:10px; height:10px; border-radius:2px; flex:none}
+.legend .nm{color:var(--ink-2)}
+.legend .vl{margin-left:auto; font-variant-numeric:tabular-nums; font-weight:600}
+.legend .money{color:var(--ink-3); font-variant-numeric:tabular-nums; min-width:112px; text-align:right}
+
+/* ─────────── modal de detalhe ─────────── */
+.overlay{position:fixed; inset:0; background:rgba(11,18,28,.46); z-index:80; display:flex; align-items:flex-start; justify-content:center; padding:56px 20px; overflow:auto}
+.modal{background:var(--surface); border-radius:8px; max-width:860px; width:100%; box-shadow:0 18px 50px rgba(11,18,28,.28)}
+.modal-h{display:flex; align-items:flex-start; gap:16px; padding:20px 24px; border-bottom:1px solid var(--line)}
+.modal-h h3{font-size:18px; font-weight:700}
+.modal-h .sec{color:var(--ink-3); font-size:12.5px; margin-top:4px}
+.modal-h button{margin-left:auto; border:0; background:none; font-size:22px; color:var(--ink-3); line-height:1}
+.modal-b{padding:20px 24px 26px}
+.modal-b h4{font-size:12px; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-3); margin:22px 0 10px; font-family:var(--font-ui); font-weight:700}
+.modal-b h4:first-child{margin-top:0}
+.idgrid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
+.idgrid div .k{color:var(--ink-3); font-size:11.5px}
+.idgrid div .v{font-weight:600; font-size:13.5px; margin-top:2px; font-variant-numeric:tabular-nums}
+
+/* ─────────── marcações ─────────── */
+body.mark [data-new]{outline:2px dashed var(--new); outline-offset:3px; border-radius:var(--radius); position:relative}
+body.mark [data-new]::after{
+  content:attr(data-new); position:absolute; top:-9px; left:10px; z-index:6;
+  background:var(--new); color:#fff; font-family:var(--font-ui);
+  font-size:9.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  padding:1px 6px; border-radius:3px; white-space:nowrap; pointer-events:none;
+}
+body.mark2 [data-rev]{box-shadow:0 0 0 2px var(--rev); border-radius:var(--radius); position:relative}
+body.mark2 [data-rev]::before{
+  content:attr(data-rev); position:absolute; top:-9px; right:10px; z-index:6;
+  background:var(--rev); color:#fff; font-family:var(--font-ui);
+  font-size:9.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  padding:1px 6px; border-radius:3px; white-space:nowrap; pointer-events:none;
+}
+
+.foot{margin-top:44px; padding-top:18px; border-top:1px solid var(--line); color:var(--ink-3); font-size:12px; display:flex; gap:16px; flex-wrap:wrap}
+
+@media (max-width:1080px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .kpi{border-left:1px solid var(--line-2)}
+  .grid-2,.res-grid{grid-template-columns:1fr}
+  .window-card{grid-template-columns:1fr; gap:14px}
+  .idgrid{grid-template-columns:repeat(2,1fr)}
+  .nav{width:100%; overflow-x:auto}
+  .topbar-inner{height:auto; flex-wrap:wrap; padding:12px 16px; gap:12px}
+  .user{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important; animation:none !important}}
+</style>
+
+<div class="proto-bar">
+  <strong>Protótipo</strong>
+  <span class="msg">Proposta de evolução do Portal do Usuário · dados ilustrativos · não é o portal oficial</span>
+  <div class="spacer"></div>
+  <button class="toggle t-new" id="tgNew" aria-pressed="false">
+    <span class="dot" aria-hidden="true"></span> Destacar o que é novo
+  </button>
+  <button class="toggle t-rev" id="tgRev" aria-pressed="false">
+    <span class="dot" aria-hidden="true"></span> Destacar o que foi alterado pós revisão
+  </button>
+</div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">PÉ·DE·MEIA</div>
+    <nav class="nav" id="nav"></nav>
+    <div class="user">
+      <div class="who"><b>User 01725314460</b><small>Gestor Estadual · Bahia</small></div>
+      <div class="av">UO</div>
+    </div>
+  </div>
+</header>
+
+<div class="crumbs"><div class="crumbs-inner" id="crumbs"></div></div>
+
+<main class="page" id="app"></main>
+<div id="modal"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   DADOS ILUSTRATIVOS
+   Ancorados nos números das telas atuais do Portal. Não representam
+   a base de produção.
+   ══════════════════════════════════════════════════════════════════ */
+
+const N = n => n.toLocaleString('pt-BR');
+const R$ = v => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+const curto = v => v >= 1e6 ? 'R$ ' + (v/1e6).toFixed(1).replace('.',',') + ' mi'
+  : v >= 1e3 ? 'R$ ' + Math.round(v/1e3) + ' mil' : R$(v);
+function foco(id){ const e = document.getElementById(id); if (e) { e.focus(); const n = e.value.length; try { e.setSelectionRange(n, n); } catch(_){} } }
+const pct = v => v.toLocaleString('pt-BR', {minimumFractionDigits:0, maximumFractionDigits:2}) + '%';
+const MES = ['','janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+
+/* os 12 marcos do calendário operacional */
+const MARCO = {
+  1:{inc:'Matrícula', det:'parcela única', valor:200},
+  2:{inc:'Frequência', det:'1ª parcela', valor:200},
+  3:{inc:'Frequência', det:'2ª parcela', valor:200},
+  4:{inc:'Frequência', det:'3ª parcela', valor:200},
+  5:{inc:'Frequência', det:'4ª parcela', valor:200},
+  6:{inc:'Frequência', det:'5ª parcela', valor:200},
+  7:{inc:'Frequência', det:'6ª parcela', valor:200},
+  8:{inc:'Frequência', det:'7ª parcela', valor:200},
+  9:{inc:'Frequência', det:'8ª parcela', valor:200},
+  10:{inc:'Frequência', det:'9ª parcela', valor:200},
+  11:{inc:'Conclusão', det:'parcela única', valor:1000},
+  12:{inc:'Enem', det:'parcela única', valor:200}
+};
+const incDe = cod => MARCO[+String(cod).slice(4)].inc;
+const mesDe = cod => MES[+String(cod).slice(4)];
+
+const CORC = {2026:'var(--c26)', 2025:'var(--c25)', 2024:'var(--c24)'};
+const clsC = a => a === 2026 ? 'c26' : a === 2025 ? 'c25' : 'c24';
+
+/* ── janelas de processamento ───────────────────────────────────── */
+const JANELAS = [
+  {
+    id:'2026-08-26', rotulo:'26/08/2026', mes:'agosto de 2026',
+    inicio:'24/08/2026 03:12', fim:'26/08/2026 07:48', status:'Concluída',
+    ciclos:[
+      {ano:2026, processadas:445793, alteradas:2518, paraElegivel:2145,
+       parcelas:[{cod:202606, qtd:212004, valor:42400800}]},
+      {ano:2025, processadas:442108, alteradas:1284, paraElegivel:1240,
+       parcelas:[{cod:202511, qtd:6539, valor:6539000}]},
+      {ano:2024, processadas:431208, alteradas:3417, paraElegivel:3417,
+       parcelas:[{cod:202401, qtd:3417, valor:683400}, {cod:202405, qtd:5982, valor:1196400, faixa:'202402 a 202410'}]}
+    ]
+  },
+  {
+    id:'2026-07-24', rotulo:'24/07/2026', mes:'julho de 2026',
+    inicio:'22/07/2026 03:10', fim:'24/07/2026 06:52', status:'Concluída',
+    ciclos:[
+      {ano:2026, processadas:445793, alteradas:2140, paraElegivel:1874,
+       parcelas:[{cod:202605, qtd:212058, valor:42411600}]},
+      {ano:2025, processadas:442108, alteradas:612, paraElegivel:588,
+       parcelas:[{cod:202512, qtd:2988, valor:597600}]}
+    ]
+  },
+  {
+    id:'2026-06-25', rotulo:'25/06/2026', mes:'junho de 2026',
+    inicio:'23/06/2026 03:08', fim:'25/06/2026 06:31', status:'Concluída',
+    ciclos:[
+      {ano:2026, processadas:445793, alteradas:1813, paraElegivel:1602,
+       parcelas:[{cod:202604, qtd:211877, valor:42375400}]}
+    ]
+  },
+  {
+    id:'2026-05-26', rotulo:'26/05/2026', mes:'maio de 2026',
+    inicio:'24/05/2026 03:05', fim:'26/05/2026 06:47', status:'Concluída',
+    ciclos:[
+      {ano:2026, processadas:445793, alteradas:2331, paraElegivel:2043,
+       parcelas:[{cod:202603, qtd:210412, valor:42082400}]}
+    ]
+  },
+  {
+    id:'2026-04-24', rotulo:'24/04/2026', mes:'abril de 2026',
+    inicio:'22/04/2026 03:02', fim:'24/04/2026 07:19', status:'Concluída',
+    ciclos:[
+      {ano:2026, processadas:445793, alteradas:2932, paraElegivel:2588,
+       parcelas:[{cod:202602, qtd:208930, valor:41786000}, {cod:202601, qtd:4219, valor:843800}]}
+    ]
+  },
+  {
+    id:'2026-03-25', rotulo:'25/03/2026', mes:'março de 2026',
+    inicio:'23/03/2026 03:00', fim:'25/03/2026 08:04', status:'Concluída',
+    ciclos:[
+      {ano:2026, processadas:445793, alteradas:11075, paraElegivel:9871,
+       parcelas:[{cod:202601, qtd:337180, valor:67436000}]}
+    ]
+  }
+];
+
+const jan = id => JANELAS.find(j => j.id === id);
+const ULTIMA = JANELAS[0];
+const anosDa = j => j.ciclos.map(c => c.ano);
+const somaJ = (j, campo) => j.ciclos.reduce((s, c) => s + (c[campo] || 0), 0);
+const parcelasJ = j => j.ciclos.reduce((s, c) => s + c.parcelas.reduce((a, p) => a + p.qtd, 0), 0);
+const valorJ = j => j.ciclos.reduce((s, c) => s + c.parcelas.reduce((a, p) => a + p.valor, 0), 0);
+const parcelasC = c => c.parcelas.reduce((a, p) => a + p.qtd, 0);
+const valorC = c => c.parcelas.reduce((a, p) => a + p.valor, 0);
+
+/* ── retrato da rede por ciclo (as telas de lista seguem com as abas EMR/EJA) ── */
+const REDE = {
+  2026:{rede:445793, eleg:341399, pend:0, indef:66, nao:104328},
+  2025:{rede:442108, eleg:338906, pend:0, indef:91, nao:103111},
+  2024:{rede:431208, eleg:329744, pend:0, indef:120, nao:101344}
+};
+function redeDe(ciclo){
+  if (ciclo !== 'todos') return REDE[ciclo];
+  return Object.values(REDE).reduce((a, r) => ({
+    rede:a.rede + r.rede, eleg:a.eleg + r.eleg, pend:0, indef:a.indef + r.indef, nao:a.nao + r.nao
+  }), {rede:0, eleg:0, pend:0, indef:0, nao:0});
+}
+
+/* ── estudantes ─────────────────────────────────────────────────── */
+const ALUNOS = [
+  {mat:'29884350', nome:'Estudante 1000062256', cpf:'111.222.333-44', nis:'',
+   escola:'COLÉGIO ESTADUAL DO CAMPO DE IBITITÁ', inep:'29062632', mun:'Ibititá',
+   sit:{2026:'Elegível'}, alt:[{jan:'2026-04-24', ciclo:2026, de:'Elegibilidade indefinida'}],
+   freq:{fev:98.2, mar:95.1, abr:97.4, acum:96.9}},
+
+  {mat:'30279793', nome:'Estudante 1000068739', cpf:'222.333.444-55', nis:'20055510001',
+   escola:'CENTRO ESTADUAL DE EDUCAÇÃO PROFISSIONAL EM GESTÃO SEVERINO VIEIRA', inep:'29181542', mun:'Salvador',
+   sit:{2026:'Elegível'}, alt:[{jan:'2026-03-25', ciclo:2026, de:'Elegibilidade indefinida'}],
+   freq:{fev:97.5, mar:92.3, abr:88.7, acum:92.8}},
+
+  {mat:'29925523', nome:'Estudante 1000086193', cpf:'333.444.555-66', nis:'',
+   escola:'COLÉGIO ESTADUAL UIRASSU DE ASSIS BATISTA', inep:'29129435', mun:'Feira de Santana',
+   sit:{2026:'Elegível', 2025:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2025, de:'Elegibilidade indefinida'}],
+   freq:{fev:100, mar:99.1, abr:100, acum:99.7}},
+
+  {mat:'29994208', nome:'Estudante 5712230375', cpf:'444.555.666-77', nis:'20055510002',
+   escola:'COLÉGIO ESTADUAL RÔMULO GALVÃO DISTRITO DE SÃO JOÃO DO PARAÍSO TEMPO INTEGRAL', inep:'29311500', mun:'Jequié',
+   sit:{2026:'Não elegível'}, alt:[{jan:'2026-06-25', ciclo:2026, de:'Elegível'}],
+   freq:{fev:84, mar:70.91, abr:78, acum:76.15}},
+
+  {mat:'29993872', nome:'Estudante 5152404610', cpf:'555.666.777-88', nis:'20055510003',
+   escola:'CENTRO REGIONAL DE ENSINO MÉDIO COM INTERMEDIAÇÃO TECNOLÓGICA CEMIT DE IRECÊ', inep:'29459141', mun:'Irecê',
+   sit:{2026:'Elegível'}, alt:[], freq:{fev:100, mar:100, abr:100, acum:100}},
+
+  {mat:'29993866', nome:'Estudante 7873322983', cpf:'666.777.888-99', nis:'',
+   escola:'COLÉGIO ESTADUAL DE TEMPO INTEGRAL EDGAR SILVA', inep:'29425166', mun:'Salvador',
+   sit:{2026:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2026, de:'Elegibilidade indefinida'}],
+   freq:{fev:94.29, mar:81.17, abr:81.95, acum:84.03}},
+
+  {mat:'30102447', nome:'Estudante 8211903355', cpf:'901.234.567-89', nis:'20055510009',
+   escola:'COLÉGIO ESTADUAL DA BAHIA - CENTRAL', inep:'29191203', mun:'Salvador',
+   sit:{2026:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2026, de:'Não elegível'}],
+   freq:{fev:88.6, mar:86.2, abr:90.5, acum:88.4}},
+
+  {mat:'29994057', nome:'Estudante 7927194069', cpf:'777.888.999-00', nis:'',
+   escola:'COLÉGIO ESTADUAL DO STIEP CARLOS MARIGHELLA', inep:'29182247', mun:'Salvador',
+   sit:{2026:'Não elegível'}, alt:[{jan:'2026-05-26', ciclo:2026, de:'Elegível'}],
+   freq:{fev:100, mar:85.45, abr:86, acum:88.46}},
+
+  {mat:'30011884', nome:'Estudante 4406721188', cpf:'888.999.000-11', nis:'20055510004',
+   escola:'COLÉGIO ESTADUAL ALFREDO AGOSTINHO DE DEUS', inep:'29178320', mun:'Salvador',
+   sit:{2026:'Elegível'}, alt:[{jan:'2026-03-25', ciclo:2026, de:'Elegibilidade indefinida'}],
+   freq:{fev:91.4, mar:93.8, abr:90.2, acum:91.8}},
+
+  /* matrículas do ciclo 2024 cuja situação mudou na janela de agosto de 2026 */
+  {mat:'26440817', nome:'Estudante 3308417720', cpf:'123.456.789-01', nis:'20055510005',
+   escola:'COLÉGIO ESTADUAL LUÍS PRISCO VIANA', inep:'29248132', mun:'Salvador',
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível'}],
+   freq:{fev:96.1, mar:94.7, abr:95.9, acum:95.6}},
+
+  {mat:'26512093', nome:'Estudante 9780279998', cpf:'234.567.890-12', nis:'',
+   escola:'COLÉGIO ESTADUAL TIRADENTES', inep:'29210399', mun:'Salvador',
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível'}],
+   freq:{fev:89.3, mar:91.2, abr:88.4, acum:89.6}},
+
+  {mat:'26498330', nome:'Estudante 5598060616', cpf:'345.678.901-23', nis:'20055510006',
+   escola:'COLÉGIO ESTADUAL AURELINO LEAL TEMPO INTEGRAL', inep:'29306760', mun:'Aurelino Leal',
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível'}],
+   freq:{fev:93.5, mar:90.8, abr:92.1, acum:92.1}},
+
+  {mat:'26603741', nome:'Estudante 2008115717', cpf:'456.789.012-34', nis:'',
+   escola:'COLÉGIO ESTADUAL DO CAMPO FRANCISCO CASTRO LARANJEIRA', inep:'29447755', mun:'Barreiras',
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Elegibilidade indefinida'}],
+   freq:{fev:97.8, mar:96.4, abr:98.1, acum:97.4}},
+
+  {mat:'26551208', nome:'Estudante 3133702743', cpf:'567.890.123-45', nis:'20055510007',
+   escola:'COLÉGIO ESTADUAL TEIXEIRA DE FREITAS TEMPO INTEGRAL', inep:'29056144', mun:'Teixeira de Freitas',
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível'}],
+   freq:{fev:85.2, mar:82.6, abr:80.9, acum:82.9}},
+
+  /* matrículas do ciclo 2025 */
+  {mat:'28114902', nome:'Estudante 7422321624', cpf:'678.901.234-56', nis:'',
+   escola:'COLÉGIO ESTADUAL DEMOCRÁTICO JUTAHY MAGALHÃES', inep:'29177812', mun:'Salvador',
+   sit:{2025:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2025, de:'Elegibilidade indefinida'}],
+   freq:{fev:99.0, mar:97.2, abr:98.6, acum:98.3}},
+
+  {mat:'28207355', nome:'Estudante 9564665206', cpf:'789.012.345-67', nis:'20055510008',
+   escola:'COLÉGIO ESTADUAL LUÍS PRISCO VIANA', inep:'29248132', mun:'Salvador',
+   sit:{2025:'Elegível'}, alt:[], freq:{fev:92.7, mar:88.9, abr:90.4, acum:90.7}},
+
+  {mat:'28330614', nome:'Estudante 6180442379', cpf:'890.123.456-78', nis:'',
+   escola:'CENTRO REGIONAL DE ENSINO MÉDIO CEMIT SERTÃO DO SÃO FRANCISCO', inep:'29456509', mun:'Juazeiro',
+   sit:{2025:'Não elegível'}, alt:[{jan:'2026-07-24', ciclo:2025, de:'Elegível'}],
+   freq:{fev:76.4, mar:72.8, abr:74.1, acum:74.4}}
+];
+
+const aluno = mat => ALUNOS.find(a => a.mat === mat);
+
+/* ── parcelas ───────────────────────────────────────────────────── */
+const PARCELAS = [
+  /* janela de agosto de 2026 — ciclo 2024 */
+  {mat:'26440817', ciclo:2024, cod:202401, sit:'Pago', proc:'26/08/2026 02:41', dt:'27/08/2026', jan:'2026-08-26'},
+  {mat:'26440817', ciclo:2024, cod:202405, sit:'Pago', proc:'26/08/2026 03:02', dt:'27/08/2026', jan:'2026-08-26'},
+  {mat:'26512093', ciclo:2024, cod:202401, sit:'Pago', proc:'26/08/2026 02:41', dt:'27/08/2026', jan:'2026-08-26'},
+  {mat:'26498330', ciclo:2024, cod:202401, sit:'Pago', proc:'26/08/2026 02:41', dt:'28/08/2026', jan:'2026-08-26'},
+  {mat:'26603741', ciclo:2024, cod:202401, sit:'Aguardando Pagamento', proc:'26/08/2026 02:41', dt:null, jan:'2026-08-26'},
+  {mat:'26551208', ciclo:2024, cod:202401, sit:'Pago', proc:'26/08/2026 02:41', dt:'27/08/2026', jan:'2026-08-26'},
+  {mat:'26551208', ciclo:2024, cod:202407, sit:'Pago', proc:'26/08/2026 03:02', dt:'28/08/2026', jan:'2026-08-26'},
+  /* janela de agosto de 2026 — ciclo 2025 (conclusão) */
+  {mat:'29925523', ciclo:2025, cod:202511, sit:'Pago', proc:'26/08/2026 04:18', dt:'28/08/2026', jan:'2026-08-26'},
+  {mat:'28114902', ciclo:2025, cod:202511, sit:'Pago', proc:'26/08/2026 04:18', dt:'28/08/2026', jan:'2026-08-26'},
+  {mat:'28207355', ciclo:2025, cod:202511, sit:'Aguardando Pagamento', proc:'26/08/2026 04:18', dt:null, jan:'2026-08-26'},
+  /* janela de agosto de 2026 — ciclo 2026 (frequência de junho) */
+  {mat:'29884350', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'28/08/2026', jan:'2026-08-26'},
+  {mat:'30279793', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'28/08/2026', jan:'2026-08-26'},
+  {mat:'29993872', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'27/08/2026', jan:'2026-08-26'},
+  {mat:'29993866', ciclo:2026, cod:202606, sit:'Aguardando Pagamento', proc:'26/08/2026 05:30', dt:null, jan:'2026-08-26'},
+  {mat:'30011884', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'28/08/2026', jan:'2026-08-26'},
+  {mat:'30102447', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'28/08/2026', jan:'2026-08-26'},
+  /* janela de julho de 2026 */
+  {mat:'29884350', ciclo:2026, cod:202605, sit:'Pago', proc:'24/07/2026 04:12', dt:'25/07/2026', jan:'2026-07-24'},
+  {mat:'30279793', ciclo:2026, cod:202605, sit:'Pago', proc:'24/07/2026 04:12', dt:'25/07/2026', jan:'2026-07-24'},
+  {mat:'29993872', ciclo:2026, cod:202605, sit:'Pago', proc:'24/07/2026 04:12', dt:'26/07/2026', jan:'2026-07-24'},
+  {mat:'30011884', ciclo:2026, cod:202605, sit:'Pago', proc:'24/07/2026 04:12', dt:'25/07/2026', jan:'2026-07-24'},
+  {mat:'29925523', ciclo:2025, cod:202512, sit:'Pago', proc:'24/07/2026 05:02', dt:'26/07/2026', jan:'2026-07-24'},
+  {mat:'28114902', ciclo:2025, cod:202512, sit:'Pago', proc:'24/07/2026 05:02', dt:'26/07/2026', jan:'2026-07-24'},
+  /* janela de junho de 2026 */
+  {mat:'29884350', ciclo:2026, cod:202604, sit:'Pago', proc:'25/06/2026 03:55', dt:'26/06/2026', jan:'2026-06-25'},
+  {mat:'30279793', ciclo:2026, cod:202604, sit:'Pago', proc:'25/06/2026 03:55', dt:'26/06/2026', jan:'2026-06-25'},
+  {mat:'29993872', ciclo:2026, cod:202604, sit:'Pago', proc:'25/06/2026 03:55', dt:'26/06/2026', jan:'2026-06-25'},
+  {mat:'29993866', ciclo:2026, cod:202604, sit:'Pago', proc:'25/06/2026 03:55', dt:'27/06/2026', jan:'2026-06-25'},
+  /* janela de maio de 2026 */
+  {mat:'29884350', ciclo:2026, cod:202603, sit:'Pago', proc:'26/05/2026 03:40', dt:'27/05/2026', jan:'2026-05-26'},
+  {mat:'30279793', ciclo:2026, cod:202603, sit:'Pago', proc:'26/05/2026 03:40', dt:'27/05/2026', jan:'2026-05-26'},
+  {mat:'29993872', ciclo:2026, cod:202603, sit:'Pago', proc:'26/05/2026 03:40', dt:'28/05/2026', jan:'2026-05-26'},
+  {mat:'29994057', ciclo:2026, cod:202603, sit:'Pago', proc:'26/05/2026 03:40', dt:'27/05/2026', jan:'2026-05-26'},
+  /* janela de abril de 2026 */
+  {mat:'29884350', ciclo:2026, cod:202602, sit:'Pago', proc:'24/04/2026 03:28', dt:'25/04/2026', jan:'2026-04-24'},
+  {mat:'30279793', ciclo:2026, cod:202602, sit:'Pago', proc:'24/04/2026 03:28', dt:'25/04/2026', jan:'2026-04-24'},
+  {mat:'29993872', ciclo:2026, cod:202602, sit:'Pago', proc:'24/04/2026 03:28', dt:'25/04/2026', jan:'2026-04-24'},
+  {mat:'29884350', ciclo:2026, cod:202601, sit:'Pago', proc:'24/04/2026 03:28', dt:'25/04/2026', jan:'2026-04-24'},
+  /* janela de março de 2026 — matrícula */
+  {mat:'30279793', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'24/03/2026', jan:'2026-03-25'},
+  {mat:'29925523', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'25/03/2026', jan:'2026-03-25'},
+  {mat:'29993872', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'23/03/2026', jan:'2026-03-25'},
+  {mat:'29993866', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'24/03/2026', jan:'2026-03-25'},
+  {mat:'29994057', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'25/03/2026', jan:'2026-03-25'},
+  {mat:'30011884', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'24/03/2026', jan:'2026-03-25'},
+  {mat:'29994208', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'26/03/2026', jan:'2026-03-25'}
+];
+
+/* ── amostra da base ──────────────────────────────────────────────────
+   O Portal lista centenas de milhares de registros e mostra uma página por vez.
+   Aqui acontece o mesmo: as listagens exibem uma página da amostra e informam
+   ao lado o total real do recorte — é o que mantém a listagem coerente com os
+   cartões e o gráfico. Os estudantes nomeados acima seguem sendo os que
+   respondem às buscas por nome, CPF, NIS e matrícula. */
+(function gerarAmostra(){
+  let seed = 20260826;
+  const rnd = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
+  const ate = n => Math.floor(rnd() * n);
+  const d3 = () => String(100 + ate(900)), d2 = () => String(10 + ate(90));
+
+  const locais = ALUNOS.map(a => ({escola:a.escola, inep:a.inep, mun:a.mun}));
+  const cpfsUsados = new Set(ALUNOS.map(a => a.cpf));
+  const matsUsadas = new Set(ALUNOS.map(a => a.mat));
+
+  const pool = [];
+  for (let i = 0; i < 60; i++){
+    let cpf, mat;
+    do { cpf = `${d3()}.${d3()}.${d3()}-${d2()}`; } while (cpfsUsados.has(cpf));
+    do { mat = String(29000000 + ate(1500000)); } while (matsUsadas.has(mat));
+    cpfsUsados.add(cpf); matsUsadas.add(mat);
+
+    const loc = locais[ate(locais.length)];
+    /* distribuição por ciclo: a maioria no ciclo corrente */
+    const sorte = rnd();
+    const sit = {};
+    if (sorte < 0.60) sit[2026] = 'Elegível';
+    else if (sorte < 0.85) { sit[2026] = 'Elegível'; sit[2025] = 'Elegível'; }
+    else sit[2024] = 'Elegível';
+
+    /* frequência sempre igual ou acima de 80% — os casos abaixo de 80 são os nomeados */
+    const f = () => Math.round((82 + rnd() * 18) * 100) / 100;
+    const fev = f(), mar = f(), abr = f();
+    pool.push({
+      mat, nome:'Estudante ' + String(2000000000 + ate(999999999)), cpf, nis:'',
+      escola:loc.escola, inep:loc.inep, mun:loc.mun, sit, alt:[], amostra:true,
+      freq:{fev, mar, abr, acum: Math.round((fev + mar + abr) / 3 * 100) / 100}
+    });
+  }
+  ALUNOS.push(...pool);
+
+  /* parcelas da amostra, seguindo as competências reais de cada janela */
+  JANELAS.forEach(j => {
+    j.ciclos.forEach(c => {
+      const elegiveis = pool.filter(a => a.sit[c.ano]);
+      c.parcelas.forEach(p => {
+        for (let i = 0; i < 14 && elegiveis.length; i++){
+          const a = elegiveis[ate(elegiveis.length)];
+          const pago = rnd() < 0.754;                    /* mesma proporção dos cartões */
+          const dia = String(10 + ate(18)).padStart(2,'0');
+          const [d, m, y] = j.rotulo.split('/');
+          PARCELAS.push({
+            mat:a.mat, ciclo:c.ano, cod:p.cod, amostra:true,
+            sit: pago ? 'Pago' : 'Aguardando Pagamento',
+            proc: `${j.rotulo} 0${2 + ate(5)}:${dia}`,
+            dt: pago ? `${String(+d + 1).padStart(2,'0')}/${m}/${y}` : null,
+            jan:j.id
+          });
+        }
+      });
+    });
+  });
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   ESTADO — janela é o filtro pai, ciclo é o filho
+   ══════════════════════════════════════════════════════════════════ */
+
+const state = {
+  rota:'inicio', arg:null,
+  janela:'', ciclo:'2026',
+  busca:'', mun:'', sitF:'', incF:'', sitPagF:'', faixaF:'',
+  aba:'lista', modal:null,
+  cmpA:1, cmpB:0        /* comparação: A = janela anterior, B = posterior */
+};
+
+const ROTAS = [
+  {id:'inicio', nome:'Início'},
+  {id:'elegibilidade', nome:'Elegibilidade'},
+  {id:'frequencia', nome:'Frequência'},
+  {id:'pagamento', nome:'Pagamento'},
+  {id:'processamentos', nome:'Processamentos', novo:true}
+];
+
+function ir(hash){ location.hash = hash; }
+
+function lerHash(){
+  const h = location.hash.replace(/^#\/?/, '') || 'inicio';
+  const [r, a] = h.split('/');
+  state.rota = ROTAS.some(x => x.id === r) || r === 'janela' ? r : 'inicio';
+  state.arg = a || null;
+  if (state.rota === 'janela' && !jan(state.arg)) { state.rota = 'processamentos'; state.arg = null; }
+  render();
+  window.scrollTo({top:0, behavior:'instant'});
+}
+window.addEventListener('hashchange', lerHash);
+
+document.getElementById('tgNew').addEventListener('click', e => {
+  const on = document.body.classList.toggle('mark');
+  e.currentTarget.setAttribute('aria-pressed', String(on));
+});
+document.getElementById('tgRev').addEventListener('click', e => {
+  const on = document.body.classList.toggle('mark2');
+  e.currentTarget.setAttribute('aria-pressed', String(on));
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && state.modal) fecharDetalhe(); });
+
+/* ── filtros dependentes ────────────────────────────────────────── */
+function setJanela(v){
+  state.janela = v;
+  if (v && state.ciclo !== 'todos' && !anosDa(jan(v)).includes(+state.ciclo)) state.ciclo = 'todos';
+  render();
+}
+function setCiclo(v){
+  state.ciclo = v;
+  if (v !== 'todos' && state.janela && !anosDa(jan(state.janela)).includes(+v)) state.janela = '';
+  render();
+}
+function janelasDisponiveis(){
+  if (state.ciclo === 'todos') return JANELAS;
+  return JANELAS.filter(j => anosDa(j).includes(+state.ciclo));
+}
+function ciclosDisponiveis(){
+  if (state.janela) return anosDa(jan(state.janela));
+  return [2026, 2025, 2024];
+}
+/* ciclos efetivamente em foco — usado pelas listagens.
+   Buscar uma pessoa por nome, CPF, NIS ou matrícula atravessa os ciclos:
+   quem procura um estudante quer encontrá-lo, não importa o ano. */
+function ciclosEmFoco(){
+  if (state.busca) return ciclosDisponiveis();
+  return state.ciclo === 'todos' ? ciclosDisponiveis() : [+state.ciclo];
+}
+function buscaAmpliada(){ return !!state.busca && state.ciclo !== 'todos'; }
+
+function selJanela(){
+  const ops = janelasDisponiveis();
+  return `<div class="field pai" data-new="filtro novo" data-rev="filtro pai">
+    <label for="f-jan">Janela de processamento</label>
+    <select id="f-jan" onchange="setJanela(this.value)">
+      <option value="">Todas as janelas</option>
+      ${ops.map(j => `<option value="${j.id}" ${state.janela===j.id?'selected':''}>${j.rotulo}</option>`).join('')}
+    </select>
+    ${state.ciclo !== 'todos' && ops.length < JANELAS.length
+      ? `<span class="hint">${ops.length} de ${JANELAS.length} — só as que processaram ${state.ciclo}</span>` : ''}
+  </div>`;
+}
+function selCiclo(){
+  const ops = ciclosDisponiveis();
+  return `<div class="field filho" data-rev="filtro filho">
+    <label for="f-ciclo">Ciclo</label>
+    <select id="f-ciclo" onchange="setCiclo(this.value)">
+      <option value="todos" ${state.ciclo==='todos'?'selected':''}>${state.janela ? 'Todos os ciclos da janela' : 'Todos os ciclos'}</option>
+      ${ops.map(a => `<option value="${a}" ${state.ciclo===String(a)?'selected':''}>${a}</option>`).join('')}
+    </select>
+  </div>`;
+}
+function filtros(){ return `<div class="filters">${selJanela()}${selCiclo()}</div>`; }
+
+function windowBar(){
+  if (!state.janela) return '';
+  const j = jan(state.janela);
+  const foco = state.ciclo === 'todos'
+    ? `todos os ciclos da janela (${anosDa(j).join(', ')})`
+    : `somente o ciclo ${state.ciclo}`;
+  return `<div class="window-bar" data-new="contexto da janela">
+    <span class="t">▣ Janela ${j.rotulo}</span>
+    <span class="d">Exibindo ${foco}.</span>
+    <span class="actions">
+      <button class="btn new sm" onclick="ir('#/janela/${j.id}')">Ver a janela completa</button>
+      <button class="btn sm" onclick="setJanela('')">Limpar</button>
+    </span>
+  </div>`;
+}
+
+function navHTML(){
+  return ROTAS.map(r => {
+    const on = state.rota === r.id || (r.id === 'processamentos' && state.rota === 'janela');
+    return `<a href="#/${r.id}" class="${on?'on':''} ${r.novo?'is-new':''}">${r.nome}${r.novo?'<span class="tag-new">novo</span>':''}</a>`;
+  }).join('');
+}
+function crumbsHTML(trilha){
+  const p = ['<a href="#/inicio">🏠</a>', '<span class="sep">›</span>', '<a href="#/inicio">Pé-de-Meia</a>'];
+  trilha.forEach(t => {
+    p.push('<span class="sep">›</span>');
+    p.push(t.href ? `<a href="${t.href}">${t.txt}</a>` : `<span>${t.txt}</span>`);
+  });
+  return p.join('');
+}
+function kpi(lbl, val, cor, dica){
+  return `<div class="kpi" style="--c:${cor}">
+    <div class="lbl"><span>${lbl}</span><span class="info" title="${dica}">i</span></div>
+    <div class="val num">${N(val)}</div>
+  </div>`;
+}
+function pillCiclo(a){ return `<span class="pill ${clsC(a)}">${a}</span>`; }
+function deltaHTML(v){
+  if (!v) return `<span class="delta flat">=</span>`;
+  return `<span class="delta ${v>0?'up':'down'}">${v>0?'+':'−'}${N(Math.abs(v))}</span>`;
+}
+
+/* busca unificada: nome, CPF, NIS ou matrícula */
+function casa(a, termo){
+  if (!termo) return true;
+  const t = termo.toLowerCase().replace(/[.\-\s]/g, '');
+  return [a.nome, a.cpf, a.nis, a.mat, a.escola, a.mun]
+    .filter(Boolean)
+    .some(v => String(v).toLowerCase().replace(/[.\-\s]/g, '').includes(t));
+}
+const LIM = 25;   /* linhas por página, como no Portal */
+function rotuloLista(mostrados, total){
+  if (state.busca) return `${N(mostrados)} ${mostrados === 1 ? 'registro encontrado' : 'registros encontrados'}`;
+  if (mostrados < total) return `Exibindo ${N(mostrados)} de ${N(total)} registros`;
+  return `${N(total)} ${total === 1 ? 'registro' : 'registros'}`;
+}
+function searchbar(ph, mostrados, total){
+  return `<div class="searchbar" data-rev="busca ativa">
+    <div class="searchbox">
+      <span class="mag">⌕</span>
+      <input id="q" type="search" placeholder="${ph}" value="${state.busca.replace(/"/g,'&quot;')}"
+             oninput="state.busca=this.value; render(); foco('q')">
+      ${state.busca ? `<button class="clr" title="Limpar busca" onclick="state.busca=''; render()">×</button>` : ''}
+    </div>
+    <span class="count">${rotuloLista(mostrados, total)}</span>
+    ${buscaAmpliada() ? `<span class="count" style="color:var(--new)">buscando em todos os ciclos da janela</span>` : ''}
+  </div>`;
+}
+function selMun(lista){
+  const muns = [...new Set(lista.map(a => a.mun))].sort((a,b) => a.localeCompare(b,'pt-BR'));
+  return `<div class="field"><label for="f-mun">Município</label>
+    <select id="f-mun" onchange="state.mun=this.value; render()">
+      <option value="">Todos</option>
+      ${muns.map(m => `<option ${state.mun===m?'selected':''}>${m}</option>`).join('')}
+    </select></div>`;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   TELA — INÍCIO
+   ══════════════════════════════════════════════════════════════════ */
+function telaInicio(){
+  const j = ULTIMA;
+  const r = redeDe(state.ciclo);
+  const rotuloCiclo = state.ciclo === 'todos' ? 'todos os ciclos' : `ciclo ${state.ciclo}`;
+
+  return {
+    crumbs:[],
+    html:`
+    <div class="page-head">
+      <div><h1>Programa Pé-de-Meia</h1><div class="sub">Visão Geral</div></div>
+      <div class="mark">PÉ·DE·MEIA</div>
+    </div>
+
+    ${filtros()}
+    ${windowBar()}
+
+    <div class="notice">Caro operador(a), informamos que a consulta do mês corrente está em processamento. Os últimos dados consolidados são de <b>Junho</b>.</div>
+
+    <div class="section-title"><span class="ico">▤</span> Matrículas <span class="pill gray">${rotuloCiclo}</span>
+      <span class="act"><button class="btn sm" onclick="ir('#/elegibilidade')">Status de Elegibilidade</button></span>
+    </div>
+    <div class="kpis">
+      ${kpi('Matrículas na Rede', r.rede, 'var(--blue)', 'Total de matrículas da rede no recorte selecionado.')}
+      ${kpi('Elegível', r.eleg, 'var(--green)', 'Matrículas que atendem às condições do Programa.')}
+      ${kpi('Elegível (pendência bancária)', r.pend, 'var(--red)', 'Elegíveis com conta ainda não regularizada.')}
+      ${kpi('Elegibilidade Indefinida', r.indef, 'var(--orange)', 'Aguardando informação que conclua a avaliação.')}
+      ${kpi('Não elegível', r.nao, 'var(--ink)', 'Matrículas que não atendem às condições.')}
+    </div>
+
+    <div class="grid-2" style="margin-top:26px">
+      <div>
+        <div class="section-title"><span class="ico">▦</span> Frequência das matrículas
+          <span class="act"><button class="btn sm" onclick="ir('#/frequencia')">Visualizar Detalhamento</button></span>
+        </div>
+        <div class="panel panel-rows">
+          <div class="cell wide"><div class="lbl">Total de Matrículas Elegíveis <span class="info">i</span></div><div class="val num">${N(r.eleg)}</div></div>
+          <div class="cell"><div class="lbl">Igual ou Acima de 80% <span class="info">i</span></div><div class="val num">313.613</div></div>
+          <div class="cell"><div class="lbl">Abaixo de 80% <span class="info">i</span></div><div class="val num">27.834</div></div>
+          <div class="cell"><div class="lbl">Não Informada <span class="info">i</span></div><div class="val num">823</div></div>
+          <div class="cell"><div class="lbl">Não Informada (3 Meses) <span class="info">i</span></div><div class="val num">795</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-title"><span class="ico">▩</span> Pagamentos
+          <span class="act"><button class="btn sm" onclick="ir('#/pagamento')">Visualizar Pagamentos</button></span>
+        </div>
+        <div class="panel panel-rows">
+          <div class="cell wide"><div class="lbl">Total de Incentivos Pagos <span class="info">i</span></div><div class="val num">979.964</div></div>
+          <div class="cell"><div class="lbl">Total de Incentivo Matrícula <span class="info">i</span></div><div class="val num">339.755</div></div>
+          <div class="cell"><div class="lbl">Total de Incentivo Frequência <span class="info">i</span></div><div class="val num">640.209</div></div>
+          <div class="cell"><div class="lbl">Total de Incentivo Conclusão <span class="info">i</span></div><div class="val num">0</div></div>
+          <div class="cell"><div class="lbl">Total de Incentivo ENEM <span class="info">i</span></div><div class="val num">0</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" data-new="bloco novo" style="margin-top:38px">
+      <span class="ico" style="color:var(--new)">▣</span> Último processamento
+      <span class="act"><button class="btn new sm" onclick="ir('#/processamentos')">Ver todas as janelas</button></span>
+    </div>
+    <button class="window-card hot" onclick="ir('#/janela/${j.id}')" data-rev="cartão simplificado">
+      <div class="wc-date">
+        <div class="day">${j.rotulo}</div>
+        <div class="mon">${j.status} em ${j.fim}</div>
+      </div>
+      <div class="wc-cycles">
+        <div class="cap">Ciclos afetados</div>
+        <div class="pills">${anosDa(j).map(pillCiclo).join('')}</div>
+      </div>
+      <div class="wc-res">
+        <div class="cap">Matrículas processadas</div>
+        <div class="big">${N(somaJ(j,'processadas'))}</div>
+      </div>
+      <div class="wc-res">
+        <div class="cap">Parcelas liberadas</div>
+        <div class="big">${N(parcelasJ(j))}</div>
+        <div class="money">${R$(valorJ(j))}</div>
+      </div>
+    </button>
+    <p style="color:var(--ink-2); font-size:13px; margin:12px 2px 0; max-width:94ch">
+      Este processamento atingiu matrículas dos ciclos de <b>2024, 2025 e 2026</b> e liberou pagamento de matrícula do
+      <b>ciclo de 2024</b>. Pelo filtro de ciclo, esse resultado só apareceria para quem soubesse voltar ao ciclo de 2024 —
+      a janela mostra que ele aconteceu agora.
+    </p>
+
+    <div class="section-title" style="margin-top:38px">Outros acessos</div>
+    <div class="grid-2">
+      ${acesso('Conheça o Gestão Presente', 'O Gestão Presente é um hub de informações educacionais, promovendo a integração entre redes federais, estaduais e municipais.', 'Gestão Presente')}
+      ${acesso('Consultar informações do estudante', 'Tenha acesso a mais informações de estudantes e matrículas.', 'Consulta estudante')}
+    </div>`
+  };
+}
+function acesso(t, d, cta){
+  return `<div class="panel" style="background:#F0F5FC; border-color:var(--blue-line); padding:22px 24px">
+    <h3 style="color:var(--blue-dark); font-size:17px">${t}</h3>
+    <p style="color:var(--ink-2); margin:8px 0 16px; font-size:13px">${d}</p>
+    <button class="btn">→ ${cta}</button>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   TELA — PROCESSAMENTOS (lista de janelas)
+   ══════════════════════════════════════════════════════════════════ */
+function telaProcessamentos(){
+  return {
+    crumbs:[{txt:'Processamentos'}],
+    html:`
+    <div class="page-head">
+      <div>
+        <h1>Janelas de Processamento</h1>
+        <div class="sub">Cada janela mostra o que foi processado num mesmo período: quantas matrículas, de quais ciclos,
+        e quanto foi liberado em pagamento. É a leitura por <b>data do processamento</b> — complementar ao ciclo,
+        que é a leitura por <b>ano do dado</b>.</div>
+      </div>
+      <div class="mark">PÉ·DE·MEIA</div>
+    </div>
+
+    <div class="tabs" data-new="tela nova">
+      <button class="${state.aba==='lista'?'on':''}" onclick="state.aba='lista'; render()">Janelas</button>
+      <button class="${state.aba==='cmp'?'on':''}" onclick="state.aba='cmp'; render()">Comparar janelas</button>
+    </div>
+
+    ${state.aba === 'lista' ? listaJanelas() : comparativo()}`
+  };
+}
+
+function listaJanelas(){
+  const lista = janelasDisponiveis();
+  const max = Math.max(...JANELAS.map(parcelasJ));
+  return `
+    <div class="filters" data-rev="filtro por ciclo">
+      <div class="field"><label for="p-ciclo">Ciclo afetado</label>
+        <select id="p-ciclo" onchange="state.ciclo=this.value; render()">
+          <option value="todos" ${state.ciclo==='todos'?'selected':''}>Todos</option>
+          ${[2026,2025,2024].map(a => `<option value="${a}" ${state.ciclo===String(a)?'selected':''}>${a}</option>`).join('')}
+        </select></div>
+      <span class="count">${N(lista.length)} ${lista.length === 1 ? 'janela' : 'janelas'}</span>
+    </div>
+
+    <div class="window-list">
+      ${lista.map(j => `
+        <button class="window-card ${j.id===ULTIMA.id?'hot':''}" onclick="ir('#/janela/${j.id}')">
+          <div class="wc-date">
+            <div class="day">${j.rotulo}</div>
+            <div class="mon">${j.status}</div>
+          </div>
+          <div class="wc-cycles">
+            <div class="cap">Ciclos afetados</div>
+            <div class="pills">${anosDa(j).map(pillCiclo).join('')}</div>
+          </div>
+          <div class="wc-res">
+            <div class="cap">Matrículas processadas</div>
+            <div class="big">${N(somaJ(j,'processadas'))}</div>
+          </div>
+          <div class="wc-res">
+            <div class="cap">Parcelas liberadas</div>
+            <div class="big">${N(parcelasJ(j))}</div>
+            <div class="money">${R$(valorJ(j))}</div>
+            <div class="bar"><span style="width:${(parcelasJ(j)/max*100).toFixed(1)}%"></span></div>
+          </div>
+        </button>`).join('')}
+    </div>
+
+    <div class="export" style="margin-top:26px">
+      <h3>Exportar Dados por Janela</h3>
+      <div class="box">
+        <div><b>Relatório da janela</b>
+        <p>Faça a solicitação do download com as matrículas processadas, as situações alteradas e as parcelas liberadas de cada janela, com o ciclo de cada uma.</p></div>
+        <button class="btn new solid" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações, como nas demais telas do Portal.')">⬓ Solicitar Planilha</button>
+      </div>
+    </div>`;
+}
+
+/* JANELAS está em ordem decrescente (a mais recente primeiro).
+   Índice MAIOR = janela mais antiga. A trava garante B sempre posterior a A. */
+function setCmpA(i){
+  state.cmpA = +i;
+  if (state.cmpB >= state.cmpA) state.cmpB = state.cmpA - 1;  /* B tem de ser mais recente */
+  render();
+}
+function setCmpB(i){ state.cmpB = +i; render(); }
+
+function comparativo(){
+  const a = JANELAS[state.cmpA], b = JANELAS[state.cmpB];
+  const linha = (k, va, vb, money) => {
+    const dif = vb - va;                                      /* evolução de A para B */
+    return `<tr>
+      <td>${k}</td>
+      <td class="r num">${money?R$(va):N(va)}</td>
+      <td class="r num"><b>${money?R$(vb):N(vb)}</b></td>
+      <td class="r">${dif===0?'<span class="delta flat">=</span>':`<span class="delta ${dif>0?'up':'down'}">${dif>0?'+':'−'}${money?R$(Math.abs(dif)):N(Math.abs(dif))}</span>`}</td>
+    </tr>`;
+  };
+
+  /* A pode ser qualquer janela menos a mais recente; B, qualquer uma posterior a A */
+  const opsA = JANELAS.map((j, i) => ({i, j})).filter(x => x.i > 0);
+  const opsB = JANELAS.map((j, i) => ({i, j})).filter(x => x.i < state.cmpA);
+
+  return `
+    <div class="filters" data-rev="opções e trava de ordem">
+      <div class="field">
+        <label for="c-a">Janela A <span class="hint" style="margin:0">anterior</span></label>
+        <select id="c-a" onchange="setCmpA(this.value)">
+          ${opsA.map(x => `<option value="${x.i}" ${state.cmpA===x.i?'selected':''}>${x.j.rotulo}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field">
+        <label for="c-b">Janela B <span class="hint" style="margin:0">posterior</span></label>
+        <select id="c-b" onchange="setCmpB(this.value)">
+          ${opsB.map(x => `<option value="${x.i}" ${state.cmpB===x.i?'selected':''}>${x.j.rotulo}</option>`).join('')}
+        </select>
+      </div>
+      <span class="count">só é possível comparar uma janela com outra posterior a ela</span>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th style="width:40%">Indicador</th>
+          <th class="r">A · ${a.rotulo}</th>
+          <th class="r">B · ${b.rotulo}</th>
+          <th class="r" style="width:160px">Variação</th>
+        </tr></thead>
+        <tbody>
+          ${linha('Ciclos afetados', anosDa(a).length, anosDa(b).length)}
+          ${linha('Matrículas processadas', somaJ(a,'processadas'), somaJ(b,'processadas'))}
+          ${linha('Matrículas com situação alterada', somaJ(a,'alteradas'), somaJ(b,'alteradas'))}
+          ${linha('Parcelas liberadas', parcelasJ(a), parcelasJ(b))}
+          ${linha('Valor liberado', valorJ(a), valorJ(b), true)}
+        </tbody>
+      </table>
+    </div>
+    <p style="color:var(--ink-2); font-size:13px; margin-top:14px; max-width:92ch">
+      A variação mostra o que mudou da janela <b>${a.rotulo}</b> para a janela <b>${b.rotulo}</b>.
+      Janelas que atingem mais de um ciclo liberam mais pagamento — é o caso de ${ULTIMA.rotulo}, que alcançou três ciclos.
+    </p>`;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   TELA — DETALHE DA JANELA
+   ══════════════════════════════════════════════════════════════════ */
+function telaJanela(){
+  const j = jan(state.arg);
+  const totalP = parcelasJ(j), totalV = valorJ(j);
+  const proc = somaJ(j, 'processadas');
+  const alt = somaJ(j, 'alteradas');
+  const paraEl = somaJ(j, 'paraElegivel');
+
+  /* gráfico de pagamento por ciclo */
+  let acc = 0;
+  const fatias = j.ciclos.map(c => {
+    const pct = valorC(c) / totalV * 100;
+    const seg = `${CORC[c.ano]} ${acc}% ${acc + pct}%`;
+    acc += pct;
+    return {ano:c.ano, pct, seg, parcelas:parcelasC(c), valor:valorC(c)};
+  });
+
+  const mudancas = ALUNOS.filter(a => a.alt.some(x => x.jan === j.id));
+
+  return {
+    crumbs:[{txt:'Processamentos', href:'#/processamentos'}, {txt:`Janela ${j.rotulo}`}],
+    html:`
+    <div class="win-head">
+      <div class="row">
+        <div>
+          <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap">
+            <h1>Janela de ${j.rotulo}</h1>
+            <span class="pill ok">${j.status}</span>
+          </div>
+          <div class="meta" data-rev="sem identificador de apuração">
+            <div><div class="k">Início</div><div class="v">${j.inicio}</div></div>
+            <div><div class="k">Término</div><div class="v">${j.fim}</div></div>
+            <div><div class="k">Ciclos afetados</div><div class="v">${anosDa(j).join(' · ')}</div></div>
+            <div><div class="k">Matrículas processadas</div><div class="v">${N(proc)}</div></div>
+            <div><div class="k">Rede</div><div class="v">Estadual — Bahia</div></div>
+          </div>
+        </div>
+        <div class="acts">
+          <button class="btn sm" onclick="ir('#/processamentos')">← Todas as janelas</button>
+          <button class="btn new solid sm" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações, como nas demais telas do Portal.')">⬓ Exportar relatório</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="ico">▤</span> O que foi processado, por ciclo</div>
+    <div class="tbl-wrap" data-rev="visão única, sem EMR/EJA">
+      <table>
+        <thead><tr>
+          <th style="width:110px">Ciclo</th>
+          <th class="r">Matrículas processadas</th>
+          <th class="r">Situação alterada</th>
+          <th class="r">Parcelas liberadas</th>
+          <th class="r">Valor liberado</th>
+          <th></th>
+        </tr></thead>
+        <tbody>
+          ${j.ciclos.map(c => `<tr>
+            <td>${pillCiclo(c.ano)}</td>
+            <td class="r num">${N(c.processadas)}</td>
+            <td class="r num">${N(c.alteradas)}</td>
+            <td class="r num">${N(parcelasC(c))}</td>
+            <td class="r num">${R$(valorC(c))}</td>
+            <td class="r"><button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='${c.ano}'; ir('#/pagamento')">Ver pagamentos</button></td>
+          </tr>`).join('')}
+          <tr style="background:var(--surface-2)">
+            <td><b>Total</b></td>
+            <td class="r num"><b>${N(proc)}</b></td>
+            <td class="r num"><b>${N(alt)}</b></td>
+            <td class="r num"><b>${N(totalP)}</b></td>
+            <td class="r num"><b style="color:var(--green)">${R$(totalV)}</b></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title"><span class="ico">◈</span> Resultados obtidos</div>
+    <div class="res-grid" data-rev="sem bloco de frequência">
+
+      <div class="res">
+        <div class="res-h"><span style="color:var(--blue)">◆</span> Matrículas <span class="chip">${N(proc)} processadas</span></div>
+        <div class="res-b">
+          <div class="dl"><span class="k">Com situação alterada nesta janela</span><span class="v">${N(alt)}</span></div>
+          <div class="dl"><span class="k">Passaram a Elegível</span><span class="v">${N(paraEl)}</span></div>
+          <div class="dl"><span class="k">Deixaram de ser Elegível ou ficaram indefinidas</span><span class="v">${N(alt - paraEl)}</span></div>
+          <div class="dl"><span class="k">Sem alteração</span><span class="v">${N(proc - alt)}</span></div>
+        </div>
+        <div class="res-f">
+          <button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='todos'; ir('#/elegibilidade')">Ver as matrículas alteradas →</button>
+        </div>
+      </div>
+
+      <div class="res">
+        <div class="res-h"><span style="color:var(--green)">▩</span> Pagamento <span class="chip">${N(totalP)} parcelas</span></div>
+        <div class="res-b">
+          <div class="donut-row" data-rev="gráfico por ciclo">
+            <div class="donut" style="background:conic-gradient(${fatias.map(f => f.seg).join(', ')})">
+              <div class="hole"><b>${curto(totalV)}</b><small>liberados</small></div>
+            </div>
+            <div class="legend">
+              ${fatias.map(f => `<div class="lrow">
+                <i style="background:${CORC[f.ano]}"></i>
+                <span class="nm">Ciclo ${f.ano}</span>
+                <span class="vl">${f.pct.toFixed(1)}%</span>
+                <span class="money">${R$(f.valor)}</span>
+              </div>`).join('')}
+            </div>
+          </div>
+        </div>
+        <div class="res-f">
+          <button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='todos'; ir('#/pagamento')">Ver os pagamentos desta janela →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:34px"><span class="ico">▥</span> Parcelas liberadas, por ciclo
+      <span class="act"><button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='todos'; ir('#/pagamento')">Abrir na tela de Pagamento</button></span>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th style="width:110px">Ciclo</th>
+          <th>Incentivo</th>
+          <th class="r">Parcelas</th>
+          <th class="r">Valor</th>
+        </tr></thead>
+        <tbody>
+          ${j.ciclos.flatMap(c => c.parcelas.map(p => `<tr>
+            <td>${pillCiclo(c.ano)}</td>
+            <td><div class="prim">${incDe(p.cod)}</div>${p.faixa ? `<div class="sec">nove parcelas do ciclo ${c.ano}</div>` : ''}</td>
+            <td class="r num">${N(p.qtd)}</td>
+            <td class="r num">${R$(p.valor)}</td>
+          </tr>`)).join('')}
+          <tr style="background:var(--surface-2)">
+            <td colspan="2"><b>Total da janela</b></td>
+            <td class="r num"><b>${N(totalP)}</b></td>
+            <td class="r num"><b style="color:var(--green)">${R$(totalV)}</b></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    ${mudancas.length ? `
+    <div class="section-title" style="margin-top:34px"><span class="ico">◍</span> Matrículas com situação alterada nesta janela
+      <span class="act"><button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='todos'; ir('#/elegibilidade')">Ver todas as matrículas desta janela →</button></span>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Matrícula</th><th>Estudante</th><th>Unidade de Ensino</th>
+          <th>Ciclo</th><th>Situação anterior</th><th>Situação atual</th><th></th>
+        </tr></thead>
+        <tbody>
+          ${mudancas.map(a => {
+            const m = a.alt.find(x => x.jan === j.id);
+            return `<tr>
+              <td class="num">${a.mat}</td>
+              <td class="prim">${a.nome}<div class="sec num">CPF ${a.cpf}</div></td>
+              <td><div style="font-size:12.5px">${a.escola}</div><div class="sec">Código INEP: ${a.inep}</div></td>
+              <td>${pillCiclo(m.ciclo)}</td>
+              <td><span class="pill ${m.de==='Não elegível'?'no':'wait'}">${m.de}</span></td>
+              <td><span class="pill ${a.sit[m.ciclo]==='Elegível'?'ok':'no'}">${a.sit[m.ciclo]}</span></td>
+              <td class="r"><button class="eye" title="Ver detalhes" onclick="abrirDetalhe('${a.mat}')">👁</button></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+    <p style="color:var(--ink-2); font-size:12.5px; margin-top:10px">
+      Amostra das ${N(alt)} matrículas alteradas nesta janela.
+    </p>` : ''}
+    `
+  };
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   TELA — ELEGIBILIDADE
+   ══════════════════════════════════════════════════════════════════ */
+function telaElegibilidade(){
+  const j = state.janela ? jan(state.janela) : null;
+  const anos = ciclosEmFoco();
+  const r = redeDe(state.ciclo);
+
+  /* Base: uma linha por matrícula-ciclo. A janela NÃO altera as colunas da tabela —
+     ela apenas restringe a lista às matrículas processadas naquela janela. */
+  let base = [];
+  ALUNOS.forEach(a => {
+    anos.forEach(ano => {
+      if (!a.sit[ano]) return;
+      base.push({a, ano});
+    });
+  });
+  let lista = base.filter(x => casa(x.a, state.busca));
+  if (state.mun) lista = lista.filter(x => x.a.mun === state.mun);
+  if (state.sitF) lista = lista.filter(x => x.a.sit[x.ano] === state.sitF);
+  /* total do recorte: com janela, as matrículas processadas nela; senão, a rede */
+  const totalDecl = (state.busca || state.mun || state.sitF) ? lista.length
+    : (j ? j.ciclos.filter(c => anos.includes(c.ano)).reduce((t,c) => t + c.processadas, 0) : r.rede);
+  const pagina = lista.slice(0, LIM);
+
+  return {
+    crumbs:[{txt:'Status de elegibilidade'}],
+    html:`
+    <div class="page-head">
+      <div><h1>Status de Elegibilidade</h1></div>
+      <div class="mark">PÉ·DE·MEIA</div>
+    </div>
+
+    <div class="tabs">
+      <button class="on">Ensino Médio Regular</button>
+      <button>Educação de Jovens e Adultos (EJA)</button>
+    </div>
+
+    ${filtros()}
+    ${windowBar()}
+
+    <div class="kpis">
+      ${kpi('Matrículas na Rede', r.rede, 'var(--blue)', 'Total de matrículas da rede no recorte selecionado.')}
+      ${kpi('Elegível', r.eleg, 'var(--green)', 'Matrículas que atendem às condições do Programa.')}
+      ${kpi('Elegível (pendência bancária)', r.pend, 'var(--red)', 'Elegíveis com conta ainda não regularizada.')}
+      ${kpi('Elegibilidade Indefinida', r.indef, 'var(--orange)', 'Aguardando informação que conclua a avaliação.')}
+      ${kpi('Não elegível', r.nao, 'var(--ink)', 'Matrículas que não atendem às condições.')}
+    </div>
+
+    <div class="export" style="margin-top:24px">
+      <h3>Exportar Dados de Elegibilidade</h3>
+      <div class="box">
+        <div><b>Planilha completa</b>
+        <p>Faça a solicitação do download da planilha completa para visualizar os status dos estudantes da rede${j?` <b>na janela de ${j.rotulo}</b>`:''}.</p></div>
+        <button class="btn solid" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações.')">⬓ Solicitar Planilha</button>
+      </div>
+      <p style="margin:14px 0 0"><a href="#/elegibilidade">↺ Visualizar Solicitações</a></p>
+    </div>
+
+    ${searchbar('Pesquisar por Nome, CPF, NIS ou Matrícula', pagina.length, totalDecl)}
+    <div class="filters" style="margin-bottom:14px">
+      <div class="field"><label>Filtrar por</label><select disabled><option>Bahia</option></select></div>
+      ${selMun(ALUNOS)}
+      <div class="field"><label for="f-sit">Situação</label>
+        <select id="f-sit" onchange="state.sitF=this.value; render()">
+          <option value="">Todas</option>
+          ${['Elegível','Não elegível','Elegibilidade indefinida'].map(s => `<option ${state.sitF===s?'selected':''}>${s}</option>`).join('')}
+        </select></div>
+    </div>
+
+    <div class="tbl-wrap">
+      ${lista.length === 0 ? `<div class="empty"><b>Nenhuma matrícula encontrada</b>
+        Revise a busca ou os filtros. ${state.busca?`Termo pesquisado: “${state.busca}”.`:''}</div>` : `
+      <table>
+        <thead><tr>
+          <th>Matrícula</th><th>CPF</th><th>NIS</th><th>Nome</th>
+          <th>Unidade de Ensino e Código INEP</th>
+          <th>Ciclo</th>
+          <th>Situação no Pé-de-Meia</th>
+          <th></th>
+        </tr></thead>
+        <tbody>
+          ${pagina.map(x => `<tr>
+            <td class="num">${x.a.mat}</td>
+            <td class="num">${x.a.cpf}</td>
+            <td class="num">${x.a.nis || '–'}</td>
+            <td>${x.a.nome}</td>
+            <td><div style="font-size:12.5px">${x.a.escola}</div><div class="sec">Código INEP: ${x.a.inep}</div></td>
+            <td>${pillCiclo(x.ano)}</td>
+            <td><span class="pill ${x.a.sit[x.ano]==='Elegível'?'ok':'no'}">${x.a.sit[x.ano]}</span></td>
+            <td class="r"><button class="eye" title="Ver detalhes" onclick="abrirDetalhe('${x.a.mat}')">👁</button></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`}
+    </div>
+    ${j?`<p style="color:var(--ink-2); font-size:12.5px; margin-top:12px" data-rev="mesma tabela, só filtrada">
+      Exibindo as matrículas processadas na janela de ${j.rotulo}. A lista é a mesma de sempre — a janela apenas restringe quais matrículas aparecem.
+    </p>`:''}`
+  };
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   TELA — FREQUÊNCIA
+   ══════════════════════════════════════════════════════════════════ */
+function telaFrequencia(){
+  const j = state.janela ? jan(state.janela) : null;
+  const anos = ciclosEmFoco();
+
+  let base = ALUNOS.filter(a => anos.some(ano => a.sit[ano]));
+  if (j) base = base.filter(a => a.alt.some(x => x.jan === j.id) || PARCELAS.some(p => p.mat === a.mat && p.jan === j.id));
+
+  let lista = base.filter(a => casa(a, state.busca));
+  if (state.mun) lista = lista.filter(a => a.mun === state.mun);
+  if (state.faixaF === 'acima') lista = lista.filter(a => a.freq.acum >= 80);
+  if (state.faixaF === 'abaixo') lista = lista.filter(a => a.freq.acum < 80);
+  const totalDecl = (state.busca || state.mun || state.faixaF) ? lista.length : base.length;
+  const pagina = lista.slice(0, LIM);
+
+  const cls = v => v >= 80 ? 'hi' : v >= 75 ? 'mid' : 'lo';
+
+  return {
+    crumbs:[{txt:'Frequência de estudantes'}],
+    html:`
+    <div class="page-head">
+      <div><h1>Frequência de Matrículas</h1></div>
+      <div class="mark">PÉ·DE·MEIA</div>
+    </div>
+
+    <div class="tabs">
+      <button class="on">Ensino Médio Regular</button>
+      <button>Educação de Jovens e Adultos (EJA)</button>
+    </div>
+
+    ${filtros()}
+    ${windowBar()}
+
+    <div class="export">
+      <h3>Exportar Dados de Frequência</h3>
+      <div class="box">
+        <div><b>Planilha completa</b>
+        <p>Faça a solicitação do download da planilha completa para visualizar as frequências informadas dos estudantes da rede.</p></div>
+        <button class="btn solid" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações.')">⬓ Solicitar Planilha</button>
+      </div>
+      <p style="margin:14px 0 0"><a href="#/frequencia">↺ Visualizar Solicitações</a></p>
+    </div>
+
+    ${searchbar('Pesquisar por Nome, CPF, NIS ou Matrícula', pagina.length, totalDecl)}
+    <div class="filters" style="margin-bottom:14px">
+      ${selMun(ALUNOS)}
+      <div class="field"><label for="f-faixa">Frequência acumulada</label>
+        <select id="f-faixa" onchange="state.faixaF=this.value; render()">
+          <option value="">Todas</option>
+          <option value="acima" ${state.faixaF==='acima'?'selected':''}>Igual ou acima de 80%</option>
+          <option value="abaixo" ${state.faixaF==='abaixo'?'selected':''}>Abaixo de 80%</option>
+        </select></div>
+    </div>
+
+    <div class="tbl-wrap">
+      ${lista.length === 0 ? `<div class="empty"><b>Nenhuma matrícula encontrada</b>
+        Revise a busca ou os filtros.</div>` : `
+      <table>
+        <thead><tr>
+          <th>Nome, CPF e NIS do Estudante</th>
+          <th>Unidade de Ensino e código INEP</th>
+          <th>Matrícula SGP</th>
+          <th class="r">Fev</th><th class="r">Mar</th><th class="r">Abr</th>
+          <th class="r">Acumulado</th><th></th>
+        </tr></thead>
+        <tbody>
+          ${pagina.map(a => `<tr>
+            <td><div class="prim">${a.nome}</div><div class="sec num">CPF: ${a.cpf}${a.nis?` | NIS: ${a.nis}`:''}</div></td>
+            <td><div style="font-size:12.5px">${a.escola}</div><div class="sec">Código INEP: ${a.inep}</div></td>
+            <td class="num">${a.mat}</td>
+            <td class="freq ${cls(a.freq.fev)}">${pct(a.freq.fev)}</td>
+            <td class="freq ${cls(a.freq.mar)}">${pct(a.freq.mar)}</td>
+            <td class="freq ${cls(a.freq.abr)}">${pct(a.freq.abr)}</td>
+            <td class="freq acc ${cls(a.freq.acum)}">${pct(a.freq.acum)}</td>
+            <td class="r"><button class="eye" title="Ver detalhes" onclick="abrirDetalhe('${a.mat}')">👁</button></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`}
+    </div>`
+  };
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   TELA — PAGAMENTO
+   ══════════════════════════════════════════════════════════════════ */
+function telaPagamento(){
+  const j = state.janela ? jan(state.janela) : null;
+  const anos = ciclosEmFoco();
+
+  let base = PARCELAS.filter(p => anos.includes(p.ciclo));
+  if (j) base = base.filter(p => p.jan === j.id);
+
+  let lista = base.filter(p => casa(aluno(p.mat), state.busca));
+  if (state.mun) lista = lista.filter(p => aluno(p.mat).mun === state.mun);
+  if (state.incF) lista = lista.filter(p => incDe(p.cod) === state.incF);
+  if (state.sitPagF) lista = lista.filter(p => p.sit === state.sitPagF);
+
+  /* cartões de situação: da janela quando houver, senão o consolidado do Portal */
+  let cards;
+  if (j) {
+    const sel = state.ciclo === 'todos' ? j.ciclos : j.ciclos.filter(c => c.ano === +state.ciclo);
+    const qtd = sel.reduce((s,c) => s + parcelasC(c), 0);
+    const val = sel.reduce((s,c) => s + valorC(c), 0);
+    const pagos = Math.round(qtd * 0.754);
+    cards = {total:qtd, vTotal:val, pagos, vPagos:Math.round(val*0.754), aguard:qtd-pagos, vAguard:val-Math.round(val*0.754), bloq:0};
+  } else {
+    cards = {total:1396680, vTotal:343279400, pagos:979964, vPagos:195992800, aguard:319714, vAguard:63942800, bloq:3};
+  }
+
+  /* Total do recorte: o mesmo número dos cartões e do gráfico. Com filtro de
+     situação aplicado, usa o total daquela situação — é o que mantém a lista
+     coerente com o que o gráfico mostra. */
+  const totalDecl = (state.busca || state.mun || state.incF) ? lista.length
+    : state.sitPagF === 'Pago' ? cards.pagos
+    : state.sitPagF === 'Aguardando Pagamento' ? cards.aguard
+    : cards.total;
+  const pagina = lista.slice(0, LIM);
+
+  /* gráfico: por ciclo quando há janela; por situação no consolidado */
+  let donut, legenda;
+  if (j) {
+    const sel = state.ciclo === 'todos' ? j.ciclos : j.ciclos.filter(c => c.ano === +state.ciclo);
+    const tv = sel.reduce((s,c) => s + valorC(c), 0);
+    let acc = 0;
+    const fs = sel.map(c => {
+      const pct = valorC(c) / tv * 100; const seg = `${CORC[c.ano]} ${acc}% ${acc+pct}%`; acc += pct;
+      return {ano:c.ano, pct, seg, valor:valorC(c)};
+    });
+    donut = `conic-gradient(${fs.map(f => f.seg).join(', ')})`;
+    legenda = fs.map(f => `<div class="lrow"><i style="background:${CORC[f.ano]}"></i>
+      <span class="nm">Ciclo ${f.ano}</span><span class="vl">${f.pct.toFixed(1)}%</span>
+      <span class="money">${R$(f.valor)}</span></div>`).join('');
+  } else {
+    const pct = cards.pagos / cards.total * 100;
+    donut = `conic-gradient(var(--green) 0 ${pct}%, #9B5DE5 ${pct}% 100%)`;
+    legenda = `<div class="lrow"><i style="background:var(--green)"></i><span class="nm">Pagos</span><span class="vl">${pct.toFixed(1)}%</span></div>
+      <div class="lrow"><i style="background:#9B5DE5"></i><span class="nm">Aguardando Pagamento</span><span class="vl">${(100-pct).toFixed(1)}%</span></div>`;
+  }
+
+  return {
+    crumbs:[{txt:'Visualizar pagamentos'}],
+    html:`
+    <div class="page-head">
+      <div><h1>Visualizar Pagamentos</h1></div>
+      <div class="mark">PÉ·DE·MEIA</div>
+    </div>
+
+    <div class="tabs">
+      <button class="on">Ensino Médio Regular</button>
+      <button>Educação de Jovens e Adultos (EJA)</button>
+    </div>
+
+    ${filtros()}
+    ${windowBar()}
+
+    <div class="panel" style="overflow:hidden">
+      <div style="background:var(--blue); color:#fff; padding:11px 18px; font-weight:600; font-size:13.5px">▥ Visão geral</div>
+      <div style="display:grid; grid-template-columns:1.35fr 1fr">
+        <div>
+          <div style="background:#F0F5FC; color:var(--blue-dark); padding:9px 18px; font-size:12.5px; font-weight:600; border-bottom:1px solid var(--line-2)">Incentivos</div>
+          <div class="panel-rows">
+            <div class="cell wide" style="background:var(--surface)">
+              <div class="lbl">Total <span class="info">i</span></div>
+              <div style="display:flex; align-items:baseline; justify-content:space-between; gap:14px">
+                <div class="val num" style="font-size:26px; font-weight:700">${N(cards.total)}</div>
+                <div class="num" style="color:var(--ink-2)">${R$(cards.vTotal)}</div>
+              </div>
+            </div>
+            ${cellPag('Pagos', cards.pagos, cards.vPagos, 'var(--green)')}
+            ${cellPag('Depositados', 0, 0, '#2670E8')}
+            ${cellPag('Em Análise Mec', 0, 0, 'var(--blue-dark)')}
+            ${cellPag('Em Processamento', 0, 0, 'var(--ink-3)')}
+            ${cellPag('Aguardando Pagamento', cards.aguard, cards.vAguard, '#9B5DE5')}
+            ${cellPag('Bloqueados', cards.bloq, cards.bloq*200, 'var(--yellow)')}
+            ${cellPag('Rejeitados', 0, 0, 'var(--red)')}
+            ${cellPag('Suspensos', 0, 0, '#E9B949')}
+          </div>
+        </div>
+        <div style="border-left:1px solid var(--line-2)" ${j?'data-rev="gráfico por ciclo"':''}>
+          <div style="background:#F0F5FC; color:var(--blue-dark); padding:9px 18px; font-size:12.5px; font-weight:600; border-bottom:1px solid var(--line-2)">
+            ${j ? 'Valor liberado por ciclo' : 'Percentual de incentivos por situação'}
+          </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px; padding:30px 20px; flex-wrap:wrap">
+            <div class="donut" style="width:150px; height:150px; background:${donut}">
+              <div class="hole" style="width:92px; height:92px">
+                <b style="font-size:14px">${j ? curto(cards.vTotal) : N(cards.total)}</b>
+                <small>${j ? 'liberados' : 'incentivos'}</small>
+              </div>
+            </div>
+            <div class="legend">${legenda}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    ${j ? `<div class="section-title" data-rev="sem competência"><span class="ico">▤</span> Parcelas desta janela, por ciclo</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:110px">Ciclo</th><th>Incentivo</th><th class="r">Parcelas</th><th class="r">Valor</th></tr></thead>
+        <tbody>
+          ${j.ciclos.filter(c => anos.includes(c.ano)).flatMap(c => c.parcelas.map(p => `<tr>
+            <td>${pillCiclo(c.ano)}</td>
+            <td><div class="prim">${incDe(p.cod)}</div>${p.faixa ? `<div class="sec">nove parcelas do ciclo ${c.ano}</div>` : ''}</td>
+            <td class="r num">${N(p.qtd)}</td>
+            <td class="r num">${R$(p.valor)}</td>
+          </tr>`)).join('')}
+        </tbody>
+      </table>
+    </div>` : ''}
+
+    <div class="export" style="margin-top:26px">
+      <h3>Exportar Dados de Pagamentos</h3>
+      <div class="box">
+        <div><b>Planilha completa</b>
+        <p>Faça a solicitação do download da planilha completa para visualizar os pagamentos realizados aos estudantes da rede${j?` <b>na janela de ${j.rotulo}</b>`:''}.</p></div>
+        <button class="btn solid" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações.')">⬓ Solicitar Planilha</button>
+      </div>
+      <p style="margin:14px 0 0"><a href="#/pagamento">↺ Visualizar Solicitações</a></p>
+    </div>
+
+    ${searchbar('Pesquisar por Nome, CPF, NIS ou Matrícula', pagina.length, totalDecl)}
+    <div class="filters" style="margin-bottom:14px">
+      <div class="field"><label>Filtrar por</label><select disabled><option>Bahia</option></select></div>
+      ${selMun(ALUNOS)}
+      <div class="field"><label for="f-inc">Tipo de Incentivo</label>
+        <select id="f-inc" onchange="state.incF=this.value; render()">
+          <option value="">Todos</option>
+          ${['Matrícula','Frequência','Conclusão','Enem'].map(s => `<option ${state.incF===s?'selected':''}>${s}</option>`).join('')}
+        </select></div>
+      <div class="field"><label for="f-sitp">Situação</label>
+        <select id="f-sitp" onchange="state.sitPagF=this.value; render()">
+          <option value="">Todas</option>
+          ${['Pago','Aguardando Pagamento'].map(s => `<option ${state.sitPagF===s?'selected':''}>${s}</option>`).join('')}
+        </select></div>
+    </div>
+
+    <div class="tbl-wrap">
+      ${pagina.length === 0 ? `<div class="empty"><b>Nenhum pagamento encontrado</b>
+        Revise a busca ou os filtros aplicados.</div>` : `
+      <table>
+        <thead><tr>
+          <th>Estudante</th>
+          <th>Unidade de Ensino e código INEP</th>
+          <th>Incentivo</th>
+          <th>Ciclo</th>
+          <th>Processado em</th>
+          ${!state.janela?'<th data-new="coluna nova">Janela</th>':''}
+          <th>Situação do Incentivo</th>
+          <th></th>
+        </tr></thead>
+        <tbody>
+          ${pagina.map(p => {
+            const a = aluno(p.mat);
+            return `<tr>
+              <td><div class="prim">${a.nome}</div><div class="sec num">CPF: ${a.cpf}</div></td>
+              <td><div style="font-size:12.5px">${a.escola}</div><div class="sec">Código INEP: ${a.inep}</div></td>
+              <td><div class="prim">${incDe(p.cod)}</div></td>
+              <td>${pillCiclo(p.ciclo)}</td>
+              <td class="num">${p.proc}</td>
+              ${!state.janela?`<td class="num"><a href="#/janela/${p.jan}">${jan(p.jan).rotulo}</a></td>`:''}
+              <td><span class="pill ${p.sit==='Pago'?'ok':'wait'}">${p.sit}</span>${p.dt?`<div class="sec">Data do Pagamento: ${p.dt}</div>`:''}</td>
+              <td class="r"><button class="eye" title="Ver detalhes" onclick="abrirDetalhe('${p.mat}')">👁</button></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>`}
+    </div>`
+  };
+}
+function cellPag(lbl, qtd, valor, cor){
+  return `<div class="cell" style="border-top:3px solid ${cor}">
+    <div class="lbl">${lbl} <span class="info">i</span></div>
+    <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px">
+      <div class="val num">${N(qtd)}</div>
+      <div class="num" style="color:var(--ink-2); font-size:12.5px">${R$(valor)}</div>
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   MODAL DE DETALHE DA MATRÍCULA
+   ══════════════════════════════════════════════════════════════════ */
+function abrirDetalhe(mat){ state.modal = mat; renderModal(); }
+function fecharDetalhe(){ state.modal = null; renderModal(); }
+
+function renderModal(){
+  const box = document.getElementById('modal');
+  if (!state.modal) { box.innerHTML = ''; return; }
+  const a = aluno(state.modal);
+  const ps = PARCELAS.filter(p => p.mat === a.mat);
+  const pagas = ps.filter(p => p.sit === 'Pago');
+  const valor = pagas.reduce((s,p) => s + MARCO[+String(p.cod).slice(4)].valor, 0);
+
+  box.innerHTML = `
+  <div class="overlay" onclick="if(event.target===this) fecharDetalhe()">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Detalhes da matrícula">
+      <div class="modal-h">
+        <div>
+          <h3>${a.nome}</h3>
+          <div class="sec num">Matrícula SGP ${a.mat} · CPF ${a.cpf}${a.nis?` · NIS ${a.nis}`:''}</div>
+        </div>
+        <button title="Fechar" onclick="fecharDetalhe()">×</button>
+      </div>
+      <div class="modal-b">
+        <h4>Identificação</h4>
+        <div class="idgrid">
+          <div><div class="k">Unidade de Ensino</div><div class="v" style="font-size:12.5px; font-variant-numeric:normal">${a.escola}</div></div>
+          <div><div class="k">Código INEP</div><div class="v">${a.inep}</div></div>
+          <div><div class="k">Município</div><div class="v" style="font-variant-numeric:normal">${a.mun}</div></div>
+          <div><div class="k">Frequência acumulada</div><div class="v" style="color:${a.freq.acum>=80?'var(--green)':'var(--red)'}">${pct(a.freq.acum)}</div></div>
+        </div>
+
+        <h4>Situação por ciclo</h4>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Ciclo</th><th>Situação no Pé-de-Meia</th><th>Situação anterior</th><th>Alterada na janela</th></tr></thead>
+            <tbody>
+              ${Object.keys(a.sit).sort((x,y)=>y-x).map(ano => {
+                const m = a.alt.find(x => x.ciclo === +ano);
+                return `<tr>
+                  <td>${pillCiclo(+ano)}</td>
+                  <td><span class="pill ${a.sit[ano]==='Elegível'?'ok':'no'}">${a.sit[ano]}</span></td>
+                  <td>${m?`<span class="pill ${m.de==='Não elegível'?'no':'wait'}">${m.de}</span>`:'<span class="sec">sem alteração</span>'}</td>
+                  <td>${m?`<a href="#/janela/${m.jan}" onclick="fecharDetalhe()">${jan(m.jan).rotulo}</a>`:'–'}</td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Pagamentos — ${N(ps.length)} ${ps.length===1?'parcela':'parcelas'}, ${R$(valor)} ${pagas.length===ps.length?'pagos':'já pagos'}</h4>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Ciclo</th><th>Incentivo</th><th>Janela</th><th>Situação</th></tr></thead>
+            <tbody>
+              ${ps.length === 0 ? '<tr><td colspan="4" class="sec">Nenhuma parcela liberada.</td></tr>' :
+                ps.map(p => `<tr>
+                  <td>${pillCiclo(p.ciclo)}</td>
+                  <td>${incDe(p.cod)}</td>
+                  <td><a href="#/janela/${p.jan}" onclick="fecharDetalhe()">${jan(p.jan).rotulo}</a></td>
+                  <td><span class="pill ${p.sit==='Pago'?'ok':'wait'}">${p.sit}</span>${p.dt?`<div class="sec">em ${p.dt}</div>`:''}</td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   RENDER
+   ══════════════════════════════════════════════════════════════════ */
+function render(){
+  const telas = {
+    inicio: telaInicio,
+    elegibilidade: telaElegibilidade,
+    frequencia: telaFrequencia,
+    pagamento: telaPagamento,
+    processamentos: telaProcessamentos,
+    janela: telaJanela
+  };
+  const t = (telas[state.rota] || telaInicio)();
+
+  document.getElementById('nav').innerHTML = navHTML();
+  document.getElementById('crumbs').innerHTML = crumbsHTML(t.crumbs);
+  document.getElementById('app').innerHTML = t.html + `
+    <div class="foot">
+      <span>Protótipo de proposta — Janelas de Processamento</span><span>·</span>
+      <span>Dados ilustrativos, ancorados nas telas atuais do Portal do Usuário</span><span>·</span>
+      <span>Revisão 3 — outubro de 2026</span>
+    </div>`;
+  renderModal();
+}
+
+lerHash();
+</script>
