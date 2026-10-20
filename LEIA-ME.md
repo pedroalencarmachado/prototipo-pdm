@@ -205,6 +205,20 @@ Select-String -Path "$env:USERPROFILE\Downloads\prototipo-cloudflare\index.html"
 npx --yes wrangler pages deploy "$env:USERPROFILE\Downloads\prototipo-cloudflare" --project-name=prototipo-portalpdm
 ```
 
+**No Mac** (Terminal/zsh; os comandos acima são só do PowerShell do Windows):
+
+```bash
+# 1) Descompactar (o Safari às vezes já descompacta sozinho; se a pasta já existir, pule)
+unzip -o ~/Downloads/prototipo-cloudflare.zip -d ~/Downloads/prototipo-cloudflare
+
+# 2) Conferir: tem que listar index.html, _headers e _redirects, e mostrar a revisão esperada
+ls ~/Downloads/prototipo-cloudflare
+grep -o "Revis.o [0-9]*" ~/Downloads/prototipo-cloudflare/index.html | head -1
+
+# 3) Publicar
+npx --yes wrangler pages deploy ~/Downloads/prototipo-cloudflare --project-name=prototipo-portalpdm
+```
+
 O zip é o `prototipo-cloudflare.zip` que os scripts `gerar-pacote` montam a partir da pasta `deploy/`
 (ele não é versionado; peça ao Claude para gerar e enviar, ou rode o `gerar-pacote`). Para uma revisão
 nova, também basta trocar só o `index.html` da pasta pelo `deploy/index.html` deste repositório: o
