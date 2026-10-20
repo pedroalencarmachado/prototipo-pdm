@@ -146,6 +146,7 @@ td:first-child{font-weight:600}
 .cen-b .gab{background:var(--green-soft)}
 .cen-b .gab .k{color:var(--green)}
 .cen-b .gab .v b{color:var(--green)}
+.cen-b .gab .v .apoio{color:var(--ink-2); font-weight:400}
 .perguntar{padding:12px 20px; border-top:1px solid var(--line-2); background:var(--util-soft); font-size:14px; color:var(--ink-2)}
 .perguntar b{color:var(--util)}
 .perguntar .q{display:block; margin-top:5px; color:var(--ink); font-weight:600}
@@ -186,7 +187,7 @@ td:first-child{font-weight:600}
   .cen, .callout, .tbl, .cen-b, .cen-h, .bloco-h, .conversa > li, .dois, .perguntar { break-inside: avoid; page-break-inside: avoid; }
   h2, h3, .bloco-d { break-after: avoid; page-break-after: avoid; }
 
-  /* cada seção do manual e cada bloco de tarefas abre uma página — e sem margem sobrando no topo dela */
+  /* a seção 1 do manual e cada bloco de tarefas abrem uma página — e sem margem sobrando no topo dela */
   .secao { break-before: page; page-break-before: always; }
   .bloco-h {
     break-before: page; page-break-before: always;
@@ -240,13 +241,13 @@ td:first-child{font-weight:600}
   <div class="eyebrow">Teste de usabilidade · Janelas de Processamento</div>
   <h1>Entrevistas com as redes</h1>
   <p class="lede">
-    Roteiro da segunda rodada, com o manual de conduta do entrevistador. Quinze tarefas para aplicar no protótipo,
+    Roteiro da primeira rodada, com o manual de conduta do entrevistador. Quinze tarefas para aplicar no protótipo,
     da leitura mais geral até a busca por um CPF específico, e o que acontece em volta delas: a abertura da conversa,
     como reagir às perguntas do operador e o encerramento.
   </p>
   <div class="meta">
     <div><div class="k">Duração estimada</div><div class="v">1 hora por participante</div></div>
-    <div><div class="k">Perfil</div><div class="v">Operadores de rede estadual</div></div>
+    <div><div class="k">Perfil</div><div class="v">Operadores de redes federais, estaduais e municipais</div></div>
     <div><div class="k">Protótipo</div><div class="v"><span class="va"><a href="https://prototipo-portalpdm.pages.dev/?roteiro=a">prototipo-portalpdm.pages.dev/?roteiro=a ↗</a></span><span class="vb"><a href="https://prototipo-portalpdm.pages.dev/?roteiro=b">prototipo-portalpdm.pages.dev/?roteiro=b ↗</a></span></div></div>
     <div><div class="k">Versão do termo</div><div class="v v-versao"><span class="va">A · “processamento”</span><span class="vb">B · “janela de processamento”</span></div></div>
   </div>
@@ -314,14 +315,14 @@ td:first-child{font-weight:600}
         <tr>
           <td>Utilidade</td>
           <td>
-            Nota de 1 a 5 e o motivo, em uma frase. Só nas tarefas marcadas com <span class="chip util">utilidade</span>:
-            cada uma tem a sua pergunta, impressa no pé do cartão.
+            A resposta livre e, depois dela, a nota de 1 a 5 com o motivo, em uma frase. Só nas tarefas marcadas com
+            <span class="chip util">utilidade</span>: cada uma tem a sua pergunta, impressa no pé do cartão.
           </td>
         </tr>
         <tr><td>Tempo</td><td>Do fim da leitura da tarefa até a resposta em voz alta. Não avise que está cronometrando.</td></tr>
         <tr><td>Caminho</td><td>Anote a sequência de cliques só quando divergir do caminho esperado. É o que revela o modelo mental da pessoa.</td></tr>
         <tr><td>Primeiro clique</td><td>Onde a pessoa clicou primeiro. Acerto no primeiro clique é o melhor preditor de sucesso na tarefa.</td></tr>
-        <tr><td>Vocabulário</td><td>Palavra que a pessoa usa para o conceito. Se ela nunca disser “janela”, isso é resultado: anote o que ela diz no lugar.</td></tr>
+        <tr><td>Vocabulário</td><td>Palavra que a pessoa usa para o conceito. Se ela nunca disser <span class="termo"><span class="va">“processamento”</span><span class="vb">“janela”</span></span>, isso é resultado: anote o que ela diz no lugar.</td></tr>
       </tbody>
     </table>
   </div>
@@ -332,10 +333,18 @@ td:first-child{font-weight:600}
 
   <div class="callout util">
     <div class="h">As perguntas de utilidade</div>
+    <p>
+      Cada pergunta fala da informação que a pessoa acabou de encontrar naquela tarefa. Faça sempre em dois passos, logo
+      após a resposta da tarefa e antes de passar para a próxima:
+    </p>
+    <ol style="margin-bottom:10px">
+      <li><strong>Primeiro, a pergunta aberta.</strong> Leia como está no cartão, no formato <strong>“O quanto você
+        considera útil…?”</strong>, e deixe a pessoa responder livremente, sem sugerir resposta.</li>
+      <li><strong>Só depois, a nota.</strong> Quando ela terminar, pergunte: <strong>“De 1 a 5, que nota você dá?”</strong>
+        Anote a nota e o motivo.</li>
+    </ol>
     <p style="margin-bottom:0">
-      Cada pergunta fala da informação que a pessoa acabou de encontrar naquela tarefa. Leia como está no cartão e, em
-      seguida, peça a nota: <strong>“De 1 a 5, que nota você dá?”</strong> Faça logo após a resposta, antes de passar para
-      a próxima. Como cada tarefa tem a sua pergunta, compare a nota de uma tarefa entre os participantes, não entre tarefas.
+      Como cada tarefa tem a sua pergunta, compare a nota de uma tarefa entre os participantes, não entre tarefas.
     </p>
   </div>
 </section>
@@ -361,6 +370,11 @@ td:first-child{font-weight:600}
         <tr><td>Não há certo ou errado</td><td>Não diga se ele acertou ou errou, nem com palavras (“isso!”, “quase”) nem com expressão ou tom de voz.</td></tr>
         <tr><td>Responder dúvidas de conceito</td><td>Se ele perguntar o que significa algo na tela, responda de forma breve. Não corte dizendo que estamos focando nas tarefas do teste, por exemplo. Só anote a dúvida, porque ela também é um dado do teste.</td></tr>
         <tr><td>Repetir sempre que pedirem</td><td>O operador pode pedir para repetir a tarefa quantas vezes precisar. Repita com as mesmas palavras.</td></tr>
+        <tr><td>Mais de um operador na mesma rede</td><td>
+          Um operador compartilha a tela e é a <strong>referência para as métricas</strong> (conclusão, tempo, caminho, primeiro
+          clique e nota de utilidade). Os outros podem comentar livremente: acolha e anote o que disserem, sem misturar com
+          as métricas. Combine, antes da primeira tarefa, quem vai compartilhar a tela (seção 2.4).
+        </td></tr>
         <tr><td>Fidelidade à versão do roteiro da rede</td><td>Use, do início ao fim da sessão, o termo e o nome de aba definidos no roteiro para aquela rede (versão A ou B).</td></tr>
         <tr><td>Pausa entre tarefas</td><td>
           Dê alguns segundos entre uma tarefa e outra para que a equipe de métricas faça o registro. Para preencher a pausa,
@@ -378,14 +392,22 @@ td:first-child{font-weight:600}
     <p style="margin-bottom:0">
       No questionário, algumas respostas dos operadores misturaram o módulo do Pé-de-Meia com o SGP. Se o operador citar
       uma tela ou uma função que pode ser do SGP, pergunte de forma neutra: <strong>“Isso que você comentou é em qual
-      módulo?”</strong> Anote a resposta. Explique a diferença entre módulo do SGP e Pé-de-Meia e pergunte se essa
-      diferença era clara para ele anteriormente.
+      módulo?”</strong> Anote a resposta. Em seguida, leia a explicação padrão abaixo e pergunte se essa diferença era
+      clara para ele anteriormente.
     </p>
+  </div>
+  <div class="callout fala">
+    <div class="h">Explicação padrão sobre o SGP e o Portal do Pé-de-Meia (leia em voz alta quando o operador confundir os dois)</div>
+    <p>“Vale a gente separar duas coisas, porque são sistemas diferentes. O SGP é um sistema à parte. O que estamos
+    testando aqui é o Portal do Pé-de-Meia, onde se consulta a elegibilidade, a frequência e o pagamento dos estudantes do
+    programa. Cada um tem as suas telas e as suas funções.</p>
+    <p>Nesta conversa eu vou falar só do Portal do Pé-de-Meia, que é o que você está vendo na tela agora. Antes de hoje,
+    essa diferença entre os dois era clara pra você?”</p>
   </div>
 </section>
 
 <!-- ─────────────── 2. abertura ─────────────── -->
-<section class="secao">
+<section>
   <h2><span class="n">2.</span> Abertura</h2>
   <p class="dek">
     A abertura serve para criar conexão com o operador antes das tarefas. Ela tem quatro momentos: apresentação,
@@ -434,13 +456,27 @@ td:first-child{font-weight:600}
     o que significa alguma coisa na tela, pode perguntar à vontade. Você também pode pedir para passar para a próxima tarefa
     sempre que quiser.</p>
     <p>Por fim, vou te pedir pra pensar em voz alta: falar o que está vendo, o que está procurando e o que acha estranho. Os
-    números que você vai ver são fictícios, e nada do que você fizer altera qualquer sistema.</p>
+    números que você vai ver são fictícios, e nada do que você fizer altera qualquer sistema. O protótipo foi montado
+    com a rede estadual da Bahia, mas os dados também são fictícios. Na prática, cada operador continuará vendo apenas
+    os dados da sua rede.</p>
+    <p><em>(Só se a entrevista for com a rede da Bahia:)</em> “Como a sua rede é a da Bahia, reforço: os dados que você vai
+    ver não são os da sua rede.”</p>
     <p>Alguma dúvida antes de começar?”</p>
   </div>
 
-  <h3><span class="n">2.4</span>Navegação livre (3 minutos)</h3>
+  <h3><span class="n">2.4</span>Compartilhamento de tela e navegação livre (3 minutos)</h3>
+  <div class="callout fala">
+    <div class="h">Leia em voz alta (adapte ao seu jeito de falar)</div>
+    <p>“Pra gente acompanhar melhor a sua navegação e conversar com você durante as tarefas, você pode compartilhar a sua
+    tela? Vou te mandar agora o link do protótipo.”</p>
+  </div>
   <p>
-    Antes da primeira tarefa, convide o operador a explorar o protótipo por conta própria, entrando onde quiser e falando
+    Neste momento, envie o link <strong>já com a versão da rede</strong>: <span class="termo"><span class="va"><code>prototipo-portalpdm.pages.dev/?roteiro=a</code></span><span class="vb"><code>prototipo-portalpdm.pages.dev/?roteiro=b</code></span></span>.
+    Confira, pela tela compartilhada, que o menu mostra o nome certo (<span class="termo"><span class="va">Processamentos</span><span class="vb">Janelas de Processamento</span></span>).
+    Se houver mais de um operador na rede, peça que só um compartilhe a tela (seção 1).
+  </p>
+  <p>
+    Com a tela compartilhada, convide o operador a explorar o protótipo por conta própria, entrando onde quiser e falando
     em voz alta o que vê, o que imagina que cada coisa faz e o que acha estranho.
   </p>
   <ul>
@@ -460,8 +496,10 @@ td:first-child{font-weight:600}
     <li>Se pedirem, repita a tarefa com as mesmas palavras, quantas vezes for preciso.</li>
     <li>Quando o operador travar, não ensine. Pergunte “O que você esperava encontrar aqui?” ou “Onde você procuraria?”.</li>
     <li>Se ele quiser desistir, aceite com naturalidade, agradeça e siga para a próxima tarefa.</li>
-    <li>Faça a pergunta de utilidade da tarefa, quando houver, logo após a resposta e antes de seguir. Cada pergunta é
-      específica da informação encontrada naquela tarefa e deve ser lida como está no roteiro.</li>
+    <li>Faça a pergunta de utilidade da tarefa, quando houver, logo após a resposta e antes de seguir, em dois passos:
+      primeiro a pergunta aberta (“O quanto você considera útil…?”), deixando a resposta livre, e só depois a nota (“De 1 a 5,
+      que nota você dá?”). Cada pergunta é específica da informação encontrada naquela tarefa e deve ser lida como está no
+      roteiro.</li>
   </ol>
 
   <h3><span class="n">3.2</span>Quando ele perguntar se acertou</h3>
@@ -515,6 +553,16 @@ td:first-child{font-weight:600}
       </ul>
     </div>
   </div>
+
+  <div class="callout">
+    <div class="h">Como ler os cartões das tarefas</div>
+    <p>
+      Em cada tarefa, a <strong>resposta esperada</strong> é o que aparece em
+      <b style="color:var(--green)">verde e negrito</b> no quadro verde. Todo o restante (números de apoio, observações e o
+      que registrar quando a pessoa responde outra coisa) é <span class="apoio" style="color:var(--ink-2)">informação de
+      apoio</span>, em texto comum, e serve para conferir e anotar, não para ser o critério de acerto.
+    </p>
+  </div>
 </section>
 
 <!-- ─────────────── BLOCO A ─────────────── -->
@@ -538,7 +586,7 @@ td:first-child{font-weight:600}
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v">Rolar a tela inicial até o bloco <b><span class="termo"><span class="va">Último processamento</span><span class="vb">Última janela de processamento</span></span></b>.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v"><b>26/08/2026</b>, concluído às 07:48.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>26/08/2026</b><span class="apoio">, concluído às 07:48.</span></div></div>
   </div>
 </div>
 
@@ -552,7 +600,7 @@ td:first-child{font-weight:600}
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v">Ler no próprio cartão da tela inicial, sem abrir <span class="termo"><span class="va">o processamento</span><span class="vb">a janela de processamento</span></span>.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">1.319.109</b> matrículas — o mesmo total de <b>Matrículas na Rede</b> sem filtro, já que esta janela processou os três ciclos.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">1.319.109</b> <span class="apoio">matrículas — o mesmo total de Matrículas na Rede sem filtro, já que <span class="termo"><span class="va">esse processamento</span><span class="vb">essa janela de processamento</span></span> atingiu os três ciclos.</span></div></div>
   </div>
 </div>
 
@@ -560,20 +608,20 @@ td:first-child{font-weight:600}
   <div class="cen-h">
     <span class="cen-n">3</span>
     <div class="cen-t">
-      <div class="tarefa">“<span class="termo"><span class="va">Quantos processamentos foram realizados</span><span class="vb">Quantas janelas de processamento foram realizadas</span></span> neste ciclo?”</div>
+      <div class="tarefa">“<span class="termo"><span class="va">Quantos processamentos foram realizados</span><span class="vb">Quantas janelas de processamento foram realizadas</span></span> no ciclo de 2026?”</div>
       <div class="obj">Descoberta do menu · nomenclatura</div>
     </div>
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v">Menu <b><span class="termo"><span class="va">Processamentos</span><span class="vb">Janelas de Processamento</span></span></b>, ou o botão “<span class="termo"><span class="va">Ver todos os processamentos</span><span class="vb">Ver todas as janelas de processamento</span></span>”.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v"><b>6</b> no ciclo 2026, de 25/03/2026 a 26/08/2026.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>6</b> <span class="apoio">no ciclo 2026, de 25/03/2026 a 26/08/2026.</span></div></div>
   </div>
 </div>
 
 <!-- ─────────────── BLOCO B ─────────────── -->
 <div class="bloco-h">
   <span class="letra">B</span>
-  <h2>Leitura de uma janela</h2>
+  <h2>Leitura de <span class="termo"><span class="va">um processamento</span><span class="vb">uma janela de processamento</span></span></h2>
   <span class="qt">tarefas 4 a 7 · versão <span class="va">A</span><span class="vb">B</span></span>
 </div>
 <p class="bloco-d">
@@ -592,7 +640,7 @@ td:first-child{font-weight:600}
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v"><span class="termo"><span class="va">Processamentos</span><span class="vb">Janelas de Processamento</span></span> → <span class="termo"><span class="va">processamento de 26/08/2026</span><span class="vb">janela de processamento de 26/08/2026</span></span> → total de parcelas no cabeçalho da tabela ou no cartão de Pagamento.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">227.942</b> parcelas. Se responder <em>R$ 50.819.600,00</em>, registre como <b>não concluiu</b>: leu valor no lugar de quantidade.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">227.942</b> parcelas. <span class="apoio">Se responder <em>R$ 50.819.600,00</em>, registre como não concluiu: leu valor no lugar de quantidade.</span></div></div>
   </div>
 </div>
 
@@ -601,7 +649,7 @@ td:first-child{font-weight:600}
     <span class="cen-n">5</span>
     <div class="cen-t">
       <div class="tarefa">“Quais ciclos foram afetados <span class="termo"><span class="va">nesse processamento</span><span class="vb">nessa janela de processamento</span></span> de agosto?”</div>
-      <div class="obj">O conceito que a janela existe para revelar <span class="chip util">utilidade</span></div>
+      <div class="obj">O conceito que <span class="termo"><span class="va">o processamento</span><span class="vb">a janela de processamento</span></span> existe para revelar <span class="chip util">utilidade</span></div>
     </div>
   </div>
   <div class="cen-b">
@@ -618,8 +666,8 @@ td:first-child{font-weight:600}
     </span>
   </div>
   <div class="perguntar"><b>Utilidade:</b>
-    <span class="q">“Você considera útil saber quais ciclos foram afetados em cada <span class="termo"><span class="va">processamento</span><span class="vb">janela de processamento</span></span>?”</span>
-    <span class="q nota">Em seguida: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
+    <span class="q">“O quanto você considera útil saber quais ciclos foram afetados em cada <span class="termo"><span class="va">processamento</span><span class="vb">janela de processamento</span></span>?”</span>
+    <span class="q nota">Aguarde a resposta e só depois: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
   </div>
 </div>
 
@@ -633,7 +681,7 @@ td:first-child{font-weight:600}
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v">Linha do ciclo 2024 em “O que foi processado, por ciclo”, coluna <b>Valor liberado</b>.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v"><b>R$ 1.879.800,00</b>. Se responder <em>9.399</em>, registre como <b>não concluiu</b>: leu quantidade no lugar de valor.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>R$ 1.879.800,00</b>. <span class="apoio">Se responder <em>9.399</em>, registre como não concluiu: leu quantidade no lugar de valor.</span></div></div>
   </div>
 </div>
 
@@ -647,7 +695,7 @@ td:first-child{font-weight:600}
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v">Coluna “Situação de elegibilidade alterada”, linha do ciclo 2024.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">3.417</b> — de <b class="num">431.208</b> processadas. Observe se a pessoa confunde as duas colunas.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">3.417</b> <span class="apoio">— de 431.208 processadas. Observe se a pessoa confunde as duas colunas.</span></div></div>
   </div>
 </div>
 
@@ -658,7 +706,7 @@ td:first-child{font-weight:600}
   <span class="qt">tarefas 8 a 11 · versão <span class="va">A</span><span class="vb">B</span></span>
 </div>
 <p class="bloco-d">
-  Aqui se testa a mecânica de filtro pai e filho: janela primeiro, ciclo dentro dela. É a decisão de desenho
+  Aqui se testa a mecânica de filtro pai e filho: <span class="termo"><span class="va">processamento primeiro, ciclo dentro dele</span><span class="vb">janela de processamento primeiro, ciclo dentro dela</span></span>. É a decisão de desenho
   mais arriscada da revisão. Se o operador não entender que um filtro restringe o outro, precisamos repensá-la.
 </p>
 
@@ -672,7 +720,7 @@ td:first-child{font-weight:600}
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v"><span class="termo"><span class="va">Processamentos</span><span class="vb">Janelas de Processamento</span></span> → aba <b><span class="termo"><span class="va">Comparar processamentos</span><span class="vb">Comparar janelas de processamento</span></span></b> → <span class="termo"><span class="va">Processamento A = 24/07, Processamento B = 26/08</span><span class="vb">Janela de processamento A = 24/07, Janela de processamento B = 26/08</span></span>. Também é válido abrir <span class="termo"><span class="va">os dois processamentos</span><span class="vb">as duas janelas de processamento</span></span> em sequência.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v"><b>Agosto</b>, com <b>R$ 7.810.400,00</b> a mais que julho (R$ 43.009.200,00). A tela só permite comparar uma janela com outra posterior a ela.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>Agosto</b><span class="apoio">, com R$ 7.810.400,00 a mais que julho (R$ 43.009.200,00). A tela só permite comparar <span class="termo"><span class="va">um processamento com outro posterior</span><span class="vb">uma janela de processamento com outra posterior</span></span>.</span></div></div>
   </div>
 </div>
 
@@ -680,17 +728,17 @@ td:first-child{font-weight:600}
   <div class="cen-h">
     <span class="cen-n">9</span>
     <div class="cen-t">
-      <div class="tarefa">“Descubra em <span class="termo"><span class="va">quantos processamentos</span><span class="vb">quantas janelas de processamento</span></span> deste ciclo o ciclo de 2024 apareceu.”</div>
+      <div class="tarefa">“Descubra em <span class="termo"><span class="va">quantos processamentos</span><span class="vb">quantas janelas de processamento</span></span> do ciclo de 2026 o ciclo de 2024 foi afetado.”</div>
       <div class="obj">Filtro por ciclo afetado <span class="chip dificil">difícil</span> <span class="chip util">utilidade</span></div>
     </div>
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v"><span class="termo"><span class="va">Processamentos</span><span class="vb">Janelas de Processamento</span></span> → filtro <b>Ciclo afetado = 2024</b>. Ou, em qualquer listagem, escolher o ciclo 2024 e abrir o filtro <span class="termo"><span class="va">de processamento</span><span class="vb">de janela de processamento</span></span>.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v"><b>Um só</b> — a janela de 26/08/2026.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>Um só</b> <span class="apoio">— <span class="termo"><span class="va">o processamento</span><span class="vb">a janela de processamento</span></span> de 26/08/2026.</span></div></div>
   </div>
   <div class="perguntar"><b>Utilidade:</b>
-    <span class="q">“Você considera útil ver em <span class="termo"><span class="va">quantos processamentos</span><span class="vb">quantas janelas de processamento</span></span> o ciclo de 2024 foi processado?”</span>
-    <span class="q nota">Em seguida: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
+    <span class="q">“O quanto você considera útil ver em <span class="termo"><span class="va">quantos processamentos</span><span class="vb">quantas janelas de processamento</span></span> o ciclo de 2024 foi afetado?”</span>
+    <span class="q nota">Aguarde a resposta e só depois: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
   </div>
 </div>
 
@@ -704,11 +752,11 @@ td:first-child{font-weight:600}
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v">Pagamento → aba <b>Ensino Médio Regular</b> → <span class="termo"><span class="va">Processamento</span><span class="vb">Janela de processamento</span></span> = 26/08/2026 → Ciclo = 2025.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v"><b>Conclusão</b> · <b class="num">6.539</b> parcelas · R$ 6.539.000,00.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>Conclusão</b> <span class="apoio">· 6.539 parcelas · R$ 6.539.000,00.</span></div></div>
   </div>
   <div class="perguntar"><b>Utilidade:</b>
-    <span class="q">“Você considera útil ver, dentro de <span class="termo"><span class="va">um processamento</span><span class="vb">uma janela de processamento</span></span>, que tipo de incentivo foi pago para cada ciclo?”</span>
-    <span class="q nota">Em seguida: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
+    <span class="q">“O quanto você considera útil ver, dentro de <span class="termo"><span class="va">um processamento</span><span class="vb">uma janela de processamento</span></span>, que tipo de incentivo foi pago para cada ciclo?”</span>
+    <span class="q nota">Aguarde a resposta e só depois: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
   </div>
 </div>
 
@@ -717,12 +765,12 @@ td:first-child{font-weight:600}
     <span class="cen-n">11</span>
     <div class="cen-t">
       <div class="tarefa">“Ainda <span class="termo"><span class="va">no processamento</span><span class="vb">na janela de processamento</span></span> de agosto, encontre os estudantes que possuem pagamento com situação ‘Aguardando Pagamento’.”</div>
-      <div class="obj">Filtro de situação dentro do recorte da janela</div>
+      <div class="obj">Filtro de situação dentro do recorte <span class="termo"><span class="va">do processamento</span><span class="vb">da janela de processamento</span></span></div>
     </div>
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v">Pagamento → <span class="termo"><span class="va">Processamento</span><span class="vb">Janela de processamento</span></span> = 26/08/2026 → Situação = <b>Aguardando Pagamento</b>.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">56.074</b> pagamentos aguardando — o mesmo número do gráfico. A lista mostra a primeira página e informa o total ao lado.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v">Chegar à lista com <b><span class="termo"><span class="va">Processamento</span><span class="vb">Janela de processamento</span></span> = 26/08/2026</b> e <b>Situação = Aguardando Pagamento</b>. <span class="apoio">Total: 56.074.</span></div></div>
   </div>
 </div>
 
@@ -733,8 +781,8 @@ td:first-child{font-weight:600}
   <span class="qt">tarefas 12 a 15 · versão <span class="va">A</span><span class="vb">B</span></span>
 </div>
 <p class="bloco-d">
-  O trabalho do dia a dia da rede: alguém liga perguntando do próprio benefício. Estas quatro medem se a janela
-  atrapalha a busca que o operador já faz hoje, e se ela ajuda a explicar ao estudante o que mudou no caso dele.
+  O trabalho do dia a dia da rede: alguém liga perguntando do próprio benefício. Estas quatro medem se <span class="termo"><span class="va">o processamento</span><span class="vb">a janela de processamento</span></span>
+  atrapalha a busca que o operador já faz hoje, e se ele ajuda a explicar ao estudante o que mudou no caso dele.
   <strong>Entregue os números impressos ou por mensagem</strong>, não os dite.
 </p>
 <div class="callout" style="margin-top:0">
@@ -757,11 +805,11 @@ td:first-child{font-weight:600}
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v">Elegibilidade → aba Ensino Médio Regular → campo de busca.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v"><b>Estudante 1000068739</b> — <b>Elegível</b>, matrícula 30279793, Salvador.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><span class="apoio">Estudante 1000068739 —</span> <b>Elegível</b><span class="apoio">, matrícula 30279793, Salvador.</span></div></div>
   </div>
   <div class="perguntar"><b>Perguntar ao final, nesta ordem:</b>
-    <span class="q">“Você considera útil encontrar a elegibilidade de um estudante buscando pelo NIS?”</span>
-    <span class="q nota">Em seguida: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
+    <span class="q">“O quanto você considera útil encontrar a elegibilidade de um estudante buscando pelo NIS?”</span>
+    <span class="q nota">Aguarde a resposta e só depois: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
     <span class="q">“Você utiliza o campo NIS para encontrar estudante?”</span>
   </div>
 </div>
@@ -771,20 +819,20 @@ td:first-child{font-weight:600}
     <span class="cen-n">13</span>
     <div class="cen-t">
       <div class="tarefa">“Na tela de Frequência, encontre os estudantes com frequência acumulada abaixo de 80% em todos os ciclos.”</div>
-      <div class="obj">Filtro de faixa · percepção do recorte de ciclo e de janela</div>
+      <div class="obj">Filtro de faixa · percepção do recorte de ciclo e de <span class="termo"><span class="va">processamento</span><span class="vb">janela de processamento</span></span></div>
     </div>
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v">
       Frequência → <b>Ciclo = Todos os ciclos</b> e <b><span class="termo"><span class="va">Processamento = Todos os processamentos</span><span class="vb">Janela de processamento = Todas as janelas de processamento</span></span></b> → filtro
       <b>Frequência acumulada</b> = Abaixo de 80%.
-      A tela guarda os filtros e a busca das tarefas anteriores: quem seguiu as tarefas 10 a 12 chega aqui com a janela
+      A tela guarda os filtros e a busca das tarefas anteriores: quem seguiu as tarefas 10 a 12 chega aqui com <span class="termo"><span class="va">o processamento</span><span class="vb">a janela de processamento</span></span>
       de 26/08/2026, o ciclo 2025 e o NIS da tarefa 12 ainda aplicados. A busca também precisa ser limpa.
     </div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v">
-      <b>2 estudantes</b>: 5712230375, com 76,15% (amarelo), e 6180442379, com 74,4% (vermelho).
-      Com algum filtro ou a busca ainda aplicados, a lista mostra 1 estudante ou nenhum: registre como <b>não concluiu</b>
-      e anote quais filtros ficaram.
+      <b>2 estudantes</b><span class="apoio">: 5712230375, com 76,15% (amarelo), e 6180442379, com 74,4% (vermelho).
+      Com algum filtro ou a busca ainda aplicados, a lista mostra 1 estudante ou nenhum: registre como não concluiu
+      e anote quais filtros ficaram.</span>
     </div></div>
   </div>
 </div>
@@ -799,11 +847,11 @@ td:first-child{font-weight:600}
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v">Elegibilidade → busca pela matrícula → ícone de detalhe. Ou abrir <span class="termo"><span class="va">o processamento</span><span class="vb">a janela de processamento</span></span> de 26/08 e consultar o bloco de matrículas alteradas.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v">Janela de <b>26/08/2026</b>; antes era <b>Não elegível</b>, no <b>ciclo 2024</b>.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><span class="apoio"><span class="termo"><span class="va">Processamento</span><span class="vb">Janela de processamento</span></span> de</span> <b>26/08/2026</b><span class="apoio">; antes era</span> <b>Não elegível</b><span class="apoio">, no ciclo 2024.</span></div></div>
   </div>
   <div class="perguntar"><b>Utilidade:</b>
-    <span class="q">“Você considera útil ver em <span class="termo"><span class="va">qual processamento</span><span class="vb">qual janela de processamento</span></span> a situação de uma matrícula mudou e qual era a situação anterior?”</span>
-    <span class="q nota">Em seguida: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
+    <span class="q">“O quanto você considera útil ver em <span class="termo"><span class="va">qual processamento</span><span class="vb">qual janela de processamento</span></span> a situação de uma matrícula mudou e qual era a situação anterior?”</span>
+    <span class="q nota">Aguarde a resposta e só depois: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
   </div>
 </div>
 
@@ -812,12 +860,12 @@ td:first-child{font-weight:600}
     <span class="cen-n">15</span>
     <div class="cen-t">
       <div class="tarefa">“O estudante de CPF <code>123.456.789-01</code> ligou perguntando quantas parcelas já recebeu. Descubra, e diga em <span class="termo"><span class="va">qual processamento</span><span class="vb">qual janela de processamento</span></span> elas saíram.”</div>
-      <div class="obj">Tarefa completa · busca, detalhe e volta à janela <span class="chip dificil">difícil</span></div>
+      <div class="obj">Tarefa completa · busca, detalhe e volta <span class="termo"><span class="va">ao processamento</span><span class="vb">à janela de processamento</span></span> <span class="chip dificil">difícil</span></div>
     </div>
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v">Qualquer listagem → busca pelo CPF → ícone de detalhe → bloco de pagamentos.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v"><b>2 parcelas</b>, ambas pagas: uma de <b>Matrícula</b> e uma de <b>Frequência</b>, as duas liberadas na janela de <b>26/08/2026</b>, ciclo 2024.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>2 parcelas</b><span class="apoio">, ambas pagas: uma de Matrícula e uma de Frequência, as duas liberadas <span class="termo"><span class="va">no processamento</span><span class="vb">na janela de processamento</span></span> de</span> <b>26/08/2026</b><span class="apoio">, ciclo 2024.</span></div></div>
   </div>
 </div>
 
@@ -828,6 +876,10 @@ td:first-child{font-weight:600}
     Depois das tarefas, faça as perguntas abertas abaixo, nunca antes, para não induzir. Em seguida, responda às dúvidas
     que tiverem ficado pendentes, agradeça a participação e reforce que as contribuições do operador ajudam a melhorar o
     módulo para todas as redes.
+  </p>
+  <p>
+    Se o operador estiver compartilhando a tela, você pode pedir para ele <strong>parar de compartilhar</strong> e seguir,
+    de forma natural, para as perguntas de encerramento. Ele pode manter o protótipo aberto para si.
   </p>
   <ul>
     <li><strong>“Isso substitui ou complementa o jeito que você usa o portal hoje?”</strong></li>
@@ -847,7 +899,7 @@ td:first-child{font-weight:600}
 
 <div class="foot">
   <span>Roteiro de teste de usabilidade — Janelas de Processamento</span><span>·</span>
-  <span>2ª rodada · outubro de 2026</span><span>·</span>
+  <span>1ª rodada · outubro de 2026</span><span>·</span>
   <span>Protótipo na revisão 5</span><span>·</span>
   <span>Versão <span class="va">A · “processamento”</span><span class="vb">B · “janela de processamento”</span></span>
 </div>
