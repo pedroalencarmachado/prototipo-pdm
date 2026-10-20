@@ -14,6 +14,7 @@
   --rev:#0A7B83; --rev-soft:#E6F4F5;
   --util:#B1500A; --util-soft:#FDF1E6;
   --warn:#B04E00; --warn-soft:#FCF2E7;
+  --red:#B42318; --red-soft:#FCEDEC;
   --font-ui:"Public Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-display:"Raleway", "Public Sans", -apple-system, "Segoe UI", sans-serif;
 }
@@ -28,6 +29,8 @@
     --rev:#4FC7CE; --rev-soft:#10292B;
     --util:#E0944B; --util-soft:#2E2113;
     --warn:#E5A05B; --warn-soft:#2C2317;
+    --red:#F08A80; --red-soft:#2E1816;
+    color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
@@ -40,6 +43,8 @@
   --rev:#4FC7CE; --rev-soft:#10292B;
   --util:#E0944B; --util-soft:#2E2113;
   --warn:#E5A05B; --warn-soft:#2C2317;
+  --red:#F08A80; --red-soft:#2E1816;
+  color-scheme:dark;
 }
 
 *{box-sizing:border-box}
@@ -59,13 +64,28 @@ header.doc .lede{font-size:18px; color:var(--ink-2); margin:18px 0 0; max-width:
 .meta{display:flex; gap:26px; flex-wrap:wrap; margin-top:26px; padding-top:20px; border-top:1px solid var(--line-2); font-size:13px}
 .meta div .k{color:var(--ink-3); text-transform:uppercase; letter-spacing:.07em; font-size:11px; font-weight:700}
 .meta div .v{margin-top:3px; font-weight:500}
+.meta .v-versao{color:var(--rev); font-weight:700}
+
+/* ── versão do termo: A = "processamento", B = "janela de processamento" ── */
+.vb{display:none}
+:root[data-versao="b"] .va{display:none}
+:root[data-versao="b"] .vb{display:inline}
+.termo{background:var(--rev-soft); border-bottom:1.5px dotted var(--rev); border-radius:3px; padding:0 2px}
+.versao-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px; margin:-14px 0 38px; padding:14px 18px; background:var(--surface); border:1px solid var(--line); border-radius:8px; font-size:14px}
+.versao-bar .rot{font-weight:700}
+.versao-bar .bts{display:flex; flex-wrap:wrap; gap:8px}
+.versao-bar button{font:inherit; font-size:13.5px; font-weight:600; color:var(--ink-2); background:var(--surface-2); border:1px solid var(--line); border-radius:99px; padding:5px 14px; cursor:pointer}
+.versao-bar button[aria-pressed="true"]{background:var(--rev); border-color:var(--rev); color:var(--surface)}
+.versao-bar .dica{color:var(--ink-3); font-size:13px; flex-basis:100%}
 
 section{margin-bottom:46px}
 h2{font-size:23px; font-weight:700; margin-bottom:6px}
 h2 + .dek{color:var(--ink-2); margin:0 0 20px; max-width:68ch}
+h2 .n{color:var(--rev); margin-right:4px}
 h3{font-size:16px; font-weight:700; margin:26px 0 8px}
+h3 .n{color:var(--rev); margin-right:6px; font-variant-numeric:tabular-nums}
 p{margin:0 0 14px; max-width:70ch}
-ul{max-width:70ch; padding-left:22px; margin:0 0 14px}
+ul, ol{max-width:70ch; padding-left:22px; margin:0 0 14px}
 li{margin-bottom:7px}
 
 .callout{border-left:4px solid var(--blue); background:var(--blue-soft); border-radius:0 8px 8px 0; padding:16px 20px; margin:22px 0; max-width:76ch}
@@ -75,6 +95,9 @@ li{margin-bottom:7px}
 .callout.warn .h{color:var(--warn)}
 .callout.util{border-left-color:var(--util); background:var(--util-soft)}
 .callout.util .h{color:var(--util)}
+.callout.fala{border-left-color:var(--rev); background:var(--rev-soft)}
+.callout.fala .h{color:var(--rev); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase}
+.callout.fala p{font-size:15.5px}
 
 .tbl{overflow-x:auto; margin:20px 0; border:1px solid var(--line); border-radius:8px; background:var(--surface)}
 table{border-collapse:collapse; width:100%; font-size:14.5px}
@@ -83,6 +106,24 @@ td{padding:12px 16px; border-bottom:1px solid var(--line-2); vertical-align:top}
 tbody tr:last-child td{border-bottom:0}
 td:first-child{font-weight:600}
 .opt{display:inline-block; background:var(--surface-2); border:1px solid var(--line); border-radius:99px; padding:1px 9px; font-size:12.5px; margin:2px 4px 2px 0; white-space:nowrap}
+
+/* conversa inicial */
+.conversa{list-style:none; padding:0; margin:16px 0; max-width:76ch; counter-reset:q}
+.conversa > li{counter-increment:q; position:relative; padding:12px 16px 12px 52px; background:var(--surface); border:1px solid var(--line); border-radius:8px; margin-bottom:8px}
+.conversa > li::before{content:counter(q); position:absolute; left:14px; top:12px; width:26px; height:26px; border-radius:50%; background:var(--rev-soft); color:var(--rev); border:1px solid var(--rev); display:grid; place-items:center; font-size:12.5px; font-weight:700}
+.conversa .fala{font-weight:600}
+.conversa .seg{display:block; margin-top:6px; font-weight:600}
+.conversa .nota{display:block; margin-top:8px; font-size:13.5px; color:var(--ink-2)}
+.conversa .novo{display:inline-block; margin-left:6px; font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--rev); border:1px solid var(--rev); border-radius:99px; padding:0 7px; vertical-align:2px}
+
+/* linguagem neutra: use × evite */
+.dois{display:grid; grid-template-columns:1fr 1fr; gap:12px; max-width:76ch; margin:16px 0}
+.dois > div{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:14px 18px; min-width:0}
+.dois .k{font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:6px}
+.dois .sim .k{color:var(--green)}
+.dois .nao .k{color:var(--red)}
+.dois ul{margin:0; padding-left:18px}
+.dois li{margin-bottom:5px; font-size:14.5px}
 
 .bloco-h{display:flex; align-items:baseline; gap:12px; margin:40px 0 4px; padding-top:22px; border-top:2px solid var(--line)}
 .bloco-h .letra{font-family:var(--font-display); font-size:26px; font-weight:800; color:var(--rev); line-height:1}
@@ -93,11 +134,11 @@ td:first-child{font-weight:600}
 .cen{background:var(--surface); border:1px solid var(--line); border-radius:8px; margin-bottom:14px; overflow:hidden}
 .cen-h{display:flex; align-items:flex-start; gap:14px; padding:16px 20px}
 .cen-n{flex:none; width:30px; height:30px; border-radius:50%; background:var(--rev-soft); color:var(--rev); border:1px solid var(--rev); display:grid; place-items:center; font-size:13px; font-weight:700; font-variant-numeric:tabular-nums}
-.cen-t{flex:1}
+.cen-t{flex:1; min-width:0}
 .cen-t .tarefa{font-size:16.5px; font-weight:600; line-height:1.45; color:var(--ink)}
 .cen-t .obj{color:var(--ink-3); font-size:12.5px; margin-top:5px; text-transform:uppercase; letter-spacing:.05em; font-weight:600}
 .cen-b{display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line-2)}
-.cen-b > div{padding:13px 20px}
+.cen-b > div{padding:13px 20px; min-width:0}
 .cen-b > div + div{border-left:1px solid var(--line-2)}
 .cen-b .k{font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); margin-bottom:5px}
 .cen-b .v{font-size:14px; color:var(--ink-2); line-height:1.5}
@@ -107,8 +148,17 @@ td:first-child{font-weight:600}
 .cen-b .gab .v b{color:var(--green)}
 .perguntar{padding:12px 20px; border-top:1px solid var(--line-2); background:var(--util-soft); font-size:14px; color:var(--ink-2)}
 .perguntar b{color:var(--util)}
-.perguntar .q{display:block; margin-top:5px; color:var(--ink)}
-@media (max-width:720px){ .cen-b{grid-template-columns:1fr} .cen-b > div + div{border-left:0; border-top:1px solid var(--line-2)} }
+.perguntar .q{display:block; margin-top:5px; color:var(--ink); font-weight:600}
+.perguntar .q.nota{font-weight:400; color:var(--ink-2)}
+.perguntar.entender{background:var(--blue-soft)}
+.perguntar.entender b{color:var(--blue)}
+.perguntar .obs{display:block; margin-top:8px; font-size:13.5px; color:var(--ink-2)}
+@media (max-width:720px){
+  .cen-b, .dois{grid-template-columns:1fr}
+  .cen-b > div + div{border-left:0; border-top:1px solid var(--line-2)}
+  .bloco-h{flex-wrap:wrap}
+  .bloco-h .qt{margin-left:0; flex-basis:100%}
+}
 
 .chip{display:inline-block; font-size:11px; font-weight:700; letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--surface-2); color:var(--ink-2); border:1px solid var(--line); margin-left:6px; text-transform:uppercase}
 .chip.dificil{background:var(--warn-soft); color:var(--warn); border-color:var(--warn)}
@@ -118,55 +168,129 @@ td:first-child{font-weight:600}
 @media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
 </style>
 
+<style>
+/* Impressão: o PDF de cada versão sai daqui (gerar-pdf-roteiro). Na tela, nada abaixo se aplica. */
+@page { size: A4; margin: 12mm 14mm 12mm; }
+@media print {
+  :root { color-scheme: light; }
+  html, body {
+    background: #fff !important; color: #16202E !important;
+    font-size: 9.9pt; line-height: 1.44;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .wrap { max-width: none; padding: 0; }
+  .no-print { display: none !important; }
+  .termo { background: none; border: 0; padding: 0; }
+
+  /* nada partido entre páginas */
+  .cen, .callout, .tbl, .cen-b, .cen-h, .bloco-h, .conversa > li, .dois, .perguntar { break-inside: avoid; page-break-inside: avoid; }
+  h2, h3, .bloco-d { break-after: avoid; page-break-after: avoid; }
+
+  /* cada seção do manual e cada bloco de tarefas abre uma página — e sem margem sobrando no topo dela */
+  .secao { break-before: page; page-break-before: always; }
+  .bloco-h {
+    break-before: page; page-break-before: always;
+    margin: 0 0 4px !important; padding-top: 0 !important; border-top: 0 !important;
+  }
+  .bloco-d { margin-bottom: 15px; }
+
+  /* densidade */
+  section { margin-bottom: 22px; }
+  h2 + .dek { margin-bottom: 12px; }
+  h3 { margin: 16px 0 6px; }
+  p, li { margin-bottom: 8px; }
+  .callout { margin: 12px 0; padding: 11px 16px; }
+  .callout.fala p { font-size: 10.6pt; }
+  .tbl { margin: 12px 0; }
+  td { padding: 8px 14px; }
+  th { padding: 9px 14px; }
+  .conversa { margin: 10px 0; }
+  .conversa > li { padding: 9px 14px 9px 48px; margin-bottom: 6px; }
+  .conversa > li::before { top: 9px; }
+  .dois { margin: 10px 0; }
+  .dois > div { padding: 10px 14px; }
+
+  .cen { margin-bottom: 8px; }
+  .cen-h { padding: 9px 14px; }
+  .cen-b > div { padding: 7px 14px; }
+  .cen-t .tarefa { font-size: 10.7pt; line-height: 1.32; }
+  .cen-t .obj { margin-top: 3px; }
+  .perguntar { padding: 7px 14px; font-size: 9.5pt; }
+  .perguntar .q { margin-top: 3px; }
+  .perguntar .obs { margin-top: 4px; font-size: 9pt; line-height: 1.38; }
+  .bloco-d { margin-bottom: 12px; font-size: 9.9pt; }
+
+  header.doc { padding: 0 0 24px; margin-bottom: 28px; }
+  header.doc h1 { font-size: 29pt; }
+  header.doc .lede { font-size: 12.2pt; margin-top: 14px; }
+  .meta { margin-top: 20px; padding-top: 16px; }
+  .foot { margin-top: 14px; padding-top: 10px; break-inside: avoid; }
+  .cen-b .v { font-size: 9.4pt; line-height: 1.42; }
+  section[style*="margin-top:48px"] { margin-top: 18px !important; padding-top: 14px !important; }
+
+  /* em papel o link precisa mostrar o endereço */
+  .meta a::after { content: " (" attr(href) ")"; font-size: 8.2pt; color: #77869B; font-weight: 400; }
+  a { text-decoration: none; }
+}
+</style>
+
 <div class="wrap">
 
 <header class="doc">
   <div class="eyebrow">Teste de usabilidade · Janelas de Processamento</div>
   <h1>Entrevistas com as redes</h1>
   <p class="lede">
-    Quinze tarefas para aplicar no protótipo, da leitura mais geral até a busca por um CPF específico.
-    Todas são executáveis na versão publicada — cada uma tem caminho esperado e gabarito.
+    Roteiro da segunda rodada, com o manual de conduta do entrevistador. Quinze tarefas para aplicar no protótipo,
+    da leitura mais geral até a busca por um CPF específico, e o que acontece em volta delas: a abertura da conversa,
+    como reagir às perguntas do operador e o encerramento.
   </p>
   <div class="meta">
     <div><div class="k">Duração estimada</div><div class="v">1 hora por participante</div></div>
     <div><div class="k">Perfil</div><div class="v">Operadores de rede estadual</div></div>
     <div><div class="k">Protótipo</div><div class="v"><a href="https://prototipo-portalpdm.pages.dev">prototipo-portalpdm.pages.dev ↗</a></div></div>
+    <div><div class="k">Versão do termo</div><div class="v v-versao"><span class="va">A · “processamento”</span><span class="vb">B · “janela de processamento”</span></div></div>
   </div>
 </header>
 
-<!-- ─────────────── como conduzir ─────────────── -->
+<div class="versao-bar no-print" role="group" aria-label="Versão do termo">
+  <span class="rot">Versão do termo desta sessão</span>
+  <span class="bts">
+    <button type="button" id="versao-a" data-versao-btn="a" aria-pressed="true">A · processamento</button>
+    <button type="button" id="versao-b" data-versao-btn="b" aria-pressed="false">B · janela de processamento</button>
+  </span>
+  <span class="dica">Os trechos <span class="termo">marcados assim</span> mudam conforme a versão. O resto do roteiro é igual nas duas.</span>
+</div>
+
+<!-- ─────────────── preparo ─────────────── -->
 <section>
   <h2>Antes de começar</h2>
   <p class="dek">Alguns minutos de preparo que mudam a qualidade do que você vai colher.</p>
 
   <p>
     Abra o protótipo com <strong>as duas chaves de destaque desligadas</strong>. Elas existem para apresentar a proposta
-    a quem já conhece o portal — durante a entrevista, contornos coloridos entregam a resposta e contaminam a medição.
-  </p>
-  <p>
-    Diga ao participante que <strong>quem está sendo avaliado é a tela, não ele</strong>. Peça que pense em voz alta.
-    Quando travar, não ensine: pergunte “o que você esperava encontrar aqui?”. O travamento é o dado mais valioso da sessão.
+    a quem já conhece o portal. Durante a entrevista, contornos coloridos entregam a resposta e contaminam a medição.
   </p>
 
-  <h3>Comece com 3 minutos de navegação livre</h3>
+  <h3>Defina a versão do termo da rede</h3>
   <p>
-    Antes da primeira tarefa, dê <strong>3 minutos para o participante explorar o protótipo por conta própria</strong>:
-    entrar onde quiser, abrir os links que chamarem a atenção, percorrer as telas sem roteiro. Peça que fale em voz alta
-    durante todo o tempo — o que está vendo, o que imagina que cada coisa faz, o que acha estranho, o que já entendeu.
+    Nesta rodada, metade das redes ouve as tarefas com o termo <strong>processamento</strong> (versão A) e a outra metade
+    com <strong>janela de processamento</strong> (versão B). O objetivo é ver se o nível de dificuldade muda conforme o termo.
+    Só muda o que é lido em voz alta: as telas, os caminhos esperados e os gabaritos são os mesmos.
   </p>
-  <p>
-    Não responda perguntas nesses 3 minutos; apenas anote. É a única parte da sessão em que você observa a pessoa sem
-    nenhuma tarefa orientando o olhar dela, e costuma ser onde aparecem as primeiras impressões mais honestas sobre
-    vocabulário e hierarquia da tela.
-  </p>
-
-  <div class="callout warn">
-    <div class="h">Diga isto na abertura</div>
-    <p style="margin-bottom:0">
-      “Os números que você vai ver são fictícios, montados só para o teste. Nada aqui é dado real da sua rede,
-      e nada do que você fizer altera qualquer sistema.”
-    </p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th style="width:16%">Versão</th><th style="width:26%">Termo nas tarefas</th><th>Exemplo (tarefa 4)</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>processamento</td><td>“Quantas parcelas foram liberadas <strong>no processamento</strong> de agosto de 2026?”</td></tr>
+        <tr><td>B</td><td>janela de processamento</td><td>“Quantas parcelas foram liberadas <strong>na janela de processamento</strong> de agosto de 2026?”</td></tr>
+      </tbody>
+    </table>
   </div>
+  <ul>
+    <li><strong>Alterne na ordem das sessões:</strong> 1ª rede, versão A; 2ª, versão B; 3ª, A; 4ª, B. Assim as duas versões ficam com o mesmo número de redes.</li>
+    <li><strong>Decida antes da sessão</strong> e imprima o roteiro daquela versão. Os dois PDFs trazem a versão no topo de cada página de tarefas.</li>
+    <li><strong>Use o mesmo termo do início ao fim</strong>, inclusive ao repetir uma tarefa ou responder uma dúvida.</li>
+  </ul>
 
   <h3>O que registrar em cada tarefa</h3>
   <div class="tbl">
@@ -185,26 +309,206 @@ td:first-child{font-weight:600}
         <tr>
           <td>Utilidade</td>
           <td>
-            De 1 a 5: <em>“o quão útil essa informação é para o seu dia a dia como operador?”</em>
-            Só nas tarefas marcadas com <span class="chip util">utilidade</span> — perguntar em todas cansa e nivela as respostas.
-            Anote também o motivo, em uma frase.
+            Nota de 1 a 5 e o motivo, em uma frase. Só nas tarefas marcadas com <span class="chip util">utilidade</span>:
+            cada uma tem a sua pergunta, impressa no pé do cartão.
           </td>
         </tr>
         <tr><td>Tempo</td><td>Do fim da leitura da tarefa até a resposta em voz alta. Não avise que está cronometrando.</td></tr>
-        <tr><td>Caminho</td><td>Anote a sequência de cliques só quando divergir do caminho esperado — é o que revela o modelo mental dele.</td></tr>
+        <tr><td>Caminho</td><td>Anote a sequência de cliques só quando divergir do caminho esperado. É o que revela o modelo mental da pessoa.</td></tr>
         <tr><td>Primeiro clique</td><td>Onde a pessoa clicou primeiro. Acerto no primeiro clique é o melhor preditor de sucesso na tarefa.</td></tr>
-        <tr><td>Vocabulário</td><td>Palavra que a pessoa usa para o conceito. Se ela nunca disser “janela”, isso é resultado — anote o que ela diz no lugar.</td></tr>
+        <tr><td>Vocabulário</td><td>Palavra que a pessoa usa para o conceito. Se ela nunca disser “janela”, isso é resultado: anote o que ela diz no lugar.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    <strong>Uma vez por sessão</strong>, anote também a rede, a versão do termo (A ou B) e o nome que o operador usa para
+    o sistema (pergunta 4 da conversa inicial).
+  </p>
+
+  <div class="callout util">
+    <div class="h">As perguntas de utilidade</div>
+    <p style="margin-bottom:0">
+      Cada pergunta fala da informação que a pessoa acabou de encontrar naquela tarefa. Leia como está no cartão e, em
+      seguida, peça a nota: <strong>“De 1 a 5, que nota você dá?”</strong> Faça logo após a resposta, antes de passar para
+      a próxima. Como cada tarefa tem a sua pergunta, compare a nota de uma tarefa entre os participantes, não entre tarefas.
+    </p>
+  </div>
+</section>
+
+<!-- ─────────────── 1. conduta ─────────────── -->
+<section class="secao">
+  <h2><span class="n">1.</span> Princípios de conduta</h2>
+  <p class="dek">
+    As tarefas, os caminhos esperados e os gabaritos estão nos blocos A a D. As seções 1 a 4 tratam do que acontece em
+    torno delas: como iniciar a conversa, como reagir às perguntas do operador e o que se deve evitar dizer.
+  </p>
+  <p>
+    A sessão deve ser leve. O operador precisa se sentir à vontade para pensar em voz alta, errar e perguntar. Ao mesmo
+    tempo, o entrevistador não deve levá-lo até a resposta, porque o momento em que o operador trava é o dado mais
+    valioso do teste.
+  </p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th style="width:28%">Princípio</th><th>Na prática</th></tr></thead>
+      <tbody>
+        <tr><td>A tela é avaliada, não a pessoa</td><td>Diga isso na abertura e repita sempre que o operador parecer constrangido.</td></tr>
+        <tr><td>Não conduzir até a resposta</td><td>Não indique onde clicar nem confirme se ele está no caminho certo. Quando travar, pergunte: “O que você esperava encontrar aqui?”</td></tr>
+        <tr><td>Não há certo ou errado</td><td>Não diga se ele acertou ou errou, nem com palavras (“isso!”, “quase”) nem com expressão ou tom de voz.</td></tr>
+        <tr><td>Responder dúvidas de conceito</td><td>Se ele perguntar o que significa algo na tela, responda de forma breve. Não corte dizendo que estamos focando nas tarefas do teste, por exemplo. Só anote a dúvida, porque ela também é um dado do teste.</td></tr>
+        <tr><td>Repetir sempre que pedirem</td><td>O operador pode pedir para repetir a tarefa quantas vezes precisar. Repita com as mesmas palavras.</td></tr>
+        <tr><td>Fidelidade à versão do roteiro da rede</td><td>Use, do início ao fim da sessão, o termo e o nome de aba definidos no roteiro para aquela rede.</td></tr>
+        <tr><td>Pausa entre tarefas</td><td>
+          Dê alguns segundos entre uma tarefa e outra para que a equipe de métricas faça o registro. Para preencher a pausa,
+          use frases como “Tudo bem até aqui?”, “Deixa-me olhar a próxima tarefa”, “Vamos para a próxima?”, “Um segundinho
+          que estou organizando aqui.”, “Agora vou te pedir uma coisa um pouco diferente.”, “Obrigada por ir falando em voz
+          alta, isso ajuda muito.”, “Seus comentários estão sendo muito úteis.”, “Está ótimo você ir explicando o que está
+          pensando.” Não comente o desempenho do operador nesse momento.
+        </td></tr>
       </tbody>
     </table>
   </div>
 
-  <div class="callout util">
-    <div class="h">A pergunta de utilidade, na íntegra</div>
+  <div class="callout warn">
+    <div class="h">Atenção à confusão com o SGP</div>
     <p style="margin-bottom:0">
-      <strong>“De 1 a 5, o quão útil essa informação é para o seu dia a dia como operador?”</strong>
-      Faça logo após a pessoa responder a tarefa, antes de passar para a próxima, e sempre com a mesma redação —
-      é o que permite comparar as notas entre participantes.
+      No questionário, algumas respostas dos operadores misturaram o módulo do Pé-de-Meia com o SGP. Se o operador citar
+      uma tela ou uma função que pode ser do SGP, pergunte de forma neutra: <strong>“Isso que você comentou é em qual
+      módulo?”</strong> Anote a resposta. Explique a diferença entre módulo do SGP e Pé-de-Meia e pergunte se essa
+      diferença era clara para ele anteriormente.
     </p>
+  </div>
+</section>
+
+<!-- ─────────────── 2. abertura ─────────────── -->
+<section class="secao">
+  <h2><span class="n">2.</span> Abertura</h2>
+  <p class="dek">
+    A abertura serve para criar conexão com o operador antes das tarefas. Ela tem quatro momentos: apresentação,
+    conversa inicial, explicação da dinâmica e navegação livre.
+  </p>
+
+  <h3><span class="n">2.1</span>Apresentação da equipe e objetivo da agenda</h3>
+  <div class="callout fala">
+    <div class="h">Leia em voz alta (adapte ao seu jeito de falar)</div>
+    <p>“Oi, [nome]! Tudo bem? Obrigada por separar esse tempo pra gente. Eu sou [seu nome] e estão comigo [nomes da equipe].</p>
+    <p>A gente marcou essa conversa porque estamos trabalhando numa proposta de melhoria do módulo do Pé-de-Meia. Antes de
+    levar essa proposta adiante, queremos ver como ela funciona nas mãos de quem usa o módulo no dia a dia, como você.”</p>
+  </div>
+
+  <h3><span class="n">2.2</span>Conversa inicial</h3>
+  <p>
+    Faça as perguntas de forma natural, como uma conversa, e não como um questionário. Deixe o operador falar, mostre
+    interesse e use <strong>“Pode me dar um exemplo?”</strong> para aprofundar.
+  </p>
+  <ol class="conversa">
+    <li><span class="fala">“Você usa o módulo do Pé-de-Meia no seu dia a dia?”</span></li>
+    <li><span class="fala">“Com que frequência?”</span></li>
+    <li><span class="fala">“Tem alguma informação que você precisa encontrar no módulo, mas acaba não encontrando?”</span></li>
+    <li>
+      <span class="fala">“Aqui na equipe a gente chama esse sistema de um jeito, mas cada rede acaba chamando de outro.
+      Quando você fala dele com um colega ou com o suporte, que nome você usa?”</span><span class="novo">nova</span>
+      <span class="seg">Em seguida: “E tem algum outro sistema que você usa para o Pé-de-Meia? Como você diferencia um do outro?”</span>
+      <span class="nota">
+        Alguns operadores confundem o Portal do Usuário com o SGP, que é outro sistema, e cada um chama o portal de um
+        jeito. A própria equipe o chama de “Portal do Pé-de-Meia”. Por isso, <strong>não diga nenhum nome antes da
+        resposta</strong> e não corrija o nome que ele usar. Anote exatamente como ele chama o sistema e se ele cita o SGP
+        ou outro sistema. Se ficar claro que ele mistura os dois, siga o quadro “Atenção à confusão com o SGP” (seção 1).
+      </span>
+    </li>
+  </ol>
+
+  <h3><span class="n">2.3</span>Explicação da dinâmica</h3>
+  <div class="callout fala">
+    <div class="h">Leia em voz alta (adapte ao seu jeito de falar)</div>
+    <p>“Vou te pedir algumas tarefas relacionadas ao uso do protótipo, como encontrar uma informação ou um estudante. Uma
+    coisa importante: quem está sendo testada aqui é a tela, não você.</p>
+    <p>Como a ideia é ver como você explora a tela, eu não vou te ajudar a chegar na resposta final. E tudo bem se você não
+    conseguir encontrar alguma coisa: isso é exatamente o que a gente precisa descobrir. Você pode me pedir pra repetir a
+    pergunta sempre que precisar.</p>
+    <p>Também não vou dizer se você acertou ou errou, porque aqui não existe resposta certa ou errada. Se tiver dúvida sobre
+    o que significa alguma coisa na tela, pode perguntar à vontade. Você também pode pedir para passar para a próxima tarefa
+    sempre que quiser.</p>
+    <p>Por fim, vou te pedir pra pensar em voz alta: falar o que está vendo, o que está procurando e o que acha estranho. Os
+    números que você vai ver são fictícios, e nada do que você fizer altera qualquer sistema.</p>
+    <p>Alguma dúvida antes de começar?”</p>
+  </div>
+
+  <h3><span class="n">2.4</span>Navegação livre (3 minutos)</h3>
+  <p>
+    Antes da primeira tarefa, convide o operador a explorar o protótipo por conta própria, entrando onde quiser e falando
+    em voz alta o que vê, o que imagina que cada coisa faz e o que acha estranho.
+  </p>
+  <ul>
+    <li>Registre as impressões, principalmente sobre o vocabulário e sobre o que chama atenção primeiro.</li>
+    <li>Se ele perguntar o que significa algo, responda de forma breve e anote a dúvida (seção 3.3).</li>
+    <li>Ao final, peça para voltar à tela inicial para começar as tarefas.</li>
+  </ul>
+</section>
+
+<!-- ─────────────── 3. durante as tarefas ─────────────── -->
+<section>
+  <h2><span class="n">3.</span> Durante as tarefas</h2>
+
+  <h3><span class="n">3.1</span>Regras</h3>
+  <ol>
+    <li>Leia cada tarefa como está no roteiro.</li>
+    <li>Se pedirem, repita a tarefa com as mesmas palavras, quantas vezes for preciso.</li>
+    <li>Quando o operador travar, não ensine. Pergunte “O que você esperava encontrar aqui?” ou “Onde você procuraria?”.</li>
+    <li>Se ele quiser desistir, aceite com naturalidade, agradeça e siga para a próxima tarefa.</li>
+    <li>Faça a pergunta de utilidade da tarefa, quando houver, logo após a resposta e antes de seguir. Cada pergunta é
+      específica da informação encontrada naquela tarefa e deve ser lida como está no roteiro.</li>
+  </ol>
+
+  <h3><span class="n">3.2</span>Quando ele perguntar se acertou</h3>
+  <p>Não diga certo ou errado. Comente o caminho, não a resposta:</p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th style="width:30%">Situação</th><th>O que dizer</th></tr></thead>
+      <tbody>
+        <tr><td>Fez o caminho esperado</td><td>“Você fez o caminho que esperávamos.”</td></tr>
+        <tr><td>Concluiu por outro caminho</td><td>“O caminho que esperávamos não é exatamente esse, mas você concluiu a tarefa.”</td></tr>
+        <tr><td>Não concluiu</td><td>“Obrigada, isso já ajuda muito a gente a entender a tela. Vamos para a próxima?”</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="n">3.3</span>Quando ele fizer uma pergunta</h3>
+  <p>
+    Perguntas fazem parte da conversa e devem ser acolhidas. O cuidado é separar a dúvida de conceito, que pode ser
+    respondida, do pedido de caminho, que é devolvido com leveza.
+  </p>
+  <div class="tbl">
+    <table>
+      <thead><tr><th style="width:20%">Tipo de pergunta</th><th style="width:30%">Exemplo</th><th>O que fazer</th></tr></thead>
+      <tbody>
+        <tr><td>Dúvida de conceito</td><td>“O que significa esse indicador?” / “O que é ciclo afetado?”</td><td>Responda em uma ou duas frases, sem apontar onde está a resposta da tarefa. Anote a dúvida com as palavras dele e a tela em que surgiu.</td></tr>
+        <tr><td>Pedido de caminho</td><td>“Onde eu vejo isso?” / “É nesse menu?”</td><td>Responda: “Onde você acha que estaria? Você pode explorar, não temos pressa.” Se ele insistir, lembre com gentileza que nessa parte queremos ver como ele procuraria sozinho.</td></tr>
+        <tr><td>Pedido para repetir</td><td>“Pode repetir a pergunta?”</td><td>Repita com as mesmas palavras.</td></tr>
+        <tr><td>Comentário sobre o trabalho</td><td>“Lá na rede a gente faz isso de outro jeito...”</td><td>Acolha e anote. Se não estiver claro de qual sistema ele fala, pergunte se é o módulo do Pé-de-Meia ou o SGP.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="n">3.4</span>Adote uma linguagem neutra</h3>
+  <div class="dois">
+    <div class="sim">
+      <div class="k">Use</div>
+      <ul>
+        <li>“Pode me contar um pouco mais?”</li>
+        <li>“O que você esperava encontrar aqui?”</li>
+        <li>“Onde você procuraria?”</li>
+        <li>Uma pausa, deixando o operador pensar</li>
+      </ul>
+    </div>
+    <div class="nao">
+      <div class="k">Evite</div>
+      <ul>
+        <li>“Isso!”, “Quase”, “Não é bem aí”</li>
+        <li>“Tenta ali em cima”</li>
+        <li>“É fácil, está bem ali”</li>
+        <li>Explicar a tarefa com outras palavras</li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -212,7 +516,7 @@ td:first-child{font-weight:600}
 <div class="bloco-h">
   <span class="letra">A</span>
   <h2>Orientação inicial</h2>
-  <span class="qt">tarefas 1 a 3</span>
+  <span class="qt">tarefas 1 a 3 · versão <span class="va">A</span><span class="vb">B</span></span>
 </div>
 <p class="bloco-d">
   Sem dizer nada sobre a funcionalidade nova. Estas três medem se a pessoa <em>descobre</em> a leitura por data sozinha,
@@ -237,7 +541,7 @@ td:first-child{font-weight:600}
   <div class="cen-h">
     <span class="cen-n">2</span>
     <div class="cen-t">
-      <div class="tarefa">“Quantas matrículas foram processadas nesse último processamento?”</div>
+      <div class="tarefa">“Quantas matrículas foram processadas <span class="termo"><span class="va">nesse último processamento</span><span class="vb">nessa última janela de processamento</span></span>?”</div>
       <div class="obj">Leitura do cartão · compreensão do número agregado</div>
     </div>
   </div>
@@ -251,13 +555,13 @@ td:first-child{font-weight:600}
   <div class="cen-h">
     <span class="cen-n">3</span>
     <div class="cen-t">
-      <div class="tarefa">“Quantos processamentos foram realizados neste ciclo?”</div>
+      <div class="tarefa">“<span class="termo"><span class="va">Quantos processamentos foram realizados</span><span class="vb">Quantas janelas de processamento foram realizadas</span></span> neste ciclo?”</div>
       <div class="obj">Descoberta do menu · nomenclatura</div>
     </div>
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v">Menu <b>Processamentos</b>, ou o botão “Ver todas as janelas”.</div></div>
-    <div class="gab"><div class="k">Resposta</div><div class="v"><b>6 processamentos</b> no ciclo 2026, de 25/03/2026 a 26/08/2026.</div></div>
+    <div class="gab"><div class="k">Resposta</div><div class="v"><b>6</b> no ciclo 2026, de 25/03/2026 a 26/08/2026.</div></div>
   </div>
 </div>
 
@@ -265,10 +569,10 @@ td:first-child{font-weight:600}
 <div class="bloco-h">
   <span class="letra">B</span>
   <h2>Leitura de uma janela</h2>
-  <span class="qt">tarefas 4 a 7</span>
+  <span class="qt">tarefas 4 a 7 · versão <span class="va">A</span><span class="vb">B</span></span>
 </div>
 <p class="bloco-d">
-  O núcleo da proposta. As tarefas 4 e 6 são propositalmente parecidas, mas pedem métricas diferentes — uma pede
+  O núcleo da proposta. As tarefas 4 e 6 são propositalmente parecidas, mas pedem métricas diferentes: uma pede
   <strong>quantidade de parcelas</strong>, a outra pede <strong>valor em reais</strong>. É assim que se verifica se o
   operador está lendo o conceito ou só apontando para o número mais destacado da tela.
 </p>
@@ -277,7 +581,7 @@ td:first-child{font-weight:600}
   <div class="cen-h">
     <span class="cen-n">4</span>
     <div class="cen-t">
-      <div class="tarefa">“Quantas parcelas foram liberadas na janela de processamento de agosto de 2026?”</div>
+      <div class="tarefa">“Quantas parcelas foram liberadas <span class="termo"><span class="va">no processamento</span><span class="vb">na janela de processamento</span></span> de agosto de 2026?”</div>
       <div class="obj">Atenção à métrica · quantidade, não valor</div>
     </div>
   </div>
@@ -291,7 +595,7 @@ td:first-child{font-weight:600}
   <div class="cen-h">
     <span class="cen-n">5</span>
     <div class="cen-t">
-      <div class="tarefa">“Quais ciclos foram afetados nesse processamento de agosto?”</div>
+      <div class="tarefa">“Quais ciclos foram afetados <span class="termo"><span class="va">nesse processamento</span><span class="vb">nessa janela de processamento</span></span> de agosto?”</div>
       <div class="obj">O conceito que a janela existe para revelar <span class="chip util">utilidade</span></div>
     </div>
   </div>
@@ -299,8 +603,18 @@ td:first-child{font-weight:600}
     <div><div class="k">Caminho esperado</div><div class="v">Cabeçalho da janela, ou as etiquetas coloridas na tabela por ciclo.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v"><b>2024, 2025 e 2026</b>.</div></div>
   </div>
-  <div class="perguntar"><b>Perguntar ao final:</b>
-    <span class="q">“De 1 a 5, o quão útil essa informação é para o seu dia a dia como operador?”</span>
+  <div class="perguntar entender"><b>Depois da resposta, pergunte:</b>
+    <span class="q">“O que você entende quando dizemos que, <span class="termo"><span class="va">no processamento</span><span class="vb">na janela de processamento</span></span> de agosto de 2026, os ciclos 2024, 2025 e 2026 foram afetados?”</span>
+    <span class="obs">
+      Não corrija; anote com as palavras dele. Mostra entendimento quem percebe que um único processamento gerou resultados
+      para matrículas de três anos diferentes, não só do ciclo atual, e que isso pode mudar elegibilidade e pagamento de
+      ciclos passados (aqui, até pagamento de matrícula do ciclo 2024). Sinais de confusão: ler “afetado” como erro ou
+      problema; achar que houve três processamentos; confundir o ciclo com a data em que o processamento rodou.
+    </span>
+  </div>
+  <div class="perguntar"><b>Utilidade:</b>
+    <span class="q">“Você considera útil saber quais ciclos foram afetados em cada <span class="termo"><span class="va">processamento</span><span class="vb">janela de processamento</span></span>?”</span>
+    <span class="q nota">Em seguida: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
   </div>
 </div>
 
@@ -308,7 +622,7 @@ td:first-child{font-weight:600}
   <div class="cen-h">
     <span class="cen-n">6</span>
     <div class="cen-t">
-      <div class="tarefa">“Qual foi o valor monetário de parcelas liberado nessa janela só para o ciclo de 2024?”</div>
+      <div class="tarefa">“Qual foi o valor monetário de parcelas liberado <span class="termo"><span class="va">nesse processamento</span><span class="vb">nessa janela de processamento</span></span> só para o ciclo de 2024?”</div>
       <div class="obj">Atenção à métrica · valor, não quantidade</div>
     </div>
   </div>
@@ -322,7 +636,7 @@ td:first-child{font-weight:600}
   <div class="cen-h">
     <span class="cen-n">7</span>
     <div class="cen-t">
-      <div class="tarefa">“Quantas matrículas do ciclo de 2024 tiveram a elegibilidade alterada nessa janela?”</div>
+      <div class="tarefa">“Quantas matrículas do ciclo de 2024 tiveram a elegibilidade alterada <span class="termo"><span class="va">nesse processamento</span><span class="vb">nessa janela de processamento</span></span>?”</div>
       <div class="obj">Distinguir matrícula processada de matrícula alterada</div>
     </div>
   </div>
@@ -336,18 +650,18 @@ td:first-child{font-weight:600}
 <div class="bloco-h">
   <span class="letra">C</span>
   <h2>Cruzamentos e filtros</h2>
-  <span class="qt">tarefas 8 a 11</span>
+  <span class="qt">tarefas 8 a 11 · versão <span class="va">A</span><span class="vb">B</span></span>
 </div>
 <p class="bloco-d">
-  Aqui se testa a mecânica de filtro pai e filho — janela primeiro, ciclo dentro dela. É a decisão de desenho
-  mais arriscada da revisão: se o operador não entender que um filtro restringe o outro, precisamos repensá-la.
+  Aqui se testa a mecânica de filtro pai e filho: janela primeiro, ciclo dentro dela. É a decisão de desenho
+  mais arriscada da revisão. Se o operador não entender que um filtro restringe o outro, precisamos repensá-la.
 </p>
 
 <div class="cen">
   <div class="cen-h">
     <span class="cen-n">8</span>
     <div class="cen-t">
-      <div class="tarefa">“Compare os processamentos de julho e de agosto. Qual liberou mais pagamento?”</div>
+      <div class="tarefa">“Compare <span class="termo"><span class="va">os processamentos</span><span class="vb">as janelas de processamento</span></span> de julho e de agosto. Qual liberou mais pagamento?”</div>
       <div class="obj">Descoberta da aba de comparação</div>
     </div>
   </div>
@@ -361,7 +675,7 @@ td:first-child{font-weight:600}
   <div class="cen-h">
     <span class="cen-n">9</span>
     <div class="cen-t">
-      <div class="tarefa">“Descubra em quantos processamentos deste ciclo o ciclo de 2024 apareceu.”</div>
+      <div class="tarefa">“Descubra em <span class="termo"><span class="va">quantos processamentos</span><span class="vb">quantas janelas de processamento</span></span> deste ciclo o ciclo de 2024 apareceu.”</div>
       <div class="obj">Filtro por ciclo afetado <span class="chip dificil">difícil</span> <span class="chip util">utilidade</span></div>
     </div>
   </div>
@@ -369,8 +683,9 @@ td:first-child{font-weight:600}
     <div><div class="k">Caminho esperado</div><div class="v">Processamentos → filtro <b>Ciclo afetado = 2024</b>. Ou, em qualquer listagem, escolher o ciclo 2024 e abrir o filtro de janela.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v"><b>Um só</b> — a janela de 26/08/2026.</div></div>
   </div>
-  <div class="perguntar"><b>Perguntar ao final:</b>
-    <span class="q">“De 1 a 5, o quão útil essa informação é para o seu dia a dia como operador?”</span>
+  <div class="perguntar"><b>Utilidade:</b>
+    <span class="q">“Você considera útil ver em <span class="termo"><span class="va">quantos processamentos</span><span class="vb">quantas janelas de processamento</span></span> o ciclo de 2024 foi processado?”</span>
+    <span class="q nota">Em seguida: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
   </div>
 </div>
 
@@ -378,7 +693,7 @@ td:first-child{font-weight:600}
   <div class="cen-h">
     <span class="cen-n">10</span>
     <div class="cen-t">
-      <div class="tarefa">“Na tela de Pagamento, no Ensino Médio Regular, veja só os pagamentos da janela de agosto que são do ciclo de 2025. Que tipo de incentivo foi pago?”</div>
+      <div class="tarefa">“Na tela de Pagamento, no Ensino Médio Regular, veja só os pagamentos <span class="termo"><span class="va">do processamento</span><span class="vb">da janela de processamento</span></span> de agosto que são do ciclo de 2025. Que tipo de incentivo foi pago?”</div>
       <div class="obj">Filtro pai e filho combinados <span class="chip dificil">difícil</span> <span class="chip util">utilidade</span></div>
     </div>
   </div>
@@ -386,8 +701,9 @@ td:first-child{font-weight:600}
     <div><div class="k">Caminho esperado</div><div class="v">Pagamento → aba <b>Ensino Médio Regular</b> → Janela = 26/08/2026 → Ciclo = 2025.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v"><b>Conclusão</b> · <b class="num">6.539</b> parcelas · R$ 6.539.000,00.</div></div>
   </div>
-  <div class="perguntar"><b>Perguntar ao final:</b>
-    <span class="q">“De 1 a 5, o quão útil essa informação é para o seu dia a dia como operador?”</span>
+  <div class="perguntar"><b>Utilidade:</b>
+    <span class="q">“Você considera útil ver, dentro de <span class="termo"><span class="va">um processamento</span><span class="vb">uma janela de processamento</span></span>, que tipo de incentivo foi pago para cada ciclo?”</span>
+    <span class="q nota">Em seguida: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
   </div>
 </div>
 
@@ -395,7 +711,7 @@ td:first-child{font-weight:600}
   <div class="cen-h">
     <span class="cen-n">11</span>
     <div class="cen-t">
-      <div class="tarefa">“Ainda na janela de agosto, encontre os estudantes que possuem pagamento com situação ‘Aguardando Pagamento’.”</div>
+      <div class="tarefa">“Ainda <span class="termo"><span class="va">no processamento</span><span class="vb">na janela de processamento</span></span> de agosto, encontre os estudantes que possuem pagamento com situação ‘Aguardando Pagamento’.”</div>
       <div class="obj">Filtro de situação dentro do recorte da janela</div>
     </div>
   </div>
@@ -409,17 +725,17 @@ td:first-child{font-weight:600}
 <div class="bloco-h">
   <span class="letra">D</span>
   <h2>Busca por estudante</h2>
-  <span class="qt">tarefas 12 a 15</span>
+  <span class="qt">tarefas 12 a 15 · versão <span class="va">A</span><span class="vb">B</span></span>
 </div>
 <p class="bloco-d">
   O trabalho do dia a dia da rede: alguém liga perguntando do próprio benefício. Estas quatro medem se a janela
-  atrapalha a busca que o operador já faz hoje — e se ela ajuda a explicar ao estudante o que mudou no caso dele.
+  atrapalha a busca que o operador já faz hoje, e se ela ajuda a explicar ao estudante o que mudou no caso dele.
   <strong>Entregue os números impressos ou por mensagem</strong>, não os dite.
 </p>
 <div class="callout" style="margin-top:0">
   <div class="h">Uma coisa para o moderador saber</div>
   <p style="margin-bottom:0">
-    A busca por nome, CPF, NIS ou matrícula <strong>atravessa os ciclos</strong> — encontra a pessoa mesmo que o filtro
+    A busca por nome, CPF, NIS ou matrícula <strong>atravessa os ciclos</strong>: encontra a pessoa mesmo que o filtro
     de ciclo esteja em outro ano, e avisa isso ao lado da contagem. Já os filtros de lista (situação, município,
     frequência acumulada) respeitam o ciclo selecionado. Se o participante estranhar essa diferença, anote:
     é uma decisão de desenho que ainda não foi validada.
@@ -439,8 +755,8 @@ td:first-child{font-weight:600}
     <div class="gab"><div class="k">Resposta</div><div class="v"><b>Estudante 1000068739</b> — <b>Elegível</b>, matrícula 30279793, Salvador.</div></div>
   </div>
   <div class="perguntar"><b>Perguntar ao final, nesta ordem:</b>
-    <span class="q">“De 1 a 5, o quão útil essa informação é para o seu dia a dia como operador?”</span>
-    <span class="q">“Você vê algum problema de sobreposição com o Consulta Estudante aqui?”</span>
+    <span class="q">“Você considera útil encontrar a elegibilidade de um estudante buscando pelo NIS?”</span>
+    <span class="q nota">Em seguida: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
     <span class="q">“Você utiliza o campo NIS para encontrar estudante?”</span>
   </div>
 </div>
@@ -450,15 +766,20 @@ td:first-child{font-weight:600}
     <span class="cen-n">13</span>
     <div class="cen-t">
       <div class="tarefa">“Na tela de Frequência, encontre os estudantes com frequência acumulada abaixo de 80%.”</div>
-      <div class="obj">Filtro de faixa · percepção do recorte de ciclo</div>
+      <div class="obj">Filtro de faixa · percepção do recorte de ciclo e de janela</div>
     </div>
   </div>
   <div class="cen-b">
-    <div><div class="k">Caminho esperado</div><div class="v">Frequência → filtro <b>Frequência acumulada</b> → Abaixo de 80%.</div></div>
+    <div><div class="k">Caminho esperado</div><div class="v">
+      Frequência → <b>Ciclo = Todos os ciclos</b> e <b>Janela de processamento = Todas as janelas</b> → filtro
+      <b>Frequência acumulada</b> = Abaixo de 80%.
+      A tela guarda os filtros e a busca das tarefas anteriores: quem seguiu as tarefas 10 a 12 chega aqui com a janela
+      de 26/08/2026, o ciclo 2025 e o NIS da tarefa 12 ainda aplicados. A busca também precisa ser limpa.
+    </div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v">
-      No recorte em que a tela abre (ciclo 2026): <b>1 estudante</b> — 5712230375, com 76,15% (amarelo).
-      Trocando o ciclo para <b>Todos</b>, aparece também 6180442379, com 74,4% (vermelho).
-      O ponto de observação é se a pessoa percebe que o resultado depende do ciclo selecionado.
+      <b>2 estudantes</b>: 5712230375, com 76,15% (amarelo), e 6180442379, com 74,4% (vermelho).
+      Com algum filtro ou a busca ainda aplicados, a lista mostra 1 estudante ou nenhum: registre como <b>não concluiu</b>
+      e anote quais filtros ficaram.
     </div></div>
   </div>
 </div>
@@ -467,7 +788,7 @@ td:first-child{font-weight:600}
   <div class="cen-h">
     <span class="cen-n">14</span>
     <div class="cen-t">
-      <div class="tarefa">“A matrícula <code>26440817</code> mudou de situação recentemente. Descubra em qual processamento isso aconteceu e qual era a situação anterior.”</div>
+      <div class="tarefa">“A matrícula <code>26440817</code> mudou de situação recentemente. Descubra em <span class="termo"><span class="va">qual processamento</span><span class="vb">qual janela de processamento</span></span> isso aconteceu e qual era a situação anterior.”</div>
       <div class="obj">Rastrear a origem de uma mudança <span class="chip util">utilidade</span></div>
     </div>
   </div>
@@ -475,8 +796,9 @@ td:first-child{font-weight:600}
     <div><div class="k">Caminho esperado</div><div class="v">Elegibilidade → busca pela matrícula → ícone de detalhe. Ou abrir a janela de 26/08 e consultar o bloco de matrículas alteradas.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v">Janela de <b>26/08/2026</b>; antes era <b>Não elegível</b>, no <b>ciclo 2024</b>.</div></div>
   </div>
-  <div class="perguntar"><b>Perguntar ao final:</b>
-    <span class="q">“De 1 a 5, o quão útil essa informação é para o seu dia a dia como operador?”</span>
+  <div class="perguntar"><b>Utilidade:</b>
+    <span class="q">“Você considera útil ver em <span class="termo"><span class="va">qual processamento</span><span class="vb">qual janela de processamento</span></span> a situação de uma matrícula mudou e qual era a situação anterior?”</span>
+    <span class="q nota">Em seguida: “De 1 a 5, que nota você dá?” Anote a nota e o motivo.</span>
   </div>
 </div>
 
@@ -484,7 +806,7 @@ td:first-child{font-weight:600}
   <div class="cen-h">
     <span class="cen-n">15</span>
     <div class="cen-t">
-      <div class="tarefa">“O estudante de CPF <code>123.456.789-01</code> ligou perguntando quantas parcelas já recebeu. Descubra, e diga em qual processamento elas saíram.”</div>
+      <div class="tarefa">“O estudante de CPF <code>123.456.789-01</code> ligou perguntando quantas parcelas já recebeu. Descubra, e diga em <span class="termo"><span class="va">qual processamento</span><span class="vb">qual janela de processamento</span></span> elas saíram.”</div>
       <div class="obj">Tarefa completa · busca, detalhe e volta à janela <span class="chip dificil">difícil</span></div>
     </div>
   </div>
@@ -494,21 +816,25 @@ td:first-child{font-weight:600}
   </div>
 </div>
 
-<!-- ─────────────── fechamento ─────────────── -->
+<!-- ─────────────── 4. encerramento ─────────────── -->
 <section style="margin-top:48px; padding-top:28px; border-top:2px solid var(--line)">
-  <h2>Ao final da sessão</h2>
-  <p class="dek">Três perguntas de conversa aberta, depois das tarefas — nunca antes, para não induzir.</p>
+  <h2><span class="n">4.</span> Encerramento</h2>
+  <p class="dek">
+    Depois das tarefas, faça as perguntas abertas abaixo, nunca antes, para não induzir. Em seguida, responda às dúvidas
+    que tiverem ficado pendentes, agradeça a participação e reforce que as contribuições do operador ajudam a melhorar o
+    módulo para todas as redes.
+  </p>
   <ul>
     <li><strong>“Isso substitui ou complementa o jeito que você usa o portal hoje?”</strong></li>
     <li><strong>“Em que situação real do seu trabalho você abriria essa tela?”</strong> Se não houver resposta concreta, a funcionalidade ainda não encontrou seu caso de uso.</li>
-    <li><strong>“Faltou alguma informação que você esperava ver aqui?”</strong> — atenção especial a quem sentir falta de frequência, que foi retirada desta visão nesta revisão.</li>
+    <li><strong>“Faltou alguma informação que você esperava ver aqui?”</strong> Atenção especial a quem sentir falta de frequência, que foi retirada desta visão nesta revisão.</li>
   </ul>
 
   <div class="callout">
     <div class="h">Amostra</div>
     <p style="margin-bottom:0">
-      <strong>4 participantes</strong> nesta rodada. A partir do quarto, os achados começam a se repetir — e vale mais
-      corrigir o que apareceu e rodar uma segunda rodada do que entrevistar muita gente na mesma versão.
+      Mantenha um número par de redes, para as versões A e B ficarem com o mesmo número de sessões. Com 4 redes, ficam 2
+      por versão: o bastante para ver se um termo trava mais que o outro, não para provar diferença entre eles.
       Se possível, misture quem usa o portal diariamente com quem entra uma vez por mês: são modelos mentais diferentes.
     </p>
   </div>
@@ -516,8 +842,30 @@ td:first-child{font-weight:600}
 
 <div class="foot">
   <span>Roteiro de teste de usabilidade — Janelas de Processamento</span><span>·</span>
-  <span>Revisão 3 do protótipo · outubro de 2026</span><span>·</span>
-  <span>Números do gabarito conferidos na versão publicada</span>
+  <span>2ª rodada · outubro de 2026</span><span>·</span>
+  <span>Protótipo na revisão 3</span><span>·</span>
+  <span>Versão <span class="va">A · “processamento”</span><span class="vb">B · “janela de processamento”</span></span>
 </div>
 
 </div>
+
+<script>
+/* Versão do termo. Escolhida pelos botões, ou pelo endereço: #versao-a / #versao-b (é assim que os PDFs são gerados). */
+(function(){
+  var raiz = document.documentElement;
+  function escolher(v){
+    raiz.setAttribute('data-versao', v);
+    var bts = document.querySelectorAll('[data-versao-btn]');
+    for (var i = 0; i < bts.length; i++) bts[i].setAttribute('aria-pressed', String(bts[i].getAttribute('data-versao-btn') === v));
+    try { localStorage.setItem('roteiro-versao', v); } catch (e) {}
+  }
+  var h = (location.hash || '').toLowerCase();
+  var v = h === '#versao-b' ? 'b' : h === '#versao-a' ? 'a' : null;
+  if (!v) { try { v = localStorage.getItem('roteiro-versao'); } catch (e) {} }
+  escolher(v === 'b' ? 'b' : 'a');
+  document.addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('[data-versao-btn]') : null;
+    if (b) escolher(b.getAttribute('data-versao-btn'));
+  });
+})();
+</script>

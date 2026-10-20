@@ -1,7 +1,7 @@
 # Protótipo "Janelas de Processamento" — Portal do Pé-de-Meia
 
 > **Handoff completo.** Tudo que foi feito, onde está, como publicar e o que ficou pendente.
-> Última atualização: 19/10/2026 · Revisão 3 do protótipo, no ar.
+> Última atualização: 20/10/2026 · Revisão 3 do protótipo, no ar · roteiro da 2ª rodada (versões A e B).
 
 ---
 
@@ -83,7 +83,7 @@ Nada nele altera sistema algum. A faixa preta no topo diz, de forma permanente,
 |---|---|
 | **Protótipo no ar** (link público, usado nas entrevistas) | https://prototipo-portalpdm.pages.dev |
 | Protótipo — artifact (fonte editável no Claude) | https://claude.ai/artifact/5r7JJphRYHVbRn4fu6HX9y |
-| Roteiro das entrevistas — artifact | https://claude.ai/artifact/4aQCJZZ26h5ksv4TgUT1i6 |
+| Roteiro das entrevistas (2ª rodada, com o manual de conduta) — artifact | https://claude.ai/artifact/4aQCJZZ26h5ksv4TgUT1i6 |
 | Documento explicativo da proposta — artifact ⚠️ *desatualizado (revisão 1)* | https://claude.ai/code/artifact/ca5c86ce-3ea5-4e63-ba3d-887a6dfeee7d |
 | Painel do Cloudflare | https://dash.cloudflare.com → **Compute → Workers & Pages** → `prototipo-portalpdm` |
 
@@ -154,8 +154,10 @@ No projeto: `Documentos\IA\prototipo-cloudflare\`
 | Arquivo | Para que serve |
 |---|---|
 | `janelas-de-processamento.html` | **Fonte do protótipo.** É o arquivo publicado como artifact no Claude. Não tem `<head>` nem `<!doctype>` — o Claude injeta isso ao publicar. Para virar `index.html` precisa passar pelo script da [seção 7](#7-regerar-o-pacote-depois-de-editar-o-protótipo). |
-| `entrevistas-com-as-redes.html` | **Fonte do roteiro** das entrevistas. Também é fragmento. |
-| `entrevistas-print.html` | O roteiro com o CSS de impressão calibrado (quebras de página, densidade, cores). É dele que sai o PDF. |
+| `entrevistas-com-as-redes.html` | **Fonte do roteiro** das entrevistas, com o manual de conduta do entrevistador. Também é fragmento. Traz as versões A e B do termo (botões no topo da página) e o CSS de impressão (`@media print`), de onde saem os PDFs. |
+
+> O antigo `entrevistas-print.html` saiu em 20/10/2026: o CSS de impressão foi para dentro da fonte e o
+> script de PDF monta a cópia de impressão sozinho. Não há mais dois arquivos para manter iguais.
 
 No projeto: estavam no diretório temporário da sessão; **a cópia válida agora é esta pasta**.
 
@@ -163,7 +165,9 @@ No projeto: estavam no diretório temporário da sessão; **a cópia válida ago
 
 | Arquivo | O que é |
 |---|---|
-| `Pe-de-Meia-Entrevistas-com-as-Redes.pdf` | Roteiro das 15 tarefas, 7 páginas A4, um bloco por página. É o que o moderador usa na sessão. |
+| `Pe-de-Meia-Entrevistas-com-as-Redes-versao-A-processamento.pdf` | Roteiro da **2ª rodada**, versão A (termo "processamento"). 11 páginas A4: manual de conduta, abertura e um bloco de tarefas por página. É o que o moderador usa na sessão das redes A. |
+| `Pe-de-Meia-Entrevistas-com-as-Redes-versao-B-janela-de-processamento.pdf` | O mesmo, versão B (termo "janela de processamento"), para as redes B. |
+| `Pe-de-Meia-Entrevistas-com-as-Redes-rodada-1.pdf` | Roteiro usado na 1ª rodada (7 páginas). Guardado para referência. |
 | `Pe-de-Meia-Janelas-de-Processamento-prototipo.pdf` | Deck com as 10 telas comentadas. ⚠️ **É da revisão 1** — mostra reprocessamento, frequência na janela e filtro de competência, tudo já removido. Decisão de 30/09: deixar como está por ora. |
 
 ### Scripts
@@ -171,7 +175,9 @@ No projeto: estavam no diretório temporário da sessão; **a cópia válida ago
 | Arquivo | O que faz |
 |---|---|
 | `gerar-pacote.ps1` | Lê `fontes/janelas-de-processamento.html`, monta o `deploy/index.html` completo e refaz o zip. |
-| `gerar-pdf-roteiro.ps1` | Gera o PDF do roteiro a partir de `fontes/entrevistas-print.html`, via Chrome headless. |
+| `gerar-pacote.mjs` | O mesmo que o `gerar-pacote.ps1`, em Node, para qualquer SO. |
+| `gerar-pdf-roteiro.ps1` | Gera os dois PDFs do roteiro (versões A e B) a partir de `fontes/entrevistas-com-as-redes.html`, via Chrome headless. |
+| `gerar-pdf-roteiro.mjs` | O mesmo, em Node, para qualquer SO (usa Chrome, Chromium ou Edge; aceita o caminho na variável `CHROME`). |
 
 ---
 
@@ -269,13 +275,23 @@ Ele lê a fonte, monta o `deploy/index.html` com `<head>` completo (charset UTF-
 .\gerar-pdf-roteiro.ps1
 ```
 
-Usa o Chrome em modo headless para imprimir `fontes/entrevistas-print.html`. Resultado: 7 páginas A4,
-texto vetorial (selecionável), cores preservadas, um bloco de tarefas por página.
+Fora do Windows: `node gerar-pdf-roteiro.mjs`.
 
-O CSS de impressão que faz isso está **dentro** do `entrevistas-print.html`, num bloco
-`@media print` — ele evita cartões partidos entre páginas, força cada bloco a começar em página nova e
-compacta o espaçamento. Se você editar o roteiro em `entrevistas-com-as-redes.html`, precisa
-replicar a alteração no `entrevistas-print.html` (ou regerar esse arquivo copiando o bloco de CSS).
+Usa o Chrome em modo headless para imprimir `fontes/entrevistas-com-as-redes.html` duas vezes, uma por
+versão do termo (`#versao-a` e `#versao-b` no endereço). Resultado: dois PDFs de 11 páginas A4, texto
+vetorial (selecionável), cores preservadas, um bloco de tarefas por página, com a versão escrita no
+topo de cada página de tarefas.
+
+O CSS de impressão fica **dentro** da própria fonte, no segundo bloco `<style>` (`@media print`). Ele
+evita cartões partidos entre páginas, abre uma página nova para as seções 1 e 2 e para cada bloco de
+tarefas, e compacta o espaçamento. Editou o roteiro? É só rodar o script de novo e conferir se cada
+bloco de tarefas continua cabendo numa página.
+
+**Como as versões funcionam na fonte:** cada trecho que muda é um par
+`<span class="termo"><span class="va">…processamento…</span><span class="vb">…janela de processamento…</span></span>`.
+O `.termo` só dá o destaque na tela (some no papel). Para uma frase nova que cite o termo, use o mesmo
+par, ajustando artigo e concordância nos dois lados ("nesse processamento" / "nessa janela de
+processamento").
 
 ---
 
@@ -338,6 +354,33 @@ em teal) e o roteiro de 15 tarefas foi criado.
   Estudante* e uso do campo NIS).
 - Fechamento reduzido a 3 perguntas. Amostra: **4 participantes**.
 
+### Roteiro da 2ª rodada — 20/10/2026 (após a 1ª rodada de testes)
+
+O protótipo não mudou (segue na revisão 3). Mudou só o roteiro:
+
+1. **Saiu a pergunta sobre o Consulta Estudante** do fim da tarefa 12. Ficou a de uso do campo NIS.
+2. **Manual de conduta do entrevistador incorporado** (proposta "Manual do Entrevistador — Conduta nas
+   entrevistas com as redes", de 15/10): princípios de conduta, quadro sobre a confusão com o SGP,
+   abertura em quatro momentos (apresentação, conversa inicial, explicação da dinâmica, navegação
+   livre), regras durante as tarefas e encerramento. Ajustes de forma: a numeração repetida (2.3) virou
+   2.3 e 2.4, o "5. Encerramento" virou 4, e o parágrafo "Como usar este manual" foi adaptado, já que
+   agora manual e tarefas estão no mesmo documento.
+3. **Conversa inicial ganhou a pergunta 4**, sobre o nome que o operador dá ao sistema (há quem confunda
+   o Portal do Usuário com o SGP, e a própria equipe o chama de "Portal do Pé-de-Meia"). Ela reconhece
+   que cada rede usa um nome, para não induzir, e tem um seguimento: *"E tem algum outro sistema que você
+   usa para o Pé-de-Meia? Como você diferencia um do outro?"*.
+4. **Versões A e B do termo**, alternadas entre as redes: A diz *processamento*, B diz *janela de
+   processamento*. Muda só o texto lido em voz alta (tarefas 2 a 11, 14 e 15 e as perguntas de
+   utilidade); a tarefa 1 usa o verbo ("processou") nas duas. Um PDF por versão.
+5. **Tarefa 13**: o caminho esperado agora exige **Ciclo = Todos os ciclos** e **Janela de processamento =
+   Todas as janelas** (além de limpar a busca). Resposta: **2 estudantes**.
+6. **Tarefa 5** ganhou a pergunta de entendimento *"O que você entende quando dizemos que, na janela de
+   processamento de agosto de 2026, os ciclos 2024, 2025 e 2026 foram afetados?"*, com o que indica
+   entendimento e os sinais de confusão para o moderador.
+7. **Perguntas de utilidade específicas por tarefa** (5, 9, 10, 12 e 14), no lugar da pergunta genérica.
+   Cada uma é seguida de *"De 1 a 5, que nota você dá?"*, para a nota continuar comparável entre
+   participantes.
+
 ---
 
 ## 10. Dados do protótipo e gabaritos das 15 tarefas
@@ -369,15 +412,15 @@ dados, refaça essa conferência antes de usar o roteiro.
 | 2 | Matrículas processadas nele | 1.319.109 |
 | 3 | Processamentos neste ciclo | 6 |
 | 4 | **Quantas parcelas** na janela de agosto | 227.942 |
-| 5 | Ciclos afetados | 2024, 2025 e 2026 · *perguntar utilidade* |
+| 5 | Ciclos afetados | 2024, 2025 e 2026 · *pergunta de entendimento + utilidade* |
 | 6 | **Valor** liberado ao ciclo 2024 | R$ 1.879.800,00 |
 | 7 | Matrículas do ciclo 2024 com elegibilidade alterada | 3.417, de 431.208 processadas |
 | 8 | Comparar julho e agosto | Agosto, R$ 7.810.400,00 a mais |
 | 9 | Em quantos processamentos o ciclo 2024 apareceu | Um só (26/08/2026) · *perguntar utilidade* |
 | 10 | Janela de agosto + ciclo 2025, que incentivo | Conclusão · 6.539 parcelas · R$ 6.539.000,00 · *perguntar utilidade* |
 | 11 | Aguardando pagamento na janela de agosto | 56.074 (a lista mostra a 1ª página e informa o total) |
-| 12 | NIS `20055510001` | Estudante 1000068739 — Elegível, matrícula 30279793, Salvador · *utilidade + 2 perguntas* |
-| 13 | Frequência acumulada abaixo de 80% | 1 no ciclo 2026 (76,15%, amarelo); 2 em "Todos" (+74,4%, vermelho) |
+| 12 | NIS `20055510001` | Estudante 1000068739 — Elegível, matrícula 30279793, Salvador · *utilidade + pergunta sobre o campo NIS* |
+| 13 | Frequência acumulada abaixo de 80% | **2**, com Ciclo = Todos os ciclos e Janela = Todas as janelas: 5712230375 (76,15%, amarelo) e 6180442379 (74,4%, vermelho). Quem chega das tarefas 10–12 ainda está com janela 26/08, ciclo 2025 e o NIS na busca, e vê 0 *(conferido em 20/10/2026)* |
 | 14 | Matrícula `26440817` — quando mudou | Janela de 26/08/2026; era Não elegível, ciclo 2024 · *perguntar utilidade* |
 | 15 | CPF `123.456.789-01` — quantas parcelas | 2, ambas pagas (Matrícula e Frequência), na janela de 26/08/2026 |
 
@@ -475,7 +518,11 @@ precisa ter conta Cloudflare nem Google.
 | **Cloudflare Access** | Não configurado. Passo a passo na seção 11; parei na tela de boas-vindas do Zero Trust (botão *Get started*). |
 | **Documento explicativo da proposta** | É da revisão 1. Ainda fala de reprocessamento, frequência dentro da janela e filtro de competência. Precisa ser atualizado antes de circular. |
 | **PDF das 10 telas** | Também da revisão 1. Decisão de 30/09: deixar como está "a princípio". |
-| **Piloto com usuário real** | Estava previsto para 08/10/2026. Registrar aqui o que saiu e o que precisa mudar. |
+| **1ª rodada de testes** | Feita. Os ajustes pedidos depois dela estão no roteiro da 2ª rodada (seção 9). Ainda vale registrar aqui os achados sobre o protótipo em si. |
+| **"Todas as janelas" × "todos os processamentos"** | O pedido da tarefa 13 falava em filtrar por "todos os processamentos", mas a opção do filtro no protótipo se chama **"Todas as janelas"**. O roteiro usa o rótulo da tela. Decidir se o rótulo do protótipo muda. |
+| **"Nome de aba" no manual** | O princípio "Fidelidade à versão do roteiro da rede" fala em usar "o termo e o nome de aba" da versão. Hoje só o termo varia entre A e B. Se a ideia era variar também o nome de uma aba, falta definir qual. |
+| **Enunciado da tarefa 13** | O texto continua "encontre os estudantes com frequência acumulada abaixo de 80%", sem dizer "em todos os ciclos". Com o gabarito novo (2), quem responde 1 está lendo certo o recorte da tela. Decidir se o enunciado ganha "em todos os ciclos". |
+| **`gerar-pdf-roteiro.ps1` reescrito sem teste no Windows** | A versão Node foi executada e conferida. A de PowerShell foi reescrita para gerar as duas versões e revisada, mas não rodou num Windows ainda. |
 | **Tarefa 6 do roteiro** | Mantive o recorte do ciclo 2024 ("valor liberado ao ciclo 2024"). Se a intenção era o valor da janela inteira (R$ 50.819.600,00), é uma linha para trocar. |
 | **Modal do estudante** | Removi a coluna de competência também ali, indo além do pedido explícito. Se quiser o código de volta no detalhe individual, é só reverter. |
 | **Três pontos técnicos nunca validados** | Herdados da apuração de agosto: (a) de qual campo cada tela puxa o filtro; (b) se existe rastreabilidade de pagamento por execução — sem isso a janela não consegue afirmar quais parcelas saíram de qual execução; (c) intervalo das parcelas de frequência, 02–10 ou 02–09. |
@@ -516,7 +563,8 @@ PDM-Janelas-handoff/
 ├── CLAUDE.md                   <- instrucoes curtas para o Claude Code (aponta para cá)
 ├── gerar-pacote.ps1            <- fonte  ->  deploy/index.html + zip (Windows)
 ├── gerar-pacote.mjs            <- o mesmo, em Node (qualquer SO)
-├── gerar-pdf-roteiro.ps1       <- fonte  ->  PDF do roteiro
+├── gerar-pdf-roteiro.ps1       <- fonte  ->  PDFs do roteiro, versoes A e B (Windows)
+├── gerar-pdf-roteiro.mjs       <- o mesmo, em Node (qualquer SO)
 ├── prototipo-cloudflare.zip    <- o pacote pronto (gerado, fora do git)
 ├── deploy/                     <- o que vai para o Cloudflare
 │   ├── index.html
@@ -524,10 +572,11 @@ PDM-Janelas-handoff/
 │   └── _redirects
 ├── fontes/                     <- o que você edita
 │   ├── janelas-de-processamento.html
-│   ├── entrevistas-com-as-redes.html
-│   └── entrevistas-print.html
+│   └── entrevistas-com-as-redes.html
 └── entregaveis/
-    ├── Pe-de-Meia-Entrevistas-com-as-Redes.pdf
+    ├── Pe-de-Meia-Entrevistas-com-as-Redes-versao-A-processamento.pdf
+    ├── Pe-de-Meia-Entrevistas-com-as-Redes-versao-B-janela-de-processamento.pdf
+    ├── Pe-de-Meia-Entrevistas-com-as-Redes-rodada-1.pdf
     └── Pe-de-Meia-Janelas-de-Processamento-prototipo.pdf
 ```
 
@@ -536,5 +585,6 @@ PDM-Janelas-handoff/
 conferir o rodapé na URL.
 
 A pasta inteira vive em `Documentos\IA\PDM-Janelas-handoff\`, que sincroniza pelo OneDrive entre os
-seus PCs. Os dois scripts foram testados: o `gerar-pacote.ps1` reproduz o `index.html` publicado
-byte a byte, e o `gerar-pdf-roteiro.ps1` devolve as mesmas 7 páginas com os gabaritos conferidos.
+seus PCs. O `gerar-pacote.ps1` e o `gerar-pacote.mjs` reproduzem o `index.html` publicado byte a
+byte. O `gerar-pdf-roteiro.mjs` gera as duas versões do roteiro da 2ª rodada (11 páginas cada); o
+`.ps1` equivalente ainda não foi rodado no Windows (seção 12).

@@ -12,7 +12,10 @@ Regras que valem para toda edição:
   nada de competência/`AAAAMM`, reprocessamento ou identificador de apuração na interface).
 - **Mexeu em dados? Refaça a conferência dos gabaritos** da seção 10 contra a página gerada. Os 17
   estudantes nomeados sustentam as respostas do roteiro — não altere CPF, NIS ou matrícula deles.
-- **Mudou o roteiro?** Replique a alteração em `fontes/entrevistas-com-as-redes.html` e em
-  `fontes/entrevistas-print.html` (este é o que vira PDF).
+- **Mudou o roteiro?** Edite só `fontes/entrevistas-com-as-redes.html` e rode
+  `node gerar-pdf-roteiro.mjs` (ou `.\gerar-pdf-roteiro.ps1`), que gera os PDFs das versões A e B.
+  Todo texto lido em voz alta que cite o termo precisa do par versão A ("processamento") / versão B
+  ("janela de processamento") — ver a seção 8 do LEIA-ME. Confira que cada bloco de tarefas continua
+  cabendo numa página.
 - **Atualize o rodapé ("Revisão N — mês de ano")** e a seção 9 do LEIA-ME a cada nova revisão.
 - Scripts `.ps1` precisam continuar **ASCII puro** (PowerShell 5.1).
