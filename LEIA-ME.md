@@ -190,16 +190,25 @@ conclui: o arquivo maior fica com um círculo girando para sempre e o campo do n
 vermelho. São chamadas à API do Cloudflare sendo bloqueadas no navegador — provavelmente uma extensão
 ou o proxy da rede. Nenhum projeto chega a ser criado.
 
-**O caminho que funciona** é a linha de comando, publicando a pasta local
-`C:\temp\prototipo-cloudflare`, que tem os três arquivos (`index.html`, `_headers`, `_redirects`):
+**O caminho que funciona** é a linha de comando, publicando uma pasta local com os três arquivos
+(`index.html`, `_headers`, `_redirects`). Hoje essa pasta fica em `Downloads\prototipo-cloudflare`
+(no PC antigo era `C:\temp\prototipo-cloudflare`; o comando é o mesmo, só muda o caminho).
 
 ```powershell
-npx --yes wrangler pages deploy c:/temp/prototipo-cloudflare --project-name=prototipo-portalpdm
+# 1) Descompactar o pacote (prototipo-cloudflare.zip, baixado em Downloads) na pasta de publicação
+Expand-Archive "$env:USERPROFILE\Downloads\prototipo-cloudflare.zip" -DestinationPath "$env:USERPROFILE\Downloads\prototipo-cloudflare" -Force
+
+# 2) Conferir a revisão antes de publicar
+Select-String -Path "$env:USERPROFILE\Downloads\prototipo-cloudflare\index.html" -Pattern "Revis.o \d+" | ForEach-Object { $_.Matches[0].Value }
+
+# 3) Publicar
+npx --yes wrangler pages deploy "$env:USERPROFILE\Downloads\prototipo-cloudflare" --project-name=prototipo-portalpdm
 ```
 
-**Para publicar uma revisão nova**, troque só o `index.html` dessa pasta pelo `deploy/index.html` deste
-repositório (já vem gerado; o `gerar-pacote` só é preciso se você editar a fonte na sua máquina, seção 7).
-O `_headers` e o `_redirects` não mudam desde 30/09.
+O zip é o `prototipo-cloudflare.zip` que os scripts `gerar-pacote` montam a partir da pasta `deploy/`
+(ele não é versionado; peça ao Claude para gerar e enviar, ou rode o `gerar-pacote`). Para uma revisão
+nova, também basta trocar só o `index.html` da pasta pelo `deploy/index.html` deste repositório: o
+`_headers` e o `_redirects` não mudam desde 30/09.
 
 > **Se um dia publicar direto de um clone deste repositório**, rode o comando de fora da pasta git
 > (por exemplo, `cd $env:TEMP` antes). Dentro de uma pasta git, o wrangler usa o nome da branch e
