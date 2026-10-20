@@ -190,32 +190,21 @@ conclui: o arquivo maior fica com um círculo girando para sempre e o campo do n
 vermelho. São chamadas à API do Cloudflare sendo bloqueadas no navegador — provavelmente uma extensão
 ou o proxy da rede. Nenhum projeto chega a ser criado.
 
-**O caminho que funciona** é a linha de comando. Desde que o pacote foi para o GitHub, são dois
-passos no PowerShell: trazer a versão nova do repositório e publicar a pasta `deploy`.
+**O caminho que funciona** é a linha de comando, publicando a pasta local
+`C:\temp\prototipo-cloudflare`, que tem os três arquivos (`index.html`, `_headers`, `_redirects`):
 
 ```powershell
-# 1) Trazer a versão nova
-#    primeira vez nesta máquina:
-git clone -b claude/bold-allen-sdfm1g https://github.com/pedroalencarmachado/prototipo-pdm.git C:\prototipo-pdm
-#    das próximas vezes:
-git -C C:\prototipo-pdm pull
-
-# 2) Publicar, rodando de FORA do repositório
-cd $env:TEMP
-npx --yes wrangler pages deploy "C:\prototipo-pdm\deploy" --project-name=prototipo-portalpdm
+npx --yes wrangler pages deploy c:/temp/prototipo-cloudflare --project-name=prototipo-portalpdm
 ```
 
-**Por que o `cd $env:TEMP`:** quando o comando roda dentro de uma pasta git, o wrangler lê o nome da
-branch (`claude/bold-allen-sdfm1g`) e publica como **pré-visualização**, num endereço como
-`claude-bold-allen-sdfm1g.prototipo-portalpdm.pages.dev`, e a URL principal continua com a versão
-antiga. Rodando de uma pasta comum, ele publica na principal, como sempre. Se a saída do comando
-mostrar um endereço com o nome da branch, foi isso: repita a partir do `$env:TEMP`.
+**Para publicar uma revisão nova**, troque só o `index.html` dessa pasta pelo `deploy/index.html` deste
+repositório (já vem gerado; o `gerar-pacote` só é preciso se você editar a fonte na sua máquina, seção 7).
+O `_headers` e o `_redirects` não mudam desde 30/09.
 
-**Sem git na máquina:** no GitHub, abra o repositório na branch `claude/bold-allen-sdfm1g`, clique em
-**Code → Download ZIP**, descompacte, e rode o passo 2 apontando para a pasta `deploy` descompactada.
-
-O `deploy/index.html` já vem gerado no repositório. Só é preciso rodar o `gerar-pacote` se você editar
-a fonte do protótipo na sua máquina (seção 7).
+> **Se um dia publicar direto de um clone deste repositório**, rode o comando de fora da pasta git
+> (por exemplo, `cd $env:TEMP` antes). Dentro de uma pasta git, o wrangler usa o nome da branch e
+> publica como pré-visualização, sem atualizar a URL principal (seção 13). A pasta `C:\temp\...` não
+> tem esse problema.
 
 O `--yes` é obrigatório: sem ele o npx faz a pergunta *"Ok to proceed?"* e qualquer caractere extra
 derruba com `npm error canceled`.
