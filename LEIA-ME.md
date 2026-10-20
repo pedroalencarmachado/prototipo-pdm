@@ -364,7 +364,9 @@ O protótipo não mudou (segue na revisão 3). Mudou só o roteiro:
    abertura em quatro momentos (apresentação, conversa inicial, explicação da dinâmica, navegação
    livre), regras durante as tarefas e encerramento. Ajustes de forma: a numeração repetida (2.3) virou
    2.3 e 2.4, o "5. Encerramento" virou 4, e o parágrafo "Como usar este manual" foi adaptado, já que
-   agora manual e tarefas estão no mesmo documento.
+   agora manual e tarefas estão no mesmo documento (e sem a expressão "Módulo Pé-de-Meia no SGP": o SGP
+   é outro sistema). O princípio "Fidelidade à versão do roteiro da rede" fala só do termo; o "nome de
+   aba" saiu porque nenhuma aba varia entre as versões.
 3. **Conversa inicial ganhou a pergunta 4**, sobre o nome que o operador dá ao sistema (há quem confunda
    o Portal do Usuário com o SGP, e a própria equipe o chama de "Portal do Pé-de-Meia"). Ela reconhece
    que cada rede usa um nome, para não induzir, e tem um seguimento: *"E tem algum outro sistema que você
@@ -372,8 +374,9 @@ O protótipo não mudou (segue na revisão 3). Mudou só o roteiro:
 4. **Versões A e B do termo**, alternadas entre as redes: A diz *processamento*, B diz *janela de
    processamento*. Muda só o texto lido em voz alta (tarefas 2 a 11, 14 e 15 e as perguntas de
    utilidade); a tarefa 1 usa o verbo ("processou") nas duas. Um PDF por versão.
-5. **Tarefa 13**: o caminho esperado agora exige **Ciclo = Todos os ciclos** e **Janela de processamento =
-   Todas as janelas** (além de limpar a busca). Resposta: **2 estudantes**.
+5. **Tarefa 13**: o enunciado passou a pedir os estudantes abaixo de 80% **em todos os ciclos**, e o
+   caminho esperado exige **Ciclo = Todos os ciclos** e **Janela de processamento = Todas as janelas**
+   (além de limpar a busca). Resposta: **2 estudantes**.
 6. **Tarefa 5** ganhou a pergunta de entendimento *"O que você entende quando dizemos que, na janela de
    processamento de agosto de 2026, os ciclos 2024, 2025 e 2026 foram afetados?"*, com o que indica
    entendimento e os sinais de confusão para o moderador.
@@ -420,7 +423,7 @@ dados, refaça essa conferência antes de usar o roteiro.
 | 10 | Janela de agosto + ciclo 2025, que incentivo | Conclusão · 6.539 parcelas · R$ 6.539.000,00 · *perguntar utilidade* |
 | 11 | Aguardando pagamento na janela de agosto | 56.074 (a lista mostra a 1ª página e informa o total) |
 | 12 | NIS `20055510001` | Estudante 1000068739 — Elegível, matrícula 30279793, Salvador · *utilidade + pergunta sobre o campo NIS* |
-| 13 | Frequência acumulada abaixo de 80% | **2**, com Ciclo = Todos os ciclos e Janela = Todas as janelas: 5712230375 (76,15%, amarelo) e 6180442379 (74,4%, vermelho). Quem chega das tarefas 10–12 ainda está com janela 26/08, ciclo 2025 e o NIS na busca, e vê 0 *(conferido em 20/10/2026)* |
+| 13 | Frequência acumulada abaixo de 80%, em todos os ciclos | **2**, com Ciclo = Todos os ciclos e Janela = Todas as janelas: 5712230375 (76,15%, amarelo) e 6180442379 (74,4%, vermelho). Quem chega das tarefas 10–12 ainda está com janela 26/08, ciclo 2025 e o NIS na busca, e vê 0 *(conferido em 20/10/2026)* |
 | 14 | Matrícula `26440817` — quando mudou | Janela de 26/08/2026; era Não elegível, ciclo 2024 · *perguntar utilidade* |
 | 15 | CPF `123.456.789-01` — quantas parcelas | 2, ambas pagas (Matrícula e Frequência), na janela de 26/08/2026 |
 
@@ -519,9 +522,7 @@ precisa ter conta Cloudflare nem Google.
 | **Documento explicativo da proposta** | É da revisão 1. Ainda fala de reprocessamento, frequência dentro da janela e filtro de competência. Precisa ser atualizado antes de circular. |
 | **PDF das 10 telas** | Também da revisão 1. Decisão de 30/09: deixar como está "a princípio". |
 | **1ª rodada de testes** | Feita. Os ajustes pedidos depois dela estão no roteiro da 2ª rodada (seção 9). Ainda vale registrar aqui os achados sobre o protótipo em si. |
-| **"Todas as janelas" × "todos os processamentos"** | O pedido da tarefa 13 falava em filtrar por "todos os processamentos", mas a opção do filtro no protótipo se chama **"Todas as janelas"**. O roteiro usa o rótulo da tela. Decidir se o rótulo do protótipo muda. |
-| **"Nome de aba" no manual** | O princípio "Fidelidade à versão do roteiro da rede" fala em usar "o termo e o nome de aba" da versão. Hoje só o termo varia entre A e B. Se a ideia era variar também o nome de uma aba, falta definir qual. |
-| **Enunciado da tarefa 13** | O texto continua "encontre os estudantes com frequência acumulada abaixo de 80%", sem dizer "em todos os ciclos". Com o gabarito novo (2), quem responde 1 está lendo certo o recorte da tela. Decidir se o enunciado ganha "em todos os ciclos". |
+| **"Todas as janelas" × "todos os processamentos"** | O pedido da tarefa 13 falava em filtrar por "todos os processamentos", mas a opção do filtro no protótipo se chama **"Todas as janelas"**. O roteiro usa o rótulo da tela. Decidir quando voltarmos ao protótipo. |
 | **`gerar-pdf-roteiro.ps1` reescrito sem teste no Windows** | A versão Node foi executada e conferida. A de PowerShell foi reescrita para gerar as duas versões e revisada, mas não rodou num Windows ainda. |
 | **Tarefa 6 do roteiro** | Mantive o recorte do ciclo 2024 ("valor liberado ao ciclo 2024"). Se a intenção era o valor da janela inteira (R$ 50.819.600,00), é uma linha para trocar. |
 | **Modal do estudante** | Removi a coluna de competência também ali, indo além do pedido explícito. Se quiser o código de volta no detalhe individual, é só reverter. |
