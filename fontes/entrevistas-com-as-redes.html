@@ -275,15 +275,16 @@ td:first-child{font-weight:600}
   <p>
     Nesta rodada, metade das redes ouve as tarefas com o termo <strong>processamento</strong> (versão A) e a outra metade
     com <strong>janela de processamento</strong> (versão B). O objetivo é ver se o nível de dificuldade muda conforme o termo.
-    Mudam só o texto lido em voz alta e o nome do menu no protótipo (<strong>Processamentos</strong> na versão A,
-    <strong>Janelas</strong> na B). As telas, os caminhos esperados e os gabaritos são os mesmos.
+    Mudam o texto lido em voz alta e, no protótipo, o termo em todos os rótulos (menu, títulos, abas, filtros e
+    botões): <strong>Processamentos</strong> na versão A, <strong>Janelas de Processamento</strong> na B. As telas,
+    os caminhos esperados e os gabaritos são os mesmos.
   </p>
   <div class="tbl">
     <table>
       <thead><tr><th style="width:11%">Versão</th><th style="width:22%">Termo nas tarefas</th><th style="width:17%">Menu no protótipo</th><th>Exemplo (tarefa 4)</th></tr></thead>
       <tbody>
         <tr><td>A</td><td>processamento</td><td>Processamentos</td><td>“Quantas parcelas foram liberadas <strong>no processamento</strong> de agosto de 2026?”</td></tr>
-        <tr><td>B</td><td>janela de processamento</td><td>Janelas</td><td>“Quantas parcelas foram liberadas <strong>na janela de processamento</strong> de agosto de 2026?”</td></tr>
+        <tr><td>B</td><td>janela de processamento</td><td>Janelas de Processamento</td><td>“Quantas parcelas foram liberadas <strong>na janela de processamento</strong> de agosto de 2026?”</td></tr>
       </tbody>
     </table>
   </div>
@@ -536,7 +537,7 @@ td:first-child{font-weight:600}
     </div>
   </div>
   <div class="cen-b">
-    <div><div class="k">Caminho esperado</div><div class="v">Rolar a tela inicial até o bloco <b>Último processamento</b>.</div></div>
+    <div><div class="k">Caminho esperado</div><div class="v">Rolar a tela inicial até o bloco <b><span class="termo"><span class="va">Último processamento</span><span class="vb">Última janela de processamento</span></span></b>.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v"><b>26/08/2026</b>, concluído às 07:48.</div></div>
   </div>
 </div>
@@ -550,7 +551,7 @@ td:first-child{font-weight:600}
     </div>
   </div>
   <div class="cen-b">
-    <div><div class="k">Caminho esperado</div><div class="v">Ler no próprio cartão da tela inicial, sem abrir a janela.</div></div>
+    <div><div class="k">Caminho esperado</div><div class="v">Ler no próprio cartão da tela inicial, sem abrir <span class="termo"><span class="va">o processamento</span><span class="vb">a janela de processamento</span></span>.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">1.319.109</b> matrículas — o mesmo total de <b>Matrículas na Rede</b> sem filtro, já que esta janela processou os três ciclos.</div></div>
   </div>
 </div>
@@ -564,7 +565,7 @@ td:first-child{font-weight:600}
     </div>
   </div>
   <div class="cen-b">
-    <div><div class="k">Caminho esperado</div><div class="v">Menu <b><span class="termo"><span class="va">Processamentos</span><span class="vb">Janelas</span></span></b>, ou o botão “Ver todas as janelas”.</div></div>
+    <div><div class="k">Caminho esperado</div><div class="v">Menu <b><span class="termo"><span class="va">Processamentos</span><span class="vb">Janelas de Processamento</span></span></b>, ou o botão “<span class="termo"><span class="va">Ver todos os processamentos</span><span class="vb">Ver todas as janelas de processamento</span></span>”.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v"><b>6</b> no ciclo 2026, de 25/03/2026 a 26/08/2026.</div></div>
   </div>
 </div>
@@ -590,7 +591,7 @@ td:first-child{font-weight:600}
     </div>
   </div>
   <div class="cen-b">
-    <div><div class="k">Caminho esperado</div><div class="v"><span class="termo"><span class="va">Processamentos</span><span class="vb">Janelas</span></span> → janela de 26/08/2026 → total de parcelas no cabeçalho da tabela ou no cartão de Pagamento.</div></div>
+    <div><div class="k">Caminho esperado</div><div class="v"><span class="termo"><span class="va">Processamentos</span><span class="vb">Janelas de Processamento</span></span> → <span class="termo"><span class="va">processamento de 26/08/2026</span><span class="vb">janela de processamento de 26/08/2026</span></span> → total de parcelas no cabeçalho da tabela ou no cartão de Pagamento.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">227.942</b> parcelas. Se responder <em>R$ 50.819.600,00</em>, registre como <b>não concluiu</b>: leu valor no lugar de quantidade.</div></div>
   </div>
 </div>
@@ -604,7 +605,7 @@ td:first-child{font-weight:600}
     </div>
   </div>
   <div class="cen-b">
-    <div><div class="k">Caminho esperado</div><div class="v">Cabeçalho da janela, ou as etiquetas coloridas na tabela por ciclo.</div></div>
+    <div><div class="k">Caminho esperado</div><div class="v"><span class="termo"><span class="va">Cabeçalho do processamento</span><span class="vb">Cabeçalho da janela de processamento</span></span>, ou as etiquetas coloridas na tabela por ciclo.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v"><b>2024, 2025 e 2026</b>.</div></div>
   </div>
   <div class="perguntar entender"><b>Depois da resposta, pergunte:</b>
@@ -670,7 +671,7 @@ td:first-child{font-weight:600}
     </div>
   </div>
   <div class="cen-b">
-    <div><div class="k">Caminho esperado</div><div class="v"><span class="termo"><span class="va">Processamentos</span><span class="vb">Janelas</span></span> → aba <b>Comparar janelas</b> → Janela A = 24/07, Janela B = 26/08. Também é válido abrir as duas janelas em sequência.</div></div>
+    <div><div class="k">Caminho esperado</div><div class="v"><span class="termo"><span class="va">Processamentos</span><span class="vb">Janelas de Processamento</span></span> → aba <b><span class="termo"><span class="va">Comparar processamentos</span><span class="vb">Comparar janelas de processamento</span></span></b> → <span class="termo"><span class="va">Processamento A = 24/07, Processamento B = 26/08</span><span class="vb">Janela de processamento A = 24/07, Janela de processamento B = 26/08</span></span>. Também é válido abrir <span class="termo"><span class="va">os dois processamentos</span><span class="vb">as duas janelas de processamento</span></span> em sequência.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v"><b>Agosto</b>, com <b>R$ 7.810.400,00</b> a mais que julho (R$ 43.009.200,00). A tela só permite comparar uma janela com outra posterior a ela.</div></div>
   </div>
 </div>
@@ -684,7 +685,7 @@ td:first-child{font-weight:600}
     </div>
   </div>
   <div class="cen-b">
-    <div><div class="k">Caminho esperado</div><div class="v"><span class="termo"><span class="va">Processamentos</span><span class="vb">Janelas</span></span> → filtro <b>Ciclo afetado = 2024</b>. Ou, em qualquer listagem, escolher o ciclo 2024 e abrir o filtro de janela.</div></div>
+    <div><div class="k">Caminho esperado</div><div class="v"><span class="termo"><span class="va">Processamentos</span><span class="vb">Janelas de Processamento</span></span> → filtro <b>Ciclo afetado = 2024</b>. Ou, em qualquer listagem, escolher o ciclo 2024 e abrir o filtro <span class="termo"><span class="va">de processamento</span><span class="vb">de janela de processamento</span></span>.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v"><b>Um só</b> — a janela de 26/08/2026.</div></div>
   </div>
   <div class="perguntar"><b>Utilidade:</b>
@@ -702,7 +703,7 @@ td:first-child{font-weight:600}
     </div>
   </div>
   <div class="cen-b">
-    <div><div class="k">Caminho esperado</div><div class="v">Pagamento → aba <b>Ensino Médio Regular</b> → Janela = 26/08/2026 → Ciclo = 2025.</div></div>
+    <div><div class="k">Caminho esperado</div><div class="v">Pagamento → aba <b>Ensino Médio Regular</b> → <span class="termo"><span class="va">Processamento</span><span class="vb">Janela de processamento</span></span> = 26/08/2026 → Ciclo = 2025.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v"><b>Conclusão</b> · <b class="num">6.539</b> parcelas · R$ 6.539.000,00.</div></div>
   </div>
   <div class="perguntar"><b>Utilidade:</b>
@@ -720,7 +721,7 @@ td:first-child{font-weight:600}
     </div>
   </div>
   <div class="cen-b">
-    <div><div class="k">Caminho esperado</div><div class="v">Pagamento → Janela = 26/08/2026 → Situação = <b>Aguardando Pagamento</b>.</div></div>
+    <div><div class="k">Caminho esperado</div><div class="v">Pagamento → <span class="termo"><span class="va">Processamento</span><span class="vb">Janela de processamento</span></span> = 26/08/2026 → Situação = <b>Aguardando Pagamento</b>.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v"><b class="num">56.074</b> pagamentos aguardando — o mesmo número do gráfico. A lista mostra a primeira página e informa o total ao lado.</div></div>
   </div>
 </div>
@@ -775,7 +776,7 @@ td:first-child{font-weight:600}
   </div>
   <div class="cen-b">
     <div><div class="k">Caminho esperado</div><div class="v">
-      Frequência → <b>Ciclo = Todos os ciclos</b> e <b>Janela de processamento = Todas as janelas</b> → filtro
+      Frequência → <b>Ciclo = Todos os ciclos</b> e <b><span class="termo"><span class="va">Processamento = Todos os processamentos</span><span class="vb">Janela de processamento = Todas as janelas de processamento</span></span></b> → filtro
       <b>Frequência acumulada</b> = Abaixo de 80%.
       A tela guarda os filtros e a busca das tarefas anteriores: quem seguiu as tarefas 10 a 12 chega aqui com a janela
       de 26/08/2026, o ciclo 2025 e o NIS da tarefa 12 ainda aplicados. A busca também precisa ser limpa.
@@ -797,7 +798,7 @@ td:first-child{font-weight:600}
     </div>
   </div>
   <div class="cen-b">
-    <div><div class="k">Caminho esperado</div><div class="v">Elegibilidade → busca pela matrícula → ícone de detalhe. Ou abrir a janela de 26/08 e consultar o bloco de matrículas alteradas.</div></div>
+    <div><div class="k">Caminho esperado</div><div class="v">Elegibilidade → busca pela matrícula → ícone de detalhe. Ou abrir <span class="termo"><span class="va">o processamento</span><span class="vb">a janela de processamento</span></span> de 26/08 e consultar o bloco de matrículas alteradas.</div></div>
     <div class="gab"><div class="k">Resposta</div><div class="v">Janela de <b>26/08/2026</b>; antes era <b>Não elegível</b>, no <b>ciclo 2024</b>.</div></div>
   </div>
   <div class="perguntar"><b>Utilidade:</b>
@@ -847,7 +848,7 @@ td:first-child{font-weight:600}
 <div class="foot">
   <span>Roteiro de teste de usabilidade — Janelas de Processamento</span><span>·</span>
   <span>2ª rodada · outubro de 2026</span><span>·</span>
-  <span>Protótipo na revisão 4</span><span>·</span>
+  <span>Protótipo na revisão 5</span><span>·</span>
   <span>Versão <span class="va">A · “processamento”</span><span class="vb">B · “janela de processamento”</span></span>
 </div>
 

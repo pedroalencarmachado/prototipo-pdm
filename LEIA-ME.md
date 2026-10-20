@@ -1,7 +1,7 @@
 # Protótipo "Janelas de Processamento" — Portal do Pé-de-Meia
 
 > **Handoff completo.** Tudo que foi feito, onde está, como publicar e o que ficou pendente.
-> Última atualização: 20/10/2026 · Revisão 4 do protótipo (chave de roteiro A/B) · roteiro da 2ª rodada (versões A e B).
+> Última atualização: 20/10/2026 · Revisão 5 do protótipo (termos A/B em toda a interface) · roteiro da 2ª rodada (versões A e B).
 
 ---
 
@@ -83,7 +83,7 @@ Nada nele altera sistema algum. A faixa preta no topo diz, de forma permanente,
 |---|---|
 | **Protótipo no ar** (link público, usado nas entrevistas) | https://prototipo-portalpdm.pages.dev |
 | Protótipo já na versão A do roteiro (menu "Processamentos") | https://prototipo-portalpdm.pages.dev/?roteiro=a |
-| Protótipo já na versão B do roteiro (menu "Janelas") | https://prototipo-portalpdm.pages.dev/?roteiro=b |
+| Protótipo já na versão B do roteiro (menu "Janelas de Processamento") | https://prototipo-portalpdm.pages.dev/?roteiro=b |
 | Protótipo — artifact (fonte editável no Claude) | https://claude.ai/artifact/5r7JJphRYHVbRn4fu6HX9y |
 | Roteiro das entrevistas (2ª rodada, com o manual de conduta) — artifact | https://claude.ai/artifact/4aQCJZZ26h5ksv4TgUT1i6 |
 | Documento explicativo da proposta — artifact ⚠️ *desatualizado (revisão 1)* | https://claude.ai/code/artifact/ca5c86ce-3ea5-4e63-ba3d-887a6dfeee7d |
@@ -435,6 +435,37 @@ o nome novo da coluna; "Antes de começar" manda marcar a mesma versão no prot�
 uma; o princípio de fidelidade voltou a citar o "nome de aba"; e a orientação de abertura fala de uma
 chave de destaque só.
 
+### Revisão 5 — 20/10/2026 (termos A/B em toda a interface)
+
+A chave *Roteiro A | B* passou a trocar o termo **em todos os lugares** onde ele aparece, não só no menu.
+A versão **A** diz *processamento*; a **B** diz *janela de processamento*, sempre com o termo completo.
+
+- **Menu, trilha, título da tela e aba do navegador:** A = *Processamentos*; B = *Janelas de Processamento*.
+- **Texto abaixo do título:** "Cada processamento mostra…" / "Cada janela de processamento mostra…".
+- **Abas internas:** *Processamentos · Comparar processamentos* / *Janelas de processamento · Comparar
+  janelas de processamento*; seletores *Processamento A/B* / *Janela de processamento A/B*.
+- **Detalhe:** título *Processamento de 26/08/2026* / *Janela de processamento de 26/08/2026*; situação
+  *Concluído* / *Concluída*; grupo *Matrículas com situação alterada neste processamento* / *nesta janela de
+  processamento*; botões *Ver todas as matrículas deste processamento*, *← Todos os processamentos* (e os
+  equivalentes em B); *Total do processamento*.
+- **Filtros de Elegibilidade, Frequência e Pagamento:** rótulo *Processamento* / *Janela de processamento*;
+  opção *Todos os processamentos* / *Todas as janelas de processamento*; *Todos os ciclos do processamento* /
+  *da janela de processamento*; a barra de contexto e o botão *Ver o processamento completo* / *Ver a janela de
+  processamento completa*.
+- **Também:** bloco *Último processamento* / *Última janela de processamento* na tela inicial e o texto abaixo
+  dele; contagem da lista; textos de exportação; coluna da listagem de Pagamento sem filtro; colunas do modal do
+  estudante; rodapé.
+- **Ficaram iguais nas duas** os usos genéricos que já existiam: "matrículas processadas", "data do
+  processamento", o aviso "a consulta do mês corrente está em processamento" e a situação de pagamento "Em
+  Processamento".
+- Conferido percorrendo 18 estados de tela em cada versão: nenhum "janela" visível na A, nenhum
+  "processamento" solto na B (fora os genéricos acima), números dos gabaritos inalterados, sem erro de JavaScript.
+
+**No roteiro:** os caminhos esperados citam os rótulos de cada versão (tarefas 1, 2, 3, 4, 5, 8, 9, 10, 11, 13
+e 14), e a tabela de versões em "Antes de começar" mostra o menu *Janelas de Processamento* na B. Isso também
+resolve a pendência "Todas as janelas" × "todos os processamentos": na versão A, a opção agora se chama *Todos
+os processamentos*.
+
 ---
 
 ## 10. Dados do protótipo e gabaritos das 15 tarefas
@@ -573,7 +604,6 @@ precisa ter conta Cloudflare nem Google.
 | **Documento explicativo da proposta** | É da revisão 1. Ainda fala de reprocessamento, frequência dentro da janela e filtro de competência. Precisa ser atualizado antes de circular. |
 | **PDF das 10 telas** | Também da revisão 1. Decisão de 30/09: deixar como está "a princípio". |
 | **1ª rodada de testes** | Feita. Os ajustes pedidos depois dela estão no roteiro da 2ª rodada (seção 9). Ainda vale registrar aqui os achados sobre o protótipo em si. |
-| **"Todas as janelas" × "todos os processamentos"** | O pedido da tarefa 13 falava em filtrar por "todos os processamentos", mas a opção do filtro no protótipo se chama **"Todas as janelas"**. O roteiro usa o rótulo da tela. Decidir quando voltarmos ao protótipo. |
 | **Gabarito da tarefa 11** | O 56.074 só aparece com **Ciclo = Todos os ciclos da janela**. O caminho esperado não diz isso, e quem vem da tarefa 10 chega com o ciclo 2025 e vê 1.609 (com 2026, 52.153). Já era assim na revisão 3. Decidir se o caminho e o enunciado ganham "todos os ciclos", como na tarefa 13. |
 | **`gerar-pdf-roteiro.ps1` reescrito sem teste no Windows** | A versão Node foi executada e conferida. A de PowerShell foi reescrita para gerar as duas versões e revisada, mas não rodou num Windows ainda. |
 | **Tarefa 6 do roteiro** | Mantive o recorte do ciclo 2024 ("valor liberado ao ciclo 2024"). Se a intenção era o valor da janela inteira (R$ 50.819.600,00), é uma linha para trocar. |

@@ -337,7 +337,7 @@ body.mark [data-new]::after{
   <strong>Protótipo</strong>
   <span class="msg">Proposta de evolução do Portal do Usuário · dados ilustrativos · não é o portal oficial</span>
   <div class="spacer"></div>
-  <div class="seg" role="group" aria-label="Versão do roteiro" title="A: menu Processamentos · B: menu Janelas">
+  <div class="seg" role="group" aria-label="Versão do roteiro" title="A: processamento · B: janela de processamento">
     <span class="rot">Roteiro</span>
     <button type="button" id="rtA" data-roteiro="a" aria-pressed="true">A</button>
     <button type="button" id="rtB" data-roteiro="b" aria-pressed="false">B</button>
@@ -709,7 +709,11 @@ const ROTAS = [
 ];
 
 function ir(hash){ location.hash = hash; }
-function nomeProc(){ return state.roteiro === 'b' ? 'Janelas' : 'Processamentos'; }
+/* Texto conforme a versão do roteiro: tv('versão A — processamento', 'versão B — janela de processamento'). */
+function tv(a, b){ return state.roteiro === 'b' ? b : a; }
+function nomeProc(){ return tv('Processamentos', 'Janelas de Processamento'); }
+/* "Concluída" concorda com janela; na versão A, com processamento */
+function statusJ(j){ return j.status === 'Concluída' ? tv('Concluído', 'Concluída') : j.status; }
 
 function lerHash(){
   const h = location.hash.replace(/^#\/?/, '') || 'inicio';
@@ -728,14 +732,16 @@ document.getElementById('tgNew').addEventListener('click', e => {
 });
 
 /* ── versão do roteiro ──────────────────────────────────────────────
-   A usa o termo "processamento" e o menu Processamentos; B usa "janela de
-   processamento" e o menu Janelas. Vem do endereço (?roteiro=a ou ?roteiro=b),
+   A usa o termo "processamento" (menu Processamentos); B usa "janela de
+   processamento" (menu Janelas de Processamento) em todos os rótulos, títulos e
+   textos da proposta — ver tv(). Vem do endereço (?roteiro=a ou ?roteiro=b),
    ou da última escolha na chave da faixa; sem nada, fica A. */
 function setRoteiro(v){
   state.roteiro = v === 'b' ? 'b' : 'a';
   try { localStorage.setItem('pdm-roteiro', state.roteiro); } catch (e) {}
   document.querySelectorAll('[data-roteiro]').forEach(b =>
     b.setAttribute('aria-pressed', String(b.dataset.roteiro === state.roteiro)));
+  document.title = nomeProc();
 }
 document.querySelectorAll('[data-roteiro]').forEach(b =>
   b.addEventListener('click', () => { setRoteiro(b.dataset.roteiro); render(); }));
@@ -777,13 +783,13 @@ function buscaAmpliada(){ return !!state.busca && state.ciclo !== 'todos'; }
 function selJanela(){
   const ops = janelasDisponiveis();
   return `<div class="field pai" data-new="filtro novo">
-    <label for="f-jan">Janela de processamento</label>
+    <label for="f-jan">${tv('Processamento', 'Janela de processamento')}</label>
     <select id="f-jan" onchange="setJanela(this.value)">
-      <option value="">Todas as janelas</option>
+      <option value="">${tv('Todos os processamentos', 'Todas as janelas de processamento')}</option>
       ${ops.map(j => `<option value="${j.id}" ${state.janela===j.id?'selected':''}>${j.rotulo}</option>`).join('')}
     </select>
     ${state.ciclo !== 'todos' && ops.length < JANELAS.length
-      ? `<span class="hint">${ops.length} de ${JANELAS.length} — só as que processaram ${state.ciclo}</span>` : ''}
+      ? `<span class="hint">${ops.length} de ${JANELAS.length} — ${tv('só os que processaram', 'só as que processaram')} ${state.ciclo}</span>` : ''}
   </div>`;
 }
 function selCiclo(){
@@ -791,7 +797,7 @@ function selCiclo(){
   return `<div class="field filho">
     <label for="f-ciclo">Ciclo</label>
     <select id="f-ciclo" onchange="setCiclo(this.value)">
-      <option value="todos" ${state.ciclo==='todos'?'selected':''}>${state.janela ? 'Todos os ciclos da janela' : 'Todos os ciclos'}</option>
+      <option value="todos" ${state.ciclo==='todos'?'selected':''}>${state.janela ? tv('Todos os ciclos do processamento', 'Todos os ciclos da janela de processamento') : 'Todos os ciclos'}</option>
       ${ops.map(a => `<option value="${a}" ${state.ciclo===String(a)?'selected':''}>${a}</option>`).join('')}
     </select>
   </div>`;
@@ -802,13 +808,13 @@ function windowBar(){
   if (!state.janela) return '';
   const j = jan(state.janela);
   const foco = state.ciclo === 'todos'
-    ? `todos os ciclos da janela (${anosDa(j).join(', ')})`
+    ? `todos os ciclos ${tv('do processamento', 'da janela de processamento')} (${anosDa(j).join(', ')})`
     : `somente o ciclo ${state.ciclo}`;
   return `<div class="window-bar" data-new="contexto da janela">
-    <span class="t">▣ Janela ${j.rotulo}</span>
+    <span class="t">▣ ${tv('Processamento de', 'Janela de processamento de')} ${j.rotulo}</span>
     <span class="d">Exibindo ${foco}.</span>
     <span class="actions">
-      <button class="btn new sm" onclick="ir('#/janela/${j.id}')">Ver a janela completa</button>
+      <button class="btn new sm" onclick="ir('#/janela/${j.id}')">${tv('Ver o processamento completo', 'Ver a janela de processamento completa')}</button>
       <button class="btn sm" onclick="setJanela('')">Limpar</button>
     </span>
   </div>`;
@@ -864,7 +870,7 @@ function searchbar(ph, mostrados, total){
       ${state.busca ? `<button class="clr" title="Limpar busca" onclick="state.busca=''; render()">×</button>` : ''}
     </div>
     <span class="count">${rotuloLista(mostrados, total)}</span>
-    ${buscaAmpliada() ? `<span class="count" style="color:var(--new)">buscando em todos os ciclos da janela</span>` : ''}
+    ${buscaAmpliada() ? `<span class="count" style="color:var(--new)">buscando em todos os ciclos ${tv('do processamento', 'da janela de processamento')}</span>` : ''}
   </div>`;
 }
 function selMun(lista){
@@ -936,13 +942,13 @@ function telaInicio(){
     </div>
 
     <div class="section-title" data-new="bloco novo" style="margin-top:38px">
-      <span class="ico" style="color:var(--new)">▣</span> Último processamento
-      <span class="act"><button class="btn new sm" onclick="ir('#/processamentos')">Ver todas as janelas</button></span>
+      <span class="ico" style="color:var(--new)">▣</span> ${tv('Último processamento', 'Última janela de processamento')}
+      <span class="act"><button class="btn new sm" onclick="ir('#/processamentos')">${tv('Ver todos os processamentos', 'Ver todas as janelas de processamento')}</button></span>
     </div>
     <button class="window-card hot" onclick="ir('#/janela/${j.id}')">
       <div class="wc-date">
         <div class="day">${j.rotulo}</div>
-        <div class="mon">${j.status} em ${j.fim}</div>
+        <div class="mon">${statusJ(j)} em ${j.fim}</div>
       </div>
       <div class="wc-cycles">
         <div class="cap">Ciclos afetados</div>
@@ -959,9 +965,9 @@ function telaInicio(){
       </div>
     </button>
     <p style="color:var(--ink-2); font-size:13px; margin:12px 2px 0; max-width:94ch">
-      Este processamento atingiu matrículas dos ciclos de <b>2024, 2025 e 2026</b> e liberou pagamento de matrícula do
+      ${tv('Este processamento', 'Esta janela de processamento')} atingiu matrículas dos ciclos de <b>2024, 2025 e 2026</b> e liberou pagamento de matrícula do
       <b>ciclo de 2024</b>. Pelo filtro de ciclo, esse resultado só apareceria para quem soubesse voltar ao ciclo de 2024 —
-      a janela mostra que ele aconteceu agora.
+      a leitura por ${tv('processamento', 'janela de processamento')} mostra que ele aconteceu agora.
     </p>
 
     <div class="section-title" style="margin-top:38px">Outros acessos</div>
@@ -988,8 +994,8 @@ function telaProcessamentos(){
     html:`
     <div class="page-head">
       <div>
-        <h1>Janelas de Processamento</h1>
-        <div class="sub">Cada janela mostra o que foi processado num mesmo período: quantas matrículas, de quais ciclos,
+        <h1>${nomeProc()}</h1>
+        <div class="sub">${tv('Cada processamento', 'Cada janela de processamento')} mostra o que foi processado num mesmo período: quantas matrículas, de quais ciclos,
         e quanto foi liberado em pagamento. É a leitura por <b>data do processamento</b> — complementar ao ciclo,
         que é a leitura por <b>ano do dado</b>.</div>
       </div>
@@ -997,8 +1003,8 @@ function telaProcessamentos(){
     </div>
 
     <div class="tabs" data-new="tela nova">
-      <button class="${state.aba==='lista'?'on':''}" onclick="state.aba='lista'; render()">Janelas</button>
-      <button class="${state.aba==='cmp'?'on':''}" onclick="state.aba='cmp'; render()">Comparar janelas</button>
+      <button class="${state.aba==='lista'?'on':''}" onclick="state.aba='lista'; render()">${tv('Processamentos', 'Janelas de processamento')}</button>
+      <button class="${state.aba==='cmp'?'on':''}" onclick="state.aba='cmp'; render()">${tv('Comparar processamentos', 'Comparar janelas de processamento')}</button>
     </div>
 
     ${state.aba === 'lista' ? listaJanelas() : comparativo()}`
@@ -1015,7 +1021,7 @@ function listaJanelas(){
           <option value="todos" ${state.ciclo==='todos'?'selected':''}>Todos</option>
           ${[2026,2025,2024].map(a => `<option value="${a}" ${state.ciclo===String(a)?'selected':''}>${a}</option>`).join('')}
         </select></div>
-      <span class="count">${N(lista.length)} ${lista.length === 1 ? 'janela' : 'janelas'}</span>
+      <span class="count">${N(lista.length)} ${lista.length === 1 ? tv('processamento', 'janela de processamento') : tv('processamentos', 'janelas de processamento')}</span>
     </div>
 
     <div class="window-list">
@@ -1023,7 +1029,7 @@ function listaJanelas(){
         <button class="window-card ${j.id===ULTIMA.id?'hot':''}" onclick="ir('#/janela/${j.id}')">
           <div class="wc-date">
             <div class="day">${j.rotulo}</div>
-            <div class="mon">${j.status}</div>
+            <div class="mon">${statusJ(j)}</div>
           </div>
           <div class="wc-cycles">
             <div class="cap">Ciclos afetados</div>
@@ -1043,10 +1049,10 @@ function listaJanelas(){
     </div>
 
     <div class="export" style="margin-top:26px">
-      <h3>Exportar Dados por Janela</h3>
+      <h3>Exportar Dados por ${tv('Processamento', 'Janela de Processamento')}</h3>
       <div class="box">
-        <div><b>Relatório da janela</b>
-        <p>Faça a solicitação do download com as matrículas processadas, as situações alteradas e as parcelas liberadas de cada janela, com o ciclo de cada uma.</p></div>
+        <div><b>${tv('Relatório do processamento', 'Relatório da janela de processamento')}</b>
+        <p>Faça a solicitação do download com as matrículas processadas, as situações alteradas e as parcelas liberadas de ${tv('cada processamento, com o ciclo de cada um', 'cada janela de processamento, com o ciclo de cada uma')}.</p></div>
         <button class="btn new solid" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações, como nas demais telas do Portal.')">⬓ Solicitar Planilha</button>
       </div>
     </div>`;
@@ -1080,18 +1086,18 @@ function comparativo(){
   return `
     <div class="filters">
       <div class="field">
-        <label for="c-a">Janela A <span class="hint" style="margin:0">anterior</span></label>
+        <label for="c-a">${tv('Processamento A', 'Janela de processamento A')} <span class="hint" style="margin:0">anterior</span></label>
         <select id="c-a" onchange="setCmpA(this.value)">
           ${opsA.map(x => `<option value="${x.i}" ${state.cmpA===x.i?'selected':''}>${x.j.rotulo}</option>`).join('')}
         </select>
       </div>
       <div class="field">
-        <label for="c-b">Janela B <span class="hint" style="margin:0">posterior</span></label>
+        <label for="c-b">${tv('Processamento B', 'Janela de processamento B')} <span class="hint" style="margin:0">posterior</span></label>
         <select id="c-b" onchange="setCmpB(this.value)">
           ${opsB.map(x => `<option value="${x.i}" ${state.cmpB===x.i?'selected':''}>${x.j.rotulo}</option>`).join('')}
         </select>
       </div>
-      <span class="count">só é possível comparar uma janela com outra posterior a ela</span>
+      <span class="count">só é possível comparar ${tv('um processamento com outro posterior a ele', 'uma janela de processamento com outra posterior a ela')}</span>
     </div>
     <div class="tbl-wrap">
       <table>
@@ -1111,8 +1117,8 @@ function comparativo(){
       </table>
     </div>
     <p style="color:var(--ink-2); font-size:13px; margin-top:14px; max-width:92ch">
-      A variação mostra o que mudou da janela <b>${a.rotulo}</b> para a janela <b>${b.rotulo}</b>.
-      Janelas que atingem mais de um ciclo liberam mais pagamento — é o caso de ${ULTIMA.rotulo}, que alcançou três ciclos.
+      A variação mostra o que mudou ${tv('do processamento', 'da janela de processamento')} <b>${a.rotulo}</b> para ${tv('o processamento', 'a janela de processamento')} <b>${b.rotulo}</b>.
+      ${tv('Processamentos', 'Janelas de processamento')} que atingem mais de um ciclo liberam mais pagamento — é o caso de ${ULTIMA.rotulo}, que alcançou três ciclos.
     </p>`;
 }
 
@@ -1138,14 +1144,14 @@ function telaJanela(){
   const mudancas = ALUNOS.filter(a => a.alt.some(x => x.jan === j.id));
 
   return {
-    crumbs:[{txt:nomeProc(), href:'#/processamentos'}, {txt:`Janela ${j.rotulo}`}],
+    crumbs:[{txt:nomeProc(), href:'#/processamentos'}, {txt:`${tv('Processamento de', 'Janela de processamento de')} ${j.rotulo}`}],
     html:`
     <div class="win-head">
       <div class="row">
         <div>
           <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap">
-            <h1>Janela de ${j.rotulo}</h1>
-            <span class="pill ok">${j.status}</span>
+            <h1>${tv('Processamento de', 'Janela de processamento de')} ${j.rotulo}</h1>
+            <span class="pill ok">${statusJ(j)}</span>
           </div>
           <div class="meta">
             <div><div class="k">Início</div><div class="v">${j.inicio}</div></div>
@@ -1156,7 +1162,7 @@ function telaJanela(){
           </div>
         </div>
         <div class="acts">
-          <button class="btn sm" onclick="ir('#/processamentos')">← Todas as janelas</button>
+          <button class="btn sm" onclick="ir('#/processamentos')">← ${tv('Todos os processamentos', 'Todas as janelas de processamento')}</button>
           <button class="btn new solid sm" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações, como nas demais telas do Portal.')">⬓ Exportar relatório</button>
         </div>
       </div>
@@ -1200,7 +1206,7 @@ function telaJanela(){
       <div class="res">
         <div class="res-h"><span style="color:var(--blue)">◆</span> Matrículas <span class="chip">${N(proc)} processadas</span></div>
         <div class="res-b">
-          <div class="dl"><span class="k">Com situação alterada nesta janela</span><span class="v">${N(alt)}</span></div>
+          <div class="dl"><span class="k">Com situação alterada ${tv('neste processamento', 'nesta janela de processamento')}</span><span class="v">${N(alt)}</span></div>
           <div class="dl"><span class="k">Passaram a Elegível</span><span class="v">${N(paraEl)}</span></div>
           <div class="dl"><span class="k">Deixaram de ser Elegível ou ficaram indefinidas</span><span class="v">${N(alt - paraEl)}</span></div>
           <div class="dl"><span class="k">Sem alteração</span><span class="v">${N(proc - alt)}</span></div>
@@ -1228,7 +1234,7 @@ function telaJanela(){
           </div>
         </div>
         <div class="res-f">
-          <button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='todos'; ir('#/pagamento')">Ver os pagamentos desta janela →</button>
+          <button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='todos'; ir('#/pagamento')">Ver os pagamentos ${tv('deste processamento', 'desta janela de processamento')} →</button>
         </div>
       </div>
     </div>
@@ -1252,7 +1258,7 @@ function telaJanela(){
             <td class="r num">${R$(p.valor)}</td>
           </tr>`)).join('')}
           <tr style="background:var(--surface-2)">
-            <td colspan="2"><b>Total da janela</b></td>
+            <td colspan="2"><b>${tv('Total do processamento', 'Total da janela de processamento')}</b></td>
             <td class="r num"><b>${N(totalP)}</b></td>
             <td class="r num"><b style="color:var(--green)">${R$(totalV)}</b></td>
           </tr>
@@ -1261,8 +1267,8 @@ function telaJanela(){
     </div>
 
     ${mudancas.length ? `
-    <div class="section-title" style="margin-top:34px"><span class="ico">◍</span> Matrículas com situação alterada nesta janela
-      <span class="act"><button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='todos'; ir('#/elegibilidade')">Ver todas as matrículas desta janela →</button></span>
+    <div class="section-title" style="margin-top:34px"><span class="ico">◍</span> Matrículas com situação alterada ${tv('neste processamento', 'nesta janela de processamento')}
+      <span class="act"><button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='todos'; ir('#/elegibilidade')">Ver todas as matrículas ${tv('deste processamento', 'desta janela de processamento')} →</button></span>
     </div>
     <div class="tbl-wrap">
       <table>
@@ -1287,7 +1293,7 @@ function telaJanela(){
       </table>
     </div>
     <p style="color:var(--ink-2); font-size:12.5px; margin-top:10px">
-      Amostra das ${N(alt)} matrículas alteradas nesta janela.
+      Amostra das ${N(alt)} matrículas alteradas ${tv('neste processamento', 'nesta janela de processamento')}.
     </p>` : ''}
     `
   };
@@ -1346,7 +1352,7 @@ function telaElegibilidade(){
       <h3>Exportar Dados de Elegibilidade</h3>
       <div class="box">
         <div><b>Planilha completa</b>
-        <p>Faça a solicitação do download da planilha completa para visualizar os status dos estudantes da rede${j?` <b>na janela de ${j.rotulo}</b>`:''}.</p></div>
+        <p>Faça a solicitação do download da planilha completa para visualizar os status dos estudantes da rede${j?` <b>${tv('no processamento de', 'na janela de processamento de')} ${j.rotulo}</b>`:''}.</p></div>
         <button class="btn solid" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações.')">⬓ Solicitar Planilha</button>
       </div>
       <p style="margin:14px 0 0"><a href="#/elegibilidade">↺ Visualizar Solicitações</a></p>
@@ -1389,7 +1395,7 @@ function telaElegibilidade(){
       </table>`}
     </div>
     ${j?`<p style="color:var(--ink-2); font-size:12.5px; margin-top:12px">
-      Exibindo as matrículas processadas na janela de ${j.rotulo}. A lista é a mesma de sempre — a janela apenas restringe quais matrículas aparecem.
+      Exibindo as matrículas processadas ${tv('no processamento de', 'na janela de processamento de')} ${j.rotulo}. A lista é a mesma de sempre — ${tv('o processamento', 'a janela de processamento')} apenas restringe quais matrículas aparecem.
     </p>`:''}`
   };
 }
@@ -1518,10 +1524,10 @@ function telaPagamento(){
   let donut, legenda;
   if (j) {
     const sel = state.ciclo === 'todos' ? j.ciclos : j.ciclos.filter(c => c.ano === +state.ciclo);
-    const tv = sel.reduce((s,c) => s + valorC(c), 0);
+    const totalV = sel.reduce((s,c) => s + valorC(c), 0);
     let acc = 0;
     const fs = sel.map(c => {
-      const pct = valorC(c) / tv * 100; const seg = `${CORC[c.ano]} ${acc}% ${acc+pct}%`; acc += pct;
+      const pct = valorC(c) / totalV * 100; const seg = `${CORC[c.ano]} ${acc}% ${acc+pct}%`; acc += pct;
       return {ano:c.ano, pct, seg, valor:valorC(c)};
     });
     donut = `conic-gradient(${fs.map(f => f.seg).join(', ')})`;
@@ -1591,7 +1597,7 @@ function telaPagamento(){
       </div>
     </div>
 
-    ${j ? `<div class="section-title"><span class="ico">▤</span> Parcelas desta janela, por ciclo</div>
+    ${j ? `<div class="section-title"><span class="ico">▤</span> Parcelas ${tv('deste processamento', 'desta janela de processamento')}, por ciclo</div>
     <div class="tbl-wrap">
       <table>
         <thead><tr><th style="width:110px">Ciclo</th><th>Incentivo</th><th class="r">Parcelas</th><th class="r">Valor</th></tr></thead>
@@ -1610,7 +1616,7 @@ function telaPagamento(){
       <h3>Exportar Dados de Pagamentos</h3>
       <div class="box">
         <div><b>Planilha completa</b>
-        <p>Faça a solicitação do download da planilha completa para visualizar os pagamentos realizados aos estudantes da rede${j?` <b>na janela de ${j.rotulo}</b>`:''}.</p></div>
+        <p>Faça a solicitação do download da planilha completa para visualizar os pagamentos realizados aos estudantes da rede${j?` <b>${tv('no processamento de', 'na janela de processamento de')} ${j.rotulo}</b>`:''}.</p></div>
         <button class="btn solid" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações.')">⬓ Solicitar Planilha</button>
       </div>
       <p style="margin:14px 0 0"><a href="#/pagamento">↺ Visualizar Solicitações</a></p>
@@ -1642,7 +1648,7 @@ function telaPagamento(){
           <th>Incentivo</th>
           <th>Ciclo</th>
           <th>Processado em</th>
-          ${!state.janela?'<th data-new="coluna nova">Janela</th>':''}
+          ${!state.janela?`<th data-new="coluna nova">${tv('Processamento', 'Janela de processamento')}</th>`:''}
           <th>Situação do Incentivo</th>
           <th></th>
         </tr></thead>
@@ -1711,7 +1717,7 @@ function renderModal(){
         <h4>Situação por ciclo</h4>
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>Ciclo</th><th>Situação no Pé-de-Meia</th><th>Situação anterior</th><th>Alterada na janela</th></tr></thead>
+            <thead><tr><th>Ciclo</th><th>Situação no Pé-de-Meia</th><th>Situação anterior</th><th>${tv('Alterada no processamento', 'Alterada na janela de processamento')}</th></tr></thead>
             <tbody>
               ${Object.keys(a.sit).sort((x,y)=>y-x).map(ano => {
                 const m = a.alt.find(x => x.ciclo === +ano);
@@ -1729,7 +1735,7 @@ function renderModal(){
         <h4>Pagamentos — ${N(ps.length)} ${ps.length===1?'parcela':'parcelas'}, ${R$(valor)} ${pagas.length===ps.length?'pagos':'já pagos'}</h4>
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>Ciclo</th><th>Incentivo</th><th>Janela</th><th>Situação</th></tr></thead>
+            <thead><tr><th>Ciclo</th><th>Incentivo</th><th>${tv('Processamento', 'Janela de processamento')}</th><th>Situação</th></tr></thead>
             <tbody>
               ${ps.length === 0 ? '<tr><td colspan="4" class="sec">Nenhuma parcela liberada.</td></tr>' :
                 ps.map(p => `<tr>
@@ -1764,9 +1770,9 @@ function render(){
   document.getElementById('crumbs').innerHTML = crumbsHTML(t.crumbs);
   document.getElementById('app').innerHTML = t.html + `
     <div class="foot">
-      <span>Protótipo de proposta — Janelas de Processamento</span><span>·</span>
+      <span>Protótipo de proposta — ${nomeProc()}</span><span>·</span>
       <span>Dados ilustrativos, ancorados nas telas atuais do Portal do Usuário</span><span>·</span>
-      <span>Revisão 4 — outubro de 2026</span>
+      <span>Revisão 5 — outubro de 2026</span>
     </div>`;
   renderModal();
 }
