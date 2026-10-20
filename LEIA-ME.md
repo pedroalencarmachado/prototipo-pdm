@@ -1,7 +1,7 @@
 # Protótipo "Janelas de Processamento" — Portal do Pé-de-Meia
 
 > **Handoff completo.** Tudo que foi feito, onde está, como publicar e o que ficou pendente.
-> Última atualização: 20/10/2026 · Revisão 3 do protótipo, no ar · roteiro da 2ª rodada (versões A e B).
+> Última atualização: 20/10/2026 · Revisão 4 do protótipo (chave de roteiro A/B) · roteiro da 2ª rodada (versões A e B).
 
 ---
 
@@ -82,6 +82,8 @@ Nada nele altera sistema algum. A faixa preta no topo diz, de forma permanente,
 | O quê | Onde |
 |---|---|
 | **Protótipo no ar** (link público, usado nas entrevistas) | https://prototipo-portalpdm.pages.dev |
+| Protótipo já na versão A do roteiro (menu "Processamentos") | https://prototipo-portalpdm.pages.dev/?roteiro=a |
+| Protótipo já na versão B do roteiro (menu "Janelas") | https://prototipo-portalpdm.pages.dev/?roteiro=b |
 | Protótipo — artifact (fonte editável no Claude) | https://claude.ai/artifact/5r7JJphRYHVbRn4fu6HX9y |
 | Roteiro das entrevistas (2ª rodada, com o manual de conduta) — artifact | https://claude.ai/artifact/4aQCJZZ26h5ksv4TgUT1i6 |
 | Documento explicativo da proposta — artifact ⚠️ *desatualizado (revisão 1)* | https://claude.ai/code/artifact/ca5c86ce-3ea5-4e63-ba3d-887a6dfeee7d |
@@ -188,15 +190,32 @@ conclui: o arquivo maior fica com um círculo girando para sempre e o campo do n
 vermelho. São chamadas à API do Cloudflare sendo bloqueadas no navegador — provavelmente uma extensão
 ou o proxy da rede. Nenhum projeto chega a ser criado.
 
-**O caminho que funciona** é a linha de comando. Abra o PowerShell **dentro desta pasta de handoff** e
-rode:
+**O caminho que funciona** é a linha de comando. Desde que o pacote foi para o GitHub, são dois
+passos no PowerShell: trazer a versão nova do repositório e publicar a pasta `deploy`.
 
 ```powershell
-npx --yes wrangler pages deploy ".\deploy" --project-name=prototipo-portalpdm
+# 1) Trazer a versão nova
+#    primeira vez nesta máquina:
+git clone -b claude/bold-allen-sdfm1g https://github.com/pedroalencarmachado/prototipo-pdm.git C:\prototipo-pdm
+#    das próximas vezes:
+git -C C:\prototipo-pdm pull
+
+# 2) Publicar, rodando de FORA do repositório
+cd $env:TEMP
+npx --yes wrangler pages deploy "C:\prototipo-pdm\deploy" --project-name=prototipo-portalpdm
 ```
 
-O `.\deploy` é relativo, então o comando funciona em qualquer máquina e em qualquer pasta — não
-depende de OneDrive nem de caminho fixo.
+**Por que o `cd $env:TEMP`:** quando o comando roda dentro de uma pasta git, o wrangler lê o nome da
+branch (`claude/bold-allen-sdfm1g`) e publica como **pré-visualização**, num endereço como
+`claude-bold-allen-sdfm1g.prototipo-portalpdm.pages.dev`, e a URL principal continua com a versão
+antiga. Rodando de uma pasta comum, ele publica na principal, como sempre. Se a saída do comando
+mostrar um endereço com o nome da branch, foi isso: repita a partir do `$env:TEMP`.
+
+**Sem git na máquina:** no GitHub, abra o repositório na branch `claude/bold-allen-sdfm1g`, clique em
+**Code → Download ZIP**, descompacte, e rode o passo 2 apontando para a pasta `deploy` descompactada.
+
+O `deploy/index.html` já vem gerado no repositório. Só é preciso rodar o `gerar-pacote` se você editar
+a fonte do protótipo na sua máquina (seção 7).
 
 O `--yes` é obrigatório: sem ele o npx faz a pergunta *"Ok to proceed?"* e qualquer caractere extra
 derruba com `npm error canceled`.
@@ -365,8 +384,8 @@ O protótipo não mudou (segue na revisão 3). Mudou só o roteiro:
    livre), regras durante as tarefas e encerramento. Ajustes de forma: a numeração repetida (2.3) virou
    2.3 e 2.4, o "5. Encerramento" virou 4, e o parágrafo "Como usar este manual" foi adaptado, já que
    agora manual e tarefas estão no mesmo documento (e sem a expressão "Módulo Pé-de-Meia no SGP": o SGP
-   é outro sistema). O princípio "Fidelidade à versão do roteiro da rede" fala só do termo; o "nome de
-   aba" saiu porque nenhuma aba varia entre as versões.
+   é outro sistema). O "nome de aba" do princípio "Fidelidade à versão do roteiro da rede" chegou a
+   sair e voltou na revisão 4, quando o menu passou a mudar entre as versões.
 3. **Conversa inicial ganhou a pergunta 4**, sobre o nome que o operador dá ao sistema (há quem confunda
    o Portal do Usuário com o SGP, e a própria equipe o chama de "Portal do Pé-de-Meia"). Ela reconhece
    que cada rede usa um nome, para não induzir, e tem um seguimento: *"E tem algum outro sistema que você
@@ -383,6 +402,26 @@ O protótipo não mudou (segue na revisão 3). Mudou só o roteiro:
 7. **Perguntas de utilidade específicas por tarefa** (5, 9, 10, 12 e 14), no lugar da pergunta genérica.
    Cada uma é seguida de *"De 1 a 5, que nota você dá?"*, para a nota continuar comparável entre
    participantes.
+
+### Revisão 4 — 20/10/2026 (protótipo para a 2ª rodada)
+
+**No protótipo:**
+
+- **Menu sem o selo "novo".** A aba *Processamentos* ficou igual às demais (Início, Elegibilidade,
+  Frequência, Pagamento): sem o selo e sem a cor roxa. Com a chave *Destacar o que é novo* ligada, ela
+  aparece contornada como "menu novo", junto com o resto da proposta.
+- **Chave "Roteiro A | B"** na faixa preta do topo. **A** mostra o menu como *Processamentos*; **B**, como
+  *Janelas*. As trilhas de navegação acompanham. Dá para abrir já na versão certa pelo endereço
+  (`?roteiro=a` ou `?roteiro=b`), e o navegador lembra a última escolha. Sem nada, abre em A.
+- **"Situação alterada" virou "Situação de elegibilidade alterada"** na tabela *O que foi processado,
+  por ciclo*, no detalhe da janela.
+- **Saiu a chave "Destacar o que foi alterado pós revisão"**, com as 13 marcações que ela acendia. A faixa
+  ficou com duas chaves: *Roteiro A | B* e *Destacar o que é novo*.
+
+**No roteiro:** os caminhos das tarefas 3, 4, 8 e 9 mostram o nome do menu de cada versão; a tarefa 7 usa
+o nome novo da coluna; "Antes de começar" manda marcar a mesma versão no protótipo e traz o link de cada
+uma; o princípio de fidelidade voltou a citar o "nome de aba"; e a orientação de abertura fala de uma
+chave de destaque só.
 
 ---
 
@@ -523,6 +562,7 @@ precisa ter conta Cloudflare nem Google.
 | **PDF das 10 telas** | Também da revisão 1. Decisão de 30/09: deixar como está "a princípio". |
 | **1ª rodada de testes** | Feita. Os ajustes pedidos depois dela estão no roteiro da 2ª rodada (seção 9). Ainda vale registrar aqui os achados sobre o protótipo em si. |
 | **"Todas as janelas" × "todos os processamentos"** | O pedido da tarefa 13 falava em filtrar por "todos os processamentos", mas a opção do filtro no protótipo se chama **"Todas as janelas"**. O roteiro usa o rótulo da tela. Decidir quando voltarmos ao protótipo. |
+| **Gabarito da tarefa 11** | O 56.074 só aparece com **Ciclo = Todos os ciclos da janela**. O caminho esperado não diz isso, e quem vem da tarefa 10 chega com o ciclo 2025 e vê 1.609 (com 2026, 52.153). Já era assim na revisão 3. Decidir se o caminho e o enunciado ganham "todos os ciclos", como na tarefa 13. |
 | **`gerar-pdf-roteiro.ps1` reescrito sem teste no Windows** | A versão Node foi executada e conferida. A de PowerShell foi reescrita para gerar as duas versões e revisada, mas não rodou num Windows ainda. |
 | **Tarefa 6 do roteiro** | Mantive o recorte do ciclo 2024 ("valor liberado ao ciclo 2024"). Se a intenção era o valor da janela inteira (R$ 50.819.600,00), é uma linha para trocar. |
 | **Modal do estudante** | Removi a coluna de competência também ali, indo além do pedido explícito. Se quiser o código de volta no detalhe individual, é só reverter. |
@@ -549,6 +589,9 @@ Coisas que já custaram tempo e vão se repetir:
 - **Scripts `.ps1` precisam ser ASCII puro.** O PowerShell 5.1 lê arquivos de script como ANSI, não
   UTF-8: um travessão ou acento no meio de uma string vira `â€”` e quebra o parser antes mesmo de o
   script rodar. Por isso os dois scripts desta pasta não têm acento algum.
+- **`wrangler pages deploy` dentro de uma pasta git publica como pré-visualização.** Ele usa o nome da
+  branch atual e, se não for a branch de produção do projeto, a URL principal não muda. Rode o comando
+  de fora do repositório (`cd $env:TEMP`), como na seção 6.
 - **O Chrome escreve a confirmação do PDF no stderr**, e no PowerShell 5.1 isso vira
   `NativeCommandError` — com `$ErrorActionPreference = "Stop"` o script morre mesmo tendo gerado o
   arquivo corretamente. O `gerar-pdf-roteiro.ps1` contorna afrouxando a preferência só naquela

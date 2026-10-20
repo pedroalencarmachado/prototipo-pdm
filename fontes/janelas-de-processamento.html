@@ -22,8 +22,6 @@
   --new:#6C2EB9;
   --new-soft:#F3EDFB;
   --new-line:#D9C7F0;
-  --rev:#0A7B83;
-  --rev-soft:#E6F4F5;
 
   /* cores dos ciclos — usadas no gráfico e nas etiquetas */
   --c26:#1351B4;
@@ -91,8 +89,18 @@ input,select{font:inherit}
 }
 body.mark .toggle.t-new .dot{background:#9B5DE5}
 body.mark .toggle.t-new .dot::after{transform:translateX(11px)}
-body.mark2 .toggle.t-rev .dot{background:#1FB6BF}
-body.mark2 .toggle.t-rev .dot::after{transform:translateX(11px)}
+.seg{
+  display:inline-flex; align-items:center; gap:2px;
+  background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.22);
+  border-radius:99px; padding:2px 3px 2px 11px; font-size:12px; white-space:nowrap;
+}
+.seg .rot{color:#C3CCDA; margin-right:5px}
+.seg button{
+  background:none; border:0; color:#fff; font:inherit; font-weight:700;
+  border-radius:99px; padding:2px 10px; cursor:pointer;
+}
+.seg button:hover{background:rgba(255,255,255,.16)}
+.seg button[aria-pressed="true"]{background:#fff; color:var(--ink)}
 
 /* ─────────── chrome do portal ─────────── */
 .topbar{background:var(--surface); border-bottom:1px solid var(--line); position:sticky; top:31px; z-index:50}
@@ -102,12 +110,6 @@ body.mark2 .toggle.t-rev .dot::after{transform:translateX(11px)}
 .nav a{padding:8px 13px; border-radius:var(--radius); font-weight:600; font-size:14px; color:var(--blue); position:relative}
 .nav a:hover{background:var(--blue-soft); text-decoration:none}
 .nav a.on{background:var(--blue-soft); color:var(--blue-dark)}
-.nav a.is-new{color:var(--new)}
-.nav a.is-new:hover,.nav a.is-new.on{background:var(--new-soft); color:var(--new)}
-.nav a .tag-new{
-  position:absolute; top:-5px; right:-4px; background:var(--new); color:#fff;
-  font-size:9px; font-weight:700; letter-spacing:.06em; padding:1px 4px; border-radius:3px; text-transform:uppercase;
-}
 .user{display:flex; align-items:center; gap:10px; padding-left:24px; border-left:1px solid var(--line); margin-left:8px}
 .user .who{text-align:right; line-height:1.25}
 .user .who b{display:block; font-weight:600; font-size:13px}
@@ -315,13 +317,6 @@ body.mark [data-new]::after{
   font-size:9.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
   padding:1px 6px; border-radius:3px; white-space:nowrap; pointer-events:none;
 }
-body.mark2 [data-rev]{box-shadow:0 0 0 2px var(--rev); border-radius:var(--radius); position:relative}
-body.mark2 [data-rev]::before{
-  content:attr(data-rev); position:absolute; top:-9px; right:10px; z-index:6;
-  background:var(--rev); color:#fff; font-family:var(--font-ui);
-  font-size:9.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
-  padding:1px 6px; border-radius:3px; white-space:nowrap; pointer-events:none;
-}
 
 .foot{margin-top:44px; padding-top:18px; border-top:1px solid var(--line); color:var(--ink-3); font-size:12px; display:flex; gap:16px; flex-wrap:wrap}
 
@@ -342,11 +337,13 @@ body.mark2 [data-rev]::before{
   <strong>Protótipo</strong>
   <span class="msg">Proposta de evolução do Portal do Usuário · dados ilustrativos · não é o portal oficial</span>
   <div class="spacer"></div>
+  <div class="seg" role="group" aria-label="Versão do roteiro" title="A: menu Processamentos · B: menu Janelas">
+    <span class="rot">Roteiro</span>
+    <button type="button" id="rtA" data-roteiro="a" aria-pressed="true">A</button>
+    <button type="button" id="rtB" data-roteiro="b" aria-pressed="false">B</button>
+  </div>
   <button class="toggle t-new" id="tgNew" aria-pressed="false">
     <span class="dot" aria-hidden="true"></span> Destacar o que é novo
-  </button>
-  <button class="toggle t-rev" id="tgRev" aria-pressed="false">
-    <span class="dot" aria-hidden="true"></span> Destacar o que foi alterado pós revisão
   </button>
 </div>
 
@@ -696,6 +693,7 @@ const PARCELAS = [
 
 const state = {
   rota:'inicio', arg:null,
+  roteiro:'a',          /* versão do roteiro: A = "processamento", B = "janela de processamento" */
   janela:'', ciclo:'2026',
   busca:'', mun:'', sitF:'', incF:'', sitPagF:'', faixaF:'',
   aba:'lista', modal:null,
@@ -711,6 +709,7 @@ const ROTAS = [
 ];
 
 function ir(hash){ location.hash = hash; }
+function nomeProc(){ return state.roteiro === 'b' ? 'Janelas' : 'Processamentos'; }
 
 function lerHash(){
   const h = location.hash.replace(/^#\/?/, '') || 'inicio';
@@ -727,10 +726,24 @@ document.getElementById('tgNew').addEventListener('click', e => {
   const on = document.body.classList.toggle('mark');
   e.currentTarget.setAttribute('aria-pressed', String(on));
 });
-document.getElementById('tgRev').addEventListener('click', e => {
-  const on = document.body.classList.toggle('mark2');
-  e.currentTarget.setAttribute('aria-pressed', String(on));
-});
+
+/* ── versão do roteiro ──────────────────────────────────────────────
+   A usa o termo "processamento" e o menu Processamentos; B usa "janela de
+   processamento" e o menu Janelas. Vem do endereço (?roteiro=a ou ?roteiro=b),
+   ou da última escolha na chave da faixa; sem nada, fica A. */
+function setRoteiro(v){
+  state.roteiro = v === 'b' ? 'b' : 'a';
+  try { localStorage.setItem('pdm-roteiro', state.roteiro); } catch (e) {}
+  document.querySelectorAll('[data-roteiro]').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.roteiro === state.roteiro)));
+}
+document.querySelectorAll('[data-roteiro]').forEach(b =>
+  b.addEventListener('click', () => { setRoteiro(b.dataset.roteiro); render(); }));
+{
+  let v = new URLSearchParams(location.search).get('roteiro');
+  if (!v) { try { v = localStorage.getItem('pdm-roteiro'); } catch (e) {} }
+  setRoteiro(String(v || 'a').toLowerCase());
+}
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && state.modal) fecharDetalhe(); });
 
 /* ── filtros dependentes ────────────────────────────────────────── */
@@ -763,7 +776,7 @@ function buscaAmpliada(){ return !!state.busca && state.ciclo !== 'todos'; }
 
 function selJanela(){
   const ops = janelasDisponiveis();
-  return `<div class="field pai" data-new="filtro novo" data-rev="filtro pai">
+  return `<div class="field pai" data-new="filtro novo">
     <label for="f-jan">Janela de processamento</label>
     <select id="f-jan" onchange="setJanela(this.value)">
       <option value="">Todas as janelas</option>
@@ -775,7 +788,7 @@ function selJanela(){
 }
 function selCiclo(){
   const ops = ciclosDisponiveis();
-  return `<div class="field filho" data-rev="filtro filho">
+  return `<div class="field filho">
     <label for="f-ciclo">Ciclo</label>
     <select id="f-ciclo" onchange="setCiclo(this.value)">
       <option value="todos" ${state.ciclo==='todos'?'selected':''}>${state.janela ? 'Todos os ciclos da janela' : 'Todos os ciclos'}</option>
@@ -804,7 +817,8 @@ function windowBar(){
 function navHTML(){
   return ROTAS.map(r => {
     const on = state.rota === r.id || (r.id === 'processamentos' && state.rota === 'janela');
-    return `<a href="#/${r.id}" class="${on?'on':''} ${r.novo?'is-new':''}">${r.nome}${r.novo?'<span class="tag-new">novo</span>':''}</a>`;
+    const nome = r.id === 'processamentos' ? nomeProc() : r.nome;
+    return `<a href="#/${r.id}" class="${on?'on':''}"${r.novo?' data-new="menu novo"':''}>${nome}</a>`;
   }).join('');
 }
 function crumbsHTML(trilha){
@@ -842,7 +856,7 @@ function rotuloLista(mostrados, total){
   return `${N(total)} ${total === 1 ? 'registro' : 'registros'}`;
 }
 function searchbar(ph, mostrados, total){
-  return `<div class="searchbar" data-rev="busca ativa">
+  return `<div class="searchbar">
     <div class="searchbox">
       <span class="mag">⌕</span>
       <input id="q" type="search" placeholder="${ph}" value="${state.busca.replace(/"/g,'&quot;')}"
@@ -925,7 +939,7 @@ function telaInicio(){
       <span class="ico" style="color:var(--new)">▣</span> Último processamento
       <span class="act"><button class="btn new sm" onclick="ir('#/processamentos')">Ver todas as janelas</button></span>
     </div>
-    <button class="window-card hot" onclick="ir('#/janela/${j.id}')" data-rev="cartão simplificado">
+    <button class="window-card hot" onclick="ir('#/janela/${j.id}')">
       <div class="wc-date">
         <div class="day">${j.rotulo}</div>
         <div class="mon">${j.status} em ${j.fim}</div>
@@ -970,7 +984,7 @@ function acesso(t, d, cta){
    ══════════════════════════════════════════════════════════════════ */
 function telaProcessamentos(){
   return {
-    crumbs:[{txt:'Processamentos'}],
+    crumbs:[{txt:nomeProc()}],
     html:`
     <div class="page-head">
       <div>
@@ -995,7 +1009,7 @@ function listaJanelas(){
   const lista = janelasDisponiveis();
   const max = Math.max(...JANELAS.map(parcelasJ));
   return `
-    <div class="filters" data-rev="filtro por ciclo">
+    <div class="filters">
       <div class="field"><label for="p-ciclo">Ciclo afetado</label>
         <select id="p-ciclo" onchange="state.ciclo=this.value; render()">
           <option value="todos" ${state.ciclo==='todos'?'selected':''}>Todos</option>
@@ -1064,7 +1078,7 @@ function comparativo(){
   const opsB = JANELAS.map((j, i) => ({i, j})).filter(x => x.i < state.cmpA);
 
   return `
-    <div class="filters" data-rev="opções e trava de ordem">
+    <div class="filters">
       <div class="field">
         <label for="c-a">Janela A <span class="hint" style="margin:0">anterior</span></label>
         <select id="c-a" onchange="setCmpA(this.value)">
@@ -1124,7 +1138,7 @@ function telaJanela(){
   const mudancas = ALUNOS.filter(a => a.alt.some(x => x.jan === j.id));
 
   return {
-    crumbs:[{txt:'Processamentos', href:'#/processamentos'}, {txt:`Janela ${j.rotulo}`}],
+    crumbs:[{txt:nomeProc(), href:'#/processamentos'}, {txt:`Janela ${j.rotulo}`}],
     html:`
     <div class="win-head">
       <div class="row">
@@ -1133,7 +1147,7 @@ function telaJanela(){
             <h1>Janela de ${j.rotulo}</h1>
             <span class="pill ok">${j.status}</span>
           </div>
-          <div class="meta" data-rev="sem identificador de apuração">
+          <div class="meta">
             <div><div class="k">Início</div><div class="v">${j.inicio}</div></div>
             <div><div class="k">Término</div><div class="v">${j.fim}</div></div>
             <div><div class="k">Ciclos afetados</div><div class="v">${anosDa(j).join(' · ')}</div></div>
@@ -1149,12 +1163,12 @@ function telaJanela(){
     </div>
 
     <div class="section-title"><span class="ico">▤</span> O que foi processado, por ciclo</div>
-    <div class="tbl-wrap" data-rev="visão única, sem EMR/EJA">
+    <div class="tbl-wrap">
       <table>
         <thead><tr>
           <th style="width:110px">Ciclo</th>
           <th class="r">Matrículas processadas</th>
-          <th class="r">Situação alterada</th>
+          <th class="r">Situação de elegibilidade alterada</th>
           <th class="r">Parcelas liberadas</th>
           <th class="r">Valor liberado</th>
           <th></th>
@@ -1181,7 +1195,7 @@ function telaJanela(){
     </div>
 
     <div class="section-title"><span class="ico">◈</span> Resultados obtidos</div>
-    <div class="res-grid" data-rev="sem bloco de frequência">
+    <div class="res-grid">
 
       <div class="res">
         <div class="res-h"><span style="color:var(--blue)">◆</span> Matrículas <span class="chip">${N(proc)} processadas</span></div>
@@ -1199,7 +1213,7 @@ function telaJanela(){
       <div class="res">
         <div class="res-h"><span style="color:var(--green)">▩</span> Pagamento <span class="chip">${N(totalP)} parcelas</span></div>
         <div class="res-b">
-          <div class="donut-row" data-rev="gráfico por ciclo">
+          <div class="donut-row">
             <div class="donut" style="background:conic-gradient(${fatias.map(f => f.seg).join(', ')})">
               <div class="hole"><b>${curto(totalV)}</b><small>liberados</small></div>
             </div>
@@ -1374,7 +1388,7 @@ function telaElegibilidade(){
         </tbody>
       </table>`}
     </div>
-    ${j?`<p style="color:var(--ink-2); font-size:12.5px; margin-top:12px" data-rev="mesma tabela, só filtrada">
+    ${j?`<p style="color:var(--ink-2); font-size:12.5px; margin-top:12px">
       Exibindo as matrículas processadas na janela de ${j.rotulo}. A lista é a mesma de sempre — a janela apenas restringe quais matrículas aparecem.
     </p>`:''}`
   };
@@ -1560,7 +1574,7 @@ function telaPagamento(){
             ${cellPag('Suspensos', 0, 0, '#E9B949')}
           </div>
         </div>
-        <div style="border-left:1px solid var(--line-2)" ${j?'data-rev="gráfico por ciclo"':''}>
+        <div style="border-left:1px solid var(--line-2)">
           <div style="background:#F0F5FC; color:var(--blue-dark); padding:9px 18px; font-size:12.5px; font-weight:600; border-bottom:1px solid var(--line-2)">
             ${j ? 'Valor liberado por ciclo' : 'Percentual de incentivos por situação'}
           </div>
@@ -1577,7 +1591,7 @@ function telaPagamento(){
       </div>
     </div>
 
-    ${j ? `<div class="section-title" data-rev="sem competência"><span class="ico">▤</span> Parcelas desta janela, por ciclo</div>
+    ${j ? `<div class="section-title"><span class="ico">▤</span> Parcelas desta janela, por ciclo</div>
     <div class="tbl-wrap">
       <table>
         <thead><tr><th style="width:110px">Ciclo</th><th>Incentivo</th><th class="r">Parcelas</th><th class="r">Valor</th></tr></thead>
@@ -1752,7 +1766,7 @@ function render(){
     <div class="foot">
       <span>Protótipo de proposta — Janelas de Processamento</span><span>·</span>
       <span>Dados ilustrativos, ancorados nas telas atuais do Portal do Usuário</span><span>·</span>
-      <span>Revisão 3 — outubro de 2026</span>
+      <span>Revisão 4 — outubro de 2026</span>
     </div>`;
   renderModal();
 }
