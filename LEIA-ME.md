@@ -1,7 +1,7 @@
 # Protótipo "Janelas de Processamento" — Portal do Pé-de-Meia
 
 > **Handoff completo.** Tudo que foi feito, onde está, como publicar e o que ficou pendente.
-> Última atualização: 20/10/2026 · Revisão 5 do protótipo (termos A/B em toda a interface) · roteiro da 1ª rodada com as redes (versões A e B, ajustes de 20/10/2026).
+> Última atualização: 20/10/2026 · Revisão 5 do protótipo (termos A/B em toda a interface) · roteiro com o manual de conduta (versões A e B, ajustes de 20/10/2026).
 
 ---
 
@@ -85,7 +85,7 @@ Nada nele altera sistema algum. A faixa preta no topo diz, de forma permanente,
 | Protótipo já na versão A do roteiro (menu "Processamentos") | https://prototipo-portalpdm.pages.dev/?roteiro=a |
 | Protótipo já na versão B do roteiro (menu "Janelas de Processamento") | https://prototipo-portalpdm.pages.dev/?roteiro=b |
 | Protótipo — artifact (fonte editável no Claude) | https://claude.ai/artifact/5r7JJphRYHVbRn4fu6HX9y |
-| Roteiro das entrevistas (1ª rodada, com o manual de conduta) — artifact ⚠️ *anterior aos ajustes de 20/10/2026* | https://claude.ai/artifact/4aQCJZZ26h5ksv4TgUT1i6 |
+| Roteiro das entrevistas (com o manual de conduta) — artifact ⚠️ *anterior aos ajustes de 20/10/2026* | https://claude.ai/artifact/4aQCJZZ26h5ksv4TgUT1i6 |
 | Documento explicativo da proposta — artifact ⚠️ *desatualizado (revisão 1)* | https://claude.ai/code/artifact/ca5c86ce-3ea5-4e63-ba3d-887a6dfeee7d |
 | Painel do Cloudflare | https://dash.cloudflare.com → **Compute → Workers & Pages** → `prototipo-portalpdm` |
 
@@ -167,7 +167,7 @@ No projeto: estavam no diretório temporário da sessão; **a cópia válida ago
 
 | Arquivo | O que é |
 |---|---|
-| `Pe-de-Meia-Entrevistas-com-as-Redes-versao-A-processamento.pdf` | Roteiro da **1ª rodada**, versão A (termo "processamento"). 12 páginas A4: manual de conduta, abertura e um bloco de tarefas por página. É o que o moderador usa na sessão das redes A. |
+| `Pe-de-Meia-Entrevistas-com-as-Redes-versao-A-processamento.pdf` | Roteiro com o manual de conduta, versão A (termo "processamento"). 12 páginas A4: manual de conduta, abertura e um bloco de tarefas por página. É o que o moderador usa na sessão das redes A. |
 | `Pe-de-Meia-Entrevistas-com-as-Redes-versao-B-janela-de-processamento.pdf` | O mesmo, versão B (termo "janela de processamento"), para as redes B. |
 | `Pe-de-Meia-Entrevistas-com-as-Redes-rodada-1.pdf` | Versão anterior do roteiro (7 páginas). Guardado para referência. |
 | `Pe-de-Meia-Janelas-de-Processamento-prototipo.pdf` | Deck com as 10 telas comentadas. ⚠️ **É da revisão 1** — mostra reprocessamento, frequência na janela e filtro de competência, tudo já removido. Decisão de 30/09: deixar como está por ora. |
@@ -472,7 +472,7 @@ O protótipo não mudou (segue na revisão 5). Mudou só o roteiro, e os dois PD
 
 1. **Perfil:** operadores de redes **federais, estaduais e municipais** (a CGARB pediu passar pelas três). Isso
    substitui o "só rede estadual" da revisão 3.
-2. **Rodada:** o documento passou a dizer **1ª rodada** (dizia 2ª), no texto de abertura e no rodapé.
+2. **Rodada:** saiu qualquer referência à rodada (texto de abertura e rodapé), porque o roteiro será reutilizado nas próximas.
 3. **Seção 1:** nova **explicação padrão sobre o SGP × Portal do Pé-de-Meia**, em texto para ler em voz alta quando o
    operador confundir os dois (texto-base a confirmar com a equipe, ver seção 12); nova linha para **mais de um
    operador na mesma rede** (um compartilha a tela e é a referência das métricas; os outros comentam livremente).
@@ -633,7 +633,7 @@ precisa ter conta Cloudflare nem Google.
 | **Cloudflare Access** | Não configurado. Passo a passo na seção 11; parei na tela de boas-vindas do Zero Trust (botão *Get started*). |
 | **Documento explicativo da proposta** | É da revisão 1. Ainda fala de reprocessamento, frequência dentro da janela e filtro de competência. Precisa ser atualizado antes de circular. |
 | **PDF das 10 telas** | Também da revisão 1. Decisão de 30/09: deixar como está "a princípio". |
-| **Rodadas de teste** | Em 20/10/2026 o roteiro foi corrigido para "1ª rodada" (dizia 2ª). Conferir se o histórico acima, que fala de uma 1ª rodada já realizada, ainda vale. Ainda vale registrar aqui os achados sobre o protótipo em si. |
+| **Rodadas de teste** | Em 20/10/2026 saiu do roteiro a referência à rodada (dizia 2ª). Conferir se o histórico acima, que fala de uma 1ª rodada já realizada, ainda vale. Ainda vale registrar aqui os achados sobre o protótipo em si. |
 | **`gerar-pdf-roteiro.ps1` reescrito sem teste no Windows** | A versão Node foi executada e conferida. A de PowerShell foi reescrita para gerar as duas versões e revisada, mas não rodou num Windows ainda. |
 | **PDFs do roteiro sem a tipografia do projeto** | Os PDFs de 20/10/2026 foram gerados numa sessão sem acesso ao Google Fonts, então saíram com a fonte reserva (Inter) no lugar de Public Sans e Raleway. O conteúdo está correto. Para a tipografia original, rode `node gerar-pdf-roteiro.mjs` numa máquina com internet e confira que cada bloco de tarefas continua numa página. |
 | **Explicação padrão sobre o SGP** | O texto da seção 1 do roteiro foi redigido só com o que já constava no projeto (o SGP é outro sistema; o Portal é onde se consulta elegibilidade, frequência e pagamento). Falta a equipe confirmar como descrever o SGP aos operadores. |
@@ -706,5 +706,5 @@ conferir o rodapé na URL.
 
 A pasta inteira vive em `Documentos\IA\PDM-Janelas-handoff\`, que sincroniza pelo OneDrive entre os
 seus PCs. O `gerar-pacote.ps1` e o `gerar-pacote.mjs` reproduzem o `index.html` publicado byte a
-byte. O `gerar-pdf-roteiro.mjs` gera as duas versões do roteiro da 1ª rodada (12 páginas cada); o
+byte. O `gerar-pdf-roteiro.mjs` gera as duas versões do roteiro (12 páginas cada); o
 `.ps1` equivalente ainda não foi rodado no Windows (seção 12).
