@@ -269,3 +269,9 @@ e o roteiro não foram tocados.
 
 Observação: as mensagens oficiais do Portal (TCI e status) falam em "próxima janela de envio de dados" — foram
 mantidas como na wiki, também na versão A.
+
+**Síntese em PDF atualizada (04/11/2026):** `entregaveis/Pe-de-Meia-Painel-de-Gestao-sintese.pdf` (32 páginas) ganhou a
+**Parte 3 — Ajustes da conversa com o MEC (Revisão 2)**, com quadro R1–R13 e antes/depois de cada ajuste. A Parte 1
+mostra o painel atual (sem a aba EMR × EJA); a Parte 2 continua com as telas da Revisão 1, que é o "depois" das
+entrevistas. Para isso, `sintese/capturar-prints.mjs` lê a Revisão 1 do histórico do git (commit `98c3e11`) e recarrega
+a página a cada captura.

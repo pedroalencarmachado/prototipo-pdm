@@ -1,6 +1,8 @@
 // Captura os prints usados na síntese do Painel de Gestão (sintese/prints/*.jpg).
-// Abre as páginas direto dos arquivos — deploy-gestao/ (versão nova) e, só para os
+// Abre as páginas direto dos arquivos — deploy-gestao/ (versão nova, Revisão 2) e, só para os
 // prints de "antes", deploy/ (protótipo das entrevistas, apenas lido, nunca alterado).
+// A Parte 2 mostra a Revisão 1 (o "depois" das entrevistas) e a Parte 3 compara a Revisão 1
+// com a 2: a Revisão 1 é lida do histórico do git (commit 98c3e11), sem tocar em nada.
 //
 // Requer o pacote puppeteer-core (não fica no repositório) e o Chrome instalado:
 //   npm i puppeteer-core          (numa pasta qualquer)
@@ -8,7 +10,9 @@
 import { createRequire } from "node:module";
 import { join, dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { mkdirSync, existsSync } from "node:fs";
+import { mkdirSync, existsSync, writeFileSync } from "node:fs";
+import { execSync } from "node:child_process";
+import { tmpdir } from "node:os";
 
 const base = dirname(dirname(fileURLToPath(import.meta.url)));
 const req = createRequire(process.env.FERRAMENTAS ? join(process.env.FERRAMENTAS, "x.js") : import.meta.url);
@@ -17,6 +21,9 @@ const chrome = [process.env.CHROME, "C:/Program Files/Google/Chrome/Application/
   "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"].find(p => p && existsSync(p));
 const NOVO = pathToFileURL(join(base, "deploy-gestao", "index.html")).href;
 const ANTES = pathToFileURL(join(base, "deploy", "index.html")).href;
+const rev1 = join(tmpdir(), "painel-gestao-revisao-1.html");
+writeFileSync(rev1, execSync("git show 98c3e11:deploy-gestao/index.html", { cwd: base, maxBuffer: 1 << 26 }));
+const REV1 = pathToFileURL(rev1).href;
 const OUT = join(base, "sintese", "prints");
 mkdirSync(OUT, { recursive: true });
 
@@ -26,6 +33,7 @@ await page.setViewport({ width: 1366, height: 900, deviceScaleFactor: 1.5 });
 const espera = ms => new Promise(r => setTimeout(r, ms));
 
 async function abrir(url, hash){
+  await page.goto("about:blank");                       /* recarrega sempre: só trocar o # manteria o estado da tela anterior */
   await page.goto(url + (hash || ""), { waitUntil: "load" });
   await page.addStyleTag({ content: ".proto-bar,.topbar{position:static !important} *{animation:none !important; transition:none !important}" });
   await page.evaluate(() => document.fonts && document.fonts.ready);
@@ -61,7 +69,7 @@ await rodar("gInsIr(1)");
 await print("p02-insights-pagina-2", entre(q(".ins-wrap"), q(".ins-wrap")));
 await rodar("gInsIr(0)");
 for (const [aba, nome] of [["elegibilidade", "p03-aba-elegibilidade"], ["frequencia", "p04-aba-frequencia"], ["pagamento", "p05-aba-pagamento"],
-                           ["ciclos", "p06-aba-ciclos"], ["municipios", "p07-aba-municipios"], ["modalidades", "p08-aba-emr-eja"]]){
+                           ["ciclos", "p06-aba-ciclos"], ["municipios", "p07-aba-municipios"]]){
   await rodar(`state.gAba='${aba}'; render()`);
   await print(nome, entre(q("#app .tabs"), antesDoExport));
 }
@@ -88,7 +96,7 @@ await print("f03-pagamento-antes", entre(q(".page-head"), q("#app .panel")));
 await abrir(ANTES, "#/elegibilidade");
 await print("f05-elegibilidade-antes", entre(q(".page-head"), linha(2)));
 
-await abrir(NOVO, "#/inicio");
+await abrir(REV1, "#/inicio");
 await rodar("setRoteiro('a'); limparFiltros(); render()");
 await print("f02-inicio-depois", entre(q(".page-head"), ateOutrosAcessos));
 await rodar("irCom('#/pagamento', {})"); await espera(300);
@@ -113,5 +121,40 @@ await rodar("const e=[...document.querySelectorAll('#app table .eye')]; e[e.leng
   const el = await page.$(".modal");
   await el.screenshot({ path: join(OUT, "f12-detalhe-estudante-trajetoria.jpg"), type: "jpeg", quality: 86 });
   console.log("  f12-detalhe-estudante-trajetoria");
+}
+
+/* ═════════════ PARTE 3 — REVISÃO 2 (MEC e "Pontas a avaliar") ═════════════ */
+await page.setViewport({ width: 1366, height: 900, deviceScaleFactor: 1.5 });
+for (const [url, suf] of [[REV1, "antes"], [NOVO, "depois"]]){
+  await abrir(url, "#/gestao");
+  await rodar("setRoteiro('a'); render()");
+  await print("r01-cartoes-" + suf, entre(suf === "depois" ? q(".gkpih") : q(".gkpis"), q(".gkpis")));
+  await rodar("state.gAba='ciclos'; render()");
+  await print("r02-graficos-" + suf, entre(q(".gcards"), q(".gcards")));
+  await rodar("state.gAba='municipios'; render()");
+  await print("r03-municipios-" + suf, entre(q("#app .tabs"), linha(2)));
+  await abrir(url, "#/inicio");
+  await print("r04-aviso-inicio-" + suf, entre(q(".notice"), q(".notice")));
+  await abrir(url, "#/pagamento");
+  await print("r05-instrucao-pagamento-" + suf, entre(suf === "depois" ? q(".kdica") : q(".spanel"), q(".spanel")));
+  await abrir(url, "#/elegibilidade");
+  await print("r06-instrucao-elegibilidade-" + suf, entre(suf === "depois" ? q(".kdica") : q("#app .kpis"), suf === "depois" ? q("#app .kpis") : q(".kdica")));
+  await abrir(url, "#/janela/2026-08-26");
+  await print("r07-plural-" + suf, `(() => { const t = document.querySelector('#app .tbl-wrap thead').getBoundingClientRect(); const a = document.getElementById('app').getBoundingClientRect();
+    return { x: a.left + 18, y: t.top + scrollY, w: a.width - 36, h: t.height }; })()`);
+}
+await abrir(NOVO, "#/elegibilidade");
+await print("r08-motivos-elegibilidade", entre(`() => document.querySelectorAll('.kdica')[1]`, q(".mpanel")));
+await rodar("[...document.querySelectorAll('button.mrow')].find(x => /Nome divergente do CadÚnico/.test(x.innerText)).click()"); await espera(300);
+await print("r09-lista-por-motivo", entre(q(".lhead"), q("#app .tbl-wrap")));
+await abrir(NOVO, "#/processamentos");
+await print("r10-processamentos-calendario", entre(q("#app .tabs"), `() => document.querySelector('.window-card:not(.fut)')`));
+await page.setViewport({ width: 1366, height: 1900, deviceScaleFactor: 1.5 });
+for (const [mat, nome] of [["30144718", "r11-detalhe-indefinida"], ["29994057", "r12-detalhe-nao-elegivel"], ["30171544", "r13-detalhe-cancelada"]]){
+  await abrir(NOVO, "#/elegibilidade");
+  await rodar(`abrirDetalhe('${mat}')`);
+  const el = await page.$(".modal");
+  await el.screenshot({ path: join(OUT, nome + ".jpg"), type: "jpeg", quality: 86 });
+  console.log("  " + nome);
 }
 await browser.close();

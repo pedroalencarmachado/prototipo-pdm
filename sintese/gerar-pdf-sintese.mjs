@@ -26,7 +26,7 @@ await page.pdf({
   displayHeaderFooter: true,
   headerTemplate: "<span></span>",
   footerTemplate: `<div style="width:100%; font-size:7.5pt; color:#71809A; font-family:Segoe UI, sans-serif; padding:0 16mm; display:flex; justify-content:space-between">
-    <span>Pé-de-Meia · Painel de Gestão e ajustes das entrevistas — síntese · protótipo, dados ilustrativos</span>
+    <span>Pé-de-Meia · Painel de Gestão e ajustes das entrevistas e do MEC — síntese · Revisão 2 · protótipo, dados ilustrativos</span>
     <span><span class="pageNumber"></span> / <span class="totalPages"></span></span></div>`
 });
 await browser.close();

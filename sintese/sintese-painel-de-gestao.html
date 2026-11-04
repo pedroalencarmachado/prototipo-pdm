@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>Painel de Gestão e ajustes das entrevistas — síntese</title>
+<title>Painel de Gestão e ajustes das entrevistas e do MEC — síntese</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Raleway:wght@600;700;800&display=swap">
 <style>
@@ -25,16 +25,18 @@
   .small{font-size:8.8pt}
   .pb{break-before:page}
   .avoid{break-inside:avoid}
+  .umapag{font-size:9.5pt; line-height:1.42} .umapag h3{margin-top:5mm} .umapag li{margin-bottom:.8mm}
 
   /* capa */
   .capa{height:258mm; display:flex; flex-direction:column; justify-content:space-between; padding:6mm 2mm}
   .capa .tag{display:inline-block; background:var(--new); color:#fff; font-weight:700; font-size:8.5pt; letter-spacing:.08em; text-transform:uppercase; padding:1.2mm 3mm; border-radius:1mm}
-  .capa h1{font-size:30pt; line-height:1.12; color:var(--blue-dark); margin:8mm 0 5mm}
+  .capa h1{font-size:26pt; line-height:1.12; color:var(--blue-dark); margin:6mm 0 4mm}
   .capa .sub{font-size:13pt; color:var(--ink-2); max-width:150mm}
   .capa .marca{font-family:Raleway; font-weight:800; letter-spacing:.08em; color:var(--blue-dark); font-size:14pt}
-  .capa .grupos{display:grid; grid-template-columns:1fr 1fr; gap:5mm; margin-top:12mm}
+  .capa .grupos{display:grid; grid-template-columns:1fr 1fr 1fr; gap:4mm; margin-top:8mm; font-size:9.4pt}
   .capa .grupo{border:1px solid var(--line); border-top:4px solid var(--blue); border-radius:2mm; padding:4mm 5mm}
   .capa .grupo.g2{border-top-color:var(--orange)}
+  .capa .grupo.g3{border-top-color:var(--new)}
   .capa .grupo b{display:block; font-size:12pt; margin-bottom:1mm}
   .capa .meta{font-size:9pt; color:var(--ink-3); border-top:1px solid var(--line); padding-top:4mm}
   .capa .meta div{margin-bottom:1mm}
@@ -47,6 +49,8 @@
   .box h4{margin-top:0}
   .parte{border-left:6px solid var(--blue); padding:1mm 0 1mm 5mm; margin-bottom:6mm}
   .parte.p2{border-left-color:var(--orange)}
+  .parte.p3{border-left-color:var(--new)}
+  .pill.r{background:var(--new-soft); color:var(--new)}
   .parte .n{font-size:9pt; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
   .parte h2{font-size:22pt; margin:1mm 0 2mm}
 
@@ -85,12 +89,13 @@
 <section class="capa">
   <div>
     <div class="marca">PÉ·DE·MEIA</div>
-    <div style="margin-top:22mm"><span class="tag">Protótipo · dados ilustrativos</span></div>
-    <h1>Painel de Gestão e ajustes a partir das entrevistas com as redes</h1>
+    <div style="margin-top:12mm"><span class="tag">Protótipo · dados ilustrativos</span></div>
+    <h1>Painel de Gestão e ajustes a partir das entrevistas com as redes e da conversa com o MEC</h1>
     <div class="sub">Síntese do que foi construído na nova versão do protótipo do Portal do Usuário do Programa Pé-de-Meia — o que mudou, por quê e como ficou, com as telas.</div>
     <div class="grupos">
-      <div class="grupo"><b>Parte 1 · Painel de Gestão</b>Uma visão gerencial, com cara de BI, para comparar processamentos, ciclos, modalidades e municípios, com insights escritos.</div>
+      <div class="grupo"><b>Parte 1 · Painel de Gestão</b>Uma visão gerencial, com cara de BI, para comparar processamentos, ciclos e municípios, com insights escritos.</div>
       <div class="grupo g2"><b>Parte 2 · Feedback das redes</b>Dez mudanças nas telas de consulta, tiradas das entrevistas de usabilidade, e três ajustes de layout pedidos depois delas.</div>
+      <div class="grupo g3"><b>Parte 3 · Conversa com o MEC</b>A Revisão 2: painel mais limpo e pronto para print, motivos de inelegibilidade e o calendário de processamentos.</div>
     </div>
   </div>
   <h3 style="margin:0 0 2mm">Sumário</h3>
@@ -100,7 +105,7 @@
     <div>1.2 A visão geral</div>
     <div>1.3 O filtro de processamento</div>
     <div>1.4 Insights gerados por IA (simulação)</div>
-    <div>1.5 As seis abas</div>
+    <div>1.5 As cinco abas</div>
     <div>1.6 Decisões e coerência dos números</div>
     <div><b>Parte 2 · Feedback das redes</b></div>
     <div>2.1 O que as entrevistas mostraram</div>
@@ -112,16 +117,23 @@
     <div>2.7 Detalhe do estudante</div>
     <div>2.8 Busca e exportação</div>
     <div>2.9 O que ficou de fora</div>
+    <div><b>Parte 3 · Conversa com o MEC (Revisão 2)</b></div>
+    <div>3.1 De onde vieram os ajustes</div>
+    <div>3.2 Painel: cartões, municípios e rótulos</div>
+    <div>3.3 Motivos de inelegibilidade</div>
+    <div>3.4 Instruções, plural e trajetória</div>
+    <div>3.5 Processamentos e aviso do Início</div>
+    <div>3.6 Pontos para validar</div>
   </div>
   <div class="meta">
-    <div><b>Versão nova (esta síntese):</b> prototipo-portalpdm-gestao.pages.dev · Painel de Gestão, Revisão 1 · novembro de 2026</div>
+    <div><b>Versão nova (esta síntese):</b> prototipo-portalpdm-gestao.pages.dev · Painel de Gestão, Revisão 2 · novembro de 2026</div>
     <div><b>Versão das entrevistas (intocada):</b> prototipo-portalpdm.pages.dev · Revisão 5 · roteiro e gabaritos inalterados</div>
     <div><b>Repositório:</b> github.com/pedroalencarmachado/prototipo-pdm · documentação técnica em <code>PAINEL-DE-GESTAO.md</code></div>
   </div>
 </section>
 
 <!-- ═════════════ EM UMA PÁGINA ═════════════ -->
-<section class="pb">
+<section class="pb umapag">
   <h2>Em uma página</h2>
   <p>Nas agendas com o MEC ficou claro que há dois perfis de uso do Portal: o <b>operacional</b>, que consulta estudantes e situações, e o <b>gerencial</b>, que precisa de dados comparativos para decidir. O protótipo testado nas entrevistas atendia o primeiro. Esta versão acrescenta o segundo e incorpora o que as redes apontaram nos testes.</p>
 
@@ -132,10 +144,10 @@
 
   <h3>Parte 1 — Painel de Gestão</h3>
   <ul>
-    <li>Nova entrada no menu, que abre por padrão neste link. Filtros por <b>processamento, ciclo, modalidade (EMR × EJA) e município</b>.</li>
-    <li><b>Cinco indicadores</b> com variação contra o processamento anterior e minigráfico de tendência.</li>
+    <li>Nova entrada no menu, que abre por padrão neste link. Filtros por <b>processamento, ciclo, modalidade (EMR ou EJA) e município</b>.</li>
+    <li><b>Cinco indicadores</b> do ciclo, com variação contra o processamento anterior.</li>
     <li><b>Insights escritos</b>, com o selo “Gerado por IA” e o aviso para o gestor revisar — a geração é simulada.</li>
-    <li><b>Seis abas</b>: Elegibilidade, Frequência, Pagamento, Ciclos, Municípios e EMR × EJA, cada uma com gráficos, tabela comparativa e exportação.</li>
+    <li><b>Cinco abas</b>: Elegibilidade, Frequência, Pagamento, Ciclos e Municípios, cada uma com gráficos (com rótulos de dados), tabela comparativa e exportação.</li>
     <li>Todos os números <b>batem com as telas de consulta</b> (36 checagens automáticas).</li>
   </ul>
 
@@ -148,6 +160,12 @@
     <li><b>Ver quem foi afetado</b> e a <b>trajetória do estudante</b>, com o motivo de cada mudança e a parcela clicada em destaque.</li>
     <li>Parcela do incentivo visível, busca pelo <b>código do estudante</b>, exportação que diz o recorte.</li>
     <li>Layout: <b>processamento no topo do Início</b>, <b>listas em destaque</b> e <b>situações de pagamento com cores que significam algo</b>.</li>
+  </ul>
+
+  <h3>Parte 3 — Conversa com o MEC (Revisão 2)</h3>
+  <ul>
+    <li>Painel <b>sem linhas de tendência</b> nos cartões, <b>sem a comparação EMR × EJA</b> e com <b>rótulos de dados em todos os gráficos</b>, para as redes usarem prints em apresentações.</li>
+    <li><b>Motivos de inelegibilidade</b> na Elegibilidade e no detalhe do estudante; do documento “Pontas a avaliar”: instruções padronizadas, trajetória do mais recente ao mais antigo, “Comparar” em evidência, <b>calendário de processamentos</b> e aviso do Início reescrito.</li>
   </ul>
 
 </section>
@@ -163,30 +181,30 @@
     <li>A elegibilidade e a frequência estão melhorando de um processamento para o outro?</li>
     <li>Em que municípios a frequência está caindo, ou não está sendo informada?</li>
     <li>Quanto foi liberado em cada processamento, e para quais ciclos?</li>
-    <li>A EJA se comporta como o Ensino Médio Regular?</li>
+    <li>Como está cada modalidade (EMR ou EJA), olhada separadamente?</li>
   </ul>
   <p>Três diretrizes guiaram o desenho: <b>complementar</b> a visão atual (não substitui nenhuma tela), ser <b>orientado a dados</b> (gráficos, comparações e tendências) e <b>trazer a leitura pronta</b> (insights escritos). O vocabulário segue o que foi acordado com o MEC: o eixo do tempo é o <b>processamento</b> — nada de “competência” ou códigos <code>AAAAMM</code> na interface.</p>
 
   <h3>1.2 A visão geral</h3>
   <figure>
     <img src="prints/p01-painel-visao-geral.jpg" alt="Topo do Painel de Gestão: filtros, indicadores e insights">
-    <figcaption><b>Topo do painel.</b> Filtros numa linha só, a linha de contexto do recorte, os cinco indicadores com tendência e o bloco de insights.</figcaption>
+    <figcaption><b>Topo do painel.</b> Filtros numa linha só, a linha de contexto do recorte, os cinco indicadores do ciclo e o bloco de insights.</figcaption>
   </figure>
   <h4>Filtros</h4>
   <ul>
     <li><b>Processamento</b> e <b>Ciclo</b> dependem um do outro, como nas listagens do Portal: o ciclo reduz os processamentos oferecidos e o processamento reduz os ciclos.</li>
-    <li><b>Modalidade</b>: Visão geral (EMR + EJA), EMR ou EJA. O recorte por modalidade existe <b>só no painel</b> — na visão de processamento continua unificado, como decidido com o MEC.</li>
+    <li><b>Modalidade</b>: Visão geral (EMR + EJA), EMR ou EJA, para olhar cada modalidade separadamente. O recorte existe <b>só no painel</b> — na visão de processamento continua unificado, como decidido com o MEC. A comparação lado a lado saiu na Revisão 2 (Parte 3).</li>
     <li><b>Município</b>: as 12 maiores redes estaduais da Bahia e o agregado “Demais municípios (405)”.</li>
   </ul>
   <h4>Indicadores</h4>
-  <p>Matrículas na rede (com a divisão EMR/EJA), % elegível, frequência ≥ 80%, parcelas no processamento e valor liberado ao ciclo. Cada um mostra a <b>variação contra o processamento anterior</b> (verde quando melhora, vermelho quando piora) e um <b>minigráfico</b> com a tendência do ciclo.</p>
+  <p>Matrículas na rede, % elegível, frequência ≥ 80%, parcelas liberadas no processamento e valor liberado acumulado — todos do mesmo recorte, dito numa linha acima deles (“Indicadores do ciclo 2026, até o processamento de 26/08/2026”). Os que comparam mostram a <b>variação contra o processamento anterior</b> (verde quando melhora, vermelho quando piora).</p>
 </section>
 
 <section>
   <h3>1.3 O filtro de processamento</h3>
   <p>Num painel de evolução, escolher um processamento não pode esconder a série — senão some a tendência. Por isso ele funciona como <b>processamento de referência</b>, ou seja, “como estava naquela data”:</p>
   <ul>
-    <li><b>Indicadores, insights, ranking de municípios, retrato por ciclo e EMR × EJA</b> são calculados <b>até</b> o processamento escolhido.</li>
+    <li><b>Indicadores, insights, ranking de municípios e retrato por ciclo</b> são calculados <b>até</b> o processamento escolhido.</li>
     <li>Os <b>gráficos</b> continuam com a série completa do ciclo, e a coluna do processamento escolhido fica destacada. Nas tabelas, a linha dele ganha a marca “selecionado”.</li>
     <li>Os botões “Abrir…” levam à tela de consulta <b>já filtrada no mesmo processamento</b>.</li>
   </ul>
@@ -196,7 +214,7 @@
   </figure>
 
   <h3>1.4 Insights gerados por IA (simulação)</h3>
-  <p>O painel traz até <b>seis insights escritos</b> sobre o recorte. Eles aparecem num <b>carrossel de uma linha</b> — dois cartões por vez, com setas, contador (“1–2 de 6”) e pontos — para ocupar pouco espaço vertical. Cada cartão tem:</p>
+  <p>O painel traz até <b>cinco insights escritos</b> sobre o recorte. Eles aparecem num <b>carrossel de uma linha</b> — dois cartões por vez, com setas, contador (“1–2 de 5”) e pontos — para ocupar pouco espaço vertical. Cada cartão tem:</p>
   <ul>
     <li>um <b>tipo</b> com ícone e cor: Alerta, Atenção, Informativo ou Positivo;</li>
     <li>o texto do insight, com os números do recorte;</li>
@@ -209,18 +227,18 @@
   </figure>
   <div class="box roxo">
     <h4>A IA é simulada</h4>
-    <p style="margin:0">Os textos saem de <b>regras fixas</b> aplicadas aos números do recorte e mudam com os filtros. Não há chamada a modelo de IA, nem envio de dados. As regras: queda de frequência em 3 ou mais processamentos seguidos num município; frequência não informada 3× acima da média em dois processamentos seguidos; distância EMR × EJA na frequência; processamento que pagou outros ciclos; variação do valor liberado; evolução da elegibilidade e da pendência bancária.</p>
+    <p style="margin:0">Os textos saem de <b>regras fixas</b> aplicadas aos números do recorte e mudam com os filtros. Não há chamada a modelo de IA, nem envio de dados. As regras: queda de frequência em 3 ou mais processamentos seguidos num município; frequência não informada 3× acima da média em dois processamentos seguidos; processamento que pagou outros ciclos; variação do valor liberado; evolução da elegibilidade e da pendência bancária.</p>
   </div>
 </section>
 
 <section>
-  <h3>1.5 As seis abas</h3>
-  <p>Todas seguem o mesmo padrão: um gráfico de <b>composição</b> (barras empilhadas), um de <b>tendência</b> (linha), uma <b>tabela comparativa</b> com Δ em relação ao processamento anterior e a linha do processamento de referência destacada, e o bloco de exportação. Passar o mouse em qualquer gráfico mostra os valores exatos.</p>
+  <h3>1.5 As cinco abas</h3>
+  <p>Todas seguem o mesmo padrão: um gráfico de <b>composição</b> (barras empilhadas), um de <b>tendência</b> (linha), uma <b>tabela comparativa</b> com Δ em relação ao processamento anterior e a linha do processamento de referência destacada, e o bloco de exportação. Os gráficos trazem os <b>valores escritos</b> (total de cada barra, partes que cabem, cada ponto da linha); passar o mouse mostra os valores exatos.</p>
 
   <h4>Elegibilidade</h4>
   <figure>
     <img src="prints/p03-aba-elegibilidade.jpg" alt="Aba Elegibilidade do painel">
-    <figcaption><b>Situação de elegibilidade por processamento</b> e % elegível. A tabela traz as colunas <b>“Passaram a elegível”</b> e <b>“Deixaram de ser elegíveis”</b> (vindas do feedback, ver Parte 2) e o atalho “Ver as matrículas alteradas”, que abre a lista dos estudantes.</figcaption>
+    <figcaption><b>Situação de elegibilidade por processamento</b> e % elegível. A tabela traz as colunas <b>“Passaram a ser elegíveis”</b> e <b>“Deixaram de ser elegíveis”</b> (vindas do feedback, ver Parte 2) e o atalho “Ver as matrículas alteradas”, que abre a lista dos estudantes.</figcaption>
   </figure>
   <figure class="meia">
     <img src="prints/p10-tooltip-grafico.jpg" alt="Tooltip de um gráfico">
@@ -237,7 +255,7 @@
   <h4>Pagamento</h4>
   <figure>
     <img src="prints/p05-aba-pagamento.jpg" alt="Aba Pagamento do painel">
-    <figcaption><b>Parcelas por incentivo</b> e valor liberado ao ciclo em cada processamento, com o acumulado. As parcelas e valores são exatamente os de cada processamento nas telas de consulta.</figcaption>
+    <figcaption><b>Parcelas por incentivo</b> e valor liberado do ciclo em cada processamento, com o acumulado. As parcelas e valores são exatamente os de cada processamento nas telas de consulta.</figcaption>
   </figure>
 </section>
 
@@ -250,23 +268,18 @@
   <h4>Municípios</h4>
   <figure>
     <img src="prints/p07-aba-municipios.jpg" alt="Aba Municípios do painel">
-    <figcaption><b>Ranking ordenável</b> (maior queda de frequência, mais não informada, menor frequência, valor, nome), com a tendência de cada município e as marcas <b>▼ queda</b> e <b>● não informada</b>. “Filtrar” aplica o município ao painel; “Estudantes” abre a listagem de Frequência daquele município.</figcaption>
+    <figcaption><b>Ranking ordenável</b> (maior queda de frequência, maior frequência não informada, menor frequência, valor, nome), com a tendência de cada município e as marcas <b>▼ queda</b> e <b>● não informada</b>. “Filtrar” aplica o município ao painel; “Ver estudantes” abre a listagem de Frequência daquele município.</figcaption>
   </figure>
 </section>
 
 <section>
-  <h4>EMR × EJA</h4>
-  <figure class="meia">
-    <img src="prints/p08-aba-emr-eja.jpg" alt="Aba EMR × EJA do painel">
-    <figcaption><b>As duas modalidades lado a lado</b>: % elegível, frequência ≥ 80% e valor liberado por matrícula elegível, com a tabela de diferenças no processamento de referência.</figcaption>
-  </figure>
-
   <h3>1.6 Decisões e coerência dos números</h3>
   <h4>O que foi decidido ao longo da construção</h4>
   <ul>
     <li>A aba de domínio se chama <b>Elegibilidade</b>, como no menu (e não “Matrículas”). Ficaram como estão “Matrículas na rede” (rótulo oficial do cartão), “Frequência de Matrículas” (título da tela) e o incentivo “Matrícula”.</li>
     <li>Sem alternância barras/linhas e sem marcadores de evento nos gráficos, para não confundir e para os filtros caberem numa linha. Os gráficos ficam fixos: barras para a composição, linha para a tendência.</li>
     <li>A chave <b>Roteiro A | B</b> continua funcionando (A = “processamento”, B = “janela de processamento”).</li>
+    <li>Na Revisão 2, a pedido do MEC, saíram as linhas de tendência dos cartões e a aba EMR × EJA — são modalidades diferentes, que não se comparam (Parte 3).</li>
   </ul>
   <h4>Por que os números batem</h4>
   <p>O painel não tem uma base própria: tudo é derivado dos dados que as telas de consulta já usam. Os pagamentos são exatamente as parcelas de cada processamento; a elegibilidade parte do retrato final de cada ciclo e volta no tempo com as alterações registradas em cada processamento; a frequência termina igual aos cartões da tela Início. A divisão por modalidade e por município é feita de modo que <b>a soma das partes feche exatamente com o total</b>.</p>
@@ -276,7 +289,7 @@
 <!-- ═════════════ PARTE 2 ═════════════ -->
 <section class="pb">
   <div class="parte p2"><div class="n">Parte 2</div><h2>Mudanças a partir do feedback das redes</h2>
-    <div class="muted">Aplicadas só na versão nova. A versão das entrevistas segue como foi testada.</div></div>
+    <div class="muted">Aplicadas só na versão nova. A versão das entrevistas segue como foi testada. As telas de “depois” desta parte são da Revisão 1; o que mudou em seguida está na Parte 3.</div></div>
 
   <h3>2.1 O que as entrevistas mostraram</h3>
   <p>Fonte: aba <b>Registro</b> da planilha de testes de usabilidade — cinco sessões (P1 CGARB/MEC; P2 IFPA; P3 IFSP; P4 rede estadual do MT; P5 rede estadual do ES), 15 tarefas cada, e as perguntas abertas. Sucesso por tarefa, com as cinco sessões:</p>
@@ -430,6 +443,153 @@
     <dt>Esta síntese</dt><dd><code>sintese/</code> (texto, prints e scripts) → <code>entregaveis/Pe-de-Meia-Painel-de-Gestao-sintese.pdf</code></dd>
     <dt>Versão das entrevistas</dt><dd><code>fontes/janelas-de-processamento.html</code> e <code>deploy/</code> — inalterados</dd>
   </dl>
+</section>
+
+<!-- ═════════════ PARTE 3 ═════════════ -->
+<section class="pb">
+  <div class="parte p3"><div class="n">Parte 3</div><h2>Ajustes da conversa com o MEC — Revisão 2</h2>
+    <div class="muted">04/11/2026 · aplicados só na versão nova. A versão das entrevistas, o roteiro e os gabaritos seguem intocados.</div></div>
+
+  <h3>3.1 De onde vieram os ajustes</h3>
+  <p>Três fontes: a <b>conversa com o time do MEC</b> sobre o Painel de Gestão; o documento <b>“Pontas a avaliar — Portal Pé-de-Meia”</b> (04/11/2026), com observações do MEC e a sugestão de um operador; e a <b>wiki “Elegibilidade”</b> do Pé-de-Meia (NEES/UFAL), base dos motivos de inelegibilidade — status da matrícula, critérios (TCI) e os textos que o Portal mostra à rede.</p>
+  <table>
+    <thead><tr><th style="width:9mm">#</th><th>Ajuste</th><th>Origem</th><th style="width:30mm">Onde</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill r">R1</span></td><td><b>Cartões sem linha de tendência</b>, com o recorte dito uma vez acima deles; “Valor liberado ao ciclo” vira <b>Valor liberado acumulado</b>.</td><td>MEC: as linhas confundem; “ao ciclo” valia para todos os cartões e só um dizia.</td><td>Painel</td></tr>
+      <tr><td><span class="pill r">R2</span></td><td><b>Sai a comparação EMR × EJA</b> (aba, insight e divisão no cartão). O filtro de modalidade fica.</td><td>MEC: modalidades muito diferentes, não comparáveis; não aparece nos painéis atuais.</td><td>Painel</td></tr>
+      <tr><td><span class="pill r">R3</span></td><td>Municípios: sai a mensagem dos “12 municípios”; <b>“Maior frequência não informada”</b>; <b>“Ver estudantes”</b>.</td><td>MEC: a mensagem não se entendia; é um percentual.</td><td>Painel</td></tr>
+      <tr><td><span class="pill r">R4</span></td><td>Gráfico acumulado diz o que soma: “Valor das parcelas liberadas, acumulado por ciclo”.</td><td>MEC: “valor acumulado de quê?”.</td><td>Painel</td></tr>
+      <tr><td><span class="pill r">R5</span></td><td><b>Rótulos de dados em todos os gráficos.</b></td><td>MEC: as redes tiram print para apresentações e documentos.</td><td>Painel</td></tr>
+      <tr><td><span class="pill r">R6</span></td><td><b>Painel de motivos</b> — não elegível e elegibilidade indefinida — no padrão do painel de pagamento, que filtra a lista.</td><td>MEC (Monitor já mostra) + wiki de Elegibilidade.</td><td>Elegibilidade</td></tr>
+      <tr><td><span class="pill r">R7</span></td><td><b>Motivo no detalhe do estudante</b>, como no Portal atual: texto do status e os critérios, com o código.</td><td>MEC: já existe no Portal e faltava no protótipo.</td><td>Detalhe do estudante</td></tr>
+      <tr><td><span class="pill r">R8</span></td><td><b>Instrução dos cartões</b> com o mesmo texto e <b>acima</b> deles.</td><td>Pontas a avaliar.</td><td>Elegibilidade, Pagamento</td></tr>
+      <tr><td><span class="pill r">R9</span></td><td>Trajetória do estudante do processamento <b>mais recente para o mais antigo</b>.</td><td>Pontas a avaliar.</td><td>Detalhe do estudante</td></tr>
+      <tr><td><span class="pill r">R10</span></td><td><b>“Comparar processamentos” em evidência</b>: aba com selo e chamado no topo da lista.</td><td>Pontas a avaliar.</td><td>Processamentos</td></tr>
+      <tr><td><span class="pill r">R11</span></td><td>Plural padronizado: “passaram a <b>ser elegíveis</b>” / “deixaram de ser elegíveis”.</td><td>Pontas a avaliar.</td><td>Detalhe do processamento, painel</td></tr>
+      <tr><td><span class="pill r">R12</span></td><td><b>Calendário</b>: o processamento aberto para envio de dados e os próximos, com a frequência e o período de envio de cada um.</td><td>Sugestão de um operador (Pontas a avaliar): “dá para criar uma agenda e se organizar”.</td><td>Processamentos</td></tr>
+      <tr><td><span class="pill r">R13</span></td><td><b>Aviso do Início reescrito</b>: data do último processamento, frequência que ele apurou e o próximo previsto.</td><td>Pontas a avaliar: operadores responderam “junho” quando perguntados sobre o último processamento.</td><td>Início</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h3>3.2 Painel: cartões, municípios e rótulos <span class="pill r">R1</span> <span class="pill r">R2</span> <span class="pill r">R3</span> <span class="pill r">R4</span> <span class="pill r">R5</span></h3>
+  <p>Os cartões perderam os minigráficos e a divisão EMR/EJA. Como todos falam do <b>mesmo recorte</b> — o ciclo escolhido até o processamento de referência —, isso agora é dito uma vez, numa linha acima deles, e nenhum cartão precisa repetir “ao ciclo”.</p>
+  <div class="par">
+    <figure class="antes"><span class="rot antes">Antes</span><img src="prints/r01-cartoes-antes.jpg" alt="Cartões do painel antes"><figcaption>Minigráficos, a divisão EMR/EJA e “Valor liberado ao ciclo”.</figcaption></figure>
+    <figure><span class="rot depois">Depois</span><img src="prints/r01-cartoes-depois.jpg" alt="Cartões do painel depois"><figcaption>O recorte numa linha só; “Valor liberado acumulado”, com o valor exato e o número de processamentos.</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h4>Municípios</h4>
+  <div class="par">
+    <figure class="antes"><span class="rot antes">Antes</span><img src="prints/r03-municipios-antes.jpg" alt="Municípios antes"><figcaption>Aba EMR × EJA, a mensagem dos “12 municípios”, “Valor liberado ao ciclo” e “Estudantes”.</figcaption></figure>
+    <figure><span class="rot depois">Depois</span><img src="prints/r03-municipios-depois.jpg" alt="Municípios depois"><figcaption>Cinco abas, sem a mensagem; “Valor liberado acumulado”; ações empilhadas, com “Ver estudantes”.</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h4>Rótulos de dados</h4>
+  <p>Cada barra mostra o <b>total no topo</b> e o valor de cada parte que couber dentro dela (texto branco ou escuro, conforme a cor); cada linha mostra o valor de <b>todos os pontos</b>. Quando dois rótulos se encostariam, um vai para baixo do ponto ou é omitido — o valor exato continua no detalhe ao passar o mouse. O gráfico acumulado ganhou um título que diz o que soma.</p>
+  <div class="par">
+    <figure class="antes"><span class="rot antes">Antes</span><img src="prints/r02-graficos-antes.jpg" alt="Gráficos da aba Ciclos antes"><figcaption>Sem valores escritos: para saber o número, era preciso passar o mouse.</figcaption></figure>
+    <figure><span class="rot depois">Depois</span><img src="prints/r02-graficos-depois.jpg" alt="Gráficos da aba Ciclos depois"><figcaption>Os valores no próprio gráfico — o print já sai pronto para uma apresentação.</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h3>3.3 Motivos de inelegibilidade <span class="pill r">R6</span> <span class="pill r">R7</span></h3>
+  <p>A tela Status de Elegibilidade ganhou, logo abaixo dos cartões, o painel <b>Estudantes por motivo</b>. Ele segue o padrão do painel de situações do Pagamento — grupos com a cor da situação, ícone e nome, linhas que filtram a lista — e organiza os motivos como a wiki de Elegibilidade:</p>
+  <ul>
+    <li><b>Não elegível</b>: os critérios de alta criticidade (status 402 — CadÚnico não encontrado ou desatualizado, renda acima do limite, fora da faixa de idade, etapa não contemplada, divergências na Receita Federal, família unipessoal no Bolsa Família) e os status próprios (202 matrícula cancelada, 301 reprovações ou evasões consecutivas, 303–309 outros desligamentos);</li>
+    <li><b>Elegibilidade indefinida</b>: os critérios de baixa criticidade (status 200 — nome, data de nascimento, CPF ou NIS divergentes do CadÚnico, estudante sem CPF no SGP) e a validação bancária (902).</li>
+  </ul>
+  <figure>
+    <img src="prints/r08-motivos-elegibilidade.jpg" alt="Painel de motivos na tela de elegibilidade">
+    <figcaption><b>Cada linha</b>: motivo, código (TCI ou status), barra, % sobre o total da situação e quantidade. A soma fecha com os cartões (104.328 e 66). Os motivos sem estudante no recorte ficam numa linha (“Sem estudantes: …”).</figcaption>
+  </figure>
+</section>
+
+<section>
+  <figure>
+    <img src="prints/r09-lista-por-motivo.jpg" alt="Lista filtrada pelo motivo Nome divergente do CadÚnico">
+    <figcaption><b>“Nome divergente do CadÚnico” clicado.</b> A lista mostra as 58 matrículas do motivo, com as etiquetas de situação e motivo; o motivo principal aparece também em cada linha. Um filtro “Motivo” entra na lista quando a situação é Não elegível ou Indefinida.</figcaption>
+  </figure>
+  <p>No detalhe do estudante (👁), cada ciclo que não está elegível ganha o bloco da situação, como no Portal: o texto do status e, quando há critérios, <b>“Confira os critérios para a inelegibilidade”</b> (não elegível) ou <b>“Confira o detalhamento da situação”</b> (indefinida), com a mensagem oficial para a rede. Uma matrícula pode ter mais de um critério — na distribuição ela conta pelo principal; no detalhe aparecem todos.</p>
+</section>
+
+<section>
+  <div class="par">
+    <figure class="estreita"><img src="prints/r11-detalhe-indefinida.jpg" alt="Detalhe de estudante com elegibilidade indefinida"><figcaption><b>Elegibilidade indefinida (status 200)</b> por nome divergente do CadÚnico (TCI 1206).</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <div class="par">
+    <figure class="estreita"><img src="prints/r12-detalhe-nao-elegivel.jpg" alt="Detalhe de estudante não elegível com dois critérios"><figcaption><b>Não elegível (status 402) com dois critérios</b>: renda acima do limite (TCI 1212) e nome divergente na Receita Federal (TCI 1303). Abaixo, a trajetória já do mais recente para o mais antigo (R9), com o motivo da mudança.</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <figure class="estreita"><img src="prints/r13-detalhe-cancelada.jpg" alt="Detalhe de estudante com matrícula cancelada"><figcaption><b>Matrícula cancelada (status 202)</b>: só o texto do status, sem lista de critérios — como no Portal.</figcaption></figure>
+  <div class="box">
+    <h4>De onde vêm os números</h4>
+    <p style="margin:0">As quantidades por motivo saem de pesos ilustrativos, na ordem de grandeza do Monitor (CadÚnico ≈ 59%, renda ≈ 20%, idade ≈ 12% entre os não elegíveis; nome divergente ≈ 88% entre os indefinidos), e fecham exatamente com o total de cada cartão. Os textos são os da coluna “Descrição Rede” da wiki. Quatro estudantes de exemplo foram acrescentados à amostra (dois indefinidos, dois não elegíveis).</p>
+  </div>
+</section>
+
+<section>
+  <h3>3.4 Instruções, plural e trajetória <span class="pill r">R8</span> <span class="pill r">R9</span> <span class="pill r">R11</span></h3>
+  <p>A instrução dos cartões passou a ter o <b>mesmo texto nas duas telas</b> e a vir <b>acima</b> deles, onde é lida antes do clique: “Clique em um card para ver a lista de estudantes referente à situação” (Elegibilidade) e “… referente às parcelas” (Pagamento).</p>
+  <div class="par">
+    <figure class="antes"><span class="rot antes">Antes</span><img src="prints/r06-instrucao-elegibilidade-antes.jpg" alt="Instrução da elegibilidade antes"><figcaption>Elegibilidade: instrução pequena, abaixo dos cartões.</figcaption></figure>
+    <figure><span class="rot depois">Depois</span><img src="prints/r06-instrucao-elegibilidade-depois.jpg" alt="Instrução da elegibilidade depois"><figcaption>Acima dos cartões, com o texto padronizado.</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <div class="par">
+    <figure class="antes"><span class="rot antes">Antes</span><img src="prints/r05-instrucao-pagamento-antes.jpg" alt="Instrução do pagamento antes"><figcaption>Pagamento: a instrução ficava no fim da barra, com outro texto.</figcaption></figure>
+    <figure><span class="rot depois">Depois</span><img src="prints/r05-instrucao-pagamento-depois.jpg" alt="Instrução do pagamento depois"><figcaption>O mesmo padrão da Elegibilidade, acima do painel.</figcaption></figure>
+  </div>
+  <h4>Plural padronizado</h4>
+  <div class="par">
+    <figure class="antes"><span class="rot antes">Antes</span><img src="prints/r07-plural-antes.jpg" alt="Colunas antes"><figcaption>“passaram a elegível” ao lado de “deixaram de ser elegíveis”.</figcaption></figure>
+    <figure><span class="rot depois">Depois</span><img src="prints/r07-plural-depois.jpg" alt="Colunas depois"><figcaption>“passaram a ser elegíveis” / “deixaram de ser elegíveis” — também no painel e no resumo do processamento.</figcaption></figure>
+  </div>
+  <p>A <b>trajetória do estudante</b> passou a começar pelo processamento mais recente (exemplo na figura do estudante com dois critérios, acima).</p>
+</section>
+
+<section>
+  <h3>3.5 Processamentos e aviso do Início <span class="pill r">R10</span> <span class="pill r">R12</span> <span class="pill r">R13</span></h3>
+  <p>A tela de Processamentos virou também uma <b>agenda</b>, como sugeriu um operador: acima dos concluídos aparecem o processamento <b>aberto para envio de dados</b> (em verde) e os <b>próximos</b> (em cinza, “Fechado”), cada um com a frequência que recebe e o período de envio. Os concluídos dizem que frequência apuraram. “Comparar processamentos” ganhou um chamado no topo e um selo na aba.</p>
+  <figure>
+    <img src="prints/r10-processamentos-calendario.jpg" alt="Processamentos com calendário e chamado para comparar">
+    <figcaption><b>Calendário e comparação em evidência.</b> As datas dos próximos processamentos são ilustrativas, no ritmo do calendário operacional (a frequência é apurada dois meses depois). Na versão B do roteiro, os status são “Janela aberta” e “Janela fechada”.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h4>Aviso do Início</h4>
+  <p>“Os últimos dados consolidados são de Junho” levava operadores a dizer que o último processamento foi em junho. O aviso agora separa as duas coisas: <b>quando</b> foi o processamento e <b>de que mês</b> é a frequência que ele apurou — e aponta o próximo, com link para o calendário.</p>
+  <div class="par">
+    <figure class="antes"><span class="rot antes">Antes</span><img src="prints/r04-aviso-inicio-antes.jpg" alt="Aviso do Início antes"><figcaption>Só o mês dos dados.</figcaption></figure>
+    <figure><span class="rot depois">Depois</span><img src="prints/r04-aviso-inicio-depois.jpg" alt="Aviso do Início depois"><figcaption>Data do processamento, mês da frequência e o próximo previsto.</figcaption></figure>
+  </div>
+
+  <h3>3.6 Pontos para validar</h3>
+  <table>
+    <thead><tr><th>Assunto</th><th>Situação</th></tr></thead>
+    <tbody>
+      <tr><td>Datas do calendário (24/09, 27/10, 25/11 e 17/12) e períodos de envio</td><td>Ilustrativas. Trocar pelas do calendário operacional de 2026 (Portaria MEC nº 169/2026).</td></tr>
+      <tr><td>“Janela aberta” na versão A</td><td>Para não usar “janela” na versão A, ficou “Aberto para envio de dados” / “Fechado”; na B, “Janela aberta” / “Janela fechada”, como sugerido.</td></tr>
+      <tr><td>Mensagens oficiais citam “próxima janela de envio de dados”</td><td>Mantidas como na wiki, também na versão A.</td></tr>
+      <tr><td>Pesos dos motivos e o motivo “Matrícula cancelada”</td><td>Ilustrativos; o cancelamento entrou na distribuição (3,0%) porque é um caso de não elegível do Portal — por isso os percentuais não são idênticos aos do Monitor.</td></tr>
+      <tr><td>Motivos sem estudante na amostra</td><td>Mostram o número, mas não filtram a lista (mesmo padrão do Pagamento).</td></tr>
+      <tr><td>Minigráficos da tabela de Municípios</td><td>Mantidos (o pedido falava dos cartões). Dá para tirar, se o MEC preferir.</td></tr>
+    </tbody>
+  </table>
 </section>
 
 </body>
