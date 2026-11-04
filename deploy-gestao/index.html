@@ -347,7 +347,6 @@ body.mark [data-new]::after{
 .gseg button{border:0; background:none; padding:5px 12px; border-radius:4px; font-size:13px; color:var(--ink-2); font-weight:500}
 .gseg button:hover{color:var(--blue)}
 .gseg button[aria-pressed="true"]{background:var(--blue); color:#fff; font-weight:600}
-.gchk{display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--ink-2); cursor:pointer}
 .gctx{color:var(--ink-3); font-size:12.5px; margin:0 2px 18px}
 .gctx b{color:var(--ink-2); font-weight:600}
 
@@ -409,13 +408,10 @@ body.mark [data-new]::after{
 .glg{display:flex; flex-wrap:wrap; gap:4px 14px; margin:10px 0 2px; font-size:12px; color:var(--ink-2)}
 .glg span{display:inline-flex; align-items:center; gap:6px}
 .glg i{width:10px; height:10px; border-radius:2px; flex:none}
-.glg .ev{color:var(--new)}
 .gsvg{display:block; width:100%; height:auto; margin-top:4px; overflow:visible}
 .gsvg .ax{font-size:11px; fill:var(--ink-3); font-family:var(--font-ui)}
 .gsvg .ax.on{fill:var(--ink); font-weight:700}
 .gsvg .dl{font-size:11.5px; fill:var(--ink); font-weight:700; font-family:var(--font-ui)}
-.gsvg .evn{font-size:10px; fill:#fff; font-weight:700; font-family:var(--font-ui); pointer-events:none}
-.gsvg .evt{cursor:help}
 .gsvg .hcol .xh{opacity:0}
 .gsvg .hcol:hover .xh{opacity:.5}
 .gsvg .hcol .bd{fill:transparent}
@@ -822,8 +818,8 @@ const state = {
   aba:'lista', modal:null,
   cmpA:1, cmpB:0,       /* comparação: A = janela anterior, B = posterior */
   /* Painel de Gestão — estado próprio, separado dos filtros das telas operacionais */
-  gProc:'', gCiclo:'2026', gMod:'geral', gMun:'', gTipo:'barras', gAba:'elegibilidade',
-  gEventos:true, gOrd:'queda', gGerando:false, gGerado:null, gFb:{}, gInsPag:0, gInsDir:0
+  gProc:'', gCiclo:'2026', gMod:'geral', gMun:'', gAba:'elegibilidade',
+  gOrd:'queda', gGerando:false, gGerado:null, gFb:{}, gInsPag:0, gInsDir:0
 };
 
 const ROTAS = [
@@ -1904,11 +1900,6 @@ const COR_CIC = {2026:'#1351B4', 2025:'#00A0A8', 2024:'#8E44AD'};
 const COR_SIT = {eleg:'#168821', outras:'#C25400', nao:'#48566B'};
 const COR_FREQ = {acima:'#168821', abaixo:'#E52207', ni:'#9AA5B4'};
 
-const EVENTOS = [
-  {jan:'2026-03-25', n:1, txt:'Primeiro processamento do ciclo 2026: incentivo Matrícula liberado para 337.180 estudantes.'},
-  {jan:'2026-07-24', n:2, txt:'Prazo de envio da frequência de maio: parte das escolas enviou fora do prazo (exemplo ilustrativo).'},
-  {jan:'2026-08-26', n:3, txt:'O processamento atingiu os ciclos 2024, 2025 e 2026 ao mesmo tempo.'}
-];
 
 /* recortes territoriais: 12 maiores redes + demais (a Bahia tem 417 municípios) */
 const MUNS = [
@@ -2112,7 +2103,7 @@ function barra(x, yb, w, h, r, cor){
   return `<path d="M${f(x)},${f(yb)}V${f(yb - h + r)}Q${f(x)},${f(yb - h)} ${f(x + r)},${f(yb - h)}H${f(x + w - r)}Q${f(x + w)},${f(yb - h)} ${f(x + w)},${f(yb - h + r)}V${f(yb)}Z" fill="${cor}"/>`;
 }
 function gChart(o){
-  const W = o.w || 560, H = o.h || 236, ml = 60, mr = 18, mt = o.eventos ? 28 : 14, mb = 30;
+  const W = o.w || 560, H = o.h || 236, ml = 60, mr = 18, mt = 14, mb = 30;
   const iw = W - ml - mr, ih = H - mt - mb, n = o.cats.length;
   const barras = o.tipo === 'barras', emp = barras && o.empilhado;
   let vals = [];
@@ -2141,13 +2132,6 @@ function gChart(o){
   ticks.forEach(t => {
     g += `<line x1="${ml}" x2="${W - mr}" y1="${y(t).toFixed(1)}" y2="${y(t).toFixed(1)}" stroke="#EDF1F7"/>`;
     g += `<text x="${ml - 8}" y="${(y(t) + 4).toFixed(1)}" text-anchor="end" class="ax">${gEixo(t, o.fmt)}</text>`;
-  });
-  if (o.eventos) o.cats.forEach((c, i) => {
-    const ev = EVENTOS.find(e => e.jan === c.id); if (!ev) return;
-    g += `<line x1="${x(i)}" x2="${x(i)}" y1="${mt - 6}" y2="${mt + ih}" stroke="#6C2EB9" stroke-dasharray="3 3" opacity=".5"/>`;
-    g += `<g class="evt" data-tip="${esc(`<div class="th">Evento ${ev.n} · ${PROCS.find(j => j.id === ev.jan).rotulo}</div>${ev.txt}`)}">
-      <circle cx="${x(i)}" cy="${mt - 14}" r="8" fill="#6C2EB9" stroke="#fff" stroke-width="2"/>
-      <text x="${x(i)}" y="${mt - 10.5}" text-anchor="middle" class="evn">${ev.n}</text></g>`;
   });
 
   if (barras && emp){
@@ -2209,9 +2193,8 @@ function spark(v, cor){
     <polyline points="${pts.map(q => q.map(k => k.toFixed(1)).join(',')).join(' ')}" fill="none" stroke="${cor}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
     <circle cx="${u[0].toFixed(1)}" cy="${u[1].toFixed(1)}" r="3" fill="${cor}" stroke="#fff" stroke-width="1.5"/></svg>`;
 }
-function legenda(itens, eventos){
-  return `<div class="glg">${itens.map(i => `<span><i style="background:${i.cor}"></i>${i.nome}</span>`).join('')}${
-    eventos ? `<span class="ev">● eventos — passe o mouse no número</span>` : ''}</div>`;
+function legenda(itens){
+  return `<div class="glg">${itens.map(i => `<span><i style="background:${i.cor}"></i>${i.nome}</span>`).join('')}</div>`;
 }
 function gCard(titulo, sub, corpo){
   return `<div class="gcard"><h3>${titulo}</h3>${sub ? `<div class="gsub">${sub}</div>` : ''}${corpo}</div>`;
@@ -2433,9 +2416,6 @@ function gFiltros(){
         <option value="">Todos — rede estadual</option>
         ${MUNS.map(m => `<option value="${m.id}" ${state.gMun === m.id ? 'selected' : ''}>${m.id}</option>`).join('')}
       </select></div>
-    <div class="field" style="margin-left:auto"><span class="flbl">Gráfico</span>
-      ${seg('gTipo', [['barras', 'Barras'], ['linhas', 'Linhas']])}</div>
-    <label class="gchk" title="Marcadores numerados nos gráficos com o que aconteceu em cada data"><input type="checkbox" ${state.gEventos ? 'checked' : ''} onchange="state.gEventos=this.checked; render()"> Eventos</label>
   </div>`;
 }
 function gKpis(){
@@ -2488,10 +2468,10 @@ function gAbaElegibilidade(){
     ${ps.length === 1 ? `<div class="gnote">O ciclo ${ano} foi processado <b>uma única vez</b> em 2026 (${PROCS[ps[0]].rotulo}). Para acompanhar a evolução, escolha o ciclo 2026; para comparar os ciclos, use a aba <b>Ciclos</b>.</div>` : ''}
     <div class="gcards">
       ${gCard('Situação de elegibilidade', `por ${tp()} · ciclo ${ano}`,
-        legenda(ser, state.gEventos) + gChart({tipo:state.gTipo, empilhado:true, cats, series:ser, fmt:'num', eventos:state.gEventos, dest:di,
+        legenda(ser) + gChart({tipo:'barras', empilhado:true, cats, series:ser, fmt:'num', dest:di,
           aria:'Situação de elegibilidade em cada ' + tp()}))}
       ${gCard('Elegíveis em relação às matrículas na rede', `% elegível · ciclo ${ano}`,
-        legenda([{nome:'% elegível', cor:COR_SIT.eleg}], state.gEventos) + gChart({tipo:'linhas', cats, fmt:'pct', eventos:state.gEventos, rotuloFinal:true, dest:di,
+        legenda([{nome:'% elegível', cor:COR_SIT.eleg}]) + gChart({tipo:'linhas', cats, fmt:'pct', rotuloFinal:true, dest:di,
           series:[{nome:'% elegível', cor:COR_SIT.eleg, v:m.map(x => x.pct)}], aria:'Percentual de elegíveis por ' + tp()}))}
     </div>
     <div class="gbar"><h3>Tabela comparativa — Elegibilidade</h3>
@@ -2526,10 +2506,10 @@ function gAbaFrequencia(){
     ${di < 0 ? `<div class="gnote">Em ${refRot()} a frequência ainda não tinha sido apurada: a primeira apuração do ciclo 2026 é a de ${PROCS[fps[0]].rotulo}.</div>` : ''}
     <div class="gcards">
       ${gCard('Frequência das matrículas elegíveis', `por ${tp()} · cada ${tp()} apura a frequência de dois meses antes`,
-        legenda(ser, state.gEventos) + gChart({tipo:state.gTipo, empilhado:true, cats, series:ser, fmt:'num', eventos:state.gEventos, dest:di,
+        legenda(ser) + gChart({tipo:'barras', empilhado:true, cats, series:ser, fmt:'num', dest:di,
           aria:'Frequência por faixa em cada ' + tp()}))}
       ${gCard('Frequência igual ou acima de 80%', '% das matrículas com frequência apurada',
-        legenda([{nome:'% com frequência ≥ 80%', cor:'#3F4FB8'}], state.gEventos) + gChart({tipo:'linhas', cats, fmt:'pct', eventos:state.gEventos, rotuloFinal:true, dest:di,
+        legenda([{nome:'% com frequência ≥ 80%', cor:'#3F4FB8'}]) + gChart({tipo:'linhas', cats, fmt:'pct', rotuloFinal:true, dest:di,
           series:[{nome:'% ≥ 80%', cor:'#3F4FB8', v:f.map(x => x.pct)}], aria:'Percentual com frequência acima de 80%'}))}
     </div>
     <div class="gbar"><h3>Tabela comparativa — Frequência</h3>
@@ -2558,10 +2538,10 @@ function gAbaPagamento(){
     <div class="gnote">Parcelas e valores liberados <b>ao ciclo ${ano}</b>. ${tv('Um processamento', 'Uma janela de processamento')} pode liberar parcelas de outros ciclos ao mesmo tempo — para ver tudo o que saiu em cada ${tp()}, use a aba <b>Ciclos</b>.</div>
     <div class="gcards">
       ${gCard('Parcelas liberadas por incentivo', `por ${tp()} · ciclo ${ano}`,
-        legenda(ser, state.gEventos) + gChart({tipo:state.gTipo, empilhado:true, cats, series:ser, fmt:'num', eventos:state.gEventos, dest:di,
+        legenda(ser) + gChart({tipo:'barras', empilhado:true, cats, series:ser, fmt:'num', dest:di,
           aria:'Parcelas por incentivo em cada ' + tp()}))}
       ${gCard('Valor liberado', `em reais, por ${tp()} · ciclo ${ano}`,
-        legenda([{nome:'Valor liberado', cor:'#7A8B1E'}], state.gEventos) + gChart({tipo:'linhas', cats, fmt:'brl', eventos:state.gEventos, rotuloFinal:true, zero:true, dest:di,
+        legenda([{nome:'Valor liberado', cor:'#7A8B1E'}]) + gChart({tipo:'linhas', cats, fmt:'brl', rotuloFinal:true, zero:true, dest:di,
           fmtRot:curto, series:[{nome:'Valor liberado', cor:'#7A8B1E', v:pg.map(p => p.valor)}], aria:'Valor liberado por ' + tp()}))}
     </div>
     <div class="gbar"><h3>Tabela comparativa — Pagamentos</h3>
@@ -2591,10 +2571,10 @@ function gAbaCiclos(){
     <div class="gnote">Esta aba mostra <b>todos os ciclos</b> lado a lado — o filtro de ciclo não se aplica aqui; o de ${tp()} define até quando o retrato é contado. A leitura por ${tp()} mostra quando cada ciclo recebeu pagamento.</div>
     <div class="gcards">
       ${gCard('Valor liberado por ciclo afetado', `por ${tp()} · todos os ciclos`,
-        legenda(ser, state.gEventos) + gChart({tipo:state.gTipo, empilhado:true, cats, series:ser, fmt:'brl', eventos:state.gEventos, dest:di,
+        legenda(ser) + gChart({tipo:'barras', empilhado:true, cats, series:ser, fmt:'brl', dest:di,
           aria:'Valor liberado por ciclo em cada ' + tp()}))}
       ${gCard('Valor acumulado em 2026, por ciclo', `soma dos ${tps()} até cada data`,
-        legenda(cum, state.gEventos) + gChart({tipo:'linhas', cats, series:cum, fmt:'brl', zero:true, eventos:state.gEventos, dest:di,
+        legenda(cum) + gChart({tipo:'linhas', cats, series:cum, fmt:'brl', zero:true, dest:di,
           aria:'Valor acumulado por ciclo'}))}
     </div>
     <div class="gbar"><h3>Retrato por ciclo, até ${ref.rotulo}</h3>
@@ -2678,7 +2658,7 @@ function gAbaModalidades(){
   });
   const totRede = r[0].m.rede + r[1].m.rede, totV = r[0].v + r[1].v;
   const linha = (k, a, b, dif) => `<tr><td>${k}</td><td class="r num">${a}</td><td class="r num">${b}</td><td class="r">${dif || ''}</td></tr>`;
-  const leg = legenda(mods.map(m => ({nome:m === 'EMR' ? 'EMR — Ensino Médio Regular' : 'EJA — Educação de Jovens e Adultos', cor:COR_MOD[m]})), false);
+  const leg = legenda(mods.map(m => ({nome:m === 'EMR' ? 'EMR — Ensino Médio Regular' : 'EJA — Educação de Jovens e Adultos', cor:COR_MOD[m]})));
   return `
     <div class="gnote">EMR e EJA lado a lado${state.gMun ? `, em <b>${state.gMun}</b>` : ''}. O seletor de modalidade não se aplica a esta aba.</div>
     ${leg}

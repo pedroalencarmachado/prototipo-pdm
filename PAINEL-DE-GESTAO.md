@@ -42,11 +42,15 @@ Processamento* e as entrevistas são operacionais. O painel **complementa** essa
    "Frequência de Matrículas" (título da tela existente) e o incentivo "Matrícula".
 9. Insights num **carrossel**: uma linha, dois cartões por vez, com setas e pontos.
 10. Filtro de **processamento** no painel, além do de ciclo, dependentes como nas listagens.
+11. **Sem** alternância Barras/Linhas e **sem** eventos nos gráficos, para não confundir e para os filtros
+    caberem numa linha. Os gráficos ficam fixos: barras para a composição, linha para a tendência.
+    (Os eventos eram marcadores numerados com o que aconteceu em cada data — prazo, processamento
+    extraordinário — para o gestor ligar uma queda a uma causa. Ideia guardada para depois.)
 
 ## 3. O que tem na tela
 
 - **Filtros:** Processamento (pai) · Ciclo (filho) · Modalidade (Visão geral | EMR | EJA) · Município
-  (12 maiores redes + "Demais municípios (405)") · Gráfico (Barras | Linhas) · Eventos (liga/desliga os marcadores).
+  (12 maiores redes + "Demais municípios (405)"), todos numa linha.
   O estado é próprio do painel (`state.g*`), separado dos filtros das telas operacionais.
 - **Como o filtro de processamento funciona:** ele define o **processamento de referência** ("como estava
   naquela data"). Sem escolha, a referência é o último processamento do ciclo. Indicadores, insights, ranking
@@ -55,10 +59,6 @@ Processamento* e as entrevistas são operacionais. O painel **complementa** essa
   marcada nas tabelas ("selecionado"). Processamento e ciclo dependem um do outro, como nas listagens:
   o ciclo reduz os processamentos oferecidos e o processamento reduz os ciclos. Os botões "Abrir …" levam à
   tela operacional já com o mesmo processamento e ciclo.
-- **Eventos:** marcadores numerados nos gráficos (① ② ③) que mostram, ao passar o mouse, o que aconteceu
-  naquela data fora dos números — prazo, processamento extraordinário, mudança de sistema. Servem para o
-  gestor ligar uma queda ou um pico a uma causa (o "correlacionar com eventos externos" do rascunho). Num
-  produto real, seriam cadastrados pelo MEC; aqui são fixos e o ② é um exemplo inventado.
 - **5 indicadores com tendência:** matrículas na rede, % elegível, frequência ≥ 80%, parcelas no último
   processamento e valor liberado ao ciclo — com variação contra o processamento anterior e minigráfico.
 - **Insights (IA simulada):** carrossel numa linha só, dois cartões por vez (setas, "1–2 de 6" e pontos);
@@ -76,8 +76,6 @@ Processamento* e as entrevistas são operacionais. O painel **complementa** essa
   - *EMR × EJA* — três gráficos lado a lado (% elegível, frequência ≥ 80%, valor por elegível) e tabela.
 - Tabelas destacam a linha **mais recente** e trazem **Δ** contra o processamento anterior; cada aba tem o
   bloco "Solicitar Planilha" no padrão do Portal.
-- Eventos nos gráficos: ① 25/03 primeiro processamento do ciclo 2026 · ② 24/07 prazo de envio da
-  frequência de maio (exemplo ilustrativo) · ③ 26/08 processamento que atingiu 3 ciclos.
 - Gráficos em **SVG próprio**, sem biblioteca: o arquivo continua único, sem CDN. Paletas conferidas com
   validador de cor (contraste e daltonismo); sem eixo duplo; tooltip em todo gráfico.
 
@@ -146,10 +144,14 @@ Mesmas armadilhas do outro link (LEIA-ME, seção 13): `--yes` obrigatório, rod
 
 ### Revisão 1 — 03/11/2026
 Primeira versão do Painel de Gestão: filtros, 5 indicadores com tendência, insights simulados, 6 abas,
-eventos nos gráficos, ranking de municípios e comparativo EMR × EJA. Publicação num projeto Cloudflare novo.
+ranking de municípios e comparativo EMR × EJA. Publicação num projeto Cloudflare novo.
 
 Ajustes pedidos antes da primeira publicação (ainda Revisão 1): "Matrículas" → **Elegibilidade** na aba e
 nos títulos do painel; insights em **carrossel** de uma linha; **filtro de processamento** (referência) ligado
 ao de ciclo. Conferido: 1.152 combinações de tela (2 roteiros × 3 ciclos × todos os processamentos de cada
 um × modalidade × município × 6 abas × página do carrossel) sem erro, sem "NaN" e sem "janela" na versão A;
 dependência processamento ↔ ciclo; indicadores com referência em 24/07 = números de julho em `JANELAS`.
+
+Depois, ainda antes de publicar: saíram a alternância Barras/Linhas e os eventos nos gráficos; os filtros
+cabem numa linha. Conferido: 288 combinações (2 roteiros × 3 ciclos × processamentos × modalidade × 6 abas)
+sem erro e sem resto de "Eventos", "Barras" ou "Linhas" na tela.
