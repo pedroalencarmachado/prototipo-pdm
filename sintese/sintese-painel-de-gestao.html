@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Painel de Gestão e ajustes das entrevistas — síntese</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Raleway:wght@600;700;800&display=swap">
+<style>
+  @page { size: A4; margin: 18mm 16mm 18mm 16mm; }
+  :root{
+    --blue:#1351B4; --blue-dark:#0C326F; --blue-soft:#E8EFFA; --new:#6C2EB9; --new-soft:#F3EDFB;
+    --green:#168821; --orange:#C25400; --red:#E52207; --ink:#16202E; --ink-2:#48566B; --ink-3:#71809A; --line:#DCE3ED; --soft:#F5F7FB;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:"Public Sans", "Segoe UI", sans-serif; color:var(--ink); font-size:10.2pt; line-height:1.5}
+  h1,h2,h3,h4{font-family:"Raleway","Public Sans",sans-serif; margin:0; letter-spacing:-.01em; break-after:avoid}
+  h2{font-size:17pt; color:var(--blue-dark); margin:0 0 3mm}
+  h3{font-size:12.5pt; margin:7mm 0 2mm; color:var(--ink)}
+  h4{font-size:10.5pt; margin:4mm 0 1.5mm; color:var(--blue-dark)}
+  p{margin:0 0 2.6mm}
+  ul,ol{margin:0 0 3mm; padding-left:5.5mm}
+  li{margin-bottom:1.2mm}
+  b,strong{font-weight:700}
+  .muted{color:var(--ink-2)}
+  .small{font-size:8.8pt}
+  .pb{break-before:page}
+  .avoid{break-inside:avoid}
+
+  /* capa */
+  .capa{height:258mm; display:flex; flex-direction:column; justify-content:space-between; padding:6mm 2mm}
+  .capa .tag{display:inline-block; background:var(--new); color:#fff; font-weight:700; font-size:8.5pt; letter-spacing:.08em; text-transform:uppercase; padding:1.2mm 3mm; border-radius:1mm}
+  .capa h1{font-size:30pt; line-height:1.12; color:var(--blue-dark); margin:8mm 0 5mm}
+  .capa .sub{font-size:13pt; color:var(--ink-2); max-width:150mm}
+  .capa .marca{font-family:Raleway; font-weight:800; letter-spacing:.08em; color:var(--blue-dark); font-size:14pt}
+  .capa .grupos{display:grid; grid-template-columns:1fr 1fr; gap:5mm; margin-top:12mm}
+  .capa .grupo{border:1px solid var(--line); border-top:4px solid var(--blue); border-radius:2mm; padding:4mm 5mm}
+  .capa .grupo.g2{border-top-color:var(--orange)}
+  .capa .grupo b{display:block; font-size:12pt; margin-bottom:1mm}
+  .capa .meta{font-size:9pt; color:var(--ink-3); border-top:1px solid var(--line); padding-top:4mm}
+  .capa .meta div{margin-bottom:1mm}
+
+  /* caixas */
+  .box{background:var(--soft); border:1px solid var(--line); border-radius:2mm; padding:3.5mm 4.5mm; margin:3mm 0 4mm; break-inside:avoid}
+  .box.azul{background:var(--blue-soft); border-color:#C5D4EB}
+  .box.roxo{background:var(--new-soft); border-color:#D9C7F0}
+  .box.laranja{background:#FFF7EC; border-color:#F2D3A8}
+  .box h4{margin-top:0}
+  .parte{border-left:6px solid var(--blue); padding:1mm 0 1mm 5mm; margin-bottom:6mm}
+  .parte.p2{border-left-color:var(--orange)}
+  .parte .n{font-size:9pt; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
+  .parte h2{font-size:22pt; margin:1mm 0 2mm}
+
+  /* figuras */
+  figure{margin:3mm 0 5mm; break-inside:avoid}
+  figure img{display:block; width:100%; border:1px solid var(--line); border-radius:1.5mm}
+  figure.meia img{width:78%; margin:0 auto}
+  figure.estreita img{width:62%; margin:0 auto}
+  figcaption{font-size:8.6pt; color:var(--ink-2); margin-top:1.6mm}
+  figcaption b{color:var(--ink)}
+  .par{display:block}
+  .par figure.antes img{width:86%}
+  .rot{display:inline-block; font-size:7.8pt; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:.6mm 2.2mm; border-radius:1mm; margin-bottom:1.5mm}
+  .rot.antes{background:#ECEFF4; color:var(--ink-2)}
+  .rot.depois{background:#E3F5E6; color:var(--green)}
+
+  /* tabelas */
+  table{width:100%; border-collapse:collapse; font-size:8.8pt; margin:2mm 0 4mm; break-inside:auto}
+  th{text-align:left; color:var(--blue); font-weight:600; border-bottom:1.2px solid var(--line); padding:1.6mm 2mm; vertical-align:bottom}
+  td{border-bottom:1px solid #EDF1F7; padding:1.6mm 2mm; vertical-align:top}
+  tr{break-inside:avoid}
+  td.r,th.r{text-align:right}
+  .ok{color:var(--green); font-weight:700} .mal{color:var(--red); font-weight:700} .med{color:var(--orange); font-weight:700}
+  .pill{display:inline-block; font-size:7.8pt; font-weight:700; padding:.3mm 2mm; border-radius:99px; background:var(--blue-soft); color:var(--blue-dark); white-space:nowrap}
+  .pill.m{background:#FFF0E0; color:var(--orange)}
+  .sumario{columns:2; column-gap:8mm; font-size:9.6pt}
+  .sumario div{break-inside:avoid; margin-bottom:1.5mm}
+  .kv{display:grid; grid-template-columns:38mm 1fr; gap:1.5mm 4mm; font-size:9.4pt}
+  .kv dt{color:var(--ink-3)} .kv dd{margin:0}
+  code{font-family:Consolas, monospace; font-size:8.6pt; background:#EEF1F6; padding:.2mm 1.2mm; border-radius:.8mm}
+</style>
+</head>
+<body>
+
+<!-- ═════════════ CAPA ═════════════ -->
+<section class="capa">
+  <div>
+    <div class="marca">PÉ·DE·MEIA</div>
+    <div style="margin-top:22mm"><span class="tag">Protótipo · dados ilustrativos</span></div>
+    <h1>Painel de Gestão e ajustes a partir das entrevistas com as redes</h1>
+    <div class="sub">Síntese do que foi construído na nova versão do protótipo do Portal do Usuário do Programa Pé-de-Meia — o que mudou, por quê e como ficou, com as telas.</div>
+    <div class="grupos">
+      <div class="grupo"><b>Parte 1 · Painel de Gestão</b>Uma visão gerencial, com cara de BI, para comparar processamentos, ciclos, modalidades e municípios, com insights escritos.</div>
+      <div class="grupo g2"><b>Parte 2 · Feedback das redes</b>Dez mudanças nas telas de consulta, tiradas das entrevistas de usabilidade, e três ajustes de layout pedidos depois delas.</div>
+    </div>
+  </div>
+  <h3 style="margin:0 0 2mm">Sumário</h3>
+  <div class="sumario">
+    <div><b>Parte 1 · Painel de Gestão</b></div>
+    <div>1.1 Para quem e por quê</div>
+    <div>1.2 A visão geral</div>
+    <div>1.3 O filtro de processamento</div>
+    <div>1.4 Insights gerados por IA (simulação)</div>
+    <div>1.5 As seis abas</div>
+    <div>1.6 Decisões e coerência dos números</div>
+    <div><b>Parte 2 · Feedback das redes</b></div>
+    <div>2.1 O que as entrevistas mostraram</div>
+    <div>2.2 Quadro das mudanças</div>
+    <div>2.3 Início</div>
+    <div>2.4 Listas em destaque e filtros</div>
+    <div>2.5 Pagamento</div>
+    <div>2.6 Processamento e quem foi afetado</div>
+    <div>2.7 Detalhe do estudante</div>
+    <div>2.8 Busca e exportação</div>
+    <div>2.9 O que ficou de fora</div>
+  </div>
+  <div class="meta">
+    <div><b>Versão nova (esta síntese):</b> prototipo-portalpdm-gestao.pages.dev · Painel de Gestão, Revisão 1 · novembro de 2026</div>
+    <div><b>Versão das entrevistas (intocada):</b> prototipo-portalpdm.pages.dev · Revisão 5 · roteiro e gabaritos inalterados</div>
+    <div><b>Repositório:</b> github.com/pedroalencarmachado/prototipo-pdm · documentação técnica em <code>PAINEL-DE-GESTAO.md</code></div>
+  </div>
+</section>
+
+<!-- ═════════════ EM UMA PÁGINA ═════════════ -->
+<section class="pb">
+  <h2>Em uma página</h2>
+  <p>Nas agendas com o MEC ficou claro que há dois perfis de uso do Portal: o <b>operacional</b>, que consulta estudantes e situações, e o <b>gerencial</b>, que precisa de dados comparativos para decidir. O protótipo testado nas entrevistas atendia o primeiro. Esta versão acrescenta o segundo e incorpora o que as redes apontaram nos testes.</p>
+
+  <div class="box azul">
+    <h4>Duas versões, separadas de propósito</h4>
+    <p style="margin:0">A versão nova é uma <b>cópia</b> do protótipo das entrevistas, publicada num <b>link próprio</b>. A versão das entrevistas, o roteiro e os gabaritos <b>não foram alterados</b> — cada mudança foi conferida antes de ir para o repositório. Por isso, os gabaritos do roteiro <b>não valem</b> para a versão nova (algumas tarefas ficaram mais fáceis de propósito).</p>
+  </div>
+
+  <h3>Parte 1 — Painel de Gestão</h3>
+  <ul>
+    <li>Nova entrada no menu, que abre por padrão neste link. Filtros por <b>processamento, ciclo, modalidade (EMR × EJA) e município</b>.</li>
+    <li><b>Cinco indicadores</b> com variação contra o processamento anterior e minigráfico de tendência.</li>
+    <li><b>Insights escritos</b>, com o selo “Gerado por IA” e o aviso para o gestor revisar — a geração é simulada.</li>
+    <li><b>Seis abas</b>: Elegibilidade, Frequência, Pagamento, Ciclos, Municípios e EMR × EJA, cada uma com gráficos, tabela comparativa e exportação.</li>
+    <li>Todos os números <b>batem com as telas de consulta</b> (36 checagens automáticas).</li>
+  </ul>
+
+  <h3>Parte 2 — Mudanças a partir do feedback das redes</h3>
+  <p>Cinco sessões registradas (P1 a P5). As tarefas que mais falharam foram: <b>aguardando pagamento</b> (1 de 5), <b>parcelas da janela de agosto</b> (2 de 5) e <b>matrículas alteradas</b> e <b>filtro de frequência</b> (3 de 5). As mudanças atacam essas causas:</p>
+  <ul>
+    <li><b>Filtros que não ficam presos</b> entre telas, com etiquetas dos filtros em uso e “Limpar filtros”.</li>
+    <li>Escolher um processamento <b>mostra todos os ciclos dele</b>; cartões e situações <b>filtram a lista</b>; o <b>total do recorte</b> aparece em destaque.</li>
+    <li>Conceitos explicados: <b>matrículas processadas</b> × <b>situação alterada</b> (passaram a elegível × deixaram de ser) e o <b>aviso de ciclos anteriores</b>.</li>
+    <li><b>Ver quem foi afetado</b> e a <b>trajetória do estudante</b>, com o motivo de cada mudança e a parcela clicada em destaque.</li>
+    <li>Parcela do incentivo visível, busca pelo <b>código do estudante</b>, exportação que diz o recorte.</li>
+    <li>Layout: <b>processamento no topo do Início</b>, <b>listas em destaque</b> e <b>situações de pagamento com cores que significam algo</b>.</li>
+  </ul>
+
+</section>
+
+<!-- ═════════════ PARTE 1 ═════════════ -->
+<section class="pb">
+  <div class="parte"><div class="n">Parte 1</div><h2>Painel de Gestão</h2>
+    <div class="muted">Uma visão gerencial que complementa as telas de consulta.</div></div>
+
+  <h3>1.1 Para quem e por quê</h3>
+  <p>O painel foi pensado para o <b>gestor da rede estadual</b> — no protótipo, a rede da Bahia, a mesma base das telas de consulta. Enquanto as telas de consulta respondem “qual a situação deste estudante?”, o painel responde perguntas como:</p>
+  <ul>
+    <li>A elegibilidade e a frequência estão melhorando de um processamento para o outro?</li>
+    <li>Em que municípios a frequência está caindo, ou não está sendo informada?</li>
+    <li>Quanto foi liberado em cada processamento, e para quais ciclos?</li>
+    <li>A EJA se comporta como o Ensino Médio Regular?</li>
+  </ul>
+  <p>Três diretrizes guiaram o desenho: <b>complementar</b> a visão atual (não substitui nenhuma tela), ser <b>orientado a dados</b> (gráficos, comparações e tendências) e <b>trazer a leitura pronta</b> (insights escritos). O vocabulário segue o que foi acordado com o MEC: o eixo do tempo é o <b>processamento</b> — nada de “competência” ou códigos <code>AAAAMM</code> na interface.</p>
+
+  <h3>1.2 A visão geral</h3>
+  <figure>
+    <img src="prints/p01-painel-visao-geral.jpg" alt="Topo do Painel de Gestão: filtros, indicadores e insights">
+    <figcaption><b>Topo do painel.</b> Filtros numa linha só, a linha de contexto do recorte, os cinco indicadores com tendência e o bloco de insights.</figcaption>
+  </figure>
+  <h4>Filtros</h4>
+  <ul>
+    <li><b>Processamento</b> e <b>Ciclo</b> dependem um do outro, como nas listagens do Portal: o ciclo reduz os processamentos oferecidos e o processamento reduz os ciclos.</li>
+    <li><b>Modalidade</b>: Visão geral (EMR + EJA), EMR ou EJA. O recorte por modalidade existe <b>só no painel</b> — na visão de processamento continua unificado, como decidido com o MEC.</li>
+    <li><b>Município</b>: as 12 maiores redes estaduais da Bahia e o agregado “Demais municípios (405)”.</li>
+  </ul>
+  <h4>Indicadores</h4>
+  <p>Matrículas na rede (com a divisão EMR/EJA), % elegível, frequência ≥ 80%, parcelas no processamento e valor liberado ao ciclo. Cada um mostra a <b>variação contra o processamento anterior</b> (verde quando melhora, vermelho quando piora) e um <b>minigráfico</b> com a tendência do ciclo.</p>
+</section>
+
+<section>
+  <h3>1.3 O filtro de processamento</h3>
+  <p>Num painel de evolução, escolher um processamento não pode esconder a série — senão some a tendência. Por isso ele funciona como <b>processamento de referência</b>, ou seja, “como estava naquela data”:</p>
+  <ul>
+    <li><b>Indicadores, insights, ranking de municípios, retrato por ciclo e EMR × EJA</b> são calculados <b>até</b> o processamento escolhido.</li>
+    <li>Os <b>gráficos</b> continuam com a série completa do ciclo, e a coluna do processamento escolhido fica destacada. Nas tabelas, a linha dele ganha a marca “selecionado”.</li>
+    <li>Os botões “Abrir…” levam à tela de consulta <b>já filtrada no mesmo processamento</b>.</li>
+  </ul>
+  <figure>
+    <img src="prints/p09-filtro-processamento-2407.jpg" alt="Painel com o processamento de 24/07/2026 como referência">
+    <figcaption><b>Referência em 24/07/2026.</b> Os indicadores passam a mostrar julho; o ciclo oferece só 2026 e 2025 (os afetados nesse processamento); os insights são reescritos com o que se sabia naquela data — Juazeiro aparece com 3 quedas seguidas, não 4.</figcaption>
+  </figure>
+
+  <h3>1.4 Insights gerados por IA (simulação)</h3>
+  <p>O painel traz até <b>seis insights escritos</b> sobre o recorte. Eles aparecem num <b>carrossel de uma linha</b> — dois cartões por vez, com setas, contador (“1–2 de 6”) e pontos — para ocupar pouco espaço vertical. Cada cartão tem:</p>
+  <ul>
+    <li>um <b>tipo</b> com ícone e cor: Alerta, Atenção, Informativo ou Positivo;</li>
+    <li>o texto do insight, com os números do recorte;</li>
+    <li><b>“Como este insight foi gerado”</b>, que abre os números e a regra usados — o gestor consegue conferir;</li>
+    <li>um <b>botão de ação</b> (filtra o painel, abre o ranking ou a tela de consulta) e a avaliação <b>“Foi útil?”</b> 👍/👎.</li>
+  </ul>
+  <figure>
+    <img src="prints/p02-insights-pagina-2.jpg" alt="Segunda página do carrossel de insights">
+    <figcaption><b>Segunda página do carrossel.</b> O selo “Gerado por IA” e o rodapé deixam claro que são sugestões para revisar.</figcaption>
+  </figure>
+  <div class="box roxo">
+    <h4>A IA é simulada</h4>
+    <p style="margin:0">Os textos saem de <b>regras fixas</b> aplicadas aos números do recorte e mudam com os filtros. Não há chamada a modelo de IA, nem envio de dados. As regras: queda de frequência em 3 ou mais processamentos seguidos num município; frequência não informada 3× acima da média em dois processamentos seguidos; distância EMR × EJA na frequência; processamento que pagou outros ciclos; variação do valor liberado; evolução da elegibilidade e da pendência bancária.</p>
+  </div>
+</section>
+
+<section>
+  <h3>1.5 As seis abas</h3>
+  <p>Todas seguem o mesmo padrão: um gráfico de <b>composição</b> (barras empilhadas), um de <b>tendência</b> (linha), uma <b>tabela comparativa</b> com Δ em relação ao processamento anterior e a linha do processamento de referência destacada, e o bloco de exportação. Passar o mouse em qualquer gráfico mostra os valores exatos.</p>
+
+  <h4>Elegibilidade</h4>
+  <figure>
+    <img src="prints/p03-aba-elegibilidade.jpg" alt="Aba Elegibilidade do painel">
+    <figcaption><b>Situação de elegibilidade por processamento</b> e % elegível. A tabela traz as colunas <b>“Passaram a elegível”</b> e <b>“Deixaram de ser elegíveis”</b> (vindas do feedback, ver Parte 2) e o atalho “Ver as matrículas alteradas”, que abre a lista dos estudantes.</figcaption>
+  </figure>
+  <figure class="meia">
+    <img src="prints/p10-tooltip-grafico.jpg" alt="Tooltip de um gráfico">
+    <figcaption><b>Detalhe ao passar o mouse:</b> os valores de cada série e o total do processamento.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h4>Frequência</h4>
+  <figure>
+    <img src="prints/p04-aba-frequencia.jpg" alt="Aba Frequência do painel">
+    <figcaption><b>Faixas de frequência</b> (≥ 80%, &lt; 80%, não informada) e a % com frequência ≥ 80%. Cada processamento apura a frequência de dois meses antes — a tabela diz qual mês. Os Δ de “&lt; 80%” e “não informada” ficam verdes quando caem.</figcaption>
+  </figure>
+  <h4>Pagamento</h4>
+  <figure>
+    <img src="prints/p05-aba-pagamento.jpg" alt="Aba Pagamento do painel">
+    <figcaption><b>Parcelas por incentivo</b> e valor liberado ao ciclo em cada processamento, com o acumulado. As parcelas e valores são exatamente os de cada processamento nas telas de consulta.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h4>Ciclos</h4>
+  <figure>
+    <img src="prints/p06-aba-ciclos.jpg" alt="Aba Ciclos do painel">
+    <figcaption><b>Todos os ciclos lado a lado.</b> Mostra quando cada ciclo recebeu pagamento — o processamento de 26/08 aparece pagando 2024, 2025 e 2026 ao mesmo tempo — e o retrato de cada ciclo até a referência.</figcaption>
+  </figure>
+  <h4>Municípios</h4>
+  <figure>
+    <img src="prints/p07-aba-municipios.jpg" alt="Aba Municípios do painel">
+    <figcaption><b>Ranking ordenável</b> (maior queda de frequência, mais não informada, menor frequência, valor, nome), com a tendência de cada município e as marcas <b>▼ queda</b> e <b>● não informada</b>. “Filtrar” aplica o município ao painel; “Estudantes” abre a listagem de Frequência daquele município.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h4>EMR × EJA</h4>
+  <figure class="meia">
+    <img src="prints/p08-aba-emr-eja.jpg" alt="Aba EMR × EJA do painel">
+    <figcaption><b>As duas modalidades lado a lado</b>: % elegível, frequência ≥ 80% e valor liberado por matrícula elegível, com a tabela de diferenças no processamento de referência.</figcaption>
+  </figure>
+
+  <h3>1.6 Decisões e coerência dos números</h3>
+  <h4>O que foi decidido ao longo da construção</h4>
+  <ul>
+    <li>A aba de domínio se chama <b>Elegibilidade</b>, como no menu (e não “Matrículas”). Ficaram como estão “Matrículas na rede” (rótulo oficial do cartão), “Frequência de Matrículas” (título da tela) e o incentivo “Matrícula”.</li>
+    <li>Sem alternância barras/linhas e sem marcadores de evento nos gráficos, para não confundir e para os filtros caberem numa linha. Os gráficos ficam fixos: barras para a composição, linha para a tendência.</li>
+    <li>A chave <b>Roteiro A | B</b> continua funcionando (A = “processamento”, B = “janela de processamento”).</li>
+  </ul>
+  <h4>Por que os números batem</h4>
+  <p>O painel não tem uma base própria: tudo é derivado dos dados que as telas de consulta já usam. Os pagamentos são exatamente as parcelas de cada processamento; a elegibilidade parte do retrato final de cada ciclo e volta no tempo com as alterações registradas em cada processamento; a frequência termina igual aos cartões da tela Início. A divisão por modalidade e por município é feita de modo que <b>a soma das partes feche exatamente com o total</b>.</p>
+  <p><b>Conferido automaticamente:</b> 36 checagens (valor e parcelas de cada processamento, retrato de cada ciclo, “passaram a/deixaram de ser elegíveis”, partições EMR/EJA e municípios) e mais de mil combinações de tela nas versões A e B, sem erro, sem valores vazios e sem o termo “janela” na versão A. Exemplos: o total de agosto é R$ 50.819.600,00; agosto liberou R$ 7.810.400,00 a mais que julho; o ciclo 2024 recebeu R$ 1.879.800,00 em agosto.</p>
+</section>
+
+<!-- ═════════════ PARTE 2 ═════════════ -->
+<section class="pb">
+  <div class="parte p2"><div class="n">Parte 2</div><h2>Mudanças a partir do feedback das redes</h2>
+    <div class="muted">Aplicadas só na versão nova. A versão das entrevistas segue como foi testada.</div></div>
+
+  <h3>2.1 O que as entrevistas mostraram</h3>
+  <p>Fonte: aba <b>Registro</b> da planilha de testes de usabilidade — cinco sessões (P1 CGARB/MEC; P2 IFPA; P3 IFSP; P4 rede estadual do MT; P5 rede estadual do ES), 15 tarefas cada, e as perguntas abertas. Sucesso por tarefa, com as cinco sessões:</p>
+  <table>
+    <thead><tr><th>Tarefa</th><th class="r">Concluíram</th><th>O que aconteceu</th></tr></thead>
+    <tbody>
+      <tr><td>11 · Aguardando pagamento na janela de agosto</td><td class="r mal">1 de 5</td><td>Leram a paginação da lista (14), o cartão de outro ciclo (1.609) ou procuraram no fim da lista.</td></tr>
+      <tr><td>4 · Parcelas liberadas em agosto</td><td class="r mal">2 de 5</td><td>O ciclo ficou em 2026 depois de escolher o processamento: viram 212.004 em vez de 227.942.</td></tr>
+      <tr><td>7 · Matrículas de 2024 com elegibilidade alterada</td><td class="r med">3 de 5</td><td>Confusão entre matrícula processada e matrícula alterada.</td></tr>
+      <tr><td>13 · Frequência abaixo de 80%</td><td class="r med">3 de 5</td><td>Filtros de tarefas anteriores (processamento, ciclo, NIS na busca) continuavam ativos.</td></tr>
+      <tr><td>2 · Matrículas processadas</td><td class="r med">4 de 5</td><td>Dúvida entre “matrículas na rede” e “matrículas processadas”.</td></tr>
+      <tr><td>Demais tarefas</td><td class="r ok">4 ou 5 de 5</td><td>Utilidade alta para saber <b>quando</b> a situação de um estudante mudou (tarefa 14: nota 5 em todas as sessões).</td></tr>
+    </tbody>
+  </table>
+  <p>Nas perguntas abertas, os pedidos que mais se repetiram foram: <b>ver quais estudantes foram afetados</b> (P2, P3 e P4), <b>a trajetória do estudante</b> com datas e motivos, <b>filtros que não fiquem presos</b> entre telas e <b>busca por CPF ou código do estudante</b> em vez do NIS (4 de 5 não usam o NIS).</p>
+</section>
+
+<section>
+  <h3>2.2 Quadro das mudanças</h3>
+  <table>
+    <thead><tr><th style="width:9mm">#</th><th>Mudança</th><th>Por quê (evidência)</th><th style="width:30mm">Onde</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill">M1</span></td><td><b>Filtros que não ficam presos.</b> Trocar de tela pelo menu volta os filtros ao padrão; atalhos (“Ver…”, cartões, links do painel) levam o recorte junto. Etiquetas “Filtros em uso”, cada uma removível, e “Limpar filtros”.</td><td>Tarefa 13 (P1, P4), tarefa 15 (P2); sugestões de P2 e P5. P4 pediu o contrário ao clicar numa situação — atendido pelos atalhos.</td><td>Elegibilidade, Frequência, Pagamento</td></tr>
+      <tr><td><span class="pill">M2</span></td><td><b>Ciclo acompanha o processamento.</b> Escolher um processamento põe o ciclo em “todos os ciclos do processamento”.</td><td>Tarefa 4 (P5: 212.004) e tarefa 11 (P4: 1.609).</td><td>Filtros das telas de consulta</td></tr>
+      <tr><td><span class="pill">M3</span></td><td><b>Cartões que filtram e total em destaque.</b> Clicar num cartão ou numa situação filtra a lista; o total do recorte fica grande acima dela.</td><td>Tarefa 11 (P2, P3, P4); P3 na tarefa 8; P4 na tarefa 6.</td><td>Elegibilidade, Pagamento</td></tr>
+      <tr><td><span class="pill">M4</span></td><td><b>Conceitos explicados.</b> “Matrículas processadas” com explicação; “situação alterada” aberta em <b>passaram a elegível</b> × <b>deixaram de ser elegíveis</b>.</td><td>Tarefas 2 (P1, P3, P5), 3 (P3) e 7 (P4, P5).</td><td>Início, detalhe, painel</td></tr>
+      <tr><td><span class="pill">M5</span></td><td><b>Aviso de ciclos anteriores</b> com “Por que isso acontece?”, e etiqueta na lista de processamentos.</td><td>P3 (utilidade 1: “precisa ser explicado”) e P5 (sugeriu o alerta para pessoas novas na equipe).</td><td>Início, detalhe, lista</td></tr>
+      <tr><td><span class="pill">M6</span></td><td><b>Ver quem foi afetado.</b> “Ver as N alteradas” por ciclo e o filtro “Só com situação alterada”, com a coluna “Antes”.</td><td>Pedido de 3 das 5 sessões (P2, P3 nas tarefas 9 e 10, P4 no fechamento).</td><td>Detalhe, Elegibilidade, painel</td></tr>
+      <tr><td><span class="pill">M7</span></td><td><b>Trajetória do estudante</b>: processamento a processamento, situação antes → depois, motivo e parcelas; a parcela clicada aparece primeiro.</td><td>P5 (caso do Ministério Público), P3 e P5 na tarefa 15, P4 na tarefa 14.</td><td>Detalhe do estudante</td></tr>
+      <tr><td><span class="pill">M8</span></td><td><b>Parcela do incentivo</b> visível (“Frequência · 4ª parcela”).</td><td>P4 na tarefa 10.</td><td>Pagamento, detalhe</td></tr>
+      <tr><td><span class="pill">M9</span></td><td><b>Busca por CPF, nome, matrícula ou código do estudante</b>; o NIS segue aceito, fora do destaque.</td><td>Tarefa 12: P2 a P5 não usam o NIS; P4 pediu o código.</td><td>Buscas e listas</td></tr>
+      <tr><td><span class="pill">M10</span></td><td><b>Exportação que diz o recorte</b> e o que vem na planilha.</td><td>P5 na tarefa 13; P2 nas tarefas 5 e 10.</td><td>Listas e painel</td></tr>
+      <tr><td><span class="pill m">L1</span></td><td><b>Processamento no topo do Início</b>, antes dos totais.</td><td>Pedido após as entrevistas; P4 na tarefa 1.</td><td>Início</td></tr>
+      <tr><td><span class="pill m">L2</span></td><td><b>Listas em destaque</b> nas telas de consulta.</td><td>Várias redes tiveram dificuldade de achar as listas.</td><td>Elegibilidade, Frequência, Pagamento</td></tr>
+      <tr><td><span class="pill m">L3</span></td><td><b>Situações de pagamento com cores que significam algo.</b></td><td>P4 na tarefa 11: as cores “não trazem informação”.</td><td>Pagamento</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h3>2.3 Início <span class="pill m">L1</span> <span class="pill">M4</span> <span class="pill">M5</span></h3>
+  <p>O bloco do processamento passou a ser o <b>destaque da tela</b>: vem logo depois dos filtros, antes dos totais. Ele também <b>acompanha o filtro</b> — com um processamento escolhido, mostra esse processamento (a P3 apontou que “o card não muda com o filtro”). Abaixo dele entram a explicação de “matrículas processadas” (ícone ⓘ e a contagem de alteradas) e o aviso de ciclos anteriores.</p>
+  <div class="par">
+    <figure class="antes"><span class="rot antes">Antes</span><img src="prints/f01-inicio-antes.jpg" alt="Início antes"><figcaption>O processamento ficava depois dos totais de matrículas, frequência e pagamentos.</figcaption></figure>
+    <figure><span class="rot depois">Depois</span><img src="prints/f02-inicio-depois.jpg" alt="Início depois"><figcaption>O processamento vem primeiro, com o aviso “também alterou os ciclos anteriores”.</figcaption></figure>
+  </div>
+  <div class="box laranja">
+    <h4>“Por que isso acontece?”</h4>
+    <p style="margin:0">Ao abrir, o aviso explica: um ciclo anterior volta a ser processado quando chegam informações que mudam a situação de estudantes daquele ano — por exemplo, frequência ou conclusão informadas depois do prazo, ou uma correção de cadastro autorizada pelas normas do Programa. Se a situação muda, as parcelas a que o estudante passou a ter direito são liberadas agora, mesmo sendo de outro ciclo. <i>Texto-base a validar com o MEC.</i></p>
+  </div>
+</section>
+
+<section>
+  <h3>2.4 Listas em destaque e filtros <span class="pill m">L2</span> <span class="pill">M1</span> <span class="pill">M3</span></h3>
+  <p>Nas telas de Elegibilidade, Frequência e Pagamento, a <b>lista é o destaque</b>: começa logo abaixo dos cartões, com um cabeçalho que traz o <b>total do recorte em número grande</b> e quantos registros a página exibe. A exportação foi para depois da lista. Os <b>cartões viraram filtro</b>: clicar em “Não elegível” mostra só essa situação, e o cartão fica marcado.</p>
+  <div class="par">
+    <figure class="antes"><span class="rot antes">Antes</span><img src="prints/f05-elegibilidade-antes.jpg" alt="Elegibilidade antes"><figcaption>Entre os cartões e a lista ficava a exportação; o total aparecia só como texto pequeno ao lado da busca.</figcaption></figure>
+    <figure><span class="rot depois">Depois</span><img src="prints/f06-elegibilidade-depois.jpg" alt="Elegibilidade depois"><figcaption>“Não elegível” clicado: a lista mostra 104.328 matrículas, com as etiquetas dos filtros em uso.</figcaption></figure>
+  </div>
+  <h4>Regras dos filtros (M1)</h4>
+  <ul>
+    <li><b>Trocar de tela pelo menu limpa os filtros.</b> Era a principal causa de “nenhum resultado” nas tarefas 13 e 15.</li>
+    <li><b>Atalhos levam o recorte junto</b>: “Ver pagamentos”, “Ver as alteradas”, os cartões e os links do painel abrem a tela já filtrada.</li>
+    <li>Acima da lista, <b>“Filtros em uso”</b> mostra cada filtro ativo — processamento, ciclo, situação, município, busca —, cada um com × para remover, e <b>“Limpar filtros”</b>.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>2.5 Pagamento <span class="pill m">L3</span> <span class="pill">M2</span> <span class="pill">M3</span></h3>
+  <p>Uma rede apontou que as cores dos cartões de situação “não trazem informação”: cada cartão tinha uma borda de cor diferente, sem significado. Os nove cartões viraram <b>uma barra e três grupos</b>, em que a cor diz a <b>categoria</b> da situação — sempre com ícone e nome, nunca só a cor:</p>
+  <ul>
+    <li><b style="color:var(--green)">✓ Pago ou depositado</b> — chegou ao estudante (Pago, Depositados);</li>
+    <li><b style="color:var(--orange)">◔ Em andamento</b> — ainda vai ser pago (Aguardando Pagamento, Em análise MEC, Em processamento);</li>
+    <li><b style="color:var(--red)">! Com impedimento</b> — precisa de ação (Bloqueados, Rejeitados, Suspensos).</li>
+  </ul>
+  <p>As situações sem parcelas ficam numa linha (“Sem parcelas: …”), em vez de ocupar um cartão com zero. Clicar numa situação filtra a lista.</p>
+  <div class="par">
+    <figure class="antes"><span class="rot antes">Antes</span><img src="prints/f03-pagamento-antes.jpg" alt="Pagamento antes"><figcaption>Nove cartões com bordas coloridas e a rosca com o percentual.</figcaption></figure>
+    <figure><span class="rot depois">Depois</span><img src="prints/f04-pagamento-depois.jpg" alt="Pagamento depois"><figcaption>Barra por categoria, três grupos com ícone e a lista logo abaixo.</figcaption></figure>
+  </div>
+  <div class="box">
+    <h4>Uma diferença que estava escondida</h4>
+    <p style="margin:0">No consolidado da base, Pagos + Aguardando + Bloqueados somavam 1.299.681 de um total de 1.396.680 — a rosca antiga escondia a diferença. Na versão nova, as <b>96.999</b> parcelas restantes aparecem como <b>Depositados</b>, para as situações fecharem com o total.</p>
+  </div>
+</section>
+
+<section>
+  <h4>O caminho da tarefa 11, agora</h4>
+  <p>Escolher o processamento de 26/08 já abre <b>todos os ciclos dele</b> (M2). Clicar em “Aguardando Pagamento” filtra a lista, e o total — <b>56.074 parcelas</b> — aparece grande no cabeçalho, separado de “exibindo 14 nesta página” (M3). As etiquetas mostram o recorte completo (M1). A tarefa 4 segue o mesmo caminho e chega a <b>227.942</b> parcelas.</p>
+  <figure>
+    <img src="prints/f07-pagamento-agosto-aguardando.jpg" alt="Pagamento filtrado em agosto e Aguardando Pagamento">
+    <figcaption><b>Processamento 26/08/2026 · todos os ciclos · Aguardando Pagamento.</b> Cada parcela mostra também o incentivo e a parcela (M8).</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h3>2.6 Processamento e quem foi afetado <span class="pill">M4</span> <span class="pill">M5</span> <span class="pill">M6</span></h3>
+  <p>No detalhe do processamento, a tabela “O que foi processado, por ciclo” ganhou uma <b>explicação dos termos</b> e duas colunas que abrem a situação alterada: <b>passaram a elegível</b> e <b>deixaram de ser elegíveis</b>. Em cada ciclo, o botão <b>“Ver as N alteradas”</b> leva à lista dos estudantes.</p>
+  <figure>
+    <img src="prints/f08-detalhe-processamento.jpg" alt="Detalhe do processamento de 26/08/2026">
+    <figcaption><b>Processamento de 26/08/2026.</b> Aviso de ciclos anteriores, explicação dos termos e atalhos por ciclo. A tabela de mudanças, mais abaixo na tela, também mostra o motivo de cada mudança.</figcaption>
+  </figure>
+  <figure>
+    <img src="prints/f09-lista-alteradas.jpg" alt="Lista das matrículas alteradas do ciclo 2024">
+    <figcaption><b>As 3.417 matrículas do ciclo 2024 alteradas em 26/08</b> (tarefa 7), com o filtro “Só com situação alterada neste processamento” e a coluna “Antes deste processamento”.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <figure>
+    <img src="prints/f10-lista-processamentos.jpg" alt="Lista de processamentos">
+    <figcaption><b>Lista de processamentos.</b> Os que atingiram ciclos anteriores ganham a etiqueta “! inclui ciclos anteriores” (M5).</figcaption>
+  </figure>
+
+  <h3>2.7 Detalhe do estudante <span class="pill">M7</span> <span class="pill">M8</span></h3>
+  <p>O detalhe (o “olhinho”) virou a <b>trajetória do estudante no Pé-de-Meia</b>: uma linha do tempo, processamento a processamento, com a <b>situação antes e depois</b>, o <b>motivo</b> da mudança e as <b>parcelas</b> liberadas, com o número da parcela e a data do pagamento. Quando aberto pela linha de uma parcela, essa parcela aparece <b>primeiro e destacada</b> — a P5 disse que ver todas as parcelas juntas “confunde”.</p>
+  <figure class="estreita">
+    <img src="prints/f12-detalhe-estudante-trajetoria.jpg" alt="Detalhe do estudante com trajetória">
+    <figcaption><b>Aberto pela parcela “Frequência · 4ª parcela”.</b> No topo, a parcela selecionada; abaixo, a trajetória: em 26/08/2026 o estudante passou de Não elegível para Elegível no ciclo 2024, e as duas parcelas foram pagas em 27/08. Os motivos são ilustrativos.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h3>2.8 Busca e exportação <span class="pill">M9</span> <span class="pill">M10</span></h3>
+  <p>A busca aceita <b>CPF, nome, matrícula e o código do estudante</b> (fictício, 12 dígitos), que também aparece nas listas e no detalhe. O NIS continua aceito, mas saiu do destaque — quatro das cinco redes disseram que não o usam.</p>
+  <figure class="meia">
+    <img src="prints/f11-busca-codigo.jpg" alt="Busca pelo código do estudante">
+    <figcaption><b>Busca pelo código do estudante</b>, com a coluna própria na lista.</figcaption>
+  </figure>
+  <p>A <b>exportação</b> agora diz o que vem na planilha: “Planilha do recorte atual — N registros”, com o recorte descrito (processamento, ciclos, situação, município, busca) e as colunas (matrícula, CPF, código do estudante, ciclo, situação). No painel, a planilha traz os números por processamento e, numa segunda aba, a lista das matrículas do recorte — para as redes cruzarem com os painéis próprios, como P4 e P5 contaram que fazem.</p>
+
+  <h3>2.9 O que ficou de fora</h3>
+  <table>
+    <thead><tr><th>Assunto</th><th>Situação</th></tr></thead>
+    <tbody>
+      <tr><td>“Aguardando Pagamento” → “Enviado para pagamento” (P3)</td><td>É um status oficial do Portal: levar como pergunta ao MEC.</td></tr>
+      <tr><td>Movimentação e transferência de estudantes — “onde o estudante está agora” (P5, P3)</td><td>Depende de dados de cadastro de fora do Pé-de-Meia. Backlog.</td></tr>
+      <tr><td>Data de solicitação do requerimento (P2)</td><td>Não ficou claro qual dado é. A esclarecer.</td></tr>
+      <tr><td>Planilha da EJA que não funciona (P3)</td><td>Defeito do portal real, não do protótipo.</td></tr>
+      <tr><td>Termo “processamento” (A) × “janela de processamento” (B)</td><td>Com duas sessões de cada, ainda não dá para concluir.</td></tr>
+      <tr><td>Textos a validar com o MEC</td><td>“Por que isso acontece?” do aviso de ciclos anteriores e os motivos de mudança de situação (ilustrativos).</td></tr>
+    </tbody>
+  </table>
+
+  <p><b>Se esta versão for para novas entrevistas:</b> O roteiro atual foi feito para a versão anterior e seus gabaritos não valem aqui. Será preciso um roteiro próprio, incluindo tarefas para o Painel de Gestão.</p>
+
+  <h4>Onde está cada coisa</h4>
+  <dl class="kv">
+    <dt>Versão nova</dt><dd><code>fontes/painel-de-gestao.html</code> → <code>node gerar-pacote-gestao.mjs</code> → <code>deploy-gestao/</code></dd>
+    <dt>Documentação técnica</dt><dd><code>PAINEL-DE-GESTAO.md</code> (decisões, base de dados, conferências, comandos de publicação)</dd>
+    <dt>Esta síntese</dt><dd><code>sintese/</code> (texto, prints e scripts) → <code>entregaveis/Pe-de-Meia-Painel-de-Gestao-sintese.pdf</code></dd>
+    <dt>Versão das entrevistas</dt><dd><code>fontes/janelas-de-processamento.html</code> e <code>deploy/</code> — inalterados</dd>
+  </dl>
+</section>
+
+</body>
+</html>

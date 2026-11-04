@@ -364,6 +364,10 @@ button.kpi.kbtn.on{background:var(--blue-soft); box-shadow:inset 0 -3px 0 var(--
 .aviso-ciclos details p{margin:6px 0 0; max-width:96ch}
 .explica{color:var(--ink-2); font-size:13px; margin:-4px 2px 12px; max-width:110ch}
 th.sub2{color:var(--ink-2) !important; font-weight:500 !important}
+table.tquebra th{white-space:normal; vertical-align:bottom; max-width:130px}
+.acoes-col{display:flex; flex-direction:column; gap:6px; align-items:flex-end}
+.acoes-col .btn{white-space:nowrap}
+td.r.num{white-space:nowrap}
 .wc-sub{color:var(--ink-2); font-size:12px; margin-top:2px}
 .wc-res .cap .info{display:inline-grid; vertical-align:-3px; margin-left:4px; text-transform:none}
 .tagant{display:inline-block; margin-top:7px; background:#FFF7EC; color:var(--orange); border:1px solid #F2D3A8; border-radius:99px; font-size:11px; font-weight:700; padding:1px 8px}
@@ -1488,9 +1492,9 @@ function telaJanela(){
     <p class="explica" data-new="explicação nova"><b>Matrículas processadas</b> são todas as matrículas do ciclo, avaliadas de novo ${tv('neste processamento', 'nesta janela de processamento')} — a maioria continua com a mesma situação.
       <b>Situação de elegibilidade alterada</b> são as que mudaram: elas se dividem entre as que <b>passaram a elegível</b> e as que <b>deixaram de ser elegíveis</b> (ou ficaram indefinidas).</p>
     <div class="tbl-wrap">
-      <table>
+      <table class="tquebra">
         <thead><tr>
-          <th style="width:90px">Ciclo</th>
+          <th style="width:80px">Ciclo</th>
           <th class="r">Matrículas processadas</th>
           <th class="r">Situação de elegibilidade alterada</th>
           <th class="r sub2">↳ passaram a elegível</th>
@@ -1508,9 +1512,9 @@ function telaJanela(){
             <td class="r num" style="color:var(--red)">${N(c.alteradas - c.paraElegivel)}</td>
             <td class="r num">${N(parcelasC(c))}</td>
             <td class="r num">${R$(valorC(c))}</td>
-            <td class="r" style="white-space:nowrap">
+            <td class="r"><div class="acoes-col">
               <button class="btn new sm" data-new="atalho novo" onclick="irCom('#/elegibilidade', {janela:'${j.id}', ciclo:'${c.ano}', altF:true})">Ver as ${N(c.alteradas)} alteradas</button>
-              <button class="btn sm" onclick="irCom('#/pagamento', {janela:'${j.id}', ciclo:'${c.ano}'})">Ver pagamentos</button></td>
+              <button class="btn sm" onclick="irCom('#/pagamento', {janela:'${j.id}', ciclo:'${c.ano}'})">Ver pagamentos</button></div></td>
           </tr>`).join('')}
           <tr style="background:var(--surface-2)">
             <td><b>Total</b></td>
@@ -1701,7 +1705,7 @@ function telaElegibilidade(){
     <div class="tbl-wrap">
       ${lista.length === 0 ? `<div class="empty"><b>Nenhuma matrícula encontrada</b>
         Revise a busca ou os filtros em uso, logo acima. ${state.busca?`Termo pesquisado: “${state.busca.replace(/</g, '&lt;')}”.`:''}</div>` : `
-      <table>
+      <table class="tquebra">
         <thead><tr>
           <th>Matrícula</th><th>CPF</th><th>Código do estudante</th><th>Nome</th>
           <th>Unidade de Ensino e Código INEP</th>
@@ -2688,7 +2692,7 @@ function gAbaElegibilidade(){
       <span class="act">
         <button class="btn new sm" data-new="atalho novo" onclick="irCom('#/elegibilidade', {janela:'${PROCS[gRefPi()].id}', ciclo:'${ano}', altF:true})">Ver as matrículas alteradas em ${refRot()} →</button>
         <button class="btn sm" onclick="${irTela('elegibilidade', ano)}">Abrir Status de Elegibilidade →</button></span></div>
-    <div class="tbl-wrap"><table class="gtbl">
+    <div class="tbl-wrap"><table class="gtbl cmp tquebra">
       <thead><tr><th>${tP()}</th><th class="r">Matrículas na rede</th><th class="r">Elegível</th><th class="r">Elegível (pendência bancária)</th>
         <th class="r">Elegibilidade indefinida</th><th class="r">Não elegível</th><th class="r">% elegível</th>
         <th class="r" title="Matrículas que passaram a elegível neste ${tp()}">Passaram a elegível</th>

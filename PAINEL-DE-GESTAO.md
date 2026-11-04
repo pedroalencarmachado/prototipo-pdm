@@ -201,3 +201,26 @@ traz a aba Participantes). Tarefas que mais falharam: 11 (1/5), 4 (2/5), 7 e 13 
 **Observação de dados:** no consolidado da base, Pagos + Aguardando + Bloqueados somavam 1.299.681 de
 1.396.680 (a rosca antiga escondia a diferença). Nesta versão os 96.999 restantes aparecem como
 **Depositados**, para as situações fecharem com o total.
+
+## 9. Síntese em PDF (03/11/2026)
+
+`entregaveis/Pe-de-Meia-Painel-de-Gestao-sintese.pdf` — 22 páginas, em dois grupos: **Parte 1 · Painel de
+Gestão** e **Parte 2 · Mudanças a partir do feedback das redes**, com texto explicativo e prints (antes e
+depois nas telas de consulta). Fontes em `sintese/`:
+
+- `sintese-painel-de-gestao.html` — o texto (editar aqui);
+- `prints/` — as telas, geradas por `capturar-prints.mjs` a partir de `deploy-gestao/` (e de `deploy/`, só
+  lido, para os prints de "antes");
+- `gerar-pdf-sintese.mjs` — gera o PDF.
+
+Os dois scripts usam `puppeteer-core` (fora do repositório) e o Chrome instalado:
+
+```powershell
+npm i puppeteer-core            # numa pasta qualquer, uma vez
+$env:FERRAMENTAS="<essa pasta>"; node sintese/capturar-prints.mjs; node sintese/gerar-pdf-sintese.mjs
+```
+
+Ao preparar os prints, apareceram três tabelas que passavam da largura da tela em 1366 px (detalhe do
+processamento, lista "só alteradas" e a aba Elegibilidade do painel). Foram corrigidas com cabeçalhos que
+quebram linha e as ações empilhadas; conferido por script que nenhuma tabela das versões A e B rola na
+horizontal.
