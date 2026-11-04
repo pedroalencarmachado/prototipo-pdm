@@ -19,3 +19,10 @@ Regras que valem para toda edição:
   cabendo numa página.
 - **Atualize o rodapé ("Revisão N — mês de ano")** e a seção 9 do LEIA-ME a cada nova revisão.
 - Scripts `.ps1` precisam continuar **ASCII puro** (PowerShell 5.1).
+
+## Painel de Gestão (visão gerencial) — protótipo separado
+
+Outro link (`prototipo-portalpdm-gestao.pages.dev`), outra fonte e outro build. Leia o
+`PAINEL-DE-GESTAO.md`. Para o painel, edite **só** `fontes/painel-de-gestao.html` e rode
+`node gerar-pacote-gestao.mjs` (gera `deploy-gestao/`). **Nunca** mexa na fonte, no `deploy/` ou nos
+scripts do protótipo acima por causa do painel: o link das entrevistas não pode mudar.
