@@ -37,19 +37,36 @@ Processamento* e as entrevistas são operacionais. O painel **complementa** essa
 5. Chave **Roteiro A | B** mantida (A = processamento, B = janela de processamento).
 6. Nome *Painel de Gestão*; link **aberto** (sem Cloudflare Access), num **projeto novo**.
 7. As telas internas existentes **não mudam**, a princípio.
+8. (Ajustes pré-publicação, 03/11/2026) A aba/domínio "Matrículas" do painel passa a se chamar
+   **Elegibilidade**, como no menu. Ficam como estão: "Matrículas na rede" (rótulo do cartão do Portal),
+   "Frequência de Matrículas" (título da tela existente) e o incentivo "Matrícula".
+9. Insights num **carrossel**: uma linha, dois cartões por vez, com setas e pontos.
+10. Filtro de **processamento** no painel, além do de ciclo, dependentes como nas listagens.
 
 ## 3. O que tem na tela
 
-- **Filtros:** Ciclo (2026/2025/2024) · Modalidade (Visão geral | EMR | EJA) · Município (12 maiores redes +
-  "Demais municípios (405)") · Gráfico (Barras | Linhas) · Eventos (liga/desliga os marcadores).
+- **Filtros:** Processamento (pai) · Ciclo (filho) · Modalidade (Visão geral | EMR | EJA) · Município
+  (12 maiores redes + "Demais municípios (405)") · Gráfico (Barras | Linhas) · Eventos (liga/desliga os marcadores).
   O estado é próprio do painel (`state.g*`), separado dos filtros das telas operacionais.
+- **Como o filtro de processamento funciona:** ele define o **processamento de referência** ("como estava
+  naquela data"). Sem escolha, a referência é o último processamento do ciclo. Indicadores, insights, ranking
+  de municípios, retrato por ciclo e comparativo EMR × EJA leem tudo **até** a referência; os gráficos
+  continuam mostrando a série inteira do ciclo, com a coluna da referência destacada, e a linha dela fica
+  marcada nas tabelas ("selecionado"). Processamento e ciclo dependem um do outro, como nas listagens:
+  o ciclo reduz os processamentos oferecidos e o processamento reduz os ciclos. Os botões "Abrir …" levam à
+  tela operacional já com o mesmo processamento e ciclo.
+- **Eventos:** marcadores numerados nos gráficos (① ② ③) que mostram, ao passar o mouse, o que aconteceu
+  naquela data fora dos números — prazo, processamento extraordinário, mudança de sistema. Servem para o
+  gestor ligar uma queda ou um pico a uma causa (o "correlacionar com eventos externos" do rascunho). Num
+  produto real, seriam cadastrados pelo MEC; aqui são fixos e o ② é um exemplo inventado.
 - **5 indicadores com tendência:** matrículas na rede, % elegível, frequência ≥ 80%, parcelas no último
   processamento e valor liberado ao ciclo — com variação contra o processamento anterior e minigráfico.
-- **Insights (IA simulada):** até 4 cartões (Alerta, Atenção, Informativo, Positivo), cada um com "Como este
-  insight foi gerado" (os números usados), um botão de ação (filtra o painel ou abre a tela operacional) e
-  avaliação 👍/👎. "Gerar novamente" simula a geração (≈1,3 s) e marca o horário.
+- **Insights (IA simulada):** carrossel numa linha só, dois cartões por vez (setas, "1–2 de 6" e pontos);
+  até 6 cartões (Alerta, Atenção, Informativo, Positivo), cada um com "Como este insight foi gerado" (os
+  números usados), um botão de ação (filtra o painel ou abre a tela operacional) e avaliação 👍/👎.
+  "Gerar novamente" simula a geração (≈1,3 s), marca o horário e volta à primeira página.
 - **Abas:**
-  - *Matrículas* — situação por processamento (empilhado) + % elegível; tabela com Δ.
+  - *Elegibilidade* — situação de elegibilidade por processamento (empilhado) + % elegível; tabela com Δ.
   - *Frequência* — ≥ 80% / < 80% / não informada + % ≥ 80% (só ciclo 2026; nos outros, explica onde achar).
   - *Pagamento* — parcelas por incentivo + valor liberado; tabela com Δ e acumulado.
   - *Ciclos* — valor liberado por ciclo afetado em cada processamento + retrato por ciclo.
@@ -130,3 +147,9 @@ Mesmas armadilhas do outro link (LEIA-ME, seção 13): `--yes` obrigatório, rod
 ### Revisão 1 — 03/11/2026
 Primeira versão do Painel de Gestão: filtros, 5 indicadores com tendência, insights simulados, 6 abas,
 eventos nos gráficos, ranking de municípios e comparativo EMR × EJA. Publicação num projeto Cloudflare novo.
+
+Ajustes pedidos antes da primeira publicação (ainda Revisão 1): "Matrículas" → **Elegibilidade** na aba e
+nos títulos do painel; insights em **carrossel** de uma linha; **filtro de processamento** (referência) ligado
+ao de ciclo. Conferido: 1.152 combinações de tela (2 roteiros × 3 ciclos × todos os processamentos de cada
+um × modalidade × município × 6 abas × página do carrossel) sem erro, sem "NaN" e sem "janela" na versão A;
+dependência processamento ↔ ciclo; indicadores com referência em 24/07 = números de julho em `JANELAS`.

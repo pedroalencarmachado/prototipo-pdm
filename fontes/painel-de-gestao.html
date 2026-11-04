@@ -359,8 +359,21 @@ body.mark [data-new]::after{
 .ins-h h3{font-size:16px}
 .ins-h .ai{background:var(--new); color:#fff; font-size:11px; font-weight:700; letter-spacing:.04em; padding:3px 9px; border-radius:99px; text-transform:uppercase}
 .ins-h .ctx{color:var(--ink-3); font-size:12.5px}
-.ins-h .btn{margin-left:auto}
-.ins-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.ins-dir{margin-left:auto; display:flex; align-items:center; gap:12px}
+.ins-nav{display:inline-flex; align-items:center; gap:6px}
+.ins-arr{width:30px; height:30px; border-radius:50%; border:1px solid var(--new-line); background:var(--surface); color:var(--new); font-size:18px; line-height:1; display:grid; place-items:center; padding:0 0 2px}
+.ins-arr:hover:not(:disabled){background:var(--new-soft); border-color:var(--new)}
+.ins-arr:disabled{opacity:.35; cursor:default}
+.ins-pos{font-size:12.5px; color:var(--ink-2); font-variant-numeric:tabular-nums; min-width:62px; text-align:center}
+/* carrossel: uma linha, dois cartões; a altura fica fixa ao trocar de página */
+.ins-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; min-height:206px}
+.ins-grid.ent-d{animation:insD .28s ease-out}
+.ins-grid.ent-e{animation:insE .28s ease-out}
+@keyframes insD{from{opacity:0; transform:translateX(26px)}}
+@keyframes insE{from{opacity:0; transform:translateX(-26px)}}
+.ins-dots{display:inline-flex; gap:6px; flex:none}
+.ins-dots button{width:8px; height:8px; padding:0; border-radius:50%; border:0; background:var(--new-line)}
+.ins-dots button[aria-current="true"]{background:var(--new); width:20px; border-radius:99px}
 .ins{background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--tc); border-radius:var(--radius); padding:13px 15px 11px; display:flex; flex-direction:column; gap:6px}
 .ins-tag{display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--tc)}
 .ins-tag .ico{width:17px; height:17px; border-radius:50%; background:var(--tc); color:#fff; display:grid; place-items:center; font-size:10px}
@@ -375,7 +388,7 @@ body.mark [data-new]::after{
 .ins-act .fb button{border:1px solid var(--line); background:var(--surface); border-radius:99px; padding:1px 8px; font-size:12px}
 .ins-act .fb button[aria-pressed="true"]{background:var(--new-soft); border-color:var(--new)}
 .ins.t-alerta{--tc:var(--red)} .ins.t-atencao{--tc:var(--orange)} .ins.t-info{--tc:var(--blue)} .ins.t-positivo{--tc:var(--green)}
-.ins-foot{margin-top:12px; font-size:12px; color:var(--ink-3)}
+.ins-foot{margin-top:12px; font-size:12px; color:var(--ink-3); display:flex; align-items:center; gap:14px}
 .ins-foot b{color:var(--ink-2)}
 .ins-load{display:flex; align-items:center; gap:10px; padding:28px 6px; color:var(--new); font-size:13px}
 .spin{width:16px; height:16px; border-radius:50%; border:2px solid var(--new-line); border-top-color:var(--new); animation:gir .8s linear infinite}
@@ -801,8 +814,8 @@ const state = {
   aba:'lista', modal:null,
   cmpA:1, cmpB:0,       /* comparação: A = janela anterior, B = posterior */
   /* Painel de Gestão — estado próprio, separado dos filtros das telas operacionais */
-  gCiclo:'2026', gMod:'geral', gMun:'', gTipo:'barras', gAba:'matriculas',
-  gEventos:true, gOrd:'queda', gGerando:false, gGerado:null, gFb:{}
+  gProc:'', gCiclo:'2026', gMod:'geral', gMun:'', gTipo:'barras', gAba:'elegibilidade',
+  gEventos:true, gOrd:'queda', gGerando:false, gGerado:null, gFb:{}, gInsPag:0, gInsDir:0
 };
 
 const ROTAS = [
@@ -2017,6 +2030,32 @@ function gPag(pi, ano, sel){
 const procsDoCiclo = ano => PROCS.map((j, pi) => pi).filter(pi => PROCS[pi].ciclos.some(c => c.ano === ano));
 const procsFreq = () => PROCS.map((j, pi) => pi).filter(pi => GB.freq[pi]);
 
+/* Processamento de referência: o escolhido no filtro ou, sem filtro, o último do ciclo.
+   Indicadores, insights e tabelas-resumo leem tudo ATÉ a referência ("como estava
+   naquela data"); os gráficos mostram a série inteira do ciclo, com a referência destacada. */
+function gRefPi(){
+  const ps = procsDoCiclo(+state.gCiclo);
+  const i = state.gProc ? PROCS.findIndex(j => j.id === state.gProc) : -1;
+  return ps.includes(i) ? i : ps[ps.length - 1];
+}
+const ateRef = pis => pis.filter(pi => pi <= gRefPi());
+const psC = ano => ateRef(procsDoCiclo(ano));          /* processamentos do ciclo até a referência */
+const psF = () => ateRef(procsFreq());                 /* apurações de frequência até a referência */
+/* posição da referência numa série (o último ponto até ela); -1 se a série começa depois */
+function destDe(pis){ const r = gRefPi(); let k = -1; pis.forEach((pi, i) => { if (pi <= r) k = i; }); return k; }
+const refRot = () => PROCS[gRefPi()].rotulo;
+const tagRef = () => `<span class="tag hl">${state.gProc ? 'selecionado' : 'mais recente'}</span>`;
+function gSetProc(v){
+  state.gProc = v;
+  if (v && !anosDa(jan(v)).includes(+state.gCiclo)) state.gCiclo = String(anosDa(jan(v))[0]);
+  state.gInsPag = 0; render();
+}
+function gSetCiclo(v){
+  state.gCiclo = v;
+  if (state.gProc && !anosDa(jan(state.gProc)).includes(+v)) state.gProc = '';
+  state.gInsPag = 0; render();
+}
+
 /* ── formatos ───────────────────────────────────────────────────── */
 const pct1 = v => v.toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}) + '%';
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -2088,7 +2127,9 @@ function gChart(o){
   const bw = iw / n, x = i => ml + bw * i + bw / 2;
   let g = '';
 
-  if (o.destaque !== false) g += `<rect x="${ml + bw * (n - 1)}" y="${mt}" width="${bw}" height="${ih}" fill="#E8EFFA" opacity=".6"/>`;
+  /* coluna destacada = processamento de referência (o último, se nada for escolhido) */
+  const di = o.destaque === false ? -1 : (o.dest == null ? n - 1 : o.dest);
+  if (di >= 0) g += `<rect x="${ml + bw * di}" y="${mt}" width="${bw}" height="${ih}" fill="#E8EFFA" opacity=".6"/>`;
   ticks.forEach(t => {
     g += `<line x1="${ml}" x2="${W - mr}" y1="${y(t).toFixed(1)}" y2="${y(t).toFixed(1)}" stroke="#EDF1F7"/>`;
     g += `<text x="${ml - 8}" y="${(y(t) + 4).toFixed(1)}" text-anchor="end" class="ax">${gEixo(t, o.fmt)}</text>`;
@@ -2135,7 +2176,7 @@ function gChart(o){
     });
   }
   g += `<line x1="${ml}" x2="${W - mr}" y1="${y(lo)}" y2="${y(lo)}" stroke="#C5D4EB"/>`;
-  o.cats.forEach((c, i) => g += `<text x="${x(i)}" y="${H - 9}" text-anchor="middle" class="ax${i === n - 1 && o.destaque !== false ? ' on' : ''}">${c.rot}</text>`);
+  o.cats.forEach((c, i) => g += `<text x="${x(i)}" y="${H - 9}" text-anchor="middle" class="ax${i === di ? ' on' : ''}">${c.rot}</text>`);
 
   /* camada de hover: uma faixa por categoria, maior que a marca */
   o.cats.forEach((c, i) => {
@@ -2194,20 +2235,21 @@ const TIPOS = {
 };
 function nomeRecorte(){
   const mod = state.gMod === 'geral' ? 'EMR + EJA' : state.gMod;
-  return `ciclo ${state.gCiclo} · ${mod} · ${state.gMun || 'rede estadual'}`;
+  return `ciclo ${state.gCiclo} · ${mod} · ${state.gMun || 'rede estadual'} · até ${refRot()}`;
 }
 function serieFreqMun(mun, sel){
-  return procsFreq().map(pi => gFreq(pi, sel || gSel(state.gMod, mun)));
+  return psF().map(pi => gFreq(pi, sel || gSel(state.gMod, mun)));
 }
+/* Os insights leem só o que existia até o processamento de referência. */
 function gInsights(){
-  const ano = +state.gCiclo, sel = gSel(), ps = procsDoCiclo(ano);
+  const ano = +state.gCiclo, sel = gSel(), ps = psC(ano), fps = psF();
   const L = ps[ps.length - 1], P = ps[ps.length - 2], jl = PROCS[L];
   const onde = state.gMun ? ` em ${state.gMun}` : '';
   const out = [];
   const munsReais = MUNS.filter(m => !m.demais && (!state.gMun || m.id === state.gMun));
 
   /* 1. queda contínua da frequência num município */
-  if (ano === 2026){
+  if (ano === 2026 && fps.length >= 4){
     let pior = null;
     munsReais.forEach(m => {
       const s = serieFreqMun(m.id);
@@ -2221,15 +2263,15 @@ function gInsights(){
         tit:`${pior.m.id}: frequência em queda há ${pior.k} ${tps()} seguidos`,
         txt:`A parcela de matrículas com frequência igual ou acima de 80% caiu de <b>${pct1(a.pct)}</b> para <b>${pct1(b.pct)}</b>
           (${dPP(b.pct - a.pct)}). Estudantes abaixo de 80% passaram de ${N(a.abaixo)} para <b>${N(b.abaixo)}</b>. Vale acionar as escolas do município antes da próxima apuração.`,
-        base:[`Frequência ≥ 80% em ${pior.m.id}, ${tps()} de ${procsFreq().map(pi => curtoD(PROCS[pi])).join(', ')}: ${s.map(x => pct1(x.pct)).join(' → ')}`,
+        base:[`Frequência ≥ 80% em ${pior.m.id}, ${tps()} de ${fps.map(pi => curtoD(PROCS[pi])).join(', ')}: ${s.map(x => pct1(x.pct)).join(' → ')}`,
               `Abaixo de 80%: ${s.map(x => N(x.abaixo)).join(' → ')}`, `Regra: queda em 3 ou mais ${tps()} consecutivos`],
-        acao:{rot:`Ver ${pior.m.id} no painel`, js:`state.gMun='${pior.m.id}'; state.gAba='frequencia'; render()`}});
+        acao:{rot:`Ver ${pior.m.id} no painel`, js:`state.gMun='${pior.m.id}'; state.gAba='frequencia'; state.gInsPag=0; render()`}});
     }
   }
 
   /* 2. frequência não informada concentrada num município */
-  if (ano === 2026){
-    const fps = procsFreq(), fl = fps[fps.length - 1], fp = fps[fps.length - 2];
+  if (ano === 2026 && fps.length >= 2){
+    const fl = fps[fps.length - 1], fp = fps[fps.length - 2];
     const rede = gFreq(fl, gSel(state.gMod, ''));
     let top = null;
     munsReais.forEach(m => {
@@ -2247,15 +2289,15 @@ function gInsights(){
   }
 
   /* 3. distância EMR × EJA */
-  if (ano === 2026 && state.gMod === 'geral'){
-    const fl = procsFreq().pop();
+  if (ano === 2026 && state.gMod === 'geral' && fps.length){
+    const fl = fps[fps.length - 1];
     const e = gFreq(fl, gSel('EMR', state.gMun)), j = gFreq(fl, gSel('EJA', state.gMun));
     const tot = gFreq(fl, sel);
     const partMat = j.apur / tot.apur * 100, partAb = j.abaixo / tot.abaixo * 100;
     out.push({id:'emr-eja', tipo:'atencao',
       tit:`A EJA tem ${pct1(partMat)} das matrículas e ${pct1(partAb)} dos casos abaixo de 80%`,
       txt:`Na EJA, <b>${pct1(j.pct)}</b> das matrículas têm frequência igual ou acima de 80%; no Ensino Médio Regular, <b>${pct1(e.pct)}</b>
-        (diferença de ${N(Math.round((e.pct - j.pct) * 10) / 10).replace('.', ',')} p.p.)${onde}. A frequência pede uma estratégia própria para a EJA.`,
+        (diferença de ${N(Math.round((e.pct - j.pct) * 10) / 10)} p.p.)${onde}. A frequência pede uma estratégia própria para a EJA.`,
       base:[`Frequência ≥ 80% em ${PROCS[fl].rotulo}: EMR ${pct1(e.pct)} · EJA ${pct1(j.pct)}`,
             `Abaixo de 80%: EMR ${N(e.abaixo)} · EJA ${N(j.abaixo)}`],
       acao:{rot:'Comparar EMR × EJA', js:`state.gAba='modalidades'; render()`}});
@@ -2265,9 +2307,11 @@ function gInsights(){
   if (jl.ciclos.length > 1){
     const outros = jl.ciclos.map(c => c.ano).filter(a => a !== ano);
     const vO = outros.reduce((s, a) => s + gPag(L, a, sel).valor, 0), vC = gPag(L, ano, sel).valor;
+    const quem = state.gProc ? tv(`O processamento de ${jl.rotulo}`, `A janela de processamento de ${jl.rotulo}`)
+                             : tv('O último processamento', 'A última janela de processamento');
     out.push({id:'multi', tipo:'info',
-      tit:`${tv('O último processamento', 'A última janela de processamento')} pagou também os ciclos ${outros.join(' e ')}`,
-      txt:`Em ${jl.rotulo}, além de ${curto(vC)} para o ciclo ${ano}, foram liberados <b>${curto(vO)}</b> para os ciclos ${outros.join(' e ')}${onde}.
+      tit:`${quem} pagou também ${outros.length > 1 ? 'os ciclos' : 'o ciclo'} ${outros.join(' e ')}`,
+      txt:`Em ${jl.rotulo}, além de ${curto(vC)} para o ciclo ${ano}, foram liberados <b>${curto(vO)}</b> para ${outros.length > 1 ? 'os ciclos' : 'o ciclo'} ${outros.join(' e ')}${onde}.
         Com o filtro só no ciclo ${ano}, esse valor não aparece — é ${pct1(vO / (vO + vC) * 100)} do que saiu ${tv('neste processamento', 'nesta janela de processamento')}.`,
       base:jl.ciclos.map(c => `Ciclo ${c.ano}: ${R$(gPag(L, c.ano, sel).valor)}`),
       acao:{rot:`Abrir ${tv('o processamento', 'a janela de processamento')} de ${jl.rotulo}`, js:`ir('#/janela/${jl.id}')`}});
@@ -2290,34 +2334,50 @@ function gInsights(){
   if (ps.length > 1){
     const m = ps.map(pi => gMatr(ano, pi, sel)), a = m[0], b = m[m.length - 1];
     const zerou = m.findIndex((x, i) => i > 0 && x.pend === 0 && m[0].pend > 0);
-    out.push({id:'eleg', tipo:'positivo',
-      tit:`Elegibilidade subiu ${N(Math.round((b.pct - a.pct) * 10) / 10).replace('.', ',')} p.p. no ciclo ${ano}`,
-      txt:`Desde ${PROCS[ps[0]].rotulo}, mais <b>${N(b.eleg - a.eleg)}</b> matrículas passaram a elegíveis${onde} (${pct1(a.pct)} → <b>${pct1(b.pct)}</b>).
+    const dp = Math.round((b.pct - a.pct) * 10) / 10;
+    out.push({id:'eleg', tipo:dp >= 0 ? 'positivo' : 'atencao',
+      tit:`Elegibilidade ${dp >= 0 ? 'subiu' : 'caiu'} ${N(Math.abs(dp))} p.p. no ciclo ${ano}`,
+      txt:`Desde ${PROCS[ps[0]].rotulo}, ${b.eleg >= a.eleg ? 'mais' : 'menos'} <b>${N(Math.abs(b.eleg - a.eleg))}</b> matrículas elegíveis${onde} (${pct1(a.pct)} → <b>${pct1(b.pct)}</b>).
         ${zerou > 0 ? `A pendência bancária, que era de ${N(a.pend)}, está <b>zerada desde ${PROCS[ps[zerou]].rotulo}</b>.` : ''}`,
       base:[`Elegíveis: ${m.map(x => pct1(x.pct)).join(' → ')}`, `Pendência bancária: ${m.map(x => N(x.pend)).join(' → ')}`],
-      acao:{rot:'Ver aba Matrículas', js:`state.gAba='matriculas'; render()`}});
+      acao:{rot:'Ver aba Elegibilidade', js:`state.gAba='elegibilidade'; render()`}});
   }
 
-  return out.sort((a, b) => TIPOS[a.tipo].ord - TIPOS[b.tipo].ord).slice(0, 4);
+  return out.sort((a, b) => TIPOS[a.tipo].ord - TIPOS[b.tipo].ord);
 }
 function gRegenerar(){
-  state.gGerando = true; render();
+  state.gGerando = true; state.gInsPag = 0; state.gInsDir = 0; render();
   setTimeout(() => { state.gGerando = false; state.gGerado = new Date(); render(); }, 1300);
 }
-function gFeedback(id, v){ state.gFb[id] = state.gFb[id] === v ? null : v; render(); }
+function gFeedback(id, v){ state.gFb[id] = state.gFb[id] === v ? null : v; state.gInsDir = 0; render(); }
+function gInsIr(p){ state.gInsDir = p > state.gInsPag ? 1 : -1; state.gInsPag = p; render(); state.gInsDir = 0; }
+
+/* Carrossel: dois cartões por vez, numa linha só */
+const INS_POR = 2;
 function gInsightsHTML(){
   const hora = (state.gGerado || new Date()).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+  const ins = state.gGerando ? [] : gInsights();
+  const pags = Math.max(1, Math.ceil(ins.length / INS_POR));
+  const pg = Math.min(state.gInsPag, pags - 1);
+  state.gInsPag = pg;
+  const nav = ins.length > INS_POR ? `<div class="ins-nav" role="group" aria-label="Navegar pelos insights">
+      <button class="ins-arr" aria-label="Insights anteriores" ${pg === 0 ? 'disabled' : ''} onclick="gInsIr(${pg - 1})">‹</button>
+      <span class="ins-pos">${pg * INS_POR + 1}–${Math.min(ins.length, (pg + 1) * INS_POR)} de ${ins.length}</span>
+      <button class="ins-arr" aria-label="Próximos insights" ${pg === pags - 1 ? 'disabled' : ''} onclick="gInsIr(${pg + 1})">›</button>
+    </div>` : '';
   const head = `<div class="ins-h">
       <span class="ai">✦ Gerado por IA</span>
       <h3>Insights do recorte</h3>
       <span class="ctx">${nomeRecorte()} · gerado às ${hora}</span>
-      <button class="btn new sm" onclick="gRegenerar()" ${state.gGerando ? 'disabled' : ''}>↻ Gerar novamente</button>
+      <span class="ins-dir">${nav}
+      <button class="btn new sm" onclick="gRegenerar()" ${state.gGerando ? 'disabled' : ''}>↻ Gerar novamente</button></span>
     </div>`;
   if (state.gGerando) return `<section class="ins-wrap" data-new="insights gerados por IA">${head}
     <div class="ins-load"><span class="spin"></span> Lendo os números do recorte e escrevendo os insights…</div></section>`;
-  const ins = gInsights();
+  const vis = ins.slice(pg * INS_POR, (pg + 1) * INS_POR);
+  const anim = state.gInsDir > 0 ? 'ent-d' : state.gInsDir < 0 ? 'ent-e' : '';
   return `<section class="ins-wrap" data-new="insights gerados por IA">${head}
-    ${ins.length ? `<div class="ins-grid">${ins.map(x => {
+    ${ins.length ? `<div class="ins-grid ${anim}">${vis.map(x => {
       const T = TIPOS[x.tipo], fb = state.gFb[x.id];
       return `<article class="ins t-${x.tipo}">
         <div class="ins-tag"><span class="ico">${T.ico}</span>${T.rot}</div>
@@ -2331,53 +2391,68 @@ function gInsightsHTML(){
             <button aria-pressed="${fb === 'nao'}" title="Não foi útil" onclick="gFeedback('${x.id}','nao')">👎</button></span>
         </div></article>`;
     }).join('')}</div>` : `<div class="gnote">Nenhum padrão relevante encontrado neste recorte.</div>`}
-    <div class="ins-foot">Sugestões geradas automaticamente a partir dos números do recorte selecionado. <b>Revise antes de usar</b> em relatórios
-      ou decisões. Neste protótipo, a geração por IA é simulada.</div>
+    <div class="ins-foot">
+      ${pags > 1 ? `<span class="ins-dots">${Array.from({length:pags}, (_, i) =>
+        `<button aria-label="Página ${i + 1} de ${pags}" aria-current="${i === pg}" onclick="gInsIr(${i})"></button>`).join('')}</span>` : ''}
+      <span>Sugestões geradas automaticamente a partir dos números do recorte selecionado. <b>Revise antes de usar</b> em relatórios
+      ou decisões. Neste protótipo, a geração por IA é simulada.</span></div>
   </section>`;
 }
 
 /* ── filtros, indicadores e abas ────────────────────────────────── */
 function gFiltros(){
   const seg = (chave, ops) => `<div class="gseg" role="group">${ops.map(([v, t, dica]) =>
-    `<button aria-pressed="${state[chave] === v}" ${dica ? `title="${dica}"` : ''} onclick="state.${chave}='${v}'; render()">${t}</button>`).join('')}</div>`;
+    `<button aria-pressed="${state[chave] === v}" ${dica ? `title="${dica}"` : ''} onclick="state.${chave}='${v}'; state.gInsPag=0; render()">${t}</button>`).join('')}</div>`;
+  /* processamento (pai) × ciclo (filho), dependentes nos dois sentidos — como nas listagens */
+  const opsP = JANELAS.filter(j => anosDa(j).includes(+state.gCiclo));
+  const opsC = state.gProc ? anosDa(jan(state.gProc)) : [2026, 2025, 2024];
   return `<div class="filters gfil" data-new="filtros do painel">
-    <div class="field"><label for="g-ciclo">Ciclo</label>
-      <select id="g-ciclo" style="min-width:96px" onchange="state.gCiclo=this.value; render()">
-        ${['2026', '2025', '2024'].map(a => `<option ${state.gCiclo === a ? 'selected' : ''}>${a}</option>`).join('')}
+    <div class="field pai"><label for="g-proc">${tP()}</label>
+      <select id="g-proc" onchange="gSetProc(this.value)">
+        <option value="">${tv('Todos os processamentos', 'Todas as janelas de processamento')}</option>
+        ${opsP.map(j => `<option value="${j.id}" ${state.gProc === j.id ? 'selected' : ''}>${j.rotulo}</option>`).join('')}
+      </select>
+      ${opsP.length < JANELAS.length ? `<span class="hint">${opsP.length} de ${JANELAS.length} — ${tv('só os que processaram', 'só as que processaram')} ${state.gCiclo}</span>` : ''}
+    </div>
+    <div class="field filho"><label for="g-ciclo">Ciclo</label>
+      <select id="g-ciclo" style="min-width:96px" onchange="gSetCiclo(this.value)">
+        ${opsC.map(a => `<option ${state.gCiclo === String(a) ? 'selected' : ''}>${a}</option>`).join('')}
       </select></div>
     <div class="field"><span class="flbl">Modalidade</span>
       ${seg('gMod', [['geral', 'Visão geral', 'EMR + EJA'], ['EMR', 'EMR', 'Ensino Médio Regular'], ['EJA', 'EJA', 'Educação de Jovens e Adultos']])}</div>
     <div class="field"><label for="g-mun">Município</label>
-      <select id="g-mun" style="min-width:200px" onchange="state.gMun=this.value; render()">
+      <select id="g-mun" style="min-width:200px" onchange="state.gMun=this.value; state.gInsPag=0; render()">
         <option value="">Todos — rede estadual</option>
         ${MUNS.map(m => `<option value="${m.id}" ${state.gMun === m.id ? 'selected' : ''}>${m.id}</option>`).join('')}
       </select></div>
     <div class="field" style="margin-left:auto"><span class="flbl">Gráfico</span>
       ${seg('gTipo', [['barras', 'Barras'], ['linhas', 'Linhas']])}</div>
-    <label class="gchk"><input type="checkbox" ${state.gEventos ? 'checked' : ''} onchange="state.gEventos=this.checked; render()"> Eventos</label>
+    <label class="gchk" title="Marcadores numerados nos gráficos com o que aconteceu em cada data"><input type="checkbox" ${state.gEventos ? 'checked' : ''} onchange="state.gEventos=this.checked; render()"> Eventos</label>
   </div>`;
 }
 function gKpis(){
-  const ano = +state.gCiclo, sel = gSel(), ps = procsDoCiclo(ano);
+  const ano = +state.gCiclo, sel = gSel(), ps = psC(ano), fps = psF();
   const m = ps.map(pi => gMatr(ano, pi, sel)), mL = m[m.length - 1], mP = m[m.length - 2];
-  const f = ano === 2026 ? procsFreq().map(pi => gFreq(pi, sel)) : [];
+  const f = ano === 2026 ? fps.map(pi => gFreq(pi, sel)) : [];
   const pg = ps.map(pi => gPag(pi, ano, sel));
   let acc = 0; const cum = pg.map(p => acc += p.valor);
+  const L = ps[ps.length - 1];
   const vs = '<span class="vs">vs. anterior</span>';
   const k = (lbl, val, sub, delta, sp, cor) => `<div class="gkpi" style="--c:${cor}">
       <div class="lbl">${lbl}</div><div class="val">${val}</div><div class="sub">${sub}</div>
       <div class="row"><span>${delta}</span>${sp}</div></div>`;
+  const semFreq = ano === 2026 ? `ainda não apurada em ${PROCS[L].rotulo}` : `não apurada para o ciclo ${ano} em 2026`;
   return `<div class="gkpis" data-new="indicadores com tendência">
-    ${k('Matrículas na rede', N(mL.rede), `ciclo ${ano} · ${PROCS[ps[ps.length - 1]].rotulo}`,
-        state.gMod === 'geral' ? `<span class="vs">EMR ${pct1(gMatr(ano, ps[ps.length - 1], gSel('EMR')).rede / mL.rede * 100)} · EJA ${pct1(gMatr(ano, ps[ps.length - 1], gSel('EJA')).rede / mL.rede * 100)}</span>` : '', '', '#1351B4')}
+    ${k('Matrículas na rede', N(mL.rede), `ciclo ${ano} · ${PROCS[L].rotulo}`,
+        state.gMod === 'geral' ? `<span class="vs">EMR ${pct1(gMatr(ano, L, gSel('EMR')).rede / mL.rede * 100)} · EJA ${pct1(gMatr(ano, L, gSel('EJA')).rede / mL.rede * 100)}</span>` : '', '', '#1351B4')}
     ${k('Elegíveis', pct1(mL.pct), `${N(mL.eleg)} matrículas`,
-        mP ? dPP(mL.pct - mP.pct) + ' ' + vs : `<span class="vs">um só ${tp()}</span>`, spark(m.map(x => x.pct), '#168821'), '#168821')}
+        mP ? dPP(mL.pct - mP.pct) + ' ' + vs : `<span class="vs">primeiro ${tp()} do ciclo</span>`, spark(m.map(x => x.pct), '#168821'), '#168821')}
     ${k('Frequência ≥ 80%', f.length ? pct1(f[f.length - 1].pct) : '—',
-        f.length ? `frequência de ${MES_FREQ[PROCS[procsFreq().pop()].id]}` : `não apurada para o ciclo ${ano} em 2026`,
+        f.length ? `frequência de ${MES_FREQ[PROCS[fps[fps.length - 1]].id]}` : semFreq,
         f.length > 1 ? dPP(f[f.length - 1].pct - f[f.length - 2].pct) + ' ' + vs : '', f.length ? spark(f.map(x => x.pct), '#3F4FB8') : '', '#3F4FB8')}
-    ${k(`Parcelas no último ${tp()}`, N(pg[pg.length - 1].qtd), R$(pg[pg.length - 1].valor),
+    ${k(state.gProc ? `Parcelas ${tv('no processamento', 'na janela de processamento')}` : `Parcelas no último ${tp()}`, N(pg[pg.length - 1].qtd), R$(pg[pg.length - 1].valor),
         pg.length > 1 ? dPct(pg[pg.length - 2].qtd, pg[pg.length - 1].qtd) + ' ' + vs : '', spark(pg.map(p => p.qtd), '#D97A1E'), '#D97A1E')}
-    ${k('Valor liberado ao ciclo', curto(cum[cum.length - 1]), `${R$(cum[cum.length - 1])} em ${ps.length} ${ps.length === 1 ? tp() : tps()}`,
+    ${k('Valor liberado ao ciclo', curto(cum[cum.length - 1]), `${R$(cum[cum.length - 1])} em ${ps.length} ${ps.length === 1 ? tp() : tps()}, até ${PROCS[L].rotulo}`,
         '', spark(cum, '#7A8B1E'), '#7A8B1E')}
   </div>`;
 }
@@ -2389,10 +2464,12 @@ function gExport(nome){
       <button class="btn new solid" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações, como nas demais telas do Portal.')">⬓ Solicitar Planilha</button>
     </div></div>`;
 }
-const rotUlt = '<span class="tag hl">mais recente</span>';
+/* leva às telas operacionais já com o mesmo processamento e ciclo */
+const irTela = (rota, ciclo) => `state.ciclo='${ciclo}'; state.janela='${state.gProc}'; state.busca=''; state.mun=''; ir('#/${rota}')`;
+const semDelta = '<span class="delta flat">—</span>';
 
-function gAbaMatriculas(){
-  const ano = +state.gCiclo, sel = gSel(), ps = procsDoCiclo(ano);
+function gAbaElegibilidade(){
+  const ano = +state.gCiclo, sel = gSel(), ps = procsDoCiclo(ano), di = destDe(ps);
   const m = ps.map(pi => gMatr(ano, pi, sel)), cats = catsDe(ps);
   const ser = [
     {nome:'Elegível', cor:COR_SIT.eleg, v:m.map(x => x.eleg)},
@@ -2402,26 +2479,26 @@ function gAbaMatriculas(){
   return `
     ${ps.length === 1 ? `<div class="gnote">O ciclo ${ano} foi processado <b>uma única vez</b> em 2026 (${PROCS[ps[0]].rotulo}). Para acompanhar a evolução, escolha o ciclo 2026; para comparar os ciclos, use a aba <b>Ciclos</b>.</div>` : ''}
     <div class="gcards">
-      ${gCard('Situação das matrículas', `por ${tp()} · ciclo ${ano}`,
-        legenda(ser, state.gEventos) + gChart({tipo:state.gTipo, empilhado:true, cats, series:ser, fmt:'num', eventos:state.gEventos,
-          aria:'Matrículas por situação em cada ' + tp()}))}
+      ${gCard('Situação de elegibilidade', `por ${tp()} · ciclo ${ano}`,
+        legenda(ser, state.gEventos) + gChart({tipo:state.gTipo, empilhado:true, cats, series:ser, fmt:'num', eventos:state.gEventos, dest:di,
+          aria:'Situação de elegibilidade em cada ' + tp()}))}
       ${gCard('Elegíveis em relação às matrículas na rede', `% elegível · ciclo ${ano}`,
-        legenda([{nome:'% elegível', cor:COR_SIT.eleg}], state.gEventos) + gChart({tipo:'linhas', cats, fmt:'pct', eventos:state.gEventos, rotuloFinal:true,
+        legenda([{nome:'% elegível', cor:COR_SIT.eleg}], state.gEventos) + gChart({tipo:'linhas', cats, fmt:'pct', eventos:state.gEventos, rotuloFinal:true, dest:di,
           series:[{nome:'% elegível', cor:COR_SIT.eleg, v:m.map(x => x.pct)}], aria:'Percentual de elegíveis por ' + tp()}))}
     </div>
-    <div class="gbar"><h3>Tabela comparativa — Matrículas</h3>
-      <span class="act"><button class="btn sm" onclick="state.ciclo='${ano}'; state.janela=''; ir('#/elegibilidade')">Abrir Status de Elegibilidade →</button></span></div>
+    <div class="gbar"><h3>Tabela comparativa — Elegibilidade</h3>
+      <span class="act"><button class="btn sm" onclick="${irTela('elegibilidade', ano)}">Abrir Status de Elegibilidade →</button></span></div>
     <div class="tbl-wrap"><table class="gtbl">
       <thead><tr><th>${tP()}</th><th class="r">Matrículas na rede</th><th class="r">Elegível</th><th class="r">Elegível (pendência bancária)</th>
         <th class="r">Elegibilidade indefinida</th><th class="r">Não elegível</th><th class="r">% elegível</th><th class="r">Δ Elegível</th><th class="r">Δ % elegível</th></tr></thead>
-      <tbody>${m.map((x, i) => `<tr class="${i === m.length - 1 ? 'hl' : ''}">
-        <td>${PROCS[ps[i]].rotulo}${i === m.length - 1 ? rotUlt : ''}</td>
+      <tbody>${m.map((x, i) => `<tr class="${i === di ? 'hl' : ''}">
+        <td>${PROCS[ps[i]].rotulo}${i === di ? tagRef() : ''}</td>
         <td class="r num">${N(x.rede)}</td><td class="r num">${N(x.eleg)}</td><td class="r num">${N(x.pend)}</td>
         <td class="r num">${N(x.indef)}</td><td class="r num">${N(x.nao)}</td><td class="r num"><b>${pct1(x.pct)}</b></td>
-        <td class="r">${i ? dN(x.eleg - m[i - 1].eleg) : '<span class="delta flat">—</span>'}</td>
-        <td class="r">${i ? dPP(x.pct - m[i - 1].pct) : '<span class="delta flat">—</span>'}</td></tr>`).join('')}</tbody>
+        <td class="r">${i ? dN(x.eleg - m[i - 1].eleg) : semDelta}</td>
+        <td class="r">${i ? dPP(x.pct - m[i - 1].pct) : semDelta}</td></tr>`).join('')}</tbody>
     </table></div>
-    ${gExport('Matrículas por ' + tp())}`;
+    ${gExport('Elegibilidade por ' + tp())}`;
 }
 
 function gAbaFrequencia(){
@@ -2429,8 +2506,8 @@ function gAbaFrequencia(){
   if (ano !== 2026) return `<div class="gempty"><b>A frequência do ciclo ${ano} não foi apurada nos ${tps()} de 2026</b>
     ${ano === 2024 ? `O ciclo 2024 recebeu parcelas de frequência retroativas em 26/08/2026 — elas estão na aba <b>Pagamento</b>.`
       : `Em 2026, o ciclo 2025 recebeu os incentivos Enem e Conclusão — veja a aba <b>Pagamento</b>.`}
-    <div style="margin-top:14px"><button class="btn sm" onclick="state.gCiclo='2026'; render()">Ver a frequência do ciclo 2026</button></div></div>`;
-  const fps = procsFreq(), f = fps.map(pi => gFreq(pi, sel));
+    <div style="margin-top:14px"><button class="btn sm" onclick="gSetCiclo('2026')">Ver a frequência do ciclo 2026</button></div></div>`;
+  const fps = procsFreq(), f = fps.map(pi => gFreq(pi, sel)), di = destDe(fps);
   const cats = catsDe(fps, pi => `Frequência de ${MES_FREQ[PROCS[pi].id]}, apurada ${tv('neste processamento', 'nesta janela de processamento')}`);
   const ser = [
     {nome:'Igual ou acima de 80%', cor:COR_FREQ.acima, v:f.map(x => x.acima)},
@@ -2438,32 +2515,33 @@ function gAbaFrequencia(){
     {nome:'Não informada', cor:COR_FREQ.ni, v:f.map(x => x.ni)}
   ];
   return `
+    ${di < 0 ? `<div class="gnote">Em ${refRot()} a frequência ainda não tinha sido apurada: a primeira apuração do ciclo 2026 é a de ${PROCS[fps[0]].rotulo}.</div>` : ''}
     <div class="gcards">
       ${gCard('Frequência das matrículas elegíveis', `por ${tp()} · cada ${tp()} apura a frequência de dois meses antes`,
-        legenda(ser, state.gEventos) + gChart({tipo:state.gTipo, empilhado:true, cats, series:ser, fmt:'num', eventos:state.gEventos,
+        legenda(ser, state.gEventos) + gChart({tipo:state.gTipo, empilhado:true, cats, series:ser, fmt:'num', eventos:state.gEventos, dest:di,
           aria:'Frequência por faixa em cada ' + tp()}))}
       ${gCard('Frequência igual ou acima de 80%', '% das matrículas com frequência apurada',
-        legenda([{nome:'% com frequência ≥ 80%', cor:'#3F4FB8'}], state.gEventos) + gChart({tipo:'linhas', cats, fmt:'pct', eventos:state.gEventos, rotuloFinal:true,
+        legenda([{nome:'% com frequência ≥ 80%', cor:'#3F4FB8'}], state.gEventos) + gChart({tipo:'linhas', cats, fmt:'pct', eventos:state.gEventos, rotuloFinal:true, dest:di,
           series:[{nome:'% ≥ 80%', cor:'#3F4FB8', v:f.map(x => x.pct)}], aria:'Percentual com frequência acima de 80%'}))}
     </div>
     <div class="gbar"><h3>Tabela comparativa — Frequência</h3>
-      <span class="act"><button class="btn sm" onclick="state.ciclo='2026'; state.janela=''; ir('#/frequencia')">Abrir Frequência de Matrículas →</button></span></div>
+      <span class="act"><button class="btn sm" onclick="${irTela('frequencia', 2026)}">Abrir Frequência de Matrículas →</button></span></div>
     <div class="tbl-wrap"><table class="gtbl">
       <thead><tr><th>${tP()}</th><th>Frequência de</th><th class="r">Apuradas</th><th class="r">≥ 80%</th><th class="r">&lt; 80%</th>
         <th class="r">Não informada</th><th class="r">% ≥ 80%</th><th class="r">Δ % ≥ 80%</th><th class="r">Δ &lt; 80%</th><th class="r">Δ Não informada</th></tr></thead>
-      <tbody>${f.map((x, i) => `<tr class="${i === f.length - 1 ? 'hl' : ''}">
-        <td>${PROCS[fps[i]].rotulo}${i === f.length - 1 ? rotUlt : ''}</td><td>${MES_FREQ[PROCS[fps[i]].id]}</td>
+      <tbody>${f.map((x, i) => `<tr class="${i === di ? 'hl' : ''}">
+        <td>${PROCS[fps[i]].rotulo}${i === di ? tagRef() : ''}</td><td>${MES_FREQ[PROCS[fps[i]].id]}</td>
         <td class="r num">${N(x.apur)}</td><td class="r num">${N(x.acima)}</td><td class="r num">${N(x.abaixo)}</td><td class="r num">${N(x.ni)}</td>
         <td class="r num"><b>${pct1(x.pct)}</b></td>
-        <td class="r">${i ? dPP(x.pct - f[i - 1].pct) : '<span class="delta flat">—</span>'}</td>
-        <td class="r">${i ? dN(x.abaixo - f[i - 1].abaixo, false, true) : '<span class="delta flat">—</span>'}</td>
-        <td class="r">${i ? dN(x.ni - f[i - 1].ni, false, true) : '<span class="delta flat">—</span>'}</td></tr>`).join('')}</tbody>
+        <td class="r">${i ? dPP(x.pct - f[i - 1].pct) : semDelta}</td>
+        <td class="r">${i ? dN(x.abaixo - f[i - 1].abaixo, false, true) : semDelta}</td>
+        <td class="r">${i ? dN(x.ni - f[i - 1].ni, false, true) : semDelta}</td></tr>`).join('')}</tbody>
     </table></div>
     ${gExport('Frequência por ' + tp())}`;
 }
 
 function gAbaPagamento(){
-  const ano = +state.gCiclo, sel = gSel(), ps = procsDoCiclo(ano);
+  const ano = +state.gCiclo, sel = gSel(), ps = procsDoCiclo(ano), di = destDe(ps);
   const pg = ps.map(pi => gPag(pi, ano, sel)), cats = catsDe(ps);
   const incs = INCS.filter(k => pg.some(p => p.inc[k].qtd));
   const ser = incs.map(k => ({nome:k, cor:COR_INC[k], v:pg.map(p => p.inc[k].qtd || null)}));
@@ -2472,22 +2550,22 @@ function gAbaPagamento(){
     <div class="gnote">Parcelas e valores liberados <b>ao ciclo ${ano}</b>. ${tv('Um processamento', 'Uma janela de processamento')} pode liberar parcelas de outros ciclos ao mesmo tempo — para ver tudo o que saiu em cada ${tp()}, use a aba <b>Ciclos</b>.</div>
     <div class="gcards">
       ${gCard('Parcelas liberadas por incentivo', `por ${tp()} · ciclo ${ano}`,
-        legenda(ser, state.gEventos) + gChart({tipo:state.gTipo, empilhado:true, cats, series:ser, fmt:'num', eventos:state.gEventos,
+        legenda(ser, state.gEventos) + gChart({tipo:state.gTipo, empilhado:true, cats, series:ser, fmt:'num', eventos:state.gEventos, dest:di,
           aria:'Parcelas por incentivo em cada ' + tp()}))}
       ${gCard('Valor liberado', `em reais, por ${tp()} · ciclo ${ano}`,
-        legenda([{nome:'Valor liberado', cor:'#7A8B1E'}], state.gEventos) + gChart({tipo:'linhas', cats, fmt:'brl', eventos:state.gEventos, rotuloFinal:true, zero:true,
+        legenda([{nome:'Valor liberado', cor:'#7A8B1E'}], state.gEventos) + gChart({tipo:'linhas', cats, fmt:'brl', eventos:state.gEventos, rotuloFinal:true, zero:true, dest:di,
           fmtRot:curto, series:[{nome:'Valor liberado', cor:'#7A8B1E', v:pg.map(p => p.valor)}], aria:'Valor liberado por ' + tp()}))}
     </div>
     <div class="gbar"><h3>Tabela comparativa — Pagamentos</h3>
-      <span class="act"><button class="btn sm" onclick="state.ciclo='${ano}'; state.janela=''; ir('#/pagamento')">Abrir Visualizar Pagamentos →</button></span></div>
+      <span class="act"><button class="btn sm" onclick="${irTela('pagamento', ano)}">Abrir Visualizar Pagamentos →</button></span></div>
     <div class="tbl-wrap"><table class="gtbl">
       <thead><tr><th>${tP()}</th>${INCS.map(k => `<th class="r">${k}</th>`).join('')}<th class="r">Total de parcelas</th>
         <th class="r">Valor liberado</th><th class="r">Δ Valor</th><th class="r">Acumulado no ciclo</th></tr></thead>
-      <tbody>${pg.map((p, i) => { acc += p.valor; return `<tr class="${i === pg.length - 1 ? 'hl' : ''}">
-        <td>${PROCS[ps[i]].rotulo}${i === pg.length - 1 ? rotUlt : ''}</td>
+      <tbody>${pg.map((p, i) => { acc += p.valor; return `<tr class="${i === di ? 'hl' : ''}">
+        <td>${PROCS[ps[i]].rotulo}${i === di ? tagRef() : ''}</td>
         ${INCS.map(k => `<td class="r num">${p.inc[k].qtd ? N(p.inc[k].qtd) : '<span style="color:var(--ink-3)">—</span>'}</td>`).join('')}
         <td class="r num">${N(p.qtd)}</td><td class="r num"><b>${R$(p.valor)}</b></td>
-        <td class="r">${i ? dN(p.valor - pg[i - 1].valor, true) : '<span class="delta flat">—</span>'}</td>
+        <td class="r">${i ? dN(p.valor - pg[i - 1].valor, true) : semDelta}</td>
         <td class="r num">${R$(acc)}</td></tr>`; }).join('')}</tbody>
     </table></div>
     <p class="gctx" style="margin-top:10px">“—” = incentivo sem parcela liberada ${tv('naquele processamento', 'naquela janela de processamento')}.</p>
@@ -2495,28 +2573,31 @@ function gAbaPagamento(){
 }
 
 function gAbaCiclos(){
-  const sel = gSel(), anos = [2026, 2025, 2024], pis = PROCS.map((j, i) => i), cats = catsDe(pis);
+  const sel = gSel(), anos = [2026, 2025, 2024], pis = PROCS.map((j, i) => i), cats = catsDe(pis), di = destDe(pis);
   const ser = anos.map(a => ({nome:'Ciclo ' + a, cor:COR_CIC[a], v:pis.map(pi => gPag(pi, a, sel).valor || null)}));
   const cum = anos.map(a => { let s = 0; return {nome:'Ciclo ' + a, cor:COR_CIC[a], v:pis.map(pi => s += gPag(pi, a, sel).valor)}; });
-  const totGeral = anos.reduce((s, a) => s + pis.reduce((t, pi) => t + gPag(pi, a, sel).valor, 0), 0);
-  const ult = PROCS[PROCS.length - 1];
+  const ate = ateRef(pis);
+  const totGeral = anos.reduce((s, a) => s + ate.reduce((t, pi) => t + gPag(pi, a, sel).valor, 0), 0);
+  const ref = PROCS[gRefPi()];
   return `
-    <div class="gnote">Esta aba mostra <b>todos os ciclos</b> lado a lado — o filtro de ciclo não se aplica aqui. A leitura por ${tp()} mostra quando cada ciclo recebeu pagamento.</div>
+    <div class="gnote">Esta aba mostra <b>todos os ciclos</b> lado a lado — o filtro de ciclo não se aplica aqui; o de ${tp()} define até quando o retrato é contado. A leitura por ${tp()} mostra quando cada ciclo recebeu pagamento.</div>
     <div class="gcards">
       ${gCard('Valor liberado por ciclo afetado', `por ${tp()} · todos os ciclos`,
-        legenda(ser, state.gEventos) + gChart({tipo:state.gTipo, empilhado:true, cats, series:ser, fmt:'brl', eventos:state.gEventos,
+        legenda(ser, state.gEventos) + gChart({tipo:state.gTipo, empilhado:true, cats, series:ser, fmt:'brl', eventos:state.gEventos, dest:di,
           aria:'Valor liberado por ciclo em cada ' + tp()}))}
       ${gCard('Valor acumulado em 2026, por ciclo', `soma dos ${tps()} até cada data`,
-        legenda(cum, state.gEventos) + gChart({tipo:'linhas', cats, series:cum, fmt:'brl', zero:true, eventos:state.gEventos,
+        legenda(cum, state.gEventos) + gChart({tipo:'linhas', cats, series:cum, fmt:'brl', zero:true, eventos:state.gEventos, dest:di,
           aria:'Valor acumulado por ciclo'}))}
     </div>
-    <div class="gbar"><h3>Retrato por ciclo</h3>
-      <span class="act"><button class="btn new sm" onclick="ir('#/janela/${ult.id}')">${tv('Ver o processamento de', 'Ver a janela de processamento de')} ${ult.rotulo} →</button></span></div>
+    <div class="gbar"><h3>Retrato por ciclo, até ${ref.rotulo}</h3>
+      <span class="act"><button class="btn new sm" onclick="ir('#/janela/${ref.id}')">${tv('Ver o processamento de', 'Ver a janela de processamento de')} ${ref.rotulo} →</button></span></div>
     <div class="tbl-wrap"><table class="gtbl">
       <thead><tr><th>Ciclo</th><th class="r">Matrículas na rede</th><th class="r">Elegível</th><th class="r">% elegível</th>
         <th>Afetado ${tv('nos processamentos de', 'nas janelas de processamento de')}</th><th class="r">Parcelas liberadas em 2026</th><th class="r">Valor liberado em 2026</th><th class="r">Participação no valor</th></tr></thead>
       <tbody>${anos.map(a => {
-        const ps = procsDoCiclo(a), m = gMatr(a, ps[ps.length - 1], sel);
+        const ps = ateRef(procsDoCiclo(a));
+        if (!ps.length) return `<tr class="dim"><td>${pillCiclo(a)}</td><td colspan="7">Ainda não ${tv('processado', 'afetado por nenhuma janela de processamento')} até ${ref.rotulo}.</td></tr>`;
+        const m = gMatr(a, ps[ps.length - 1], sel);
         const q = ps.reduce((s, pi) => s + gPag(pi, a, sel).qtd, 0), v = ps.reduce((s, pi) => s + gPag(pi, a, sel).valor, 0);
         return `<tr class="${String(a) === state.gCiclo ? 'sel' : ''}">
           <td>${pillCiclo(a)}</td><td class="r num">${N(m.rede)}</td><td class="r num">${N(m.eleg)}</td><td class="r num">${pct1(m.pct)}</td>
@@ -2528,8 +2609,8 @@ function gAbaCiclos(){
 }
 
 function gAbaMunicipios(){
-  const ano = +state.gCiclo, ps = procsDoCiclo(ano), L = ps[ps.length - 1];
-  const temF = ano === 2026, fps = procsFreq(), fl = fps[fps.length - 1], fp = fps[fps.length - 2];
+  const ano = +state.gCiclo, ps = psC(ano), L = ps[ps.length - 1];
+  const fps = psF(), temF = ano === 2026 && fps.length > 0, fl = fps[fps.length - 1], fp = fps[fps.length - 2];
   const redeNi = temF ? gFreq(fl, gSel(state.gMod, '')).pctNi : 0;
   const naAmostra = new Set(ALUNOS.map(a => a.mun));
   let rows = MUNS.map(mu => {
@@ -2537,16 +2618,16 @@ function gAbaMunicipios(){
     const s = temF ? fps.map(pi => gFreq(pi, sel)) : [];
     const v = ps.reduce((t, pi) => t + gPag(pi, ano, sel).valor, 0);
     let k = 0; for (let i = s.length - 1; i > 0 && s[i].pct < s[i - 1].pct - .05; i--) k++;   /* quedas seguidas */
-    return {mu, m, s, v, k, f:s[s.length - 1], d:temF ? s[s.length - 1].pct - s[s.length - 2].pct : 0};
+    return {mu, m, s, v, k, f:s[s.length - 1], d:s.length > 1 ? s[s.length - 1].pct - s[s.length - 2].pct : null};
   });
   const ORD = {
-    queda:(a, b) => a.d - b.d, ni:(a, b) => (b.f ? b.f.pctNi : 0) - (a.f ? a.f.pctNi : 0),
+    queda:(a, b) => (a.d || 0) - (b.d || 0), ni:(a, b) => (b.f ? b.f.pctNi : 0) - (a.f ? a.f.pctNi : 0),
     freq:(a, b) => (a.f ? a.f.pct : 0) - (b.f ? b.f.pct : 0), valor:(a, b) => b.v - a.v, nome:(a, b) => a.mu.id.localeCompare(b.mu.id, 'pt-BR')
   };
   const ordem = !temF && ['queda', 'ni', 'freq'].includes(state.gOrd) ? 'valor' : state.gOrd;
   rows = rows.filter(r => !r.mu.demais).sort(ORD[ordem]).concat(rows.filter(r => r.mu.demais));
   return `
-    <div class="gnote">Os ${MUNS.length - 1} municípios com as maiores redes estaduais, mais o agregado dos demais. ${state.gMun ? `<b>${state.gMun}</b> está destacado. ` : ''}O filtro de município não se aplica a esta aba; o de modalidade e o de ciclo, sim.</div>
+    <div class="gnote">Os ${MUNS.length - 1} municípios com as maiores redes estaduais, mais o agregado dos demais, ${tv('no processamento', 'na janela de processamento')} de <b>${refRot()}</b>. ${state.gMun ? `<b>${state.gMun}</b> está destacado. ` : ''}O filtro de município não se aplica a esta aba; os demais, sim.</div>
     <div class="gbar"><h3>Ranking de municípios — ciclo ${ano}</h3>
       <span class="act"><label class="flbl" for="g-ord" style="font-size:13px; color:var(--ink-2)">Ordenar por</label>
         <select id="g-ord" onchange="state.gOrd=this.value; render()">
@@ -2558,29 +2639,30 @@ function gAbaMunicipios(){
         ${temF ? `<th class="r">Frequência ≥ 80%</th><th class="r">Δ vs. anterior</th><th>Tendência (${curtoD(PROCS[fps[0]])} a ${curtoD(PROCS[fl])})</th><th class="r">Não informada</th>` : ''}
         <th class="r">Valor liberado ao ciclo</th><th></th></tr></thead>
       <tbody>${rows.map(r => {
-        const alerta = temF && (r.d <= -1 || r.k >= 3), aten = temF && r.f.pctNi >= redeNi * 3;
+        const alerta = temF && ((r.d != null && r.d <= -1) || r.k >= 3), aten = temF && fps.length > 1 && r.f.pctNi >= redeNi * 3;
         return `<tr class="${r.mu.demais ? 'dim' : ''} ${state.gMun === r.mu.id ? 'sel' : ''}">
           <td><b>${r.mu.id}</b>${alerta ? '<span class="tag al">▼ queda</span>' : ''}${aten ? '<span class="tag at">● não informada</span>' : ''}</td>
           <td class="r num">${N(r.m.rede)}</td><td class="r num">${pct1(r.m.pct)}</td>
-          ${temF ? `<td class="r num"><b>${pct1(r.f.pct)}</b></td><td class="r">${dPP(r.d)}</td>
+          ${temF ? `<td class="r num"><b>${pct1(r.f.pct)}</b></td><td class="r">${r.d == null ? semDelta : dPP(r.d)}</td>
             <td>${spark(r.s.map(x => x.pct), alerta ? '#E52207' : '#3F4FB8')}</td><td class="r num">${pct1(r.f.pctNi)}</td>` : ''}
           <td class="r num" title="${R$(r.v)}">${curto(r.v)}</td>
-          <td class="r" style="white-space:nowrap">${r.mu.demais ? '' : `<button class="lnk" onclick="state.gMun='${r.mu.id}'; state.gAba='${temF ? 'frequencia' : 'matriculas'}'; render(); scrollTo({top:0})" title="Aplica este município como filtro do painel">Filtrar</button>`}
-            ${naAmostra.has(r.mu.id) && temF ? `<button class="lnk" title="Abre a listagem de Frequência filtrada por este município" onclick="state.mun='${r.mu.id}'; state.ciclo='2026'; state.janela=''; state.busca=''; state.faixaF=''; ir('#/frequencia')">Estudantes</button>` : ''}</td></tr>`;
+          <td class="r" style="white-space:nowrap">${r.mu.demais ? '' : `<button class="lnk" onclick="state.gMun='${r.mu.id}'; state.gAba='${temF ? 'frequencia' : 'elegibilidade'}'; state.gInsPag=0; render(); scrollTo({top:0})" title="Aplica este município como filtro do painel">Filtrar</button>`}
+            ${naAmostra.has(r.mu.id) && temF ? `<button class="lnk" title="Abre a listagem de Frequência filtrada por este município" onclick="state.mun='${r.mu.id}'; state.ciclo='2026'; state.janela='${state.gProc}'; state.busca=''; state.faixaF=''; ir('#/frequencia')">Estudantes</button>` : ''}</td></tr>`;
       }).join('')}</tbody>
     </table></div>
-    ${temF ? `<p class="gctx" style="margin-top:10px">▼ queda = frequência ≥ 80% caiu 1 p.p. ou mais desde ${tv('o processamento anterior', 'a janela de processamento anterior')} (${PROCS[fp].rotulo}), ou caiu em 3 ou mais ${tps()} seguidos. ● não informada = 3× ou mais a média da rede (${pct1(redeNi)}).</p>` : ''}
+    ${temF && fp != null ? `<p class="gctx" style="margin-top:10px">▼ queda = frequência ≥ 80% caiu 1 p.p. ou mais desde ${tv('o processamento anterior', 'a janela de processamento anterior')} (${PROCS[fp].rotulo}), ou caiu em 3 ou mais ${tps()} seguidos. ● não informada = 3× ou mais a média da rede (${pct1(redeNi)}).</p>` : ''}
     ${gExport('Indicadores por município')}`;
 }
 
 function gAbaModalidades(){
-  const ano = +state.gCiclo, ps = procsDoCiclo(ano), cats = catsDe(ps);
+  const ano = +state.gCiclo, todos = procsDoCiclo(ano), cats = catsDe(todos), ps = psC(ano);
   const mods = ['EMR', 'EJA'], S = mod => gSel(mod, state.gMun);
-  const temF = ano === 2026, fps = procsFreq(), catsF = catsDe(fps);
+  const fAll = ano === 2026 ? procsFreq() : [], catsF = catsDe(fAll), fps = psF();
+  const temF = ano === 2026 && fps.length > 0;
   const serie = (fn, pis) => mods.map(mod => ({nome:mod, cor:COR_MOD[mod], v:pis.map(pi => fn(pi, S(mod)))}));
-  const sEleg = serie((pi, s) => gMatr(ano, pi, s).pct, ps);
-  const sFreq = temF ? serie((pi, s) => gFreq(pi, s).pct, fps) : [];
-  const sVal = serie((pi, s) => { const m = gMatr(ano, pi, s); return m.eleg ? gPag(pi, ano, s).valor / m.eleg : 0; }, ps);
+  const sEleg = serie((pi, s) => gMatr(ano, pi, s).pct, todos);
+  const sFreq = fAll.length ? serie((pi, s) => gFreq(pi, s).pct, fAll) : [];
+  const sVal = serie((pi, s) => { const m = gMatr(ano, pi, s); return m.eleg ? gPag(pi, ano, s).valor / m.eleg : 0; }, todos);
   const L = ps[ps.length - 1];
   const r = mods.map(mod => {
     const s = S(mod), m = gMatr(ano, L, s), f = temF ? gFreq(fps[fps.length - 1], s) : null;
@@ -2593,12 +2675,12 @@ function gAbaModalidades(){
     <div class="gnote">EMR e EJA lado a lado${state.gMun ? `, em <b>${state.gMun}</b>` : ''}. O seletor de modalidade não se aplica a esta aba.</div>
     ${leg}
     <div class="gcards tres" style="margin-top:8px">
-      ${gCard('% elegível', `ciclo ${ano}`, gChart({tipo:'linhas', cats, series:sEleg, fmt:'pct', w:380, h:250, aria:'Percentual elegível por modalidade'}))}
-      ${temF ? gCard('Frequência ≥ 80%', '% das matrículas com frequência apurada', gChart({tipo:'linhas', cats:catsF, series:sFreq, fmt:'pct', w:380, h:250, aria:'Frequência por modalidade'}))
+      ${gCard('% elegível', `ciclo ${ano}`, gChart({tipo:'linhas', cats, series:sEleg, fmt:'pct', w:380, h:250, dest:destDe(todos), aria:'Percentual elegível por modalidade'}))}
+      ${fAll.length ? gCard('Frequência ≥ 80%', '% das matrículas com frequência apurada', gChart({tipo:'linhas', cats:catsF, series:sFreq, fmt:'pct', w:380, h:250, dest:destDe(fAll), aria:'Frequência por modalidade'}))
         : gCard('Frequência ≥ 80%', '', `<div class="gempty" style="margin-top:10px">Não apurada para o ciclo ${ano} em 2026.</div>`)}
-      ${gCard('Valor liberado por matrícula elegível', `R$ por elegível, em cada ${tp()}`, gChart({tipo:'linhas', cats, series:sVal, fmt:'brl', w:380, h:250, zero:true, aria:'Valor por elegível por modalidade'}))}
+      ${gCard('Valor liberado por matrícula elegível', `R$ por elegível, em cada ${tp()}`, gChart({tipo:'linhas', cats, series:sVal, fmt:'brl', w:380, h:250, zero:true, dest:destDe(todos), aria:'Valor por elegível por modalidade'}))}
     </div>
-    <div class="gbar"><h3>Comparativo no último ${tp()} (${PROCS[L].rotulo})</h3></div>
+    <div class="gbar"><h3>Comparativo ${state.gProc ? tv('no processamento', 'na janela de processamento') : `no último ${tp()}`} (${PROCS[L].rotulo})</h3></div>
     <div class="tbl-wrap"><table class="gtbl">
       <thead><tr><th>Indicador</th><th class="r">EMR</th><th class="r">EJA</th><th class="r">Diferença (EJA − EMR)</th></tr></thead>
       <tbody>
@@ -2607,7 +2689,7 @@ function gAbaModalidades(){
         ${temF ? linha('Frequência ≥ 80%', pct1(r[0].f.pct), pct1(r[1].f.pct), dPP(r[1].f.pct - r[0].f.pct)) : ''}
         ${temF ? linha('Frequência abaixo de 80%', pct1(r[0].f.pctAb), pct1(r[1].f.pctAb), dPP(r[1].f.pctAb - r[0].f.pctAb, true)) : ''}
         ${temF ? linha('Frequência não informada', pct1(r[0].f.pctNi), pct1(r[1].f.pctNi), dPP(r[1].f.pctNi - r[0].f.pctNi, true)) : ''}
-        ${linha('Valor liberado ao ciclo em 2026', `${R$(r[0].v)} <span style="color:var(--ink-3)">(${pct1(r[0].v / totV * 100)})</span>`, `${R$(r[1].v)} <span style="color:var(--ink-3)">(${pct1(r[1].v / totV * 100)})</span>`)}
+        ${linha(`Valor liberado ao ciclo até ${PROCS[L].rotulo}`, `${R$(r[0].v)} <span style="color:var(--ink-3)">(${pct1(r[0].v / totV * 100)})</span>`, `${R$(r[1].v)} <span style="color:var(--ink-3)">(${pct1(r[1].v / totV * 100)})</span>`)}
         ${linha('Valor por matrícula elegível', R$(r[0].v / r[0].m.eleg), R$(r[1].v / r[1].m.eleg))}
       </tbody>
     </table></div>
@@ -2615,7 +2697,7 @@ function gAbaModalidades(){
 }
 
 const GABAS = [
-  ['matriculas', 'Matrículas', gAbaMatriculas], ['frequencia', 'Frequência', gAbaFrequencia], ['pagamento', 'Pagamento', gAbaPagamento],
+  ['elegibilidade', 'Elegibilidade', gAbaElegibilidade], ['frequencia', 'Frequência', gAbaFrequencia], ['pagamento', 'Pagamento', gAbaPagamento],
   ['ciclos', 'Ciclos', gAbaCiclos], ['municipios', 'Municípios', gAbaMunicipios], ['modalidades', 'EMR × EJA', gAbaModalidades]
 ];
 function telaGestao(){
@@ -2633,7 +2715,8 @@ function telaGestao(){
     ${gFiltros()}
     <div class="gctx">Rede estadual — Bahia · ciclo <b>${ano}</b> · <b>${ps.length}</b> ${ps.length === 1 ? tp() : tps()}
       ${ps.length > 1 ? `de ${PROCS[ps[0]].rotulo} a ${PROCS[ps[ps.length - 1]].rotulo}` : `em ${PROCS[ps[0]].rotulo}`}
-      · ${state.gMod === 'geral' ? 'EMR + EJA' : MODS.find(m => m.id === state.gMod).nome}${state.gMun ? ` · <b>${state.gMun}</b> <button class="btn sm" style="padding:1px 9px; margin-left:4px" onclick="state.gMun=''; render()">limpar município</button>` : ''}</div>
+      · ${state.gMod === 'geral' ? 'EMR + EJA' : MODS.find(m => m.id === state.gMod).nome}
+      · indicadores e insights ${state.gProc ? `<b>${tv('no processamento', 'na janela de processamento')} de ${refRot()}</b> <button class="btn sm" style="padding:1px 9px; margin-left:4px" onclick="gSetProc('')">voltar ao mais recente</button>` : `${tv('no último processamento', 'na última janela de processamento')} (${refRot()})`}${state.gMun ? ` · <b>${state.gMun}</b> <button class="btn sm" style="padding:1px 9px; margin-left:4px" onclick="state.gMun=''; state.gInsPag=0; render()">limpar município</button>` : ''}</div>
     ${gKpis()}
     ${gInsightsHTML()}
     <div class="tabs" data-new="abas do painel">
