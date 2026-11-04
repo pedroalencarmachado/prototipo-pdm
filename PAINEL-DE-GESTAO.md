@@ -24,9 +24,9 @@ Processamento* e as entrevistas são operacionais. O painel **complementa** essa
 - **Nunca** editar `fontes/janelas-de-processamento.html`, `deploy/` nem `gerar-pacote.mjs`/`.ps1` por causa
   do painel. Eles servem o link das entrevistas, cujos gabaritos dependem dos números de lá.
 - O painel tem script, pasta de deploy e projeto Cloudflare próprios.
-- Na cópia, **as telas existentes não mudaram** (Início, Elegibilidade, Frequência, Pagamento,
-  Processamentos e o detalhe). Na cópia só mudaram: o menu (novo item *Painel de Gestão*), a rota inicial
-  (o link abre no painel), o título da aba do navegador, o texto da faixa preta e o rodapé.
+- Na Revisão 1 inicial, as telas existentes da cópia não mudavam. **Desde 03/11/2026 (ajustes das
+  entrevistas, seção 8) elas mudaram — mas só nesta cópia.** O protótipo das entrevistas, o roteiro e os
+  gabaritos seguem intactos; por isso os gabaritos do roteiro **não valem** para esta versão.
 
 ## 2. Decisões do Pedro (03/11/2026)
 
@@ -139,6 +139,12 @@ Mesmas armadilhas do outro link (LEIA-ME, seção 13): `--yes` obrigatório, rod
 - Comparar ciclos no mesmo ponto do calendário (2026 × 2025) exigiria inventar processamentos de 2025 —
   ficou de fora para não contradizer as 6 janelas da base.
 - Se o painel for para entrevistas, criar roteiro próprio (o roteiro atual é da visão operacional).
+- Validar com o MEC o texto "Por que isso acontece?" do aviso de ciclos anteriores (M5) e os motivos de
+  mudança de situação (M7), hoje ilustrativos.
+- Levar ao MEC a sugestão da P3 de trocar "Aguardando Pagamento" por "Enviado para pagamento" (status oficial;
+  não mudado).
+- Backlog das entrevistas: movimentação/transferência ("onde o estudante está agora", P5 e P3), data de
+  solicitação do requerimento (P2), planilha da EJA que não funciona no portal real (P3).
 
 ## 7. Histórico
 
@@ -155,3 +161,43 @@ dependência processamento ↔ ciclo; indicadores com referência em 24/07 = nú
 Depois, ainda antes de publicar: saíram a alternância Barras/Linhas e os eventos nos gráficos; os filtros
 cabem numa linha. Conferido: 288 combinações (2 roteiros × 3 ciclos × processamentos × modalidade × 6 abas)
 sem erro e sem resto de "Eventos", "Barras" ou "Linhas" na tela.
+
+### Ajustes das entrevistas — 03/11/2026 (ainda Revisão 1, antes de publicar)
+Ver a seção 8. Conferido no navegador: 742 telas (2 roteiros × Início/Elegibilidade/Frequência/Pagamento ×
+processamento × ciclo × combinações de filtro, detalhes, modais e o painel) sem erro, sem "NaN" e sem
+"janela" na versão A; 36 checagens do painel (incluindo "passaram a / deixaram de ser elegíveis" = `JANELAS`);
+fluxos das tarefas 4 e 11 chegam a 227.942 e 56.074; situações do Pagamento somam o total.
+
+## 8. Ajustes vindos das entrevistas com as redes (03/11/2026)
+
+Fonte: aba **Registro** de `registro_teste_usabilidade_janelas.xlsx` (sessões P1 a P5; o CSV exportado só
+traz a aba Participantes). Tarefas que mais falharam: 11 (1/5), 4 (2/5), 7 e 13 (3/5), 2 (4/5).
+**Tudo aplicado só nesta versão** (`fontes/painel-de-gestao.html`).
+
+| # | Mudança | Evidência | Onde |
+|---|---|---|---|
+| M1 | Filtros não ficam presos: trocar de tela pelo menu volta ao padrão; atalhos ("Ver…", cartões, links do painel) levam o recorte junto (`irCom`). Etiquetas "Filtros em uso", removíveis, e "Limpar filtros" | T13 (P1, P4), T15 (P2), sugestões P2/P5; P4 pediu manter ao clicar numa situação (atendido pelo atalho) | Elegibilidade, Frequência, Pagamento |
+| M2 | Escolher um processamento põe o ciclo em "todos os ciclos do processamento" | T4 (P5: 212.004), T11 (P4: 1.609) | Filtros das telas de consulta |
+| M3 | Cartões/situações clicáveis viram filtro; total do recorte em destaque acima da lista | T11 (P2, P3 leu a paginação, P4), P3 T8, P4 T6 | Elegibilidade (cartões), Pagamento (situações) |
+| M4 | "Matrículas processadas" explicado; "situação alterada" aberta em passaram a elegível × deixaram de ser | T2 (P1, P3, P5), T3 (P3), T7 (P4, P5) | Início, detalhe do processamento, aba Elegibilidade do painel |
+| M5 | Aviso "também alterou ciclos anteriores" + "Por que isso acontece?"; etiqueta na lista de processamentos | P3 T5 (utilidade 1), P5 T5 | Início, detalhe, lista de processamentos |
+| M6 | Ver quem foi afetado: "Ver as N alteradas" por ciclo → Elegibilidade com o filtro novo "Só com situação alterada neste processamento" e a coluna "Antes" | P2, P3 (T9, T10), P4 | Detalhe, Elegibilidade, painel |
+| M7 | Detalhe do estudante com **trajetória** (processamento a processamento: situação antes → depois, motivo ilustrativo, parcelas); aberto por uma parcela, mostra ela primeiro | P5 (caso MP), P3/P5 T15, P4 T14 | Modal |
+| M8 | Parcela do incentivo visível ("Frequência · 4ª parcela") | P4 T10 | Pagamento, detalhe, modal |
+| M9 | Busca por CPF, nome, matrícula ou **código do estudante** (fictício, 12 dígitos); NIS segue aceito, fora do destaque | T12: P2–P5 não usam NIS; P4 pediu o código | Buscas, listas, modal |
+| M10 | Exportação diz o recorte e o que vem na planilha | P5 T13, P2 T5/T10 | Listas e painel |
+| M11 | Ícone/cor da pendência (ver pedido 3) e processamento no topo (pedido 1) | P4 T1, P4 T11 | Início, Pagamento |
+
+**Pedidos do Pedro na mesma rodada:**
+1. **Início:** o bloco do processamento vem **antes** dos totais; com um processamento escolhido no filtro, o
+   bloco mostra ele (P3: "o card não muda com o filtro").
+2. **Listas em destaque** nas telas de consulta: cabeçalho da lista com o total do recorte logo abaixo dos
+   cartões; exportação passou para depois da lista.
+3. **Pagamento sem cores sem significado:** os 9 cartões com borda colorida viraram uma barra e três grupos —
+   ✓ **Pago ou depositado** (verde), ◔ **Em andamento** (laranja), ! **Com impedimento** (vermelho) —, sempre
+   com ícone e nome; situações sem parcelas aparecem numa linha "Sem parcelas: …". A rosca do valor por
+   ciclo virou barra horizontal rotulada.
+
+**Observação de dados:** no consolidado da base, Pagos + Aguardando + Bloqueados somavam 1.299.681 de
+1.396.680 (a rosca antiga escondia a diferença). Nesta versão os 96.999 restantes aparecem como
+**Depositados**, para as situações fecharem com o total.
