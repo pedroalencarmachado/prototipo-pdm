@@ -224,3 +224,48 @@ Ao preparar os prints, apareceram três tabelas que passavam da largura da tela 
 processamento, lista "só alteradas" e a aba Elegibilidade do painel). Foram corrigidas com cabeçalhos que
 quebram linha e as ações empilhadas; conferido por script que nenhuma tabela das versões A e B rola na
 horizontal.
+
+## 10. Revisão 2 — conversa com o MEC e documento "Pontas a avaliar" (04/11/2026)
+
+Tudo só nesta versão (`fontes/painel-de-gestao.html` → `deploy-gestao/`); `deploy/`, `fontes/janelas-de-processamento.html`
+e o roteiro não foram tocados.
+
+**Painel de Gestão**
+- Cartões sem linha de tendência; acima deles, uma linha diz o recorte de todos ("Indicadores do ciclo 2026, até o
+  processamento de 26/08/2026"). "Valor liberado ao ciclo" virou **Valor liberado acumulado** (soma das parcelas
+  liberadas do ciclo, com o número de processamentos).
+- Saiu a comparação **EMR × EJA** (aba, insight e a divisão no cartão de matrículas). O filtro de modalidade continua.
+- Municípios: saiu a mensagem "os 12 municípios com as maiores redes"; "Mais frequência não informada" →
+  **Maior frequência não informada**; coluna **Valor liberado acumulado**; "Estudantes" → **Ver estudantes**.
+- Ciclos: o gráfico acumulado agora diz o que soma ("Valor das parcelas liberadas em 2026, acumulado por ciclo").
+- **Rótulos de dados em todos os gráficos**: total no topo de cada barra, valor dentro de cada parte que couber,
+  valor em cada ponto das linhas (sem sobreposição — se dois rótulos se encostam, um vai abaixo do ponto ou é omitido).
+
+**Status de Elegibilidade** (base: wiki "Elegibilidade" do Pé-de-Meia, NEES/UFAL)
+- Painel **Estudantes por motivo** logo abaixo dos cartões, no padrão do painel de situações do Pagamento: um grupo
+  para **Não elegível** (critérios de alta criticidade — status 402 — e status próprios: 202 cancelamento, 301
+  reprovações, 303–309 outros desligamentos) e outro para **Elegibilidade indefinida** (critérios de baixa
+  criticidade — status 200 — e 902, validação bancária). Cada linha tem o código (TCI ou status), a barra, o % sobre
+  o total da situação e a quantidade; clicar filtra a lista (os motivos com estudante na amostra). Pesos em `MOTIVOS`,
+  na ordem de grandeza do Monitor; a soma fecha exata com o cartão (maior resto).
+- Filtro **Motivo** na lista quando a situação é Não elegível ou Indefinida; etiqueta "Motivo: …" removível.
+- O motivo principal aparece na linha da lista; no 👁, o bloco da situação reproduz o Portal: texto do status e
+  "Confira os critérios para a inelegibilidade" / "Confira o detalhamento da situação", com a Descrição Rede de cada
+  TCI (uma matrícula pode ter mais de um — ex.: 29994057). Matrícula cancelada mostra só o texto do status 202.
+- Quatro estudantes novos na amostra (2 indefinidos, 2 não elegíveis) para os exemplos.
+
+**Documento "Pontas a avaliar"**
+- Instrução padronizada **acima** dos cartões: "Clique em um card para ver a lista de estudantes referente à
+  situação" (Elegibilidade) e "… referente às parcelas" (Pagamento).
+- Trajetória do estudante do processamento **mais recente para o mais antigo**.
+- **Comparar processamentos** em evidência: aba com ícone e selo "novo" e um chamado na lista de processamentos.
+- Plural padronizado: "passaram a **ser elegíveis**" / "deixaram de ser elegíveis".
+- Processamentos com **calendário** (sugestão de um operador): acima dos concluídos, o processamento com envio de
+  dados aberto (verde) e os próximos (cinza, "Fechado"), cada um com a frequência que recebe e o período de envio
+  (`FUTUROS`, datas ilustrativas). Na versão A o status é "Aberto para envio de dados"/"Fechado"; na B,
+  "Janela aberta"/"Janela fechada". Os concluídos mostram que frequência apuraram.
+- Aviso do Início reescrito: diz a data do último processamento, a frequência que ele apurou e o próximo previsto
+  (antes: "Os últimos dados consolidados são de Junho", que fazia operadores responderem "junho").
+
+Observação: as mensagens oficiais do Portal (TCI e status) falam em "próxima janela de envio de dados" — foram
+mantidas como na wiki, também na versão A.
