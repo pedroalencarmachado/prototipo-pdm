@@ -442,6 +442,8 @@ button.mrow:hover{background:var(--surface-2)}
 .mrow.on{background:var(--blue-soft); box-shadow:inset 3px 0 0 var(--gc)}
 .mrow .mnm{line-height:1.25}
 .mrow .mnm small{display:block; color:var(--ink-3); font-size:10.5px}
+.mrow .mver{color:var(--blue); font-weight:600; font-size:11.5px}
+button.mrow:hover .mver{text-decoration:underline}
 .mtr{height:12px; background:var(--line-2); border-radius:3px; overflow:hidden}
 .mtr span{display:block; height:100%; background:var(--gc); border-radius:0 3px 3px 0; min-width:2px}
 .mrow .mp{font-weight:700; text-align:right; font-variant-numeric:tabular-nums}
@@ -1823,7 +1825,7 @@ function painelMotivos(tot, acao, sub){
       <div class="sgh"><span class="sico">${G.ico}</span><b>${G.sit}</b><span class="sgd">${G.desc}</span><span class="sgq num">${N(t)}</span></div>
       ${t === 0 ? `<div class="szero">Nenhuma matrícula nesta situação no recorte.</div>` : com.map(i => {
         const M = MOTIVOS[i.k], js = acao(i.k, G);
-        const corpo = `<span class="mnm">${M.nome}<small>${M.cod}</small></span>
+        const corpo = `<span class="mnm">${M.nome}<small>${M.cod}${js ? ' · <span class="mver">Ver estudantes →</span>' : ''}</small></span>
           <span class="mtr"><span style="width:${(i.q / max * 100).toFixed(1)}%"></span></span>
           <span class="mp">${pc(i.q, t)}</span><span class="mq">${N(i.q)}</span>`;
         return js ? `<button class="mrow" title="Abrir a lista de estudantes com este motivo" onclick="${js}">${corpo}</button>`
