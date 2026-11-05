@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Roteiro de apresentação — Painel de Gestão e Processamentos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Raleway:wght@600;700;800&display=swap">
+<style>
+  @page { size: A4; margin: 14mm 14mm 16mm 14mm; }
+  :root{
+    --blue:#1351B4; --blue-dark:#0C326F; --blue-soft:#E8EFFA; --new:#6C2EB9; --new-soft:#F3EDFB;
+    --green:#168821; --green-soft:#E3F5E6; --orange:#C25400; --orange-soft:#FFF4E8; --red:#E52207;
+    --ink:#16202E; --ink-2:#48566B; --ink-3:#71809A; --line:#DCE3ED; --soft:#F5F7FB;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:"Public Sans","Segoe UI",sans-serif; color:var(--ink); font-size:9.6pt; line-height:1.45}
+  h1,h2,h3,h4{font-family:"Raleway","Public Sans",sans-serif; margin:0; letter-spacing:-.01em; break-after:avoid}
+  h1{font-size:21pt; color:var(--blue-dark); line-height:1.15}
+  h2{font-size:14pt; color:var(--blue-dark); margin:0 0 2.5mm}
+  h3{font-size:11pt; margin:4mm 0 1.5mm}
+  p{margin:0 0 2mm}
+  ul,ol{margin:0 0 2mm; padding-left:5mm}
+  li{margin-bottom:.9mm}
+  b{font-weight:700}
+  .pb{break-before:page}
+  .muted{color:var(--ink-2)}
+  code,.k{font-family:Consolas,monospace; font-size:8.6pt; background:#EEF1F6; padding:.1mm 1.2mm; border-radius:.8mm; white-space:nowrap}
+
+  .topo{display:flex; justify-content:space-between; align-items:flex-start; gap:8mm; margin-bottom:4mm}
+  .tag{display:inline-block; background:var(--new); color:#fff; font-weight:700; font-size:7.6pt; letter-spacing:.08em; text-transform:uppercase; padding:.8mm 2.4mm; border-radius:1mm; margin-bottom:2.5mm}
+  .marca{font-family:Raleway; font-weight:800; letter-spacing:.08em; color:var(--blue-dark); font-size:11pt; white-space:nowrap}
+  .sub{font-size:10.5pt; color:var(--ink-2); margin-top:2mm}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:4mm}
+  .box{background:var(--soft); border:1px solid var(--line); border-radius:2mm; padding:3mm 4mm; break-inside:avoid; margin-bottom:3mm}
+  .box h3{margin-top:0}
+  .box.azul{background:var(--blue-soft); border-color:#C5D4EB}
+  .box.roxo{background:var(--new-soft); border-color:#D9C7F0}
+  .box.laranja{background:var(--orange-soft); border-color:#F2D3A8}
+  .box.verde{background:var(--green-soft); border-color:#BFE3C5}
+  .check li{list-style:none; margin-left:-5mm; padding-left:5.5mm; position:relative}
+  .check li::before{content:''; position:absolute; left:0; top:.9mm; width:3mm; height:3mm; border:1.2px solid var(--ink-3); border-radius:.6mm}
+
+  table{width:100%; border-collapse:collapse; font-size:8.8pt; margin:1mm 0 3mm}
+  th{text-align:left; color:var(--blue); font-weight:600; border-bottom:1.2px solid var(--line); padding:1.3mm 2mm}
+  td{border-bottom:1px solid #EDF1F7; padding:1.3mm 2mm; vertical-align:top}
+  tr{break-inside:avoid}
+  td.t{white-space:nowrap; font-variant-numeric:tabular-nums; color:var(--ink-2)}
+  tr.sec td{background:var(--soft); font-weight:700}
+  .p1 .box{font-size:8.7pt; line-height:1.38; padding:2.6mm 3.6mm} .p1 .box li{margin-bottom:.6mm}
+  .p1 table td,.p1 table th{padding:.85mm 2mm} .p1 h1{font-size:19pt}
+
+  /* passo */
+  .passo{border:1px solid var(--line); border-left:4px solid var(--blue); border-radius:2mm; padding:2.6mm 3.6mm 2mm; margin-bottom:3mm; break-inside:avoid}
+  .passo.pg{border-left-color:var(--new)}
+  .passo.cv{border-left-color:var(--green)}
+  .ph{display:flex; align-items:baseline; gap:3mm; margin-bottom:1.6mm}
+  .ph .id{font-family:Raleway; font-weight:800; color:var(--blue); font-size:11pt}
+  .passo.pg .ph .id{color:var(--new)} .passo.cv .ph .id{color:var(--green)}
+  .ph h3{margin:0; font-size:10.8pt}
+  .ph .tm{margin-left:auto; font-size:8.3pt; color:var(--ink-3); white-space:nowrap; font-variant-numeric:tabular-nums}
+  .cols{display:grid; grid-template-columns:1fr 1.05fr; gap:4mm}
+  .lbl{font-size:7.4pt; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); margin-bottom:.8mm}
+  .faca ol{padding-left:4.5mm}
+  .diga p{font-style:italic; color:var(--ink); border-left:2px solid var(--line); padding-left:2.5mm; margin-bottom:1.6mm}
+  .conf{font-size:8.4pt; color:var(--ink-2); background:var(--soft); border-radius:1.2mm; padding:1.2mm 2.2mm; margin-top:1.2mm}
+  .conf b{color:var(--ink)}
+  .perg{font-size:8.6pt; margin-top:1.2mm; color:var(--green)}
+  .perg b{color:var(--green)}
+  .btn{display:inline-block; font-weight:700; color:var(--blue-dark); background:#EAF0FA; border:1px solid #C5D4EB; border-radius:1mm; padding:0 1.4mm; font-size:8.5pt; white-space:nowrap}
+  .parte{display:flex; align-items:baseline; gap:3mm; border-bottom:2px solid var(--blue); padding-bottom:1.2mm; margin:3mm 0 3mm}
+  .parte.pg{border-bottom-color:var(--new)} .parte.cv{border-bottom-color:var(--green)}
+  .parte h2{margin:0}
+  .parte span{margin-left:auto; color:var(--ink-3); font-size:9pt}
+</style>
+</head>
+<body>
+
+<!-- ═════════ PÁGINA 1 — PREPARAÇÃO E AGENDA ═════════ -->
+<div class="p1">
+<div class="topo">
+  <div>
+    <span class="tag">Hands-on com o MEC · 40 minutos</span>
+    <h1>Roteiro de apresentação:<br>Processamentos e Painel de Gestão</h1>
+    <div class="sub">Passo a passo para conduzir a call compartilhando a tela: o que clicar, o que dizer, o que deve aparecer e o que perguntar.</div>
+  </div>
+  <div class="marca">PÉ·DE·MEIA</div>
+</div>
+
+<div class="grid2">
+  <div class="box azul">
+    <h3>Antes da call (10 minutos antes)</h3>
+    <ul class="check">
+      <li>Abrir <b>prototipo-portalpdm-gestao.pages.dev</b> e conferir no rodapé: <b>“Painel de Gestão: Revisão 2”</b>. Se aparecer Revisão 1, falta o deploy.</li>
+      <li>Na barra roxa do topo: <b>Roteiro A</b> selecionado (termo “processamento”) e <b>“Destacar o que é novo”</b> desligado.</li>
+      <li>Navegador em tela cheia, zoom 100% (110% se a tela do MEC for pequena). Fechar outras abas e silenciar notificações.</li>
+      <li>Compartilhar <b>só a aba do navegador</b>, não a tela inteira — este roteiro fica na outra tela.</li>
+      <li>Abrir o link de novo, sem nada depois do <code>.dev</code>, antes de começar: o protótipo volta ao estado inicial, no Painel de Gestão. Depois, clique em <span class="btn">Início</span>.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>Mensagens-chave (repita ao longo da call)</h3>
+    <ol>
+      <li><b>Dois perfis de uso:</b> o operacional consulta estudantes; o gerencial precisa comparar e decidir. O Painel de Gestão atende o segundo, sem mudar as telas do primeiro.</li>
+      <li><b>O tempo é o processamento:</b> cada processamento mostra o que mudou, para quais ciclos e quanto foi pago — e agora também quando vem o próximo.</li>
+      <li><b>Cada número leva aos estudantes:</b> do painel para a lista, da lista para o detalhe e a trajetória.</li>
+      <li><b>É protótipo:</b> dados ilustrativos (rede estadual da Bahia), IA simulada. O objetivo é ouvir.</li>
+    </ol>
+  </div>
+</div>
+
+<h3 style="margin-top:1mm">Agenda</h3>
+<table>
+  <thead><tr><th style="width:24mm">Tempo</th><th style="width:12mm">Passo</th><th>Tela e assunto</th><th style="width:20mm">Se atrasar</th></tr></thead>
+  <tbody>
+    <tr><td class="t">0:00 – 0:03</td><td>0</td><td><b>Abertura</b> — objetivo, combinados e o que é o protótipo</td><td></td></tr>
+    <tr class="sec"><td colspan="4">Parte A · Processamentos — 14 min</td></tr>
+    <tr><td class="t">0:03 – 0:06</td><td>A1</td><td><b>Início</b> — aviso reescrito, último processamento no topo, aviso de ciclos anteriores</td><td></td></tr>
+    <tr><td class="t">0:06 – 0:09</td><td>A2</td><td><b>Processamentos</b> — calendário (aberto e próximos) e concluídos</td><td></td></tr>
+    <tr><td class="t">0:09 – 0:12</td><td>A3</td><td><b>Detalhe do processamento de 26/08</b> — o que mudou por ciclo e quem foi afetado</td><td></td></tr>
+    <tr><td class="t">0:12 – 0:14</td><td>A4</td><td><b>Comparar processamentos</b> — 24/07 × 26/08</td><td>pular</td></tr>
+    <tr><td class="t">0:14 – 0:17</td><td>A5</td><td><b>Pagamento</b> — aguardando pagamento e a trajetória do estudante</td><td>só 1º trecho</td></tr>
+    <tr class="sec"><td colspan="4">Parte B · Painel de Gestão — 16 min</td></tr>
+    <tr><td class="t">0:17 – 0:19</td><td>B1</td><td><b>Visão geral</b> — filtros, recorte e os cinco indicadores</td><td></td></tr>
+    <tr><td class="t">0:19 – 0:22</td><td>B2</td><td><b>Insights gerados por IA</b> (simulação)</td><td></td></tr>
+    <tr><td class="t">0:22 – 0:26</td><td>B3</td><td><b>Aba Elegibilidade</b> — gráficos com rótulos e motivos de inelegibilidade até o estudante</td><td></td></tr>
+    <tr><td class="t">0:26 – 0:28</td><td>B4</td><td><b>Abas Pagamento e Ciclos</b></td><td>pular</td></tr>
+    <tr><td class="t">0:28 – 0:31</td><td>B5</td><td><b>Aba Municípios</b> — ranking e filtro por município</td><td></td></tr>
+    <tr><td class="t">0:31 – 0:33</td><td>B6</td><td><b>Processamento de referência</b> — “como estava em 24/07”</td><td>pular</td></tr>
+    <tr class="sec"><td colspan="4">Parte C · Conversa — 7 min</td></tr>
+    <tr><td class="t">0:33 – 0:38</td><td>C1</td><td><b>Perguntas de validação</b> (escolha 4 ou 5 da lista)</td><td>3 perguntas</td></tr>
+    <tr><td class="t">0:38 – 0:40</td><td>C2</td><td><b>Encerramento</b> e próximos passos</td><td></td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ═════════ ABERTURA E PARTE A ═════════ -->
+<section class="pb">
+<div class="passo cv">
+  <div class="ph"><span class="id">0</span><h3>Abertura</h3><span class="tm">0:00 – 0:03 · 3 min</span></div>
+  <div class="cols">
+    <div class="faca"><div class="lbl">Faça</div><ol>
+      <li>Comece com a tela compartilhada já no <b>Início</b> (menu <span class="btn">Início</span>).</li>
+      <li>Mostre a barra roxa do topo: “Protótipo · dados ilustrativos · não é o portal oficial”.</li>
+      <li>Combine: pode interromper a qualquer momento; os últimos 7 minutos são para ouvir.</li>
+    </ol></div>
+    <div class="diga"><div class="lbl">Diga</div>
+      <p>“Hoje quero mostrar duas coisas: o recurso de processamentos, que já passou por entrevistas com as redes e foi ajustado, e uma proposta nova, o Painel de Gestão.”</p>
+      <p>“Os números são ilustrativos, montados sobre a rede estadual da Bahia. O que eu quero de vocês é a leitura: o que faz sentido, o que confunde, o que falta.”</p>
+    </div>
+  </div>
+</div>
+
+<div class="parte"><h2>Parte A · Processamentos</h2><span>0:03 – 0:17 · 14 min</span></div>
+
+<div class="passo">
+  <div class="ph"><span class="id">A1</span><h3>Início: o último processamento em primeiro lugar</h3><span class="tm">0:03 – 0:06 · 3 min</span></div>
+  <div class="cols">
+    <div class="faca"><div class="lbl">Faça</div><ol>
+      <li>Leia o <b>aviso</b> logo abaixo dos filtros.</li>
+      <li>Aponte o card <b>Último processamento — 26/08/2026</b>: ciclos afetados 2026, 2025 e 2024.</li>
+      <li>Passe o mouse no <span class="btn">i</span> de “Matrículas processadas”.</li>
+      <li>No aviso laranja, abra <span class="btn">Por que isso acontece?</span></li>
+    </ol>
+    <div class="conf">Na tela: <b>1.319.109</b> matrículas processadas · <b>7.219</b> com situação alterada · <b>227.942</b> parcelas · <b>R$ 50.819.600,00</b>.</div></div>
+    <div class="diga"><div class="lbl">Diga</div>
+      <p>“O aviso antigo dizia ‘os últimos dados são de junho’, e operadores entenderam que o último processamento foi em junho. Agora ele separa as duas coisas: o processamento foi em 26/08 e apurou a frequência de junho. E já diz o próximo.”</p>
+      <p>“Processadas são todas as matrículas reavaliadas; alteradas são as que mudaram de situação — 7.219 de 1,3 milhão.”</p>
+      <p>“Este processamento mexeu em 2024 e 2025, ciclos que já tinham terminado. O aviso explica por quê.”</p>
+    </div>
+  </div>
+  <div class="perg"><b>Pergunte:</b> o texto do “Por que isso acontece?” está correto do ponto de vista do MEC?</div>
+</div>
+
+<div class="passo">
+  <div class="ph"><span class="id">A2</span><h3>Processamentos: a agenda da rede</h3><span class="tm">0:06 – 0:09 · 3 min</span></div>
+  <div class="cols">
+    <div class="faca"><div class="lbl">Faça</div><ol>
+      <li>No aviso do Início, clique em <span class="btn">Ver o calendário</span> (ou menu <span class="btn">Processamentos</span>).</li>
+      <li>Mostre <b>Próximos processamentos</b>: 24/09 em verde, “Aberto para envio de dados”; 27/10, 25/11 e 17/12 em cinza, “Fechado”.</li>
+      <li>Leia o que cada um recebe: “Frequência de julho (6ª parcela) · envio de 01/09 a 15/09/2026”.</li>
+      <li>Desça até <b>Processamentos concluídos</b>: cada um diz a frequência que apurou; 26/08 e 24/07 têm a etiqueta “! inclui ciclos anteriores”.</li>
+    </ol>
+    <div class="conf">Na tela: <b>6 processamentos concluídos · 4 previstos</b>.</div></div>
+    <div class="diga"><div class="lbl">Diga</div>
+      <p>“Essa foi uma sugestão de um operador: ver também o processamento aberto e os próximos, com os meses de dados de cada um. Com isso a rede monta a agenda de envio.”</p>
+      <p>“As datas aqui são ilustrativas — no produto viriam do calendário operacional da portaria.”</p>
+    </div>
+  </div>
+  <div class="perg"><b>Pergunte:</b> o que mais deveria aparecer no calendário? Prazo de correção, situação do envio da própria rede?</div>
+</div>
+
+<div class="passo">
+  <div class="ph"><span class="id">A3</span><h3>Detalhe do processamento de 26/08: quem foi afetado</h3><span class="tm">0:09 – 0:12 · 3 min</span></div>
+  <div class="cols">
+    <div class="faca"><div class="lbl">Faça</div><ol>
+      <li>Clique no card <b>26/08/2026</b> (o primeiro dos concluídos).</li>
+      <li>Mostre a tabela <b>“O que foi processado, por ciclo”</b> e as colunas <b>↳ passaram a ser elegíveis</b> e <b>↳ deixaram de ser elegíveis</b>.</li>
+      <li>Na linha do ciclo <b>2024</b>, clique em <span class="btn">Ver as 3.417 alteradas</span>.</li>
+      <li>Na lista, mostre a etiqueta “Só com situação alterada neste processamento” e a coluna <b>“Antes deste processamento”</b>.</li>
+    </ol>
+    <div class="conf">Na tela: ciclo 2026 <b>2.518</b> alteradas (2.145 / 373) · 2025 <b>1.284</b> · 2024 <b>3.417</b> (todas passaram a ser elegíveis). A lista abre com <b>3.417 matrículas</b>, exibindo 5 de exemplo.</div></div>
+    <div class="diga"><div class="lbl">Diga</div>
+      <p>“Nas entrevistas, três das cinco redes pediram para ver quem foi afetado. Agora o número leva à lista, já filtrada, com a situação de antes.”</p>
+      <p>“O protótipo mostra poucos estudantes de exemplo, mas o total do cabeçalho é o do recorte.”</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo">
+  <div class="ph"><span class="id">A4</span><h3>Comparar processamentos</h3><span class="tm">0:12 – 0:14 · 2 min · pular se atrasar</span></div>
+  <div class="cols">
+    <div class="faca"><div class="lbl">Faça</div><ol>
+      <li>Menu <span class="btn">Processamentos</span> → chamado roxo <span class="btn">Comparar processamentos →</span> (ou a aba com o selo “NOVO”).</li>
+      <li>Deixe A = <b>24/07/2026</b> e B = <b>26/08/2026</b> e leia a coluna Variação.</li>
+    </ol>
+    <div class="conf">Na tela: ciclos afetados 2 → 3 · matrículas com situação alterada 2.752 → <b>7.219</b> · parcelas 215.046 → 227.942 (<b>+12.896</b>) · valor <b>+R$ 7.810.400,00</b>.</div></div>
+    <div class="diga"><div class="lbl">Diga</div>
+      <p>“A comparação já existia, mas estava escondida numa aba; o pedido foi dar destaque. Agora tem um chamado no topo e o selo na aba.”</p>
+      <p>“Só dá para comparar um processamento com outro posterior a ele.”</p>
+    </div>
+  </div>
+  <div class="perg"><b>Pergunte:</b> que indicador faz falta nessa comparação?</div>
+</div>
+
+<div class="passo">
+  <div class="ph"><span class="id">A5</span><h3>Pagamento: aguardando pagamento e a trajetória do estudante</h3><span class="tm">0:14 – 0:17 · 3 min</span></div>
+  <div class="cols">
+    <div class="faca"><div class="lbl">Faça</div><ol>
+      <li>Menu <span class="btn">Pagamento</span>. No filtro <b>Processamento</b>, escolha <b>26/08/2026</b> — o ciclo muda sozinho para todos os ciclos do processamento.</li>
+      <li>Leia a instrução acima do painel e clique na linha <b>Aguardando Pagamento</b> (grupo laranja “Em andamento”).</li>
+      <li>Mostre o total no cabeçalho da lista e as etiquetas de filtros em uso.</li>
+      <li><i>Segundo trecho:</i> menu <span class="btn">Pagamento</span> de novo (limpa os filtros) → Ciclo <b>Todos os ciclos</b> → busque o CPF <span class="k">123.456.789-01</span>.</li>
+      <li>No 👁 da linha <b>Frequência · 4ª parcela</b>, mostre a parcela selecionada no topo e a trajetória, do processamento mais recente para o mais antigo.</li>
+    </ol>
+    <div class="conf">Na tela: <b>227.942</b> parcelas → <b>56.074</b> aguardando pagamento (exibindo 14). No detalhe: em 26/08/2026, ciclo 2024, <b>Não elegível → Elegível</b>, duas parcelas pagas em 27/08.</div></div>
+    <div class="diga"><div class="lbl">Diga</div>
+      <p>“Essa foi a tarefa que mais falhou nas entrevistas — 1 de 5 acertou. Os motivos: o ciclo ficava preso em 2026 e o total se confundia com a paginação. Agora o ciclo acompanha o processamento e o total fica em destaque.”</p>
+      <p>“As cores das situações agora significam algo: verde chegou ao estudante, laranja ainda vai ser pago, vermelho precisa de ação.”</p>
+      <p>“A trajetória responde ‘quando e por que a situação desse estudante mudou’, que foi a pergunta com maior nota de utilidade.”</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═════════ PARTE B ═════════ -->
+<section class="pb">
+<div class="parte pg"><h2>Parte B · Painel de Gestão</h2><span>0:17 – 0:33 · 16 min</span></div>
+
+<div class="passo pg">
+  <div class="ph"><span class="id">B1</span><h3>Visão geral: filtros, recorte e indicadores</h3><span class="tm">0:17 – 0:19 · 2 min</span></div>
+  <div class="cols">
+    <div class="faca"><div class="lbl">Faça</div><ol>
+      <li>Menu <span class="btn">Painel de Gestão</span>.</li>
+      <li>Mostre os filtros numa linha: Processamento, Ciclo, Modalidade (Visão geral / EMR / EJA) e Município (12 maiores + demais).</li>
+      <li>Leia a linha cinza do recorte e a frase acima dos cartões: “Indicadores do ciclo 2026, até o processamento de 26/08/2026”.</li>
+      <li>Percorra os cinco cartões.</li>
+    </ol>
+    <div class="conf">Na tela: <b>445.793</b> matrículas · <b>76,6%</b> elegíveis (+0,4 p.p.) · <b>91,6%</b> frequência ≥ 80% (junho, +1,5 p.p.) · <b>212.004</b> parcelas no processamento · <b>R$ 279,3 mi</b> liberados no ciclo, em 6 processamentos.</div></div>
+    <div class="diga"><div class="lbl">Diga</div>
+      <p>“O painel não substitui nenhuma tela: ele responde perguntas de gestão — está melhorando? onde está piorando? quanto foi pago e para quais ciclos?”</p>
+      <p>“Todos os cartões são do mesmo recorte, dito uma vez em cima. Tiramos as linhas de tendência dos cartões, que confundiam.”</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo pg">
+  <div class="ph"><span class="id">B2</span><h3>Insights gerados por IA (simulação)</h3><span class="tm">0:19 – 0:22 · 3 min</span></div>
+  <div class="cols">
+    <div class="faca"><div class="lbl">Faça</div><ol>
+      <li>Mostre o selo <b>“✦ Gerado por IA”</b> e os dois primeiros cartões: Juazeiro (Alerta) e Jequié (Atenção).</li>
+      <li>No cartão de Juazeiro, abra <span class="btn">Como este insight foi gerado</span>.</li>
+      <li>Use a seta <span class="btn">›</span> para ver os outros três; clique em 👍 em um deles.</li>
+      <li>Clique em <span class="btn">↻ Gerar novamente</span> para mostrar a geração.</li>
+    </ol>
+    <div class="conf">Insights: <b>Juazeiro</b> com frequência em queda há 4 processamentos · <b>Jequié</b> com não informada 6× acima da média · 26/08 pagou também 2025 e 2024 · 26/08 liberou R$ 7,8 mi a mais que 24/07 · elegibilidade subiu 2,7 p.p.</div></div>
+    <div class="diga"><div class="lbl">Diga</div>
+      <p>“A ideia é entregar a leitura pronta. Cada insight mostra os números e a regra que o geraram, para o gestor conferir, e tem um botão que leva ao lugar certo.”</p>
+      <p>“No protótipo, a ‘IA’ é simulada: são regras fixas sobre os números do recorte. O rodapé pede para revisar antes de usar.”</p>
+    </div>
+  </div>
+  <div class="perg"><b>Pergunte:</b> você confiaria num insight assim? O que precisaria ver para usar num relatório?</div>
+</div>
+
+<div class="passo pg">
+  <div class="ph"><span class="id">B3</span><h3>Aba Elegibilidade: gráficos com rótulos e motivos até o estudante</h3><span class="tm">0:22 – 0:26 · 4 min</span></div>
+  <div class="cols">
+    <div class="faca"><div class="lbl">Faça</div><ol>
+      <li>Na aba <b>Elegibilidade</b> (já aberta), mostre os valores escritos nos gráficos e passe o mouse numa barra.</li>
+      <li>Desça até <b>Estudantes por motivo</b>: Não elegível (104.328) e Elegibilidade indefinida (66).</li>
+      <li>Na linha <b>Nome divergente do CadÚnico</b>, clique em <span class="btn">Ver estudantes →</span>.</li>
+      <li>Na lista, mostre as etiquetas Situação e Motivo e o total; abra o 👁 do <b>Estudante 4096737367</b>.</li>
+      <li>Volte pelo menu <span class="btn">Painel de Gestão</span>.</li>
+    </ol>
+    <div class="conf">Na tela: CadÚnico não encontrado/desatualizado <b>59,2%</b> · renda <b>20,1%</b> · idade <b>12,2%</b> · nome divergente do CadÚnico <b>87,9% (58)</b>. A lista abre com <b>58 matrículas</b>; o detalhe mostra status 200 e o critério TCI 1206 com o texto oficial.</div></div>
+    <div class="diga"><div class="lbl">Diga</div>
+      <p>“Os gráficos agora têm os valores escritos: a rede pode tirar um print e usar numa apresentação.”</p>
+      <p>“Os motivos seguem a documentação de elegibilidade — critérios e status, com os mesmos textos que o Portal mostra. Só os motivos com estudante de exemplo têm o ‘Ver estudantes’.”</p>
+    </div>
+  </div>
+  <div class="perg"><b>Pergunte:</b> essa distribuição conversa com o que vocês veem no Monitor? O agrupamento faz sentido?</div>
+</div>
+
+<div class="passo pg">
+  <div class="ph"><span class="id">B4</span><h3>Abas Pagamento e Ciclos</h3><span class="tm">0:26 – 0:28 · 2 min · pular se atrasar</span></div>
+  <div class="cols">
+    <div class="faca"><div class="lbl">Faça</div><ol>
+      <li>Aba <b>Pagamento</b>: parcelas por incentivo e valor liberado do ciclo, processamento a processamento.</li>
+      <li>Aba <b>Ciclos</b>: na barra de 26/08, mostre as três cores (2026, 2025, 2024) e o gráfico acumulado.</li>
+    </ol>
+    <div class="conf">Na tela: 26/08 liberou <b>R$ 50,8 mi</b>, dos quais R$ 42,4 mi para o ciclo 2026; acumulado do ciclo 2026 em 2026: <b>R$ 279,3 mi</b>.</div></div>
+    <div class="diga"><div class="lbl">Diga</div>
+      <p>“A aba Ciclos mostra uma coisa que as telas de consulta escondem: um mesmo processamento pagando três ciclos ao mesmo tempo.”</p>
+    </div>
+  </div>
+</div>
+
+<div class="passo pg">
+  <div class="ph"><span class="id">B5</span><h3>Aba Municípios: onde agir</h3><span class="tm">0:28 – 0:31 · 3 min</span></div>
+  <div class="cols">
+    <div class="faca"><div class="lbl">Faça</div><ol>
+      <li>Aba <b>Municípios</b>, ordenado por “Maior queda de frequência”.</li>
+      <li>Aponte <b>Juazeiro</b> (▼ queda) e <b>Jequié</b> (● não informada); troque a ordem para <b>Maior frequência não informada</b>.</li>
+      <li>Na linha de Juazeiro, clique em <span class="btn">Filtrar</span>: o painel inteiro passa a ser de Juazeiro e abre na aba Frequência.</li>
+      <li>Na linha cinza do recorte, clique em <span class="btn">limpar município</span>.</li>
+    </ol>
+    <div class="conf">Na tela: Juazeiro <b>82,6%</b> com frequência ≥ 80% (−1,3 p.p.) · Jequié com <b>1,5%</b> não informada, contra 0,2% na rede.</div></div>
+    <div class="diga"><div class="lbl">Diga</div>
+      <p>“Daqui a rede vê onde agir: Juazeiro caindo há quatro processamentos; em Jequié, o padrão sugere falha no envio de dados pelas escolas, não ausência dos estudantes.”</p>
+    </div>
+  </div>
+  <div class="perg"><b>Pergunte:</b> município é o recorte certo para a rede estadual, ou seria regional / núcleo de ensino ou escola?</div>
+</div>
+
+<div class="passo pg">
+  <div class="ph"><span class="id">B6</span><h3>Processamento de referência: “como estava em 24/07”</h3><span class="tm">0:31 – 0:33 · 2 min · pular se atrasar</span></div>
+  <div class="cols">
+    <div class="faca"><div class="lbl">Faça</div><ol>
+      <li>No filtro <b>Processamento</b> do painel, escolha <b>24/07/2026</b>.</li>
+      <li>Mostre os cartões, o ciclo oferecendo só 2026 e 2025, e o primeiro insight.</li>
+      <li>Clique em <span class="btn">voltar ao mais recente</span>.</li>
+    </ol>
+    <div class="conf">Na tela: <b>76,2%</b> elegíveis · <b>90,1%</b> frequência (maio) · R$ 236,9 mi acumulado · Juazeiro “em queda há <b>3</b> processamentos”.</div></div>
+    <div class="diga"><div class="lbl">Diga</div>
+      <p>“Escolher um processamento não esconde a série: os gráficos continuam inteiros e a coluna escolhida fica destacada. Cartões e insights mostram o que se sabia naquela data.”</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═════════ PARTE C ═════════ -->
+<section class="pb">
+<div class="parte cv"><h2>Parte C · Conversa</h2><span>0:33 – 0:40 · 7 min</span></div>
+
+<div class="passo cv">
+  <div class="ph"><span class="id">C1</span><h3>Perguntas de validação — escolha 4 ou 5</h3><span class="tm">0:33 – 0:38 · 5 min</span></div>
+  <ol>
+    <li><b>Uso:</b> quem na rede usaria o Painel de Gestão — o coordenador, o técnico do programa, o secretário? Com que frequência?</li>
+    <li><b>Indicadores:</b> se pudesse ficar com três indicadores na tela, quais seriam? Algum dos cinco cartões sobra?</li>
+    <li><b>Processamentos:</b> o aviso do Início e o calendário deixam claro “quando foi” e “quando vem”? O que falta na agenda?</li>
+    <li><b>Motivos:</b> os motivos e o agrupamento batem com o que o MEC acompanha? Algum motivo deveria ganhar destaque?</li>
+    <li><b>Insights:</b> que tipo de alerta seria mais útil para a rede? E para o MEC acompanhar as redes?</li>
+    <li><b>Recortes:</b> município, modalidade, ciclo — falta algum (regional, escola, série)?</li>
+    <li><b>Exportação:</b> o que precisa vir na planilha para cruzar com os painéis próprios da rede?</li>
+    <li><b>Prioridade:</b> do que viu hoje, o que entregaria primeiro?</li>
+  </ol>
+  <p class="muted">Anote as respostas com as palavras da pessoa. Se ela citar uma tela, peça para mostrar onde clicaria.</p>
+</div>
+
+<div class="passo cv">
+  <div class="ph"><span class="id">C2</span><h3>Encerramento</h3><span class="tm">0:38 – 0:40 · 2 min</span></div>
+  <div class="diga">
+    <p>“Obrigado. Vou consolidar o que ouvimos hoje junto com as entrevistas das redes. O link fica disponível para vocês explorarem com calma — e qualquer comentário depois é bem-vindo.”</p>
+  </div>
+  <p>Combine: <b>quem mais</b> do MEC deveria ver, <b>prazo</b> para retorno e se vale uma segunda rodada com o painel ajustado.</p>
+</div>
+
+<div class="grid2">
+  <div class="box laranja">
+    <h3>Perguntas difíceis — respostas curtas</h3>
+    <ul>
+      <li><b>“Esses números são reais?”</b> Não. São ilustrativos, montados sobre a rede da Bahia, mas os totais fecham entre as telas.</li>
+      <li><b>“A IA é de verdade?”</b> No protótipo, não: são regras fixas. Num produto, o texto seria gerado, mas sempre com os números e a regra à vista e com revisão do gestor.</li>
+      <li><b>“A lista mostra 2 estudantes e o painel 9 mil.”</b> A lista do protótipo tem poucos estudantes de exemplo; o total do cabeçalho é o do recorte.</li>
+      <li><b>“Por que não compara EMR e EJA?”</b> Saiu a pedido do MEC: são modalidades diferentes. O filtro de modalidade continua.</li>
+      <li><b>“Essas datas do calendário estão certas?”</b> São ilustrativas; viriam do calendário operacional da Portaria nº 169/2026.</li>
+      <li><b>“Por que alguns motivos não abrem a lista?”</b> Só os que têm estudante de exemplo no protótipo, para não abrir uma lista vazia.</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>Se algo der errado</h3>
+    <ul>
+      <li><b>Tela com filtro “preso”:</b> clique no item do menu (limpa os filtros) ou em <b>Limpar filtros</b>.</li>
+      <li><b>Algo estranho na tela:</b> <span class="k">F5</span> recarrega a mesma tela sem os filtros; abrir o link sem nada depois do <code>.dev</code> volta ao Painel de Gestão.</li>
+      <li><b>Abriu um 👁 sem querer:</b> × no canto ou clique fora da janela.</li>
+      <li><b>Apareceu “janela de processamento”:</b> a chave do topo está em Roteiro B — volte para <b>A</b>.</li>
+      <li><b>Link fora do ar:</b> use o PDF da síntese em <code>entregaveis/</code>, que tem as telas.</li>
+    </ul>
+    <h3>Se sobrar tempo</h3>
+    <ul>
+      <li>Elegibilidade → busca <span class="k">7927194069</span> → 👁: não elegível com <b>dois critérios</b> (renda e nome na Receita) e a trajetória.</li>
+      <li>Ligar <b>“Destacar o que é novo”</b> no topo e percorrer uma tela.</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+</body>
+</html>
