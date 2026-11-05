@@ -1812,7 +1812,9 @@ const GRUPO_MOT = {
   nao:{sit:'Não elegível', cor:'#48566B', ico:'✕', desc:'não atendem a um ou mais requisitos'},
   indef:{sit:'Elegibilidade indefinida', cor:'#C25400', ico:'?', desc:'dados a corrigir para concluir a avaliação'}
 };
-function painelMotivos(tot, base){
+/* Pedido do Pedro (05/11): o painel de motivos sai da lista de Elegibilidade e vai para a aba
+   Elegibilidade do Painel de Gestão. acao(k, G) devolve o onclick da linha, ou '' se ela não abre nada. */
+function painelMotivos(tot, acao, sub){
   const pc = (q, t) => t ? (q / t * 100).toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}) + '%' : '0,0%';
   const grupo = g => {
     const G = GRUPO_MOT[g], t = tot[g], its = qtdMotivos(g, t).sort((a, b) => b.q - a.q || MOTIVOS[b.k].p - MOTIVOS[a.k].p);
@@ -1820,21 +1822,19 @@ function painelMotivos(tot, base){
     return `<div class="sgrp" style="--gc:${G.cor}">
       <div class="sgh"><span class="sico">${G.ico}</span><b>${G.sit}</b><span class="sgd">${G.desc}</span><span class="sgq num">${N(t)}</span></div>
       ${t === 0 ? `<div class="szero">Nenhuma matrícula nesta situação no recorte.</div>` : com.map(i => {
-        const M = MOTIVOS[i.k], on = state.motF === i.k;
-        const filt = base.some(x => motPrincipal(x.a, x.ano) === i.k);
+        const M = MOTIVOS[i.k], js = acao(i.k, G);
         const corpo = `<span class="mnm">${M.nome}<small>${M.cod}</small></span>
           <span class="mtr"><span style="width:${(i.q / max * 100).toFixed(1)}%"></span></span>
           <span class="mp">${pc(i.q, t)}</span><span class="mq">${N(i.q)}</span>`;
-        return filt ? `<button class="mrow ${on ? 'on' : ''}" aria-pressed="${on}" title="Ver a lista de estudantes com este motivo"
-            onclick="state.motF='${on ? '' : i.k}'; state.sitF='${on ? '' : G.sit}'; render(); rolarLista()">${corpo}</button>`
-          : `<div class="mrow" title="Sem estudantes deste motivo na amostra do protótipo">${corpo}</div>`;
+        return js ? `<button class="mrow" title="Abrir a lista de estudantes com este motivo" onclick="${js}">${corpo}</button>`
+          : `<div class="mrow">${corpo}</div>`;
       }).join('')}
       ${sem.length && t ? `<div class="szero">Sem estudantes: ${sem.map(i => MOTIVOS[i.k].nome).join(', ')}</div>` : ''}
     </div>`;
   };
   return `<div class="mpanel" data-new="motivos por situação">
     <div class="mph"><h3>Estudantes por motivo</h3>
-      <span>percentual sobre o total de cada situação, no recorte selecionado</span></div>
+      <span>${sub || 'percentual sobre o total de cada situação, no recorte selecionado'}</span></div>
     <div class="mgrps">${grupo('nao')}${grupo('indef')}</div>
     <div class="mnote">Uma matrícula pode ter mais de um critério; aqui ela conta pelo principal. Os demais aparecem no detalhe do estudante (👁).</div>
   </div>`;
@@ -1910,8 +1910,6 @@ function telaElegibilidade(){
       ${kpiF('Não elegível', r.nao, 'var(--ink)', 'Matrículas que não atendem às condições.', 'Não elegível')}
     </div>
 
-    <p class="kdica" data-new="instrução padronizada" style="margin-top:18px">Clique em um motivo para ver a lista de estudantes referente a ele.</p>
-    ${painelMotivos(totMot, base)}
 
     ${listHead('Matrículas', total, total === 1 ? 'matrícula' : 'matrículas', pagina.length, sub)}
     ${searchbar(PH_BUSCA)}
@@ -2934,6 +2932,23 @@ function gExport(nome){
 const irTela = (rota, ciclo, extra) => `irCom('#/${rota}', {ciclo:'${ciclo}', janela:'${state.gProc}'${extra ? ', ' + extra : ''}})`;
 const semDelta = '<span class="delta flat">—</span>';
 
+/* Motivos no recorte do painel (ciclo, modalidade, município, processamento de referência).
+   A linha abre a lista de Elegibilidade já filtrada só quando os números são os mesmos dela:
+   visão geral, rede inteira e o processamento mais recente do ciclo (a lista não recorta por
+   modalidade nem volta no tempo) — e quando há estudante do motivo na amostra. */
+function gMotivos(ano, sel){
+  const ps = psC(ano), L = ps[ps.length - 1], mt = gMatr(ano, L, sel);
+  const mesmoDaLista = state.gMod === 'geral' && !state.gMun && ps.length === procsDoCiclo(ano).length;
+  const naAmostra = k => ALUNOS.some(a => motPrincipal(a, ano) === k);
+  const acao = (k, G) => mesmoDaLista && naAmostra(k)
+    ? `irCom('#/elegibilidade', {ciclo:'${ano}', sitF:'${G.sit}', motF:'${k}'})` : '';
+  return `
+    ${mesmoDaLista ? `<p class="kdica" data-new="instrução padronizada">Clique em um motivo para ver a lista de estudantes referente a ele.</p>`
+      : `<p class="gctx" style="margin:0 2px 8px">Para abrir a lista de estudantes por motivo, use a visão geral, toda a rede e ${tv('o processamento mais recente', 'a janela de processamento mais recente')}.</p>`}
+    ${painelMotivos({nao:mt.nao, indef:mt.indef}, acao,
+      `percentual sobre o total de cada situação · ciclo ${ano}, ${tv('no processamento de', 'na janela de processamento de')} ${PROCS[L].rotulo}`)}
+    <div style="height:16px"></div>`;
+}
 function gAbaElegibilidade(){
   const ano = +state.gCiclo, sel = gSel(), ps = procsDoCiclo(ano), di = destDe(ps);
   const m = ps.map(pi => gMatr(ano, pi, sel)), cats = catsDe(ps);
@@ -2952,6 +2967,7 @@ function gAbaElegibilidade(){
         legenda([{nome:'% elegível', cor:COR_SIT.eleg}]) + gChart({tipo:'linhas', cats, fmt:'pct', dest:di,
           series:[{nome:'% elegível', cor:COR_SIT.eleg, v:m.map(x => x.pct)}], aria:'Percentual de elegíveis por ' + tp()}))}
     </div>
+    ${gMotivos(ano, sel)}
     <div class="gbar"><h3>Tabela comparativa — Elegibilidade</h3>
       <span class="act">
         <button class="btn new sm" data-new="atalho novo" onclick="irCom('#/elegibilidade', {janela:'${PROCS[gRefPi()].id}', ciclo:'${ano}', altF:true})">Ver as matrículas alteradas em ${refRot()} →</button>

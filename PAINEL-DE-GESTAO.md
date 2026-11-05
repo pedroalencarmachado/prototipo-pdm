@@ -275,3 +275,9 @@ mantidas como na wiki, também na versão A.
 mostra o painel atual (sem a aba EMR × EJA); a Parte 2 continua com as telas da Revisão 1, que é o "depois" das
 entrevistas. Para isso, `sintese/capturar-prints.mjs` lê a Revisão 1 do histórico do git (commit `98c3e11`) e recarrega
 a página a cada captura.
+
+**05/11/2026 — painel de motivos mudou de lugar:** saiu da lista de Status de Elegibilidade e foi para a aba
+**Elegibilidade do Painel de Gestão**, entre os gráficos e a tabela comparativa (`gMotivos`). Segue o recorte do painel
+(ciclo, modalidade, município e processamento de referência). A linha abre a lista já filtrada pelo motivo só quando
+os números são os mesmos da lista — visão geral, rede inteira e processamento mais recente do ciclo — e há estudante do
+motivo na amostra; nos outros recortes, uma nota diz como chegar à lista. O filtro "Motivo" da lista continua.
