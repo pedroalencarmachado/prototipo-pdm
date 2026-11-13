@@ -265,6 +265,38 @@ td.r,th.r{text-align:right}
 .bar{height:5px; border-radius:99px; background:var(--line-2); overflow:hidden; margin-top:7px}
 .bar span{display:block; height:100%; background:var(--blue); border-radius:99px}
 .window-card.hot .bar span{background:var(--new)}
+.wc-date .day::first-letter{text-transform:uppercase}
+/* calendário: aberto (verde) e próximos (cinza, sem clique) */
+.cal-h{display:flex; align-items:baseline; gap:10px; margin:4px 0 10px; font-size:15px; font-weight:700}
+.cal-h span{font-size:12.5px; font-weight:400; color:var(--ink-3)}
+.window-card.fut{cursor:default; background:var(--surface-2); border-style:dashed; border-left:4px solid #C8D0DB; padding:12px 20px; color:var(--ink-3); grid-template-columns:200px 1fr}
+.window-card.fut:hover{box-shadow:none; border-color:var(--line); border-left-color:#C8D0DB}
+.window-card.fut .day{font-size:17px; color:var(--ink-2)}
+.window-card.aberta{background:#F3FAF4; border-style:solid; border-left-color:var(--green); color:var(--ink)}
+.window-card.aberta:hover{border-color:var(--line); border-left-color:var(--green)}
+.window-card.aberta .day{color:var(--ink)}
+.stj{display:inline-block; margin-top:5px; font-size:11px; font-weight:700; padding:1px 9px; border-radius:99px; background:#E4E8EE; color:var(--ink-2)}
+.stj.ab{background:var(--green); color:#fff}
+.wc-env b{color:var(--ink); font-weight:600}
+.wc-env{font-size:13px}
+/* link para o calendário operacional */
+.cal-link{display:flex; align-items:center; gap:10px; background:var(--blue-soft); border:1px solid var(--blue-line); border-radius:var(--radius); padding:10px 14px; margin-bottom:16px; font-size:13px; color:var(--ink-2)}
+.cal-link a{font-weight:600}
+/* "Comparar processamentos" em evidência */
+.tabs button.cmp-tab{color:var(--new); font-weight:600; display:inline-flex; align-items:center; gap:7px}
+.tabs button.cmp-tab .nv{background:var(--new); color:#fff; font-size:10px; font-weight:700; letter-spacing:.04em; padding:1px 7px; border-radius:99px; text-transform:uppercase}
+.tabs button.cmp-tab.on{border-bottom-color:var(--new); color:var(--new)}
+.cmp-cta{display:flex; align-items:center; gap:14px; background:var(--new-soft); border:1px solid var(--new-line); border-radius:var(--radius); padding:12px 16px; margin-bottom:18px}
+.cmp-cta .ic{width:34px; height:34px; border-radius:50%; background:var(--new); color:#fff; display:grid; place-items:center; font-size:17px; flex:none}
+.cmp-cta p{margin:0; font-size:13px; color:var(--ink-2)}
+.cmp-cta p b{color:var(--ink); display:block; font-size:14px}
+.cmp-cta .btn{margin-left:auto; flex:none}
+.cmp-sel{display:flex; align-items:stretch; gap:12px; flex-wrap:wrap; margin-bottom:18px}
+.cmp-sel .cmp-box{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:10px 14px; display:flex; flex-direction:column; gap:6px; min-width:230px}
+.cmp-sel .cmp-box label{font-size:12px; font-weight:700; color:var(--new); text-transform:uppercase; letter-spacing:.05em}
+.cmp-sel .cmp-box select{min-width:200px; font-weight:600; background:#fff}
+.cmp-sel .cmp-arrow{display:grid; place-items:center; color:var(--new); font-size:20px; font-weight:700}
+.cmp-sel .count{align-self:center}
 
 /* ─────────── detalhe da janela ─────────── */
 .win-head{background:var(--surface); border:1px solid var(--line); border-top:4px solid var(--new); border-radius:var(--radius); padding:22px 24px; margin-bottom:24px}
@@ -325,6 +357,76 @@ body.mark [data-new]::after{
   padding:1px 6px; border-radius:3px; white-space:nowrap; pointer-events:none;
 }
 
+/* ══════════════ REVISÃO 6 — ajustes da reunião com o MEC (13/11/2026) ══════════════ */
+/* lista em destaque, com o total do recorte em evidência */
+.lhead{display:flex; align-items:flex-end; gap:18px; flex-wrap:wrap; margin:26px 0 12px; padding-top:16px; border-top:2px solid var(--blue); scroll-margin-top:110px}
+.lhead h2{font-size:19px; font-weight:700}
+.lhead .lsub{color:var(--ink-2); font-size:13px; margin-top:2px}
+.lhead .ltot{margin-left:auto; font-size:13px; color:var(--ink-2); display:flex; align-items:baseline; gap:6px; flex-wrap:wrap}
+.lhead .ltot b{font-size:26px; color:var(--blue-dark); font-variant-numeric:tabular-nums}
+/* filtros em uso */
+.fchips{display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin:0 0 12px; font-size:12.5px}
+.fchips .flb{color:var(--ink-3)}
+.fchip{display:inline-flex; align-items:center; gap:4px; background:var(--blue-soft); color:var(--blue-dark); border:1px solid var(--blue-line); border-radius:99px; padding:3px 4px 3px 11px; font-weight:600}
+.fchip:not(:has(button)){padding-right:11px}
+.fchip button{border:0; background:none; color:var(--blue-dark); font-size:15px; line-height:1; width:20px; height:20px; border-radius:50%; padding:0}
+.fchip button:hover{background:#fff}
+.lnk2{border:0; background:none; color:var(--blue); font-weight:600; font-size:12.5px; text-decoration:underline; padding:3px 6px}
+.fcheck{display:inline-flex; align-items:center; gap:7px; font-size:13px; color:var(--ink-2); background:var(--new-soft); border:1px solid var(--new-line); border-radius:var(--radius); padding:6px 11px; cursor:pointer}
+/* ciclos anteriores e explicação dos termos */
+.aviso-ciclos{display:flex; gap:12px; align-items:flex-start; background:#FFF7EC; border:1px solid #F2D3A8; border-left:4px solid var(--orange); border-radius:var(--radius); padding:12px 16px; margin:12px 0 18px; font-size:13px; color:var(--ink-2)}
+.aviso-ciclos b{color:var(--ink)}
+.aviso-ciclos .ico{width:20px; height:20px; border-radius:50%; background:var(--orange); color:#fff; font-weight:700; font-size:12px; display:grid; place-items:center; flex:none; margin-top:1px}
+.aviso-ciclos details{margin-top:6px}
+.aviso-ciclos summary{cursor:pointer; color:var(--orange); font-weight:600; width:max-content}
+.aviso-ciclos details p{margin:6px 0 0; max-width:96ch}
+.explica{color:var(--ink-2); font-size:13px; margin:-4px 2px 12px; max-width:110ch}
+th.sub2{color:var(--ink-2) !important; font-weight:500 !important}
+table.tquebra th{white-space:normal; vertical-align:bottom; max-width:130px}
+.acoes-col{display:flex; flex-direction:column; gap:6px; align-items:flex-end}
+.acoes-col .btn{white-space:nowrap}
+td.r.num{white-space:nowrap}
+.wc-sub{color:var(--ink-2); font-size:12px; margin-top:2px}
+.wc-res .cap .info{display:inline-grid; vertical-align:-3px; margin-left:4px; text-transform:none}
+.tagant{display:inline-block; margin-top:7px; background:#FFF7EC; color:var(--orange); border:1px solid #F2D3A8; border-radius:99px; font-size:11px; font-weight:700; padding:1px 8px}
+.pos{color:var(--ink-3); font-size:12px; font-weight:400; font-family:var(--font-ui)}
+/* modalidade da matrícula na Visão geral */
+.pill.mod{background:#fff; color:var(--ink-2); border:1px solid var(--line)}
+/* informativo (i) com o motivo — aparece ao passar o mouse ou ao clicar */
+.itip{display:inline-grid; place-items:center; width:16px; height:16px; border-radius:50%; border:0; padding:0; margin-left:5px; vertical-align:-3px; background:var(--ink); color:#fff; font-size:10px; font-weight:700; font-family:var(--font-ui); cursor:help; flex:none}
+.itip:hover,.itip.on{background:var(--blue)}
+#tipbox{position:fixed; z-index:120; display:none; max-width:360px; background:var(--ink); color:#fff; border-radius:6px; padding:11px 13px; font-size:12px; line-height:1.5; box-shadow:0 10px 30px rgba(11,18,28,.3); pointer-events:none}
+#tipbox.on{display:block}
+#tipbox b{color:#fff}
+#tipbox .tt{font-weight:700; font-size:12.5px; margin-bottom:4px}
+#tipbox ul{margin:4px 0 0; padding-left:16px}
+#tipbox li{margin:2px 0}
+#tipbox .tc{color:#AEB9C9; font-size:11px}
+#tipbox p{margin:5px 0 0}
+.mot-l{color:var(--ink-2); font-size:11.5px; margin-top:3px; display:flex; align-items:center; gap:2px}
+/* detalhe do estudante: situação com o motivo, como no Portal */
+.sitbox{border:1px solid var(--line); border-radius:var(--radius); padding:12px 14px; margin-top:10px}
+.sitbox .sbt{display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:13px; font-weight:600}
+.sitbox .cod{color:var(--ink-3); font-size:11px; font-weight:400}
+.sitbox .sbd{color:var(--ink-2); font-size:12.5px; margin:8px 0 0}
+.sitbox .sbl{font-size:12.5px; font-weight:700; margin:12px 0 6px}
+.crit{display:flex; gap:10px; background:var(--surface-2); border-radius:var(--radius); padding:10px 12px; margin-top:6px}
+.crit .x{width:20px; height:20px; border-radius:50%; background:#FDE3E0; color:var(--red); display:grid; place-items:center; font-size:11px; font-weight:700; flex:none; box-shadow:0 0 0 3px #FBEDEB}
+.crit b{color:var(--red); font-size:13px}
+.crit .cod{color:var(--ink-3); font-size:11px}
+.crit p{margin:4px 0 0; font-size:12.5px; color:var(--ink-2)}
+/* frequência mensal no detalhe do estudante */
+.fmes{display:grid; grid-template-columns:repeat(5,1fr); gap:8px}
+.fmes div{border:1px solid var(--line-2); border-radius:var(--radius); padding:8px 10px; text-align:center}
+.fmes .m{color:var(--ink-3); font-size:11.5px; text-transform:capitalize}
+.fmes .p{font-weight:700; font-size:15px; font-variant-numeric:tabular-nums; margin-top:2px}
+.fmes .a{color:var(--ink-3); font-size:11px; margin-top:2px}
+.fmes .hi{background:#E8F6EA} .fmes .lo{background:#FCEBE8} .fmes .mid{background:#FBF3E4} .fmes .na{background:var(--surface-2); color:var(--ink-3)}
+.outras{display:flex; gap:8px; flex-wrap:wrap; margin-top:2px}
+.outras button{display:inline-flex; align-items:center; gap:7px; border:1px solid var(--line); background:var(--surface-2); border-radius:var(--radius); padding:6px 10px; font-size:12.5px}
+.outras button.on{border-color:var(--blue); background:var(--blue-soft); font-weight:600}
+.semfreq{background:var(--surface-2); border:1px dashed var(--line); border-radius:var(--radius); padding:12px 14px; color:var(--ink-2); font-size:12.5px; margin-top:8px}
+
 .foot{margin-top:44px; padding-top:18px; border-top:1px solid var(--line); color:var(--ink-3); font-size:12px; display:flex; gap:16px; flex-wrap:wrap}
 
 @media (max-width:1080px){
@@ -370,6 +472,7 @@ body.mark [data-new]::after{
 
 <main class="page" id="app"></main>
 <div id="modal"></div>
+<div id="tipbox" role="tooltip"></div>
 
 <script>
 /* ══════════════════════════════════════════════════════════════════
@@ -410,7 +513,7 @@ const clsC = a => a === 2026 ? 'c26' : a === 2025 ? 'c25' : 'c24';
 /* ── janelas de processamento ───────────────────────────────────── */
 const JANELAS = [
   {
-    id:'2026-08-26', rotulo:'26/08/2026', mes:'agosto de 2026',
+    id:'2026-08-26', rotulo:'agosto/2026', mes:'agosto de 2026',
     inicio:'24/08/2026 03:12', fim:'26/08/2026 07:48', status:'Concluída',
     ciclos:[
       {ano:2026, processadas:445793, alteradas:2518, paraElegivel:2145,
@@ -422,7 +525,7 @@ const JANELAS = [
     ]
   },
   {
-    id:'2026-07-24', rotulo:'24/07/2026', mes:'julho de 2026',
+    id:'2026-07-24', rotulo:'julho/2026', mes:'julho de 2026',
     inicio:'22/07/2026 03:10', fim:'24/07/2026 06:52', status:'Concluída',
     ciclos:[
       {ano:2026, processadas:445793, alteradas:2140, paraElegivel:1874,
@@ -432,7 +535,7 @@ const JANELAS = [
     ]
   },
   {
-    id:'2026-06-25', rotulo:'25/06/2026', mes:'junho de 2026',
+    id:'2026-06-25', rotulo:'junho/2026', mes:'junho de 2026',
     inicio:'23/06/2026 03:08', fim:'25/06/2026 06:31', status:'Concluída',
     ciclos:[
       {ano:2026, processadas:445793, alteradas:1813, paraElegivel:1602,
@@ -440,7 +543,7 @@ const JANELAS = [
     ]
   },
   {
-    id:'2026-05-26', rotulo:'26/05/2026', mes:'maio de 2026',
+    id:'2026-05-26', rotulo:'maio/2026', mes:'maio de 2026',
     inicio:'24/05/2026 03:05', fim:'26/05/2026 06:47', status:'Concluída',
     ciclos:[
       {ano:2026, processadas:445793, alteradas:2331, paraElegivel:2043,
@@ -448,7 +551,7 @@ const JANELAS = [
     ]
   },
   {
-    id:'2026-04-24', rotulo:'24/04/2026', mes:'abril de 2026',
+    id:'2026-04-24', rotulo:'abril/2026', mes:'abril de 2026',
     inicio:'22/04/2026 03:02', fim:'24/04/2026 07:19', status:'Concluída',
     ciclos:[
       {ano:2026, processadas:445793, alteradas:2932, paraElegivel:2588,
@@ -456,7 +559,7 @@ const JANELAS = [
     ]
   },
   {
-    id:'2026-03-25', rotulo:'25/03/2026', mes:'março de 2026',
+    id:'2026-03-25', rotulo:'março/2026', mes:'março de 2026',
     inicio:'23/03/2026 03:00', fim:'25/03/2026 08:04', status:'Concluída',
     ciclos:[
       {ano:2026, processadas:445793, alteradas:11075, paraElegivel:9871,
@@ -474,110 +577,339 @@ const valorJ = j => j.ciclos.reduce((s, c) => s + c.parcelas.reduce((a, p) => a 
 const parcelasC = c => c.parcelas.reduce((a, p) => a + p.qtd, 0);
 const valorC = c => c.parcelas.reduce((a, p) => a + p.valor, 0);
 
-/* ── retrato da rede por ciclo (as telas de lista seguem com as abas EMR/EJA) ── */
+/* reparte um total inteiro por pesos, fechando a soma exata (maior resto) */
+function aloca(total, pesos){
+  const s = pesos.reduce((a, b) => a + b, 0);
+  if (!s) return pesos.map(() => 0);
+  const bruto = pesos.map(p => total * p / s);
+  const base = bruto.map(Math.floor);
+  const resto = total - base.reduce((a, b) => a + b, 0);
+  bruto.map((v, i) => ({i, f:v - base[i]})).sort((a, b) => b.f - a.f).slice(0, resto).forEach(x => base[x.i]++);
+  return base;
+}
+
+/* ── próximos processamentos (calendário) ───────────────────────────
+   Sugestão de um operador, aplicada no Painel de Gestão e trazida para cá (MEC, 13/11):
+   o processamento com envio de dados aberto e os próximos, com a frequência que cada um
+   recebe. Datas ilustrativas, no ritmo do calendário operacional. */
+const FUTUROS = [
+  {rotulo:'setembro/2026', freq:'julho', parcela:'6ª parcela', envio:'01/09 a 15/09/2026', aberto:true},
+  {rotulo:'outubro/2026', freq:'agosto', parcela:'7ª parcela', envio:'01/10 a 15/10/2026'},
+  {rotulo:'novembro/2026', freq:'setembro', parcela:'8ª parcela', envio:'03/11 a 16/11/2026'},
+  {rotulo:'dezembro/2026', freq:'outubro', parcela:'9ª parcela', envio:'01/12 a 08/12/2026'}
+];
+
+/* ── frequência: o mês que cada processamento apura (o pagamento sai dois meses depois) ── */
+const MESES_F = ['fev', 'mar', 'abr', 'mai', 'jun'];
+const NOME_MES = {fev:'fevereiro', mar:'março', abr:'abril', mai:'maio', jun:'junho'};
+const APURA = {'2026-04-24':'fev', '2026-05-26':'mar', '2026-06-25':'abr', '2026-07-24':'mai', '2026-08-26':'jun'};
+const JAN_DO_MES = Object.fromEntries(Object.entries(APURA).map(([id, m]) => [m, id]));
+/* meses de frequência já apurados até um processamento (sem processamento: todos) */
+const mesesAte = jid => MESES_F.filter(m => !jid || JAN_DO_MES[m] <= jid);
+
+/* ── modalidade: Visão geral (EMR + EJA), Ensino Médio Regular, EJA ──
+   Pedido do MEC (13/11): a aba "Visão geral" soma EMR e EJA em todas as telas.
+   Os totais da base são da rede inteira; a parte de cada modalidade é derivada
+   com pesos fixos e fecha a soma exata (EMR + EJA = Visão geral). */
+const MODS = [
+  {id:'geral', nome:'Visão geral'},
+  {id:'EMR', nome:'Ensino Médio Regular'},
+  {id:'EJA', nome:'Educação de Jovens e Adultos (EJA)'}
+];
+const PART_EMR = {rede:.918, eleg:.925, pend:.9, indef:.86, alt:.9, parc:.93, abaixo:.82, ni:.85};
+function emMod(x, met, mod){
+  mod = mod || state.mod;
+  if (mod === 'geral' || !x) return x;
+  const e = Math.round(x * PART_EMR[met]);
+  return mod === 'EMR' ? e : x - e;
+}
+const naMod = a => state.mod === 'geral' || a.mod === state.mod;
+/* ciclo de uma janela, no recorte de modalidade */
+function cMod(c){
+  return {
+    ano:c.ano,
+    processadas:emMod(c.processadas, 'rede'),
+    alteradas:emMod(c.alteradas, 'alt'),
+    paraElegivel:emMod(c.paraElegivel, 'alt'),
+    parcelas:c.parcelas.map(p => { const q = emMod(p.qtd, 'parc'); return {...p, qtd:q, valor:q * p.valor / p.qtd}; })
+  };
+}
+const jMod = j => ({...j, ciclos:j.ciclos.map(cMod)});
+
+/* ── retrato da rede por ciclo ─────────────────────────────────────
+   REDE é a situação no último processamento. Pedido do MEC (13/11): os totais
+   mudam conforme o processamento escolhido. O retrato de cada processamento volta
+   no tempo a partir de REDE, desfazendo as alterações de cada um (alteradas /
+   paraElegivel de JANELAS): metade das que passaram a ser elegíveis vinha de
+   elegibilidade indefinida e metade de não elegível; as que deixaram de ser
+   elegíveis voltam a elegível; a pendência bancária do ciclo 2026 cai até zerar em julho.
+   Por isso a elegibilidade indefinida cai de um processamento para o outro. */
 const REDE = {
   2026:{rede:445793, eleg:341399, pend:0, indef:66, nao:104328},
   2025:{rede:442108, eleg:338906, pend:0, indef:91, nao:103111},
   2024:{rede:431208, eleg:329744, pend:0, indef:120, nao:101344}
 };
-function redeDe(ciclo){
-  if (ciclo !== 'todos') return REDE[ciclo];
-  return Object.values(REDE).reduce((a, r) => ({
-    rede:a.rede + r.rede, eleg:a.eleg + r.eleg, pend:0, indef:a.indef + r.indef, nao:a.nao + r.nao
-  }), {rede:0, eleg:0, pend:0, indef:0, nao:0});
+const PEND = {2026:{'2026-03-25':3410, '2026-04-24':2180, '2026-05-26':1150, '2026-06-25':420}};
+const RETRATO = {};
+[2026, 2025, 2024].forEach(ano => {
+  RETRATO[ano] = {};
+  const js = JANELAS.filter(j => anosDa(j).includes(ano));      /* do mais recente ao mais antigo */
+  const rede = REDE[ano].rede;
+  let cur = {eleg:REDE[ano].eleg, pend:REDE[ano].pend, indef:REDE[ano].indef};
+  js.forEach((j, k) => {
+    RETRATO[ano][j.id] = {rede, eleg:cur.eleg, pend:cur.pend, indef:cur.indef, nao:rede - cur.eleg - cur.pend - cur.indef};
+    const c = j.ciclos.find(x => x.ano === ano), ant = js[k + 1];
+    if (ant) {
+      const pendAnt = (PEND[ano] || {})[ant.id] || 0;
+      cur = {eleg:cur.eleg - c.paraElegivel + (c.alteradas - c.paraElegivel) - (pendAnt - cur.pend),
+             pend:pendAnt, indef:cur.indef + Math.round(c.paraElegivel / 2)};
+    }
+  });
+});
+/* situação de um ciclo num processamento (sem processamento: o último);
+   se o ciclo não passou por ele, vale o último retrato anterior */
+function retratoAno(ano, jid){
+  const ids = Object.keys(RETRATO[ano]).sort().reverse();
+  const id = !jid ? ids[0] : ids.find(x => x <= jid);
+  return id ? RETRATO[ano][id] : {rede:0, eleg:0, pend:0, indef:0, nao:0};
+}
+function retrato(anos, jid){
+  return anos.reduce((t, ano) => {
+    const r = retratoAno(ano, jid);
+    const rede = emMod(r.rede, 'rede'), eleg = emMod(r.eleg, 'eleg'), pend = emMod(r.pend, 'pend'), indef = emMod(r.indef, 'indef');
+    return {rede:t.rede + rede, eleg:t.eleg + eleg, pend:t.pend + pend, indef:t.indef + indef, nao:t.nao + rede - eleg - pend - indef};
+  }, {rede:0, eleg:0, pend:0, indef:0, nao:0});
 }
 
-/* ── estudantes ─────────────────────────────────────────────────── */
+/* ── frequência das matrículas elegíveis ───────────────────────────
+   Ciclo 2026: apurada de abril (frequência de fevereiro) a agosto (junho); o
+   processamento de março só tratou a matrícula. Elegíveis = ≥ 80% + < 80% + não
+   informada, sempre fechando com o cartão "Elegível" do mesmo recorte.
+   Ciclos 2025 e 2024 já terminaram: proporções fixas do retrato final. */
+const FREQ26 = {
+  '2026-04-24':{pct:.889, ni:2410, ni3:0},
+  '2026-05-26':{pct:.902, ni:1380, ni3:0},
+  '2026-06-25':{pct:.909, ni:1020, ni3:610},
+  '2026-07-24':{pct:.901, ni:3950, ni3:702},
+  '2026-08-26':{abaixo:27834, ni:823, ni3:795}
+};
+function freqResumo(anos, jid){
+  const t = {eleg:0, acima:0, abaixo:0, ni:0, ni3:0, semFreq:false};
+  anos.forEach(ano => {
+    const eleg = retratoAno(ano, jid).eleg;
+    let abaixo, ni, ni3;
+    if (ano === 2026) {
+      const fid = Object.keys(FREQ26).sort().reverse().find(id => !jid || id <= jid);
+      if (!fid) { t.semFreq = true; return; }
+      const f = FREQ26[fid];
+      ni = f.ni; ni3 = f.ni3;
+      abaixo = f.abaixo != null ? f.abaixo : eleg - Math.round(eleg * f.pct) - ni;
+    } else {
+      abaixo = Math.round(eleg * .074); ni = Math.round(eleg * .0021); ni3 = Math.round(ni * .9);
+    }
+    const eM = emMod(eleg, 'eleg'), abM = emMod(abaixo, 'abaixo'), niM = emMod(ni, 'ni');
+    t.eleg += eM; t.abaixo += abM; t.ni += niM; t.ni3 += Math.min(niM, emMod(ni3, 'ni')); t.acima += eM - abM - niM;
+  });
+  return t;
+}
+
+/* ── pagamentos do recorte ─────────────────────────────────────────
+   Com processamento: as parcelas dele (75,4% pagas, as bloqueadas da amostra e o
+   restante aguardando). Sem processamento: o consolidado — no ciclo 2026, os números
+   do Portal (pagos 979.964, aguardando 319.714, 3 bloqueadas; o restante, depositado);
+   nos ciclos 2025 e 2024, a soma dos processamentos de cada um. */
+const PAGO = .754;
+const INCS = ['Matrícula', 'Frequência', 'Conclusão', 'Enem'];
+function pagResumo(anos, jid){
+  const r = {total:0, vTotal:0, pagos:0, vPagos:0, aguard:0, vAguard:0, bloq:0, vBloq:0, depos:0, vDepos:0, inc:{}};
+  INCS.forEach(k => r.inc[k] = {qtd:0, pagos:0});
+  const bloqueadas = (jj, ano) => PARCELAS.filter(p => p.sit === 'Bloqueado' && p.ciclo === ano && (!jj || p.jan === jj) && naMod(aluno(p.mat))).length;
+  anos.forEach(ano => {
+    const js = JANELAS.filter(j => anosDa(j).includes(ano) && (!jid || j.id === jid));
+    const cs = js.map(j => ({j, c:cMod(j.ciclos.find(c => c.ano === ano))}));
+    if (!jid && ano === 2026) {
+      const q = cs.reduce((s, x) => s + parcelasC(x.c), 0), v = cs.reduce((s, x) => s + valorC(x.c), 0);
+      cs.forEach(x => x.c.parcelas.forEach(p => r.inc[incDe(p.cod)].qtd += p.qtd));
+      const pM = emMod(339755, 'parc'), pF = emMod(640209, 'parc'), ag = emMod(319714, 'parc'), bl = bloqueadas('', ano);
+      r.inc['Matrícula'].pagos += pM; r.inc['Frequência'].pagos += pF;
+      r.total += q; r.vTotal += v;
+      r.pagos += pM + pF; r.vPagos += (pM + pF) * 200;
+      r.aguard += ag; r.vAguard += ag * 200;
+      r.bloq += bl; r.vBloq += bl * 200;
+      r.depos += q - pM - pF - ag - bl; r.vDepos += (q - pM - pF - ag - bl) * 200;
+      return;
+    }
+    cs.forEach(({j, c}) => {
+      const q = parcelasC(c), v = valorC(c), u = q ? v / q : 0;
+      const pg = Math.round(q * PAGO), bl = bloqueadas(j.id, ano), ag = q - pg - bl;
+      const porInc = aloca(pg, c.parcelas.map(p => p.qtd));
+      c.parcelas.forEach((p, i) => { r.inc[incDe(p.cod)].qtd += p.qtd; r.inc[incDe(p.cod)].pagos += porInc[i]; });
+      r.total += q; r.vTotal += v; r.pagos += pg; r.vPagos += pg * u;
+      r.aguard += ag; r.vAguard += ag * u; r.bloq += bl; r.vBloq += bl * u;
+    });
+  });
+  return r;
+}
+
+/* ── estudantes ─────────────────────────────────────────────────────
+   Cada registro é uma matrícula (mod = EMR ou EJA). mot = motivo(s) da situação
+   atual, quando não é Elegível (o primeiro é o principal). Em alt, "de" é a situação
+   antes do processamento e "mot", o motivo dela (o que foi resolvido ou apareceu).
+   freq = frequência mensal do ciclo 2026, apurada de abril (fev) a agosto (jun). */
 const ALUNOS = [
-  {mat:'29884350', nome:'Estudante 1000062256', cpf:'111.222.333-44', nis:'',
+  {mat:'29884350', nome:'Estudante 1000062256', cpf:'111.222.333-44', nis:'', mod:'EMR',
    escola:'COLÉGIO ESTADUAL DO CAMPO DE IBITITÁ', inep:'29062632', mun:'Ibititá',
-   sit:{2026:'Elegível'}, alt:[{jan:'2026-04-24', ciclo:2026, de:'Elegibilidade indefinida'}],
-   freq:{fev:98.2, mar:95.1, abr:97.4, acum:96.9}},
+   sit:{2026:'Elegível'}, alt:[{jan:'2026-04-24', ciclo:2026, de:'Elegibilidade indefinida', mot:'nomeCad'}],
+   freq:{fev:98.2, mar:95.1, abr:97.4, mai:96.0, jun:97.8}},
 
-  {mat:'30279793', nome:'Estudante 1000068739', cpf:'222.333.444-55', nis:'20055510001',
+  {mat:'30279793', nome:'Estudante 1000068739', cpf:'222.333.444-55', nis:'20055510001', mod:'EMR',
    escola:'CENTRO ESTADUAL DE EDUCAÇÃO PROFISSIONAL EM GESTÃO SEVERINO VIEIRA', inep:'29181542', mun:'Salvador',
-   sit:{2026:'Elegível'}, alt:[{jan:'2026-03-25', ciclo:2026, de:'Elegibilidade indefinida'}],
-   freq:{fev:97.5, mar:92.3, abr:88.7, acum:92.8}},
+   sit:{2026:'Elegível'}, alt:[{jan:'2026-03-25', ciclo:2026, de:'Elegibilidade indefinida', mot:'dnCad'}],
+   freq:{fev:97.5, mar:92.3, abr:88.7, mai:90.2, jun:91.0}},
 
-  {mat:'29925523', nome:'Estudante 1000086193', cpf:'333.444.555-66', nis:'',
+  {mat:'29925523', nome:'Estudante 1000086193', cpf:'333.444.555-66', nis:'', mod:'EMR',
    escola:'COLÉGIO ESTADUAL UIRASSU DE ASSIS BATISTA', inep:'29129435', mun:'Feira de Santana',
-   sit:{2026:'Elegível', 2025:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2025, de:'Elegibilidade indefinida'}],
-   freq:{fev:100, mar:99.1, abr:100, acum:99.7}},
+   sit:{2026:'Elegível', 2025:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2025, de:'Elegibilidade indefinida', mot:'cpfDiv'}],
+   freq:{fev:100, mar:99.1, abr:100, mai:98.7, jun:99.4}},
 
-  {mat:'29994208', nome:'Estudante 5712230375', cpf:'444.555.666-77', nis:'20055510002',
+  {mat:'29994208', nome:'Estudante 5712230375', cpf:'444.555.666-77', nis:'20055510002', mod:'EMR',
    escola:'COLÉGIO ESTADUAL RÔMULO GALVÃO DISTRITO DE SÃO JOÃO DO PARAÍSO TEMPO INTEGRAL', inep:'29311500', mun:'Jequié',
-   sit:{2026:'Não elegível'}, alt:[{jan:'2026-06-25', ciclo:2026, de:'Elegível'}],
-   freq:{fev:84, mar:70.91, abr:78, acum:76.15}},
+   sit:{2026:'Não elegível'}, mot:{2026:['cadunico']}, alt:[{jan:'2026-06-25', ciclo:2026, de:'Elegível'}],
+   freq:{fev:84, mar:70.91, abr:78, mai:76.2, jun:74.9}},
 
-  {mat:'29993872', nome:'Estudante 5152404610', cpf:'555.666.777-88', nis:'20055510003',
+  {mat:'29993872', nome:'Estudante 5152404610', cpf:'555.666.777-88', nis:'20055510003', mod:'EMR',
    escola:'CENTRO REGIONAL DE ENSINO MÉDIO COM INTERMEDIAÇÃO TECNOLÓGICA CEMIT DE IRECÊ', inep:'29459141', mun:'Irecê',
-   sit:{2026:'Elegível'}, alt:[], freq:{fev:100, mar:100, abr:100, acum:100}},
+   sit:{2026:'Elegível'}, alt:[], freq:{fev:100, mar:100, abr:100, mai:100, jun:100}},
 
-  {mat:'29993866', nome:'Estudante 7873322983', cpf:'666.777.888-99', nis:'',
+  {mat:'29993866', nome:'Estudante 7873322983', cpf:'666.777.888-99', nis:'', mod:'EMR',
    escola:'COLÉGIO ESTADUAL DE TEMPO INTEGRAL EDGAR SILVA', inep:'29425166', mun:'Salvador',
-   sit:{2026:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2026, de:'Elegibilidade indefinida'}],
-   freq:{fev:94.29, mar:81.17, abr:81.95, acum:84.03}},
+   sit:{2026:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2026, de:'Elegibilidade indefinida', mot:'nomeCad'}],
+   freq:{fev:94.29, mar:81.17, abr:81.95, mai:83.4, jun:85.1}},
 
-  {mat:'30102447', nome:'Estudante 8211903355', cpf:'901.234.567-89', nis:'20055510009',
+  {mat:'30102447', nome:'Estudante 8211903355', cpf:'901.234.567-89', nis:'20055510009', mod:'EMR',
    escola:'COLÉGIO ESTADUAL DA BAHIA - CENTRAL', inep:'29191203', mun:'Salvador',
-   sit:{2026:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2026, de:'Não elegível'}],
-   freq:{fev:88.6, mar:86.2, abr:90.5, acum:88.4}},
+   sit:{2026:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2026, de:'Não elegível', mot:'renda'}],
+   freq:{fev:88.6, mar:86.2, abr:90.5, mai:89.1, jun:90.3}},
 
-  {mat:'29994057', nome:'Estudante 7927194069', cpf:'777.888.999-00', nis:'',
+  {mat:'29994057', nome:'Estudante 7927194069', cpf:'777.888.999-00', nis:'', mod:'EMR',
    escola:'COLÉGIO ESTADUAL DO STIEP CARLOS MARIGHELLA', inep:'29182247', mun:'Salvador',
-   sit:{2026:'Não elegível'}, alt:[{jan:'2026-05-26', ciclo:2026, de:'Elegível'}],
-   freq:{fev:100, mar:85.45, abr:86, acum:88.46}},
+   sit:{2026:'Não elegível'}, mot:{2026:['renda', 'nomeRF']}, alt:[{jan:'2026-05-26', ciclo:2026, de:'Elegível'}],
+   freq:{fev:100, mar:85.45, abr:86, mai:84.0, jun:82.7}},
 
-  {mat:'30011884', nome:'Estudante 4406721188', cpf:'888.999.000-11', nis:'20055510004',
+  {mat:'30011884', nome:'Estudante 4406721188', cpf:'888.999.000-11', nis:'20055510004', mod:'EMR',
    escola:'COLÉGIO ESTADUAL ALFREDO AGOSTINHO DE DEUS', inep:'29178320', mun:'Salvador',
-   sit:{2026:'Elegível'}, alt:[{jan:'2026-03-25', ciclo:2026, de:'Elegibilidade indefinida'}],
-   freq:{fev:91.4, mar:93.8, abr:90.2, acum:91.8}},
+   sit:{2026:'Elegível'}, alt:[{jan:'2026-03-25', ciclo:2026, de:'Elegibilidade indefinida', mot:'nisDiv'}],
+   freq:{fev:91.4, mar:93.8, abr:90.2, mai:92.5, jun:91.9}},
+
+  /* exemplos de elegibilidade indefinida e de não elegível, com o motivo (Painel de Gestão, 04/11) */
+  {mat:'30144718', nome:'Estudante 4096737367', cpf:'010.203.221-00', nis:'00000018744', mod:'EMR',
+   escola:'COLÉGIO ESTADUAL THALES DE AZEVEDO', inep:'29192056', mun:'Salvador',
+   sit:{2026:'Elegibilidade indefinida'}, mot:{2026:['nomeCad']}, alt:[],
+   freq:{fev:92.4, mar:90.1, abr:93.6, mai:91.8, jun:92.7}},
+
+  {mat:'30152290', nome:'Estudante 9389603662', cpf:'010.269.766-17', nis:'00000023850', mod:'EMR',
+   escola:'COLÉGIO ESTADUAL GOVERNADOR LUIZ VIANA FILHO', inep:'29124760', mun:'Feira de Santana',
+   sit:{2026:'Elegibilidade indefinida'}, mot:{2026:['dnCad']}, alt:[],
+   freq:{fev:88.0, mar:91.5, abr:86.9, mai:87.4, jun:89.0}},
+
+  {mat:'30166031', nome:'Estudante 1000127269', cpf:'006.628.896-73', nis:'', mod:'EMR',
+   escola:'CENTRO ESTADUAL DE EDUCAÇÃO PROFISSIONAL DE CAMAÇARI', inep:'29268885', mun:'Camaçari',
+   sit:{2026:'Não elegível'}, mot:{2026:['idade']}, alt:[],
+   freq:{fev:79.5, mar:83.2, abr:81.0, mai:82.4, jun:80.6}},
+
+  {mat:'30171544', nome:'Estudante 1001887776', cpf:'440.773.496-56', nis:'00000889101', mod:'EJA',
+   escola:'CENTRO INTEGRADO DE EDUCAÇÃO ASSIS CHATEAUBRIAND', inep:'29093457', mun:'Vitória da Conquista',
+   sit:{2026:'Não elegível'}, mot:{2026:['cancelada']}, alt:[{jan:'2026-08-26', ciclo:2026, de:'Elegível'}],
+   freq:{fev:71.3, mar:64.0, abr:58.8, mai:55.2, jun:null}},
+
+  /* Pedido do MEC (13/11): estudantes que eram de elegibilidade indefinida e passaram a ser elegíveis */
+  {mat:'30195562', nome:'Estudante 5821904436', cpf:'135.792.468-02', nis:'', mod:'EMR',
+   escola:'COLÉGIO ESTADUAL THALES DE AZEVEDO', inep:'29192056', mun:'Salvador',
+   sit:{2026:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2026, de:'Elegibilidade indefinida', mot:'nomeCad'}],
+   freq:{fev:90.2, mar:88.7, abr:91.3, mai:89.9, jun:92.4}},
+
+  {mat:'30203317', nome:'Estudante 6649201857', cpf:'246.813.579-13', nis:'', mod:'EMR',
+   escola:'COLÉGIO ESTADUAL GOVERNADOR LUIZ VIANA FILHO', inep:'29124760', mun:'Feira de Santana',
+   sit:{2026:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2026, de:'Elegibilidade indefinida', mot:'dnCad'}],
+   freq:{fev:86.5, mar:84.1, abr:88.0, mai:87.2, jun:89.6}},
+
+  {mat:'30211408', nome:'Estudante 7730158264', cpf:'357.924.681-35', nis:'', mod:'EMR',
+   escola:'CENTRO ESTADUAL DE EDUCAÇÃO PROFISSIONAL DE CAMAÇARI', inep:'29268885', mun:'Camaçari',
+   sit:{2026:'Elegível'}, alt:[{jan:'2026-07-24', ciclo:2026, de:'Elegibilidade indefinida', mot:'cpfDiv'}],
+   freq:{fev:93.0, mar:90.6, abr:92.2, mai:94.1, jun:91.7}},
+
+  /* Pedido do MEC (13/11): visão por estudante — a mesma pessoa com matrícula no EMR (2025)
+     e na EJA (2026). Na Visão geral, a busca pelo CPF traz as duas. */
+  {mat:'28451207', nome:'Estudante 3021457788', cpf:'468.135.792-46', nis:'20055510010', mod:'EMR',
+   escola:'COLÉGIO ESTADUAL DEMOCRÁTICO JUTAHY MAGALHÃES', inep:'29177812', mun:'Salvador',
+   sit:{2025:'Elegível'}, alt:[], freq:{fev:87.3, mar:85.0, abr:88.8, mai:86.1, jun:87.5}},
+
+  {mat:'30188420', nome:'Estudante 3021457788', cpf:'468.135.792-46', nis:'20055510010', mod:'EJA',
+   escola:'CENTRO ESTADUAL DE EDUCAÇÃO DE JOVENS E ADULTOS DE SALVADOR', inep:'29199417', mun:'Salvador',
+   sit:{2026:'Elegível'}, alt:[], freq:{fev:85.9, mar:83.4, abr:86.7, mai:84.8, jun:88.2}},
 
   /* matrículas do ciclo 2024 cuja situação mudou na janela de agosto de 2026 */
-  {mat:'26440817', nome:'Estudante 3308417720', cpf:'123.456.789-01', nis:'20055510005',
+  {mat:'26440817', nome:'Estudante 3308417720', cpf:'123.456.789-01', nis:'20055510005', mod:'EMR',
    escola:'COLÉGIO ESTADUAL LUÍS PRISCO VIANA', inep:'29248132', mun:'Salvador',
-   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível'}],
-   freq:{fev:96.1, mar:94.7, abr:95.9, acum:95.6}},
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível', mot:'cadunico'}],
+   freq:{fev:96.1, mar:94.7, abr:95.9, mai:95.2, jun:96.4}},
 
-  {mat:'26512093', nome:'Estudante 9780279998', cpf:'234.567.890-12', nis:'',
+  {mat:'26512093', nome:'Estudante 9780279998', cpf:'234.567.890-12', nis:'', mod:'EMR',
    escola:'COLÉGIO ESTADUAL TIRADENTES', inep:'29210399', mun:'Salvador',
-   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível'}],
-   freq:{fev:89.3, mar:91.2, abr:88.4, acum:89.6}},
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível', mot:'cadunico'}],
+   freq:{fev:89.3, mar:91.2, abr:88.4, mai:90.0, jun:89.1}},
 
-  {mat:'26498330', nome:'Estudante 5598060616', cpf:'345.678.901-23', nis:'20055510006',
+  {mat:'26498330', nome:'Estudante 5598060616', cpf:'345.678.901-23', nis:'20055510006', mod:'EMR',
    escola:'COLÉGIO ESTADUAL AURELINO LEAL TEMPO INTEGRAL', inep:'29306760', mun:'Aurelino Leal',
-   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível'}],
-   freq:{fev:93.5, mar:90.8, abr:92.1, acum:92.1}},
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível', mot:'renda'}],
+   freq:{fev:93.5, mar:90.8, abr:92.1, mai:91.4, jun:92.8}},
 
-  {mat:'26603741', nome:'Estudante 2008115717', cpf:'456.789.012-34', nis:'',
+  {mat:'26603741', nome:'Estudante 2008115717', cpf:'456.789.012-34', nis:'', mod:'EMR',
    escola:'COLÉGIO ESTADUAL DO CAMPO FRANCISCO CASTRO LARANJEIRA', inep:'29447755', mun:'Barreiras',
-   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Elegibilidade indefinida'}],
-   freq:{fev:97.8, mar:96.4, abr:98.1, acum:97.4}},
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Elegibilidade indefinida', mot:'dnCad'}],
+   freq:{fev:97.8, mar:96.4, abr:98.1, mai:97.0, jun:97.6}},
 
-  {mat:'26551208', nome:'Estudante 3133702743', cpf:'567.890.123-45', nis:'20055510007',
+  {mat:'26551208', nome:'Estudante 3133702743', cpf:'567.890.123-45', nis:'20055510007', mod:'EMR',
    escola:'COLÉGIO ESTADUAL TEIXEIRA DE FREITAS TEMPO INTEGRAL', inep:'29056144', mun:'Teixeira de Freitas',
-   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível'}],
-   freq:{fev:85.2, mar:82.6, abr:80.9, acum:82.9}},
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível', mot:'cadunico'}],
+   freq:{fev:85.2, mar:82.6, abr:80.9, mai:81.7, jun:83.0}},
 
   /* matrículas do ciclo 2025 */
-  {mat:'28114902', nome:'Estudante 7422321624', cpf:'678.901.234-56', nis:'',
+  {mat:'28114902', nome:'Estudante 7422321624', cpf:'678.901.234-56', nis:'', mod:'EMR',
    escola:'COLÉGIO ESTADUAL DEMOCRÁTICO JUTAHY MAGALHÃES', inep:'29177812', mun:'Salvador',
-   sit:{2025:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2025, de:'Elegibilidade indefinida'}],
-   freq:{fev:99.0, mar:97.2, abr:98.6, acum:98.3}},
+   sit:{2025:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2025, de:'Elegibilidade indefinida', mot:'nomeCad'}],
+   freq:{fev:99.0, mar:97.2, abr:98.6, mai:98.1, jun:98.9}},
 
-  {mat:'28207355', nome:'Estudante 9564665206', cpf:'789.012.345-67', nis:'20055510008',
+  {mat:'28207355', nome:'Estudante 9564665206', cpf:'789.012.345-67', nis:'20055510008', mod:'EMR',
    escola:'COLÉGIO ESTADUAL LUÍS PRISCO VIANA', inep:'29248132', mun:'Salvador',
-   sit:{2025:'Elegível'}, alt:[], freq:{fev:92.7, mar:88.9, abr:90.4, acum:90.7}},
+   sit:{2025:'Elegível'}, alt:[], freq:{fev:92.7, mar:88.9, abr:90.4, mai:91.2, jun:90.0}},
 
-  {mat:'28330614', nome:'Estudante 6180442379', cpf:'890.123.456-78', nis:'',
+  /* elegível com frequência em queda: a parcela de frequência só sai nos meses com 80% ou mais */
+  {mat:'28367715', nome:'Estudante 8142093375', cpf:'579.246.813-57', nis:'', mod:'EMR',
    escola:'CENTRO REGIONAL DE ENSINO MÉDIO CEMIT SERTÃO DO SÃO FRANCISCO', inep:'29456509', mun:'Juazeiro',
-   sit:{2025:'Não elegível'}, alt:[{jan:'2026-07-24', ciclo:2025, de:'Elegível'}],
-   freq:{fev:76.4, mar:72.8, abr:74.1, acum:74.4}}
+   sit:{2026:'Elegível'}, alt:[],
+   freq:{fev:82.1, mar:78.4, abr:76.0, mai:72.5, jun:70.8}},
+
+  /* Pedido do MEC (13/11): no processamento de julho a frequência de maio ficou abaixo de 80% e
+     não houve parcela; em agosto a frequência de junho passou de 80% e a parcela foi liberada. */
+  {mat:'28330614', nome:'Estudante 6180442379', cpf:'890.123.456-78', nis:'', mod:'EMR',
+   escola:'CENTRO REGIONAL DE ENSINO MÉDIO CEMIT SERTÃO DO SÃO FRANCISCO', inep:'29456509', mun:'Juazeiro',
+   sit:{2026:'Elegível'}, alt:[],
+   freq:{fev:84.2, mar:81.5, abr:82.0, mai:74.1, jun:86.3}}
 ];
 
 const aluno = mat => ALUNOS.find(a => a.mat === mat);
 
 /* ── parcelas ───────────────────────────────────────────────────── */
+/* motivos de parcela bloqueada (pedido do MEC, 13/11 — textos ilustrativos, a validar) */
+const MOT_BLOQ = {
+  banco:{nome:'Conta bloqueada pela instituição financeira',
+    txt:'A instituição financeira bloqueou a conta do estudante porque os dados pessoais estão divergentes na Receita Federal. Oriente o estudante a regularizar o CPF; a parcela é liberada no processamento seguinte à regularização.'},
+  duplic:{nome:'CPF em mais de uma matrícula ativa',
+    txt:'O CPF do estudante aparece em outra matrícula ativa da rede no mesmo período (Ensino Médio Regular e EJA). O pagamento fica bloqueado até a rede encerrar, no Sistema Gestão Presente, a matrícula que não vale mais.'},
+  controle:{nome:'Bloqueio preventivo por órgão de controle',
+    txt:'Pagamento bloqueado preventivamente por determinação de órgão de controle, para apuração. A rede não precisa agir; o resultado é comunicado pelo MEC.'}
+};
 const PARCELAS = [
   /* janela de agosto de 2026 — ciclo 2024 */
   {mat:'26440817', ciclo:2024, cod:202401, sit:'Pago', proc:'26/08/2026 02:41', dt:'27/08/2026', jan:'2026-08-26'},
@@ -592,42 +924,65 @@ const PARCELAS = [
   {mat:'28114902', ciclo:2025, cod:202511, sit:'Pago', proc:'26/08/2026 04:18', dt:'28/08/2026', jan:'2026-08-26'},
   {mat:'28207355', ciclo:2025, cod:202511, sit:'Aguardando Pagamento', proc:'26/08/2026 04:18', dt:null, jan:'2026-08-26'},
   /* janela de agosto de 2026 — ciclo 2026 (frequência de junho) */
+  {mat:'29925523', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'27/08/2026', jan:'2026-08-26'},
   {mat:'29884350', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'28/08/2026', jan:'2026-08-26'},
   {mat:'30279793', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'28/08/2026', jan:'2026-08-26'},
   {mat:'29993872', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'27/08/2026', jan:'2026-08-26'},
   {mat:'29993866', ciclo:2026, cod:202606, sit:'Aguardando Pagamento', proc:'26/08/2026 05:30', dt:null, jan:'2026-08-26'},
   {mat:'30011884', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'28/08/2026', jan:'2026-08-26'},
   {mat:'30102447', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'28/08/2026', jan:'2026-08-26'},
-  /* janela de julho de 2026 */
-  {mat:'29884350', ciclo:2026, cod:202605, sit:'Pago', proc:'24/07/2026 04:12', dt:'25/07/2026', jan:'2026-07-24'},
+  {mat:'30195562', ciclo:2026, cod:202606, sit:'Aguardando Pagamento', proc:'26/08/2026 05:30', dt:null, jan:'2026-08-26'},
+  {mat:'30203317', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'28/08/2026', jan:'2026-08-26'},
+  {mat:'30211408', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'27/08/2026', jan:'2026-08-26'},
+  {mat:'28330614', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'28/08/2026', jan:'2026-08-26'},
+  {mat:'30188420', ciclo:2026, cod:202606, sit:'Pago', proc:'26/08/2026 05:30', dt:'28/08/2026', jan:'2026-08-26'},
+  /* janela de julho de 2026 (frequência de maio) */
+  {mat:'29925523', ciclo:2026, cod:202605, sit:'Pago', proc:'24/07/2026 04:12', dt:'25/07/2026', jan:'2026-07-24'},
+  {mat:'29884350', ciclo:2026, cod:202605, sit:'Bloqueado', bloq:'banco', proc:'24/07/2026 04:12', dt:null, jan:'2026-07-24'},
   {mat:'30279793', ciclo:2026, cod:202605, sit:'Pago', proc:'24/07/2026 04:12', dt:'25/07/2026', jan:'2026-07-24'},
   {mat:'29993872', ciclo:2026, cod:202605, sit:'Pago', proc:'24/07/2026 04:12', dt:'26/07/2026', jan:'2026-07-24'},
   {mat:'30011884', ciclo:2026, cod:202605, sit:'Pago', proc:'24/07/2026 04:12', dt:'25/07/2026', jan:'2026-07-24'},
-  {mat:'29925523', ciclo:2025, cod:202512, sit:'Pago', proc:'24/07/2026 05:02', dt:'26/07/2026', jan:'2026-07-24'},
-  {mat:'28114902', ciclo:2025, cod:202512, sit:'Pago', proc:'24/07/2026 05:02', dt:'26/07/2026', jan:'2026-07-24'},
-  /* janela de junho de 2026 */
+  {mat:'30211408', ciclo:2026, cod:202605, sit:'Pago', proc:'24/07/2026 04:12', dt:'25/07/2026', jan:'2026-07-24'},
+  {mat:'30188420', ciclo:2026, cod:202605, sit:'Bloqueado', bloq:'duplic', proc:'24/07/2026 04:12', dt:null, jan:'2026-07-24'},
+  /* janela de junho de 2026 (frequência de abril) */
+  {mat:'29925523', ciclo:2026, cod:202604, sit:'Pago', proc:'25/06/2026 03:55', dt:'26/06/2026', jan:'2026-06-25'},
   {mat:'29884350', ciclo:2026, cod:202604, sit:'Pago', proc:'25/06/2026 03:55', dt:'26/06/2026', jan:'2026-06-25'},
   {mat:'30279793', ciclo:2026, cod:202604, sit:'Pago', proc:'25/06/2026 03:55', dt:'26/06/2026', jan:'2026-06-25'},
   {mat:'29993872', ciclo:2026, cod:202604, sit:'Pago', proc:'25/06/2026 03:55', dt:'26/06/2026', jan:'2026-06-25'},
-  {mat:'29993866', ciclo:2026, cod:202604, sit:'Pago', proc:'25/06/2026 03:55', dt:'27/06/2026', jan:'2026-06-25'},
-  /* janela de maio de 2026 */
+  {mat:'30011884', ciclo:2026, cod:202604, sit:'Bloqueado', bloq:'controle', proc:'25/06/2026 03:55', dt:null, jan:'2026-06-25'},
+  {mat:'28330614', ciclo:2026, cod:202604, sit:'Pago', proc:'25/06/2026 03:55', dt:'26/06/2026', jan:'2026-06-25'},
+  {mat:'30188420', ciclo:2026, cod:202604, sit:'Pago', proc:'25/06/2026 03:55', dt:'27/06/2026', jan:'2026-06-25'},
+  /* janela de maio de 2026 (frequência de março) */
+  {mat:'29925523', ciclo:2026, cod:202603, sit:'Pago', proc:'26/05/2026 03:40', dt:'27/05/2026', jan:'2026-05-26'},
+  {mat:'30011884', ciclo:2026, cod:202603, sit:'Pago', proc:'26/05/2026 03:40', dt:'27/05/2026', jan:'2026-05-26'},
   {mat:'29884350', ciclo:2026, cod:202603, sit:'Pago', proc:'26/05/2026 03:40', dt:'27/05/2026', jan:'2026-05-26'},
   {mat:'30279793', ciclo:2026, cod:202603, sit:'Pago', proc:'26/05/2026 03:40', dt:'27/05/2026', jan:'2026-05-26'},
   {mat:'29993872', ciclo:2026, cod:202603, sit:'Pago', proc:'26/05/2026 03:40', dt:'28/05/2026', jan:'2026-05-26'},
   {mat:'29994057', ciclo:2026, cod:202603, sit:'Pago', proc:'26/05/2026 03:40', dt:'27/05/2026', jan:'2026-05-26'},
-  /* janela de abril de 2026 */
+  {mat:'28330614', ciclo:2026, cod:202603, sit:'Pago', proc:'26/05/2026 03:40', dt:'27/05/2026', jan:'2026-05-26'},
+  {mat:'30188420', ciclo:2026, cod:202603, sit:'Pago', proc:'26/05/2026 03:40', dt:'28/05/2026', jan:'2026-05-26'},
+  /* janela de abril de 2026 (frequência de fevereiro) */
+  {mat:'28367715', ciclo:2026, cod:202602, sit:'Pago', proc:'24/04/2026 03:28', dt:'25/04/2026', jan:'2026-04-24'},
+  {mat:'29925523', ciclo:2026, cod:202602, sit:'Pago', proc:'24/04/2026 03:28', dt:'25/04/2026', jan:'2026-04-24'},
+  {mat:'30011884', ciclo:2026, cod:202602, sit:'Pago', proc:'24/04/2026 03:28', dt:'25/04/2026', jan:'2026-04-24'},
+  {mat:'29994208', ciclo:2026, cod:202602, sit:'Pago', proc:'24/04/2026 03:28', dt:'26/04/2026', jan:'2026-04-24'},
+  {mat:'29994057', ciclo:2026, cod:202602, sit:'Pago', proc:'24/04/2026 03:28', dt:'25/04/2026', jan:'2026-04-24'},
   {mat:'29884350', ciclo:2026, cod:202602, sit:'Pago', proc:'24/04/2026 03:28', dt:'25/04/2026', jan:'2026-04-24'},
   {mat:'30279793', ciclo:2026, cod:202602, sit:'Pago', proc:'24/04/2026 03:28', dt:'25/04/2026', jan:'2026-04-24'},
   {mat:'29993872', ciclo:2026, cod:202602, sit:'Pago', proc:'24/04/2026 03:28', dt:'25/04/2026', jan:'2026-04-24'},
   {mat:'29884350', ciclo:2026, cod:202601, sit:'Pago', proc:'24/04/2026 03:28', dt:'25/04/2026', jan:'2026-04-24'},
+  {mat:'28330614', ciclo:2026, cod:202602, sit:'Pago', proc:'24/04/2026 03:28', dt:'25/04/2026', jan:'2026-04-24'},
+  {mat:'30188420', ciclo:2026, cod:202602, sit:'Pago', proc:'24/04/2026 03:28', dt:'26/04/2026', jan:'2026-04-24'},
   /* janela de março de 2026 — matrícula */
+  {mat:'28367715', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'26/03/2026', jan:'2026-03-25'},
   {mat:'30279793', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'24/03/2026', jan:'2026-03-25'},
   {mat:'29925523', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'25/03/2026', jan:'2026-03-25'},
   {mat:'29993872', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'23/03/2026', jan:'2026-03-25'},
-  {mat:'29993866', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'24/03/2026', jan:'2026-03-25'},
   {mat:'29994057', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'25/03/2026', jan:'2026-03-25'},
   {mat:'30011884', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'24/03/2026', jan:'2026-03-25'},
-  {mat:'29994208', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'26/03/2026', jan:'2026-03-25'}
+  {mat:'29994208', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'26/03/2026', jan:'2026-03-25'},
+  {mat:'28330614', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'26/03/2026', jan:'2026-03-25'},
+  {mat:'30188420', ciclo:2026, cod:202601, sit:'Pago', proc:'25/03/2026 03:14', dt:'27/03/2026', jan:'2026-03-25'}
 ];
 
 /* ── amostra da base ──────────────────────────────────────────────────
@@ -663,11 +1018,12 @@ const PARCELAS = [
 
     /* frequência sempre igual ou acima de 80% — os casos abaixo de 80 são os nomeados */
     const f = () => Math.round((82 + rnd() * 18) * 100) / 100;
-    const fev = f(), mar = f(), abr = f();
+    const fev = f(), mar = f(), abr = f(), mai = f(), jun = f();
     pool.push({
       mat, nome:'Estudante ' + String(2000000000 + ate(999999999)), cpf, nis:'',
+      mod: rnd() < .1 ? 'EJA' : 'EMR',
       escola:loc.escola, inep:loc.inep, mun:loc.mun, sit, alt:[], amostra:true,
-      freq:{fev, mar, abr, acum: Math.round((fev + mar + abr) / 3 * 100) / 100}
+      freq:{fev, mar, abr, mai, jun}
     });
   }
   ALUNOS.push(...pool);
@@ -681,11 +1037,11 @@ const PARCELAS = [
           const a = elegiveis[ate(elegiveis.length)];
           const pago = rnd() < 0.754;                    /* mesma proporção dos cartões */
           const dia = String(10 + ate(18)).padStart(2,'0');
-          const [d, m, y] = j.rotulo.split('/');
+          const [y, m, d] = j.id.split('-');
           PARCELAS.push({
             mat:a.mat, ciclo:c.ano, cod:p.cod, amostra:true,
             sit: pago ? 'Pago' : 'Aguardando Pagamento',
-            proc: `${j.rotulo} 0${2 + ate(5)}:${dia}`,
+            proc: `${d}/${m}/${y} 0${2 + ate(5)}:${dia}`,
             dt: pago ? `${String(+d + 1).padStart(2,'0')}/${m}/${y}` : null,
             jan:j.id
           });
@@ -703,7 +1059,10 @@ const state = {
   rota:'inicio', arg:null,
   roteiro:'a',          /* versão do roteiro: A = "processamento", B = "janela de processamento" */
   janela:'', ciclo:'2026',
-  busca:'', mun:'', sitF:'', incF:'', sitPagF:'', faixaF:'',
+  mod:'geral',          /* aba: Visão geral (EMR + EJA), EMR ou EJA */
+  busca:'', mun:'', sitF:'', motF:'', incF:'', sitPagF:'', faixaF:'',
+  altF:false,           /* só matrículas com situação alterada no processamento escolhido */
+  manter:false,         /* true quando a navegação vem de um atalho que leva o recorte junto */
   aba:'lista', modal:null,
   cmpA:1, cmpB:0        /* comparação: A = janela anterior, B = posterior */
 };
@@ -722,11 +1081,16 @@ function tv(a, b){ return state.roteiro === 'b' ? b : a; }
 function nomeProc(){ return tv('Processamentos', 'Janelas de Processamento'); }
 /* "Concluída" concorda com janela; na versão A, com processamento */
 function statusJ(j){ return j.status === 'Concluída' ? tv('Concluído', 'Concluída') : j.status; }
+const noProc = () => tv('no processamento de', 'na janela de processamento de');
 
 function lerHash(){
   const h = location.hash.replace(/^#\/?/, '') || 'inicio';
   const [r, a] = h.split('/');
-  state.rota = ROTAS.some(x => x.id === r) || r === 'janela' ? r : 'inicio';
+  const nova = ROTAS.some(x => x.id === r) || r === 'janela' ? r : 'inicio';
+  /* Pedido do MEC (13/11): trocar de tela pelo menu limpa os filtros; um atalho (irCom) os leva junto */
+  if (nova !== state.rota && !state.manter) limparFiltros();
+  state.manter = false;
+  state.rota = nova;
   state.arg = a || null;
   if (state.rota === 'janela' && !jan(state.arg)) { state.rota = 'processamentos'; state.arg = null; }
   render();
@@ -764,11 +1128,12 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && state.moda
 function setJanela(v){
   state.janela = v;
   if (v && state.ciclo !== 'todos' && !anosDa(jan(v)).includes(+state.ciclo)) state.ciclo = 'todos';
+  if (!v) state.altF = false;
   render();
 }
 function setCiclo(v){
   state.ciclo = v;
-  if (v !== 'todos' && state.janela && !anosDa(jan(state.janela)).includes(+v)) state.janela = '';
+  if (v !== 'todos' && state.janela && !anosDa(jan(state.janela)).includes(+v)) { state.janela = ''; state.altF = false; }
   render();
 }
 function janelasDisponiveis(){
@@ -787,7 +1152,192 @@ function ciclosEmFoco(){
   return state.ciclo === 'todos' ? ciclosDisponiveis() : [+state.ciclo];
 }
 function buscaAmpliada(){ return !!state.busca && state.ciclo !== 'todos'; }
+/* ciclos do recorte para os cartões (a busca não amplia os cartões) */
+function anosRecorte(){ return state.ciclo === 'todos' ? ciclosDisponiveis() : [+state.ciclo]; }
 
+/* ── filtros não ficam presos entre telas (pedido do MEC, 13/11) ─────
+   Trocar de tela pelo menu volta os filtros ao padrão. Chegar por um atalho
+   ("Ver…", um bloco, um botão de uma tela) leva o recorte junto — irCom(). */
+const FILTROS_PADRAO = {janela:'', ciclo:'2026', mod:'geral', busca:'', mun:'', sitF:'', motF:'', incF:'', sitPagF:'', faixaF:'', altF:false};
+function limparFiltros(){ Object.assign(state, FILTROS_PADRAO); }
+function irCom(hash, filtros){
+  const mod = state.mod;                       /* a aba de modalidade vai junto */
+  limparFiltros();
+  state.mod = mod;
+  Object.assign(state, filtros || {});
+  if (location.hash === hash) { render(); window.scrollTo({top:0, behavior:'instant'}); }
+  else { state.manter = true; ir(hash); }
+}
+
+/* ── motivos de não elegível e de elegibilidade indefinida ────────────
+   Fonte: wiki "Elegibilidade" do Pé-de-Meia (NEES/UFAL) — status da matrícula (200, 202,
+   301, 402, 902) e critérios de inelegibilidade (TCI) do Ensino Médio, com a "Descrição Rede".
+   Pesos ilustrativos (por mil), na ordem de grandeza do Monitor. Uma matrícula pode ter mais
+   de um critério; na distribuição, ela conta pelo primeiro (o principal). */
+const ST_ELEG = {
+  402:'Estudante identificado como não elegível. Confira o requisito e o encaminhamento necessário caso haja algum equívoco.',
+  200:'Identificadas divergências nos dados pessoais do estudante entre o Sistema Gestão Presente (SGP) e o Cadastro Único para Programas Sociais do Governo Federal (CadÚnico), ou ausência da informação no SGP.',
+  202:'Estudante identificado como não elegível pois teve sua matrícula cancelada, ou seja, não possui mais vínculo com instituição pública de ensino. Se o estudante estiver matriculado, verificar o cadastro na área do estudante e enviar nova matrícula para reativação dos dados.',
+  301:'Estudante identificado como não elegível por ocorrência de duas situações consecutivas de reprovação e/ou evasão, em qualquer combinação (reprovação + reprovação, reprovação + evasão, etc.), descumprindo os critérios de elegibilidade do programa (Art. 23 da Portaria nº 83, de 7 de fevereiro de 2024). Após a regularização das informações aguarde a elegibilidade ser processada novamente.',
+  902:'Foram identificadas divergências nos dados pessoais do estudante junto à Receita Federal (RFB) na validação realizada pela instituição bancária. Oriente o estudante a buscar os serviços da RFB para regularizar a situação.',
+  outros:'Estudante desligado do Programa por óbito, por requerimento do interessado, por fraude ou irregularidade, ou por determinação de órgão de controle. Confira o motivo no detalhamento do estudante.'
+};
+const MOTIVOS = {
+  /* não elegível — critérios de alta criticidade (status 402) e status próprios */
+  cadunico:{g:'nao', cod:'TCI 1209', p:592, nome:'Inscrição no CadÚnico não encontrada ou desatualizada',
+    txt:'Estudante não identificado como pertencente à família inscrita no Cadastro Único para Programas Sociais do Governo Federal (CadÚnico). Isso pode ocorrer por ausência de inscrição da família, cadastro desatualizado há mais de 24 meses ou CPF do estudante não vinculado ao cadastro, impedindo a verificação para concessão dos incentivos. Verifique os dados do estudante no Sistema Gestão Presente (SGP) e, se houver informações incorretas, realize a correção na próxima janela de envio. Após a regularização, aguarde um novo processamento da elegibilidade.'},
+  renda:{g:'nao', cod:'TCI 1212', p:201, nome:'Renda per capita no CadÚnico superior ao valor de referência',
+    txt:'A faixa de renda per capita da família cadastrada no CadÚnico está acima da permitida pelo critério do Programa Pé-de-Meia. A renda per capita dos estudantes não pode ser superior a meio salário-mínimo, conforme o Art. 1º, § 1º, da Lei nº 14.818/2024, e o art. 3º, § 2º, do Decreto nº 11.901/2024. Caso a informação esteja incorreta, oriente o estudante a ir até o CRAS mais próximo junto ao seu familiar. Após a regularização das informações aguarde a elegibilidade ser processada novamente.'},
+  idade:{g:'nao', cod:'TCI 1101', p:122, nome:'Fora da faixa de idade',
+    txt:'Estudante identificado como menor de 14 anos ou maior de 24 anos, não atendendo aos critérios do Programa Pé-de-Meia (Art. 3º do Decreto nº 11.901/2024). Verifique a data de nascimento informada no Sistema Gestão Presente (SGP). Caso essa informação esteja incorreta, realize a correção dos dados na próxima janela de envio de dados. Após a regularização das informações aguarde a elegibilidade ser processada novamente.'},
+  cancelada:{g:'nao', cod:'Status 202', p:30, nome:'Matrícula cancelada', st:202},
+  etapa:{g:'nao', cod:'TCI 1102', p:14, nome:'Etapa de ensino não contemplada',
+    txt:'Estudante matriculado em etapa de ensino não contemplada pelo Programa Pé-de-Meia. Para o Ensino Médio Regular são contempladas as etapas dos códigos de 25 a 38. Caso essa informação esteja incorreta, realize a correção dos dados na próxima janela de envio de dados. Após a regularização das informações aguarde a elegibilidade ser processada novamente.'},
+  dnRF:{g:'nao', cod:'TCI 1304', p:11, nome:'Data de nascimento divergente na Receita Federal',
+    txt:'Data de nascimento fornecida no Sistema Gestão Presente (SGP) divergente na Receita Federal (RFB). Verifique a data de nascimento do estudante no SGP. Caso essa informação esteja incorreta, realize a correção dos dados na próxima janela de envio de dados. Caso a informação esteja correta, oriente o estudante a entrar em contato com os serviços da RFB para regularizar a situação.'},
+  reprov:{g:'nao', cod:'Status 301', p:8, nome:'Reprovações ou evasões consecutivas', st:301},
+  pbf:{g:'nao', cod:'TCI 1213', p:7, nome:'Integrante de família unipessoal no Bolsa Família',
+    txt:'Estudante identificado como integrante de família unipessoal no Programa Bolsa Família, não sendo elegível ao Programa Pé-de-Meia, conforme o inciso II do § 3º do art. 3º da Lei nº 14.818/2024. Caso a informação esteja incorreta, oriente o estudante a ir até o CRAS mais próximo junto ao seu familiar para esclarecimentos e correções necessários.'},
+  nomeRF:{g:'nao', cod:'TCI 1303', p:5, nome:'Nome divergente na Receita Federal',
+    txt:'Nome fornecido no Sistema Gestão Presente (SGP) divergente na Receita Federal (RFB). Verifique o nome do estudante no SGP. Caso essa informação esteja incorreta, realize a correção dos dados na próxima janela de envio de dados. Caso a informação esteja correta, oriente o estudante a entrar em contato com os serviços da RFB para regularizar a situação.'},
+  outros:{g:'nao', cod:'Status 303 a 309', p:9, nome:'Outros desligamentos (óbito, requerimento, fraude)', st:'outros'},
+  cpfIrreg:{g:'nao', cod:'TCI 1302', p:1, nome:'CPF em situação irregular na Receita Federal',
+    txt:'CPF informado no Sistema Gestão Presente (SGP) apresenta alguma irregularidade ou está cancelado. Verifique o CPF informado no SGP. Caso essa informação esteja incorreta, realize a correção dos dados na próxima janela de envio de dados. Caso esteja correta, oriente o estudante a buscar os serviços da Receita Federal (RFB) para regularizar a situação.'},
+  cpfNV:{g:'nao', cod:'TCI 1301', p:0, nome:'CPF não validado com a Receita Federal',
+    txt:'CPF informado no Sistema Gestão Presente (SGP) não validado com a Receita Federal (RFB). Verifique os dados do CPF do estudante no SGP.'},
+  /* elegibilidade indefinida — critérios de baixa criticidade (status 200) e validação bancária (902) */
+  nomeCad:{g:'indef', cod:'TCI 1206', p:880, nome:'Nome divergente do CadÚnico',
+    txt:'Nome informado no Sistema Gestão Presente (SGP) diverge do registrado no Cadastro Único para Programas Sociais do Governo Federal (CadÚnico). Verifique o nome do estudante no SGP. Caso essa informação esteja incorreta, realize a correção dos dados na próxima janela de envio de dados. Caso a informação esteja correta no SGP, oriente o estudante a ir até o CRAS mais próximo junto ao seu familiar para esclarecimentos e correções necessários. Após a regularização das informações aguarde a elegibilidade ser processada novamente.'},
+  dnCad:{g:'indef', cod:'TCI 1207', p:100, nome:'Data de nascimento divergente do CadÚnico',
+    txt:'Data de nascimento informada no Sistema Gestão Presente (SGP) divergente do Cadastro Único para Programas Sociais do Governo Federal (CadÚnico). Verifique a data de nascimento do estudante no SGP. Caso essa informação esteja incorreta, realize a correção dos dados na próxima janela de envio de dados. Caso as informações estejam corretas no SGP, oriente o estudante a ir até o CRAS mais próximo junto ao seu familiar para esclarecimentos e correções necessários. Após a regularização das informações aguarde a elegibilidade ser processada novamente.'},
+  cpfDiv:{g:'indef', cod:'TCI 1201', p:8, nome:'CPF divergente do CadÚnico',
+    txt:'CPF informado no Sistema Gestão Presente (SGP) divergente do Cadastro Único (CadÚnico). Verifique o CPF do estudante fornecido no SGP. Caso essa informação esteja incorreta, realize a correção dos dados na próxima janela de envio de dados; caso esteja correta, oriente o estudante a realizar as correções no CadÚnico.'},
+  cpfNE:{g:'indef', cod:'TCI 1202', p:6, nome:'CPF não encontrado no CadÚnico',
+    txt:'CPF não encontrado no Cadastro Único (CadÚnico) associado ao NIS informado no Sistema Gestão Presente (SGP). Verifique o CPF e o NIS do estudante no SGP.'},
+  nisDiv:{g:'indef', cod:'TCI 1210', p:3, nome:'NIS divergente do CadÚnico',
+    txt:'NIS informado no Sistema Gestão Presente (SGP) divergente do Cadastro Único (CadÚnico). Verifique o NIS do estudante no SGP.'},
+  rfbBanco:{g:'indef', cod:'Status 902', p:3, nome:'Dados divergentes na Receita Federal (validação bancária)', st:902},
+  semCpf:{g:'indef', cod:'TCI 1214', p:0, nome:'Estudante sem CPF no SGP',
+    txt:'O estudante não possui CPF registrado no Sistema Gestão Presente (SGP). Verifique os dados do estudante no SGP e envie a informação na próxima janela de envio de dados.'}
+};
+const SIT_DO_GRUPO = {nao:'Não elegível', indef:'Elegibilidade indefinida'};
+const pillSitE = sit => sit === 'Elegível' ? 'ok' : sit === 'Elegibilidade indefinida' ? 'wait' : 'no';
+/* quantidades por motivo, fechando a soma exata do total (maior resto) */
+function qtdMotivos(grupo, total){
+  const ks = Object.keys(MOTIVOS).filter(k => MOTIVOS[k].g === grupo);
+  const pe = ks.reduce((s, k) => s + MOTIVOS[k].p, 0);
+  const base = ks.map(k => { const ex = total * MOTIVOS[k].p / pe; return {k, q:Math.floor(ex), r:ex - Math.floor(ex)}; });
+  let falta = total - base.reduce((s, b) => s + b.q, 0);
+  [...base].sort((a, b) => b.r - a.r).forEach(b => { if (falta > 0 && MOTIVOS[b.k].p > 0) { b.q++; falta--; } });
+  return base;
+}
+
+/* ── situação de uma matrícula num processamento ────────────────────
+   Sem processamento, a situação atual. Com processamento, a situação como ficou
+   depois dele: as alterações posteriores são desfeitas (vale o "de" de cada uma). */
+function sitEm(a, ano, jid){
+  let s = a.sit[ano];
+  if (!s || !jid) return s;
+  a.alt.filter(x => x.ciclo === ano && x.jan > jid).sort((x, y) => y.jan.localeCompare(x.jan)).forEach(x => { s = x.de; });
+  return s;
+}
+/* motivos da situação nesse momento (o primeiro é o principal) */
+function motEm(a, ano, jid){
+  const s = sitEm(a, ano, jid);
+  if (!s || s === 'Elegível') return [];
+  if (s === a.sit[ano]) return (a.mot && a.mot[ano]) || [];
+  const x = a.alt.filter(x => x.ciclo === ano && x.jan > jid).sort((x, y) => x.jan.localeCompare(y.jan))[0];
+  return x && x.mot ? [x.mot] : [];
+}
+/* por que a situação mudou num processamento (pedido do MEC: o motivo dentro do 👁) */
+function motivoAlt(a, m){
+  const para = sitEm(a, m.ciclo, m.jan);
+  if (para === 'Elegível') {
+    if (m.mot) return `Regularizado: ${MOTIVOS[m.mot].nome} (${MOTIVOS[m.mot].cod})`;
+    return m.de === 'Elegibilidade indefinida' ? 'Informações de matrícula confirmadas pela rede' : 'Inscrição no CadÚnico confirmada';
+  }
+  const ks = motEm(a, m.ciclo, m.jan);
+  if (ks.length) return `Novo critério identificado: ${MOTIVOS[ks[0]].nome} (${MOTIVOS[ks[0]].cod})`;
+  return 'Divergência de cadastro com a base do CadÚnico';
+}
+
+/* ── informativo (i) — abre ao passar o mouse ou ao clicar ───────────
+   O balão é único e fica fora das tabelas, para não ser cortado pela rolagem. */
+const TIPS = [];
+let tipFixo = null;
+function itip(html, rot){
+  const i = TIPS.push(html) - 1;
+  return `<button type="button" class="itip" data-tip="${i}" aria-label="${rot || 'Ver o motivo'}">i</button>`;
+}
+function mostrarTip(b){
+  const box = document.getElementById('tipbox');
+  box.innerHTML = TIPS[+b.dataset.tip] || '';
+  box.classList.add('on');
+  const r = b.getBoundingClientRect(), w = box.offsetWidth, h = box.offsetHeight;
+  const x = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, innerWidth - w - 8));
+  let y = r.bottom + 8;
+  if (y + h > innerHeight - 8) y = Math.max(8, r.top - h - 8);
+  box.style.left = x + 'px'; box.style.top = y + 'px';
+}
+function esconderTip(){
+  const box = document.getElementById('tipbox');
+  if (box) box.classList.remove('on');
+  document.querySelectorAll('.itip.on').forEach(b => b.classList.remove('on'));
+}
+const alvoTip = e => e.target && e.target.closest ? e.target.closest('[data-tip]') : null;
+document.addEventListener('mouseover', e => { const b = alvoTip(e); if (b && !tipFixo) mostrarTip(b); });
+document.addEventListener('mouseout', e => {
+  const b = alvoTip(e);
+  if (b && !tipFixo && !(e.relatedTarget && b.contains(e.relatedTarget))) esconderTip();
+});
+document.addEventListener('click', e => {
+  const b = alvoTip(e);
+  if (b) {
+    e.preventDefault();
+    if (tipFixo === b) { tipFixo = null; esconderTip(); }
+    else { esconderTip(); tipFixo = b; b.classList.add('on'); mostrarTip(b); }
+    return;
+  }
+  if (tipFixo) { tipFixo = null; esconderTip(); }
+}, true);
+document.addEventListener('focusin', e => { const b = alvoTip(e); if (b) mostrarTip(b); });
+document.addEventListener('focusout', () => { if (!tipFixo) esconderTip(); });
+window.addEventListener('scroll', () => { tipFixo = null; esconderTip(); }, true);
+
+/* texto do (i): por que a matrícula está elegível, indefinida ou não elegível */
+const CRIT_ELEG = [
+  'Família inscrita no CadÚnico, com renda por pessoa de até meio salário-mínimo',
+  'Idade entre 14 e 24 anos',
+  'Matrícula ativa no ensino médio público, em etapa contemplada',
+  'Dados pessoais confirmados no SGP, no CadÚnico e na Receita Federal'
+];
+function tipSituacao(a, ano, jid){
+  const s = sitEm(a, ano, jid), ks = motEm(a, ano, jid);
+  if (s === 'Elegível') {
+    const m = a.alt.filter(x => x.ciclo === ano && (!jid || x.jan <= jid)).sort((x, y) => y.jan.localeCompare(x.jan))[0];
+    return `<div class="tt">Por que está elegível</div>Atende a todos os critérios do Programa:
+      <ul>${CRIT_ELEG.map(c => `<li>${c}</li>`).join('')}</ul>
+      ${m && sitEm(a, ano, m.jan) === 'Elegível' ? `<p>Passou a elegível ${noProc()} ${jan(m.jan).rotulo}.<br>${motivoAlt(a, m)}.</p>` : ''}`;
+  }
+  const g = s === 'Não elegível' ? 'nao' : 'indef';
+  const st = ks.length && MOTIVOS[ks[0]].st ? MOTIVOS[ks[0]].st : (g === 'nao' ? 402 : 200);
+  return `<div class="tt">${g === 'nao' ? 'Por que não está elegível' : 'Por que a elegibilidade está indefinida'}</div>
+    ${ks.length ? `<ul>${ks.map(k => `<li><b>${MOTIVOS[k].nome}</b> <span class="tc">${MOTIVOS[k].cod}</span></li>`).join('')}</ul>` : ''}
+    <p>${ST_ELEG[st]}</p>
+    <p class="tc">O detalhamento de cada critério está no 👁 do estudante.</p>`;
+}
+function tipBloqueio(p){
+  const M = MOT_BLOQ[p.bloq];
+  return M ? `<div class="tt">Por que a parcela está bloqueada</div><b>${M.nome}</b><p>${M.txt}</p>` : '';
+}
+/* pílula da situação da parcela, com o motivo quando bloqueada */
+function sitParcela(p, comData){
+  const cls = p.sit === 'Pago' ? 'ok' : p.sit === 'Bloqueado' ? 'no' : 'wait';
+  return `<span class="pill ${cls}">${p.sit}</span>${p.sit === 'Bloqueado' ? itip(tipBloqueio(p), 'Ver o motivo do bloqueio')
+      + `<div class="mot-l" data-new="motivo do bloqueio">Motivo: ${MOT_BLOQ[p.bloq].nome}</div>` : ''}${comData && p.dt ? `<div class="sec">${comData}${p.dt}</div>` : ''}`;
+}
+
+/* ── componentes ─────────────────────────────────────────────────── */
 function selJanela(){
   const ops = janelasDisponiveis();
   return `<div class="field pai" data-new="filtro novo">
@@ -812,6 +1362,13 @@ function selCiclo(){
 }
 function filtros(){ return `<div class="filters">${selJanela()}${selCiclo()}</div>`; }
 
+/* Pedido do MEC (13/11): aba "Visão geral" (EMR + EJA juntos) em todas as telas */
+function abasMod(){
+  return `<div class="tabs" role="tablist" aria-label="Modalidade">${MODS.map(m => `<button role="tab" aria-selected="${state.mod===m.id}"
+    class="${state.mod===m.id?'on':''}"${m.id==='geral'?' data-new="aba nova"':''} onclick="state.mod='${m.id}'; render()">${m.nome}</button>`).join('')}</div>`;
+}
+const pillMod = a => `<span class="pill mod" title="${MODS.find(m => m.id === a.mod).nome}">${a.mod}</span>`;
+
 function windowBar(){
   if (!state.janela) return '';
   const j = jan(state.janela);
@@ -822,9 +1379,26 @@ function windowBar(){
     <span class="t">▣ ${tv('Processamento de', 'Janela de processamento de')} ${j.rotulo}</span>
     <span class="d">Exibindo ${foco}.</span>
     <span class="actions">
-      <button class="btn new sm" onclick="ir('#/janela/${j.id}')">${tv('Ver o processamento completo', 'Ver a janela de processamento completa')}</button>
+      <button class="btn new sm" onclick="irCom('#/janela/${j.id}')">${tv('Ver o processamento completo', 'Ver a janela de processamento completa')}</button>
       <button class="btn sm" onclick="setJanela('')">Limpar</button>
     </span>
+  </div>`;
+}
+
+/* aviso quando o processamento atinge ciclos anteriores, com "Por que isso acontece?" */
+function avisoCiclos(j){
+  const ant = anosDa(j).filter(a => a < 2026).sort();
+  if (!ant.length) return '';
+  return `<div class="aviso-ciclos" data-new="aviso novo">
+    <span class="ico">!</span>
+    <div><b>${tv('Este processamento', 'Esta janela de processamento')} também alterou ${ant.length > 1 ? 'os ciclos anteriores' : 'o ciclo anterior'} ${ant.join(' e ')}.</b>
+      Por isso aparecem mudanças de situação e pagamentos de anos que já tinham terminado.
+      <details><summary>Por que isso acontece?</summary>
+        <p>Um ciclo anterior volta a ser processado quando chegam informações que mudam a situação de estudantes daquele ano —
+        por exemplo, frequência ou conclusão informadas depois do prazo, ou uma correção de cadastro autorizada pelas normas do Programa.
+        Se a situação muda, as parcelas a que o estudante passou a ter direito são liberadas agora, mesmo sendo de outro ciclo.</p>
+        <p>Para ver quem foi afetado, use “Ver as matrículas alteradas” em cada ciclo ${tv('do processamento', 'da janela de processamento')}.</p>
+      </details></div>
   </div>`;
 }
 
@@ -864,12 +1438,8 @@ function casa(a, termo){
     .some(v => String(v).toLowerCase().replace(/[.\-\s]/g, '').includes(t));
 }
 const LIM = 25;   /* linhas por página, como no Portal */
-function rotuloLista(mostrados, total){
-  if (state.busca) return `${N(mostrados)} ${mostrados === 1 ? 'registro encontrado' : 'registros encontrados'}`;
-  if (mostrados < total) return `Exibindo ${N(mostrados)} de ${N(total)} registros`;
-  return `${N(total)} ${total === 1 ? 'registro' : 'registros'}`;
-}
-function searchbar(ph, mostrados, total){
+const PH_BUSCA = 'Pesquisar por Nome, CPF, NIS ou Matrícula';
+function searchbar(ph){
   return `<div class="searchbar">
     <div class="searchbox">
       <span class="mag">⌕</span>
@@ -877,8 +1447,63 @@ function searchbar(ph, mostrados, total){
              oninput="state.busca=this.value; render(); foco('q')">
       ${state.busca ? `<button class="clr" title="Limpar busca" onclick="state.busca=''; render()">×</button>` : ''}
     </div>
-    <span class="count">${rotuloLista(mostrados, total)}</span>
     ${buscaAmpliada() ? `<span class="count" style="color:var(--new)">buscando em todos os ciclos ${tv('do processamento', 'da janela de processamento')}</span>` : ''}
+  </div>`;
+}
+/* Pedido das redes: a lista é o destaque das telas internas, com o total do recorte em evidência */
+function listHead(titulo, total, mostrados, sub){
+  return `<div class="lhead" id="lista" data-new="lista em destaque">
+    <div><h2>${titulo}</h2>${sub ? `<div class="lsub">${sub}</div>` : ''}</div>
+    <div class="ltot">Exibindo ${N(mostrados)} de <b>${N(total)}</b> ${total === 1 ? 'registro' : 'registros'}</div>
+  </div>`;
+}
+/* etiquetas com os filtros em uso, cada uma removível, e "Limpar filtros" */
+function chipsFiltros(){
+  const c = [], x = (rot, js) => `<span class="fchip">${rot}${js ? `<button title="Remover este filtro" aria-label="Remover filtro: ${rot}" onclick="${js}">×</button>` : ''}</span>`;
+  if (state.mod !== 'geral') c.push(x(`Modalidade: ${state.mod}`, "state.mod='geral'; render()"));
+  if (state.janela) c.push(x(`${tv('Processamento', 'Janela de processamento')}: ${jan(state.janela).rotulo}`, "setJanela('')"));
+  c.push(x(state.ciclo === 'todos' ? `Ciclos: ${ciclosDisponiveis().join(', ')}` : `Ciclo ${state.ciclo}`,
+    state.ciclo === '2026' ? '' : (state.janela && !anosDa(jan(state.janela)).includes(2026) ? '' : "setCiclo('2026')")));
+  if (state.altF) c.push(x(`Só com situação alterada ${tv('neste processamento', 'nesta janela de processamento')}`, 'state.altF=false; render()'));
+  if (state.mun) c.push(x(`Município: ${state.mun}`, "state.mun=''; render()"));
+  if (state.sitF) c.push(x(`Situação: ${state.sitF}`, "state.sitF=''; state.motF=''; render()"));
+  if (state.motF) c.push(x(`Motivo: ${MOTIVOS[state.motF].nome}`, "state.motF=''; render()"));
+  if (state.incF) c.push(x(`Incentivo: ${state.incF}`, "state.incF=''; render()"));
+  if (state.sitPagF) c.push(x(`Situação: ${state.sitPagF}`, "state.sitPagF=''; render()"));
+  if (state.faixaF) c.push(x(`Frequência acumulada: ${state.faixaF === 'acima' ? 'igual ou acima de 80%' : 'abaixo de 80%'}`, "state.faixaF=''; render()"));
+  if (state.busca) c.push(x(`Busca: “${state.busca.replace(/</g, '&lt;')}”`, "state.busca=''; render()"));
+  const algum = state.mod !== 'geral' || state.janela || state.ciclo !== '2026' || state.altF || state.mun || state.sitF || state.motF || state.incF || state.sitPagF || state.faixaF || state.busca;
+  return `<div class="fchips" data-new="filtros em uso"><span class="flb">Filtros em uso:</span>${c.join('')}
+    ${algum ? `<button class="lnk2" onclick="limparFiltros(); render()">Limpar filtros</button>` : ''}</div>`;
+}
+/* o recorte em palavras, para a exportação */
+function descRecorte(){
+  const p = [];
+  p.push(state.mod === 'geral' ? 'EMR e EJA' : state.mod);
+  p.push(state.janela ? `${tv('processamento de', 'janela de processamento de')} ${jan(state.janela).rotulo}` : tv('todos os processamentos', 'todas as janelas de processamento'));
+  p.push(state.ciclo === 'todos' ? `ciclos ${ciclosDisponiveis().join(', ')}` : `ciclo ${state.ciclo}`);
+  if (state.altF) p.push('só com situação alterada');
+  if (state.mun) p.push(state.mun);
+  if (state.sitF) p.push(state.sitF);
+  if (state.motF) p.push(`motivo: ${MOTIVOS[state.motF].nome}`);
+  if (state.incF) p.push(`incentivo ${state.incF}`);
+  if (state.sitPagF) p.push(state.sitPagF);
+  if (state.faixaF) p.push(state.faixaF === 'acima' ? 'frequência ≥ 80%' : 'frequência < 80%');
+  if (state.busca) p.push(`busca “${state.busca.replace(/</g, '&lt;')}”`);
+  return p.join(' · ');
+}
+/* Pedido do MEC (13/11): deixar claro que a planilha considera o que está filtrado e visível na tela */
+function exportRecorte(titulo, total, oque){
+  const reg = `${N(total)} ${total === 1 ? 'registro' : 'registros'}`;
+  return `<div class="export" style="margin-top:22px" data-new="exportação do que está na tela">
+    <h3>${titulo}</h3>
+    <div class="box">
+      <div><b>Planilha com o que está filtrado na tela</b>
+      <p>Faça a solicitação do download da planilha com ${oque} <b>filtrados e visíveis na lista acima — ${reg}</b> (${descRecorte()}).
+      A planilha considera só o que está filtrado; para exportar outro recorte, ajuste os filtros antes de solicitar.</p></div>
+      <button class="btn solid" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações, com os ${reg} filtrados.')">⬓ Solicitar Planilha</button>
+    </div>
+    <p style="margin:14px 0 0"><a href="${location.hash || '#/'}">↺ Visualizar Solicitações</a></p>
   </div>`;
 }
 function selMun(lista){
@@ -894,9 +1519,17 @@ function selMun(lista){
    TELA — INÍCIO
    ══════════════════════════════════════════════════════════════════ */
 function telaInicio(){
-  const j = ULTIMA;
-  const r = redeDe(state.ciclo);
-  const rotuloCiclo = state.ciclo === 'todos' ? 'todos os ciclos' : `ciclo ${state.ciclo}`;
+  /* o bloco do processamento vem antes dos totais e acompanha o filtro */
+  const j0 = state.janela ? jan(state.janela) : ULTIMA, j = jMod(j0);
+  const anos = anosRecorte();
+  const r = retrato(anos, state.janela);
+  const fq = freqResumo(anos, state.janela);
+  const pg = pagResumo(anos, state.janela);
+  const rotuloCiclo = state.ciclo === 'todos' ? (state.janela ? `ciclos ${anos.join(', ')}` : 'todos os ciclos') : `ciclo ${state.ciclo}`;
+  const pos = state.janela ? `situação ${noProc()} ${j0.rotulo}` : `situação atual, depois ${tv('do processamento de', 'da janela de processamento de')} ${ULTIMA.rotulo}`;
+  const alt = somaJ(j, 'alteradas');
+  const atalho = hash => `irCom('${hash}', {janela:'${state.janela}', ciclo:'${state.ciclo}'})`;
+  const cellF = (lbl, v, dica) => `<div class="cell"><div class="lbl">${lbl} <span class="info" title="${dica}">i</span></div><div class="val num">${fq.semFreq && !fq.eleg ? '—' : N(v)}</div></div>`;
 
   return {
     crumbs:[],
@@ -906,13 +1539,37 @@ function telaInicio(){
       <div class="mark">PÉ·DE·MEIA</div>
     </div>
 
+    ${abasMod()}
     ${filtros()}
-    ${windowBar()}
 
-    <div class="notice">Caro operador(a), informamos que a consulta do mês corrente está em processamento. Os últimos dados consolidados são de <b>Junho</b>.</div>
+    <div class="section-title" data-new="bloco no topo">
+      <span class="ico" style="color:var(--new)">▣</span> ${state.janela ? tv('Processamento selecionado', 'Janela de processamento selecionada') : tv('Último processamento', 'Última janela de processamento')}
+      <span class="act"><button class="btn new sm" onclick="irCom('#/processamentos')">${tv('Ver todos os processamentos', 'Ver todas as janelas de processamento')}</button></span>
+    </div>
+    <button class="window-card hot" onclick="irCom('#/janela/${j0.id}')">
+      <div class="wc-date">
+        <div class="day">${j0.rotulo}</div>
+        <div class="mon">${statusJ(j0)}</div>
+      </div>
+      <div class="wc-cycles">
+        <div class="cap">Ciclos afetados</div>
+        <div class="pills">${anosDa(j0).map(pillCiclo).join('')}</div>
+      </div>
+      <div class="wc-res">
+        <div class="cap">Matrículas processadas <span class="info" title="Todas as matrículas dos ciclos afetados, avaliadas de novo ${tv('neste processamento', 'nesta janela de processamento')}. A maioria continua com a mesma situação.">i</span></div>
+        <div class="big">${N(somaJ(j,'processadas'))}</div>
+        <div class="wc-sub" data-new="detalhe novo">${N(alt)} com situação de elegibilidade alterada</div>
+      </div>
+      <div class="wc-res">
+        <div class="cap">Parcelas liberadas</div>
+        <div class="big">${N(parcelasJ(j))}</div>
+        <div class="money">${R$(valorJ(j))}</div>
+      </div>
+    </button>
+    ${avisoCiclos(j0)}
 
-    <div class="section-title"><span class="ico">▤</span> Matrículas <span class="pill gray">${rotuloCiclo}</span>
-      <span class="act"><button class="btn sm" onclick="ir('#/elegibilidade')">Status de Elegibilidade</button></span>
+    <div class="section-title" style="margin-top:34px"><span class="ico">▤</span> Matrículas <span class="pill gray">${rotuloCiclo}</span> <span class="pos" data-new="muda com o filtro">${pos}</span>
+      <span class="act"><button class="btn sm" onclick="${atalho('#/elegibilidade')}">Status de Elegibilidade</button></span>
     </div>
     <div class="kpis">
       ${kpi('Matrículas na Rede', r.rede, 'var(--blue)', 'Total de matrículas da rede no recorte selecionado.')}
@@ -925,63 +1582,31 @@ function telaInicio(){
     <div class="grid-2" style="margin-top:26px">
       <div>
         <div class="section-title"><span class="ico">▦</span> Frequência das matrículas
-          <span class="act"><button class="btn sm" onclick="ir('#/frequencia')">Visualizar Detalhamento</button></span>
+          <span class="act"><button class="btn sm" onclick="${atalho('#/frequencia')}">Visualizar Detalhamento</button></span>
         </div>
         <div class="panel panel-rows">
-          <div class="cell wide"><div class="lbl">Total de Matrículas Elegíveis <span class="info">i</span></div><div class="val num">${N(r.eleg)}</div></div>
-          <div class="cell"><div class="lbl">Igual ou Acima de 80% <span class="info">i</span></div><div class="val num">313.613</div></div>
-          <div class="cell"><div class="lbl">Abaixo de 80% <span class="info">i</span></div><div class="val num">27.834</div></div>
-          <div class="cell"><div class="lbl">Não Informada <span class="info">i</span></div><div class="val num">823</div></div>
-          <div class="cell"><div class="lbl">Não Informada (3 Meses) <span class="info">i</span></div><div class="val num">795</div></div>
+          <div class="cell wide"><div class="lbl">Total de Matrículas Elegíveis <span class="info" title="As matrículas elegíveis do recorte. Somam: igual ou acima de 80% + abaixo de 80% + não informada.">i</span></div><div class="val num">${N(r.eleg)}</div></div>
+          ${cellF('Igual ou Acima de 80%', fq.acima, 'Elegíveis com frequência acumulada igual ou acima de 80%.')}
+          ${cellF('Abaixo de 80%', fq.abaixo, 'Elegíveis com frequência acumulada abaixo de 80%.')}
+          ${cellF('Não Informada', fq.ni, 'Elegíveis sem frequência informada pela rede no último mês apurado.')}
+          ${cellF('Não Informada (3 Meses)', fq.ni3, 'Parte das não informadas que está sem frequência há três meses seguidos.')}
         </div>
+        ${fq.semFreq && !fq.eleg ? `<p class="explica" style="margin:8px 2px 0">${tv('O processamento', 'A janela de processamento')} de ${j0.rotulo} tratou só a matrícula: a frequência de fevereiro foi apurada em ${jan(JAN_DO_MES.fev).rotulo}.</p>` : ''}
       </div>
       <div>
-        <div class="section-title"><span class="ico">▩</span> Pagamentos
-          <span class="act"><button class="btn sm" onclick="ir('#/pagamento')">Visualizar Pagamentos</button></span>
+        <div class="section-title"><span class="ico">▩</span> Pagamentos <span class="pos">${state.janela ? `${tv('neste processamento', 'nesta janela de processamento')}` : 'acumulado'}</span>
+          <span class="act"><button class="btn sm" onclick="${atalho('#/pagamento')}">Visualizar Pagamentos</button></span>
         </div>
         <div class="panel panel-rows">
-          <div class="cell wide"><div class="lbl">Total de Incentivos Pagos <span class="info">i</span></div><div class="val num">979.964</div></div>
-          <div class="cell"><div class="lbl">Total de Incentivo Matrícula <span class="info">i</span></div><div class="val num">339.755</div></div>
-          <div class="cell"><div class="lbl">Total de Incentivo Frequência <span class="info">i</span></div><div class="val num">640.209</div></div>
-          <div class="cell"><div class="lbl">Total de Incentivo Conclusão <span class="info">i</span></div><div class="val num">0</div></div>
-          <div class="cell"><div class="lbl">Total de Incentivo ENEM <span class="info">i</span></div><div class="val num">0</div></div>
+          <div class="cell wide"><div class="lbl">Total de Incentivos Pagos <span class="info" title="Parcelas pagas no recorte selecionado.">i</span></div><div class="val num">${N(pg.pagos)}</div></div>
+          ${INCS.map(k => `<div class="cell"><div class="lbl">Total de Incentivo ${k === 'Enem' ? 'ENEM' : k} <span class="info" title="Parcelas pagas do incentivo ${k}.">i</span></div><div class="val num">${N(pg.inc[k].pagos)}</div></div>`).join('')}
         </div>
       </div>
     </div>
-
-    <div class="section-title" data-new="bloco novo" style="margin-top:38px">
-      <span class="ico" style="color:var(--new)">▣</span> ${tv('Último processamento', 'Última janela de processamento')}
-      <span class="act"><button class="btn new sm" onclick="ir('#/processamentos')">${tv('Ver todos os processamentos', 'Ver todas as janelas de processamento')}</button></span>
-    </div>
-    <button class="window-card hot" onclick="ir('#/janela/${j.id}')">
-      <div class="wc-date">
-        <div class="day">${j.rotulo}</div>
-        <div class="mon">${statusJ(j)} em ${j.fim}</div>
-      </div>
-      <div class="wc-cycles">
-        <div class="cap">Ciclos afetados</div>
-        <div class="pills">${anosDa(j).map(pillCiclo).join('')}</div>
-      </div>
-      <div class="wc-res">
-        <div class="cap">Matrículas processadas</div>
-        <div class="big">${N(somaJ(j,'processadas'))}</div>
-      </div>
-      <div class="wc-res">
-        <div class="cap">Parcelas liberadas</div>
-        <div class="big">${N(parcelasJ(j))}</div>
-        <div class="money">${R$(valorJ(j))}</div>
-      </div>
-    </button>
-    <p style="color:var(--ink-2); font-size:13px; margin:12px 2px 0; max-width:94ch">
-      ${tv('Este processamento', 'Esta janela de processamento')} atingiu matrículas dos ciclos de <b>2024, 2025 e 2026</b> e liberou pagamento de matrícula do
-      <b>ciclo de 2024</b>. Pelo filtro de ciclo, esse resultado só apareceria para quem soubesse voltar ao ciclo de 2024 —
-      a leitura por ${tv('processamento', 'janela de processamento')} mostra que ele aconteceu agora.
-    </p>
 
     <div class="section-title" style="margin-top:38px">Outros acessos</div>
     <div class="grid-2">
       ${acesso('Conheça o Gestão Presente', 'O Gestão Presente é um hub de informações educacionais, promovendo a integração entre redes federais, estaduais e municipais.', 'Gestão Presente')}
-      ${acesso('Consultar informações do estudante', 'Tenha acesso a mais informações de estudantes e matrículas.', 'Consulta estudante')}
     </div>`
   };
 }
@@ -1004,37 +1629,70 @@ function telaProcessamentos(){
       <div>
         <h1>${nomeProc()}</h1>
         <div class="sub">${tv('Cada processamento', 'Cada janela de processamento')} mostra o que foi processado num mesmo período: quantas matrículas, de quais ciclos,
-        e quanto foi liberado em pagamento. É a leitura por <b>data do processamento</b> — complementar ao ciclo,
+        e quanto foi liberado em pagamento. É a leitura por <b>mês do processamento</b> — complementar ao ciclo,
         que é a leitura por <b>ano do dado</b>.</div>
       </div>
       <div class="mark">PÉ·DE·MEIA</div>
     </div>
 
+    ${abasMod()}
+
     <div class="tabs" data-new="tela nova">
       <button class="${state.aba==='lista'?'on':''}" onclick="state.aba='lista'; render()">${tv('Processamentos', 'Janelas de processamento')}</button>
-      <button class="${state.aba==='cmp'?'on':''}" onclick="state.aba='cmp'; render()">${tv('Comparar processamentos', 'Comparar janelas de processamento')}</button>
+      <button class="cmp-tab ${state.aba==='cmp'?'on':''}" data-new="aba em evidência" onclick="state.aba='cmp'; render()">⇄ ${tv('Comparar processamentos', 'Comparar janelas de processamento')} <span class="nv">novo</span></button>
     </div>
 
     ${state.aba === 'lista' ? listaJanelas() : comparativo()}`
   };
 }
 
+/* Pedido do MEC (13/11): calendário com o processamento aberto e os próximos — sem ciclos afetados nem observações */
+function calendarioFuturo(){
+  if (!['todos', '2026'].includes(state.ciclo)) return '';
+  return `<div data-new="calendário">
+    <div class="cal-h">${tv('Próximos processamentos', 'Próximas janelas de processamento')} <span>para a rede organizar o envio de dados</span></div>
+    <div class="window-list" style="margin-bottom:26px">
+      ${FUTUROS.map(f => `<div class="window-card fut ${f.aberto ? 'aberta' : ''}">
+        <div class="wc-date"><div class="day">${f.rotulo}</div>
+          <span class="stj ${f.aberto ? 'ab' : ''}">${f.aberto ? tv('Aberto para envio de dados', 'Janela aberta') : tv('Fechado', 'Janela fechada')}</span></div>
+        <div class="wc-res wc-env">
+          <div class="cap">Envio de dados</div>
+          <div>Frequência de <b>${f.freq}</b> (${f.parcela}) · envio de <b>${f.envio}</b></div>
+        </div>
+      </div>`).join('')}
+    </div>
+    <div class="cal-h">${tv('Processamentos concluídos', 'Janelas de processamento concluídas')}</div>
+  </div>`;
+}
+/* Pedido do MEC (13/11): link evidente para o calendário operacional (no protótipo, não abre nada) */
+function linkCalendario(){
+  return `<div class="cal-link" data-new="link novo"><span class="info">i</span>
+    <span>As datas ${tv('dos processamentos', 'das janelas de processamento')} e do envio de dados seguem o calendário operacional do Pé-de-Meia.</span>
+    <a href="#" onclick="event.preventDefault()" title="No protótipo, este link não abre outra página">Consultar o calendário operacional ↗</a></div>`;
+}
 function listaJanelas(){
   const lista = janelasDisponiveis();
-  const max = Math.max(...JANELAS.map(parcelasJ));
+  const max = Math.max(...JANELAS.map(x => parcelasJ(jMod(x))));
   return `
+    <div class="cmp-cta" data-new="comparar em evidência">
+      <span class="ic">⇄</span>
+      <p><b>${tv('Quer saber o que mudou de um processamento para outro?', 'Quer saber o que mudou de uma janela de processamento para outra?')}</b>Compare ${tv('dois processamentos', 'duas janelas de processamento')} lado a lado: matrículas, situações alteradas, parcelas e valores.</p>
+      <button class="btn new solid sm" onclick="state.aba='cmp'; render(); scrollTo({top:0})">${tv('Comparar processamentos', 'Comparar janelas de processamento')} →</button>
+    </div>
     <div class="filters">
       <div class="field"><label for="p-ciclo">Ciclo afetado</label>
         <select id="p-ciclo" onchange="state.ciclo=this.value; render()">
           <option value="todos" ${state.ciclo==='todos'?'selected':''}>Todos</option>
           ${[2026,2025,2024].map(a => `<option value="${a}" ${state.ciclo===String(a)?'selected':''}>${a}</option>`).join('')}
         </select></div>
-      <span class="count">${N(lista.length)} ${lista.length === 1 ? tv('processamento', 'janela de processamento') : tv('processamentos', 'janelas de processamento')}</span>
+      <span class="count">${N(lista.length)} ${lista.length === 1 ? tv('processamento concluído', 'janela de processamento concluída') : tv('processamentos concluídos', 'janelas de processamento concluídas')}${['todos', '2026'].includes(state.ciclo) ? ` · ${FUTUROS.length} ${tv('previstos', 'previstas')}` : ''}</span>
     </div>
 
+    ${linkCalendario()}
+    ${calendarioFuturo()}
     <div class="window-list">
-      ${lista.map(j => `
-        <button class="window-card ${j.id===ULTIMA.id?'hot':''}" onclick="ir('#/janela/${j.id}')">
+      ${lista.map(j0 => { const j = jMod(j0); return `
+        <button class="window-card ${j.id===ULTIMA.id?'hot':''}" onclick="irCom('#/janela/${j.id}')">
           <div class="wc-date">
             <div class="day">${j.rotulo}</div>
             <div class="mon">${statusJ(j)}</div>
@@ -1042,6 +1700,7 @@ function listaJanelas(){
           <div class="wc-cycles">
             <div class="cap">Ciclos afetados</div>
             <div class="pills">${anosDa(j).map(pillCiclo).join('')}</div>
+            ${anosDa(j).some(a => a < 2026) ? `<div class="tagant" data-new="aviso novo" title="Também alterou ciclos que já tinham terminado — veja o porquê ao abrir">! inclui ciclos anteriores</div>` : ''}
           </div>
           <div class="wc-res">
             <div class="cap">Matrículas processadas</div>
@@ -1053,7 +1712,7 @@ function listaJanelas(){
             <div class="money">${R$(valorJ(j))}</div>
             <div class="bar"><span style="width:${(parcelasJ(j)/max*100).toFixed(1)}%"></span></div>
           </div>
-        </button>`).join('')}
+        </button>`; }).join('')}
     </div>
 
     <div class="export" style="margin-top:26px">
@@ -1076,11 +1735,11 @@ function setCmpA(i){
 function setCmpB(i){ state.cmpB = +i; render(); }
 
 function comparativo(){
-  const a = JANELAS[state.cmpA], b = JANELAS[state.cmpB];
-  const linha = (k, va, vb, money) => {
+  const a = jMod(JANELAS[state.cmpA]), b = jMod(JANELAS[state.cmpB]);
+  const linha = (k, va, vb, money, sub) => {
     const dif = vb - va;                                      /* evolução de A para B */
     return `<tr>
-      <td>${k}</td>
+      <td${sub ? ' style="padding-left:28px; color:var(--ink-2)"' : ''}>${k}</td>
       <td class="r num">${money?R$(va):N(va)}</td>
       <td class="r num"><b>${money?R$(vb):N(vb)}</b></td>
       <td class="r">${dif===0?'<span class="delta flat">=</span>':`<span class="delta ${dif>0?'up':'down'}">${dif>0?'+':'−'}${money?R$(Math.abs(dif)):N(Math.abs(dif))}</span>`}</td>
@@ -1090,17 +1749,19 @@ function comparativo(){
   /* A pode ser qualquer janela menos a mais recente; B, qualquer uma posterior a A */
   const opsA = JANELAS.map((j, i) => ({i, j})).filter(x => x.i > 0);
   const opsB = JANELAS.map((j, i) => ({i, j})).filter(x => x.i < state.cmpA);
+  const deixou = j => somaJ(j,'alteradas') - somaJ(j,'paraElegivel');
 
   return `
-    <div class="filters">
-      <div class="field">
-        <label for="c-a">${tv('Processamento A', 'Janela de processamento A')} <span class="hint" style="margin:0">anterior</span></label>
+    <div class="cmp-sel" data-new="seleção em destaque">
+      <div class="cmp-box">
+        <label for="c-a">${tv('Processamento A', 'Janela de processamento A')} · anterior</label>
         <select id="c-a" onchange="setCmpA(this.value)">
           ${opsA.map(x => `<option value="${x.i}" ${state.cmpA===x.i?'selected':''}>${x.j.rotulo}</option>`).join('')}
         </select>
       </div>
-      <div class="field">
-        <label for="c-b">${tv('Processamento B', 'Janela de processamento B')} <span class="hint" style="margin:0">posterior</span></label>
+      <div class="cmp-arrow" aria-hidden="true">→</div>
+      <div class="cmp-box">
+        <label for="c-b">${tv('Processamento B', 'Janela de processamento B')} · posterior</label>
         <select id="c-b" onchange="setCmpB(this.value)">
           ${opsB.map(x => `<option value="${x.i}" ${state.cmpB===x.i?'selected':''}>${x.j.rotulo}</option>`).join('')}
         </select>
@@ -1118,7 +1779,9 @@ function comparativo(){
         <tbody>
           ${linha('Ciclos afetados', anosDa(a).length, anosDa(b).length)}
           ${linha('Matrículas processadas', somaJ(a,'processadas'), somaJ(b,'processadas'))}
-          ${linha('Matrículas com situação alterada', somaJ(a,'alteradas'), somaJ(b,'alteradas'))}
+          ${linha('Matrículas com situação de elegibilidade alterada', somaJ(a,'alteradas'), somaJ(b,'alteradas'))}
+          ${linha('↳ passaram a ser elegíveis', somaJ(a,'paraElegivel'), somaJ(b,'paraElegivel'), false, true)}
+          ${linha('↳ deixaram de ser elegíveis', deixou(a), deixou(b), false, true)}
           ${linha('Parcelas liberadas', parcelasJ(a), parcelasJ(b))}
           ${linha('Valor liberado', valorJ(a), valorJ(b), true)}
         </tbody>
@@ -1134,7 +1797,7 @@ function comparativo(){
    TELA — DETALHE DA JANELA
    ══════════════════════════════════════════════════════════════════ */
 function telaJanela(){
-  const j = jan(state.arg);
+  const j0 = jan(state.arg), j = jMod(j0);
   const totalP = parcelasJ(j), totalV = valorJ(j);
   const proc = somaJ(j, 'processadas');
   const alt = somaJ(j, 'alteradas');
@@ -1143,17 +1806,19 @@ function telaJanela(){
   /* gráfico de pagamento por ciclo */
   let acc = 0;
   const fatias = j.ciclos.map(c => {
-    const pct = valorC(c) / totalV * 100;
+    const pct = totalV ? valorC(c) / totalV * 100 : 0;
     const seg = `${CORC[c.ano]} ${acc}% ${acc + pct}%`;
     acc += pct;
     return {ano:c.ano, pct, seg, parcelas:parcelasC(c), valor:valorC(c)};
   });
 
-  const mudancas = ALUNOS.filter(a => a.alt.some(x => x.jan === j.id));
+  const mudancas = ALUNOS.filter(a => naMod(a) && a.alt.some(x => x.jan === j.id));
+  const alterTodos = `irCom('#/elegibilidade', {janela:'${j.id}', ciclo:'todos', altF:true})`;
 
   return {
     crumbs:[{txt:nomeProc(), href:'#/processamentos'}, {txt:`${tv('Processamento de', 'Janela de processamento de')} ${j.rotulo}`}],
     html:`
+    ${abasMod()}
     <div class="win-head">
       <div class="row">
         <div>
@@ -1162,27 +1827,32 @@ function telaJanela(){
             <span class="pill ok">${statusJ(j)}</span>
           </div>
           <div class="meta">
-            <div><div class="k">Início</div><div class="v">${j.inicio}</div></div>
-            <div><div class="k">Término</div><div class="v">${j.fim}</div></div>
             <div><div class="k">Ciclos afetados</div><div class="v">${anosDa(j).join(' · ')}</div></div>
             <div><div class="k">Matrículas processadas</div><div class="v">${N(proc)}</div></div>
+            <div><div class="k">Modalidade</div><div class="v">${state.mod === 'geral' ? 'EMR e EJA' : state.mod}</div></div>
             <div><div class="k">Rede</div><div class="v">Estadual — Bahia</div></div>
           </div>
         </div>
         <div class="acts">
-          <button class="btn sm" onclick="ir('#/processamentos')">← ${tv('Todos os processamentos', 'Todas as janelas de processamento')}</button>
+          <button class="btn sm" onclick="irCom('#/processamentos')">← ${tv('Todos os processamentos', 'Todas as janelas de processamento')}</button>
           <button class="btn new solid sm" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações, como nas demais telas do Portal.')">⬓ Exportar relatório</button>
         </div>
       </div>
     </div>
 
+    ${avisoCiclos(j)}
+
     <div class="section-title"><span class="ico">▤</span> O que foi processado, por ciclo</div>
+    <p class="explica" data-new="explicação nova"><b>Matrículas processadas</b> são todas as matrículas do ciclo, avaliadas de novo ${tv('neste processamento', 'nesta janela de processamento')} — a maioria continua com a mesma situação.
+      <b>Situação de elegibilidade alterada</b> são as que mudaram: elas se dividem entre as que <b>passaram a ser elegíveis</b> e as que <b>deixaram de ser elegíveis</b>.</p>
     <div class="tbl-wrap">
-      <table>
+      <table class="tquebra">
         <thead><tr>
-          <th style="width:110px">Ciclo</th>
+          <th style="width:80px">Ciclo</th>
           <th class="r">Matrículas processadas</th>
           <th class="r">Situação de elegibilidade alterada</th>
+          <th class="r sub2">↳ passaram a ser elegíveis</th>
+          <th class="r sub2">↳ deixaram de ser elegíveis</th>
           <th class="r">Parcelas liberadas</th>
           <th class="r">Valor liberado</th>
           <th></th>
@@ -1191,15 +1861,21 @@ function telaJanela(){
           ${j.ciclos.map(c => `<tr>
             <td>${pillCiclo(c.ano)}</td>
             <td class="r num">${N(c.processadas)}</td>
-            <td class="r num">${N(c.alteradas)}</td>
+            <td class="r num"><b>${N(c.alteradas)}</b></td>
+            <td class="r num" style="color:var(--green)">${N(c.paraElegivel)}</td>
+            <td class="r num" style="color:var(--red)">${N(c.alteradas - c.paraElegivel)}</td>
             <td class="r num">${N(parcelasC(c))}</td>
             <td class="r num">${R$(valorC(c))}</td>
-            <td class="r"><button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='${c.ano}'; ir('#/pagamento')">Ver pagamentos</button></td>
+            <td class="r"><div class="acoes-col">
+              <button class="btn new sm" data-new="atalho novo" onclick="irCom('#/elegibilidade', {janela:'${j.id}', ciclo:'${c.ano}', altF:true})">Ver as ${N(c.alteradas)} alteradas</button>
+              <button class="btn sm" onclick="irCom('#/pagamento', {janela:'${j.id}', ciclo:'${c.ano}'})">Ver pagamentos</button></div></td>
           </tr>`).join('')}
           <tr style="background:var(--surface-2)">
             <td><b>Total</b></td>
             <td class="r num"><b>${N(proc)}</b></td>
             <td class="r num"><b>${N(alt)}</b></td>
+            <td class="r num"><b>${N(paraEl)}</b></td>
+            <td class="r num"><b>${N(alt - paraEl)}</b></td>
             <td class="r num"><b>${N(totalP)}</b></td>
             <td class="r num"><b style="color:var(--green)">${R$(totalV)}</b></td>
             <td></td>
@@ -1214,13 +1890,13 @@ function telaJanela(){
       <div class="res">
         <div class="res-h"><span style="color:var(--blue)">◆</span> Matrículas <span class="chip">${N(proc)} processadas</span></div>
         <div class="res-b">
-          <div class="dl"><span class="k">Com situação alterada ${tv('neste processamento', 'nesta janela de processamento')}</span><span class="v">${N(alt)}</span></div>
-          <div class="dl"><span class="k">Passaram a Elegível</span><span class="v">${N(paraEl)}</span></div>
-          <div class="dl"><span class="k">Deixaram de ser Elegível ou ficaram indefinidas</span><span class="v">${N(alt - paraEl)}</span></div>
+          <div class="dl"><span class="k">Com situação de elegibilidade alterada ${tv('neste processamento', 'nesta janela de processamento')}</span><span class="v">${N(alt)}</span></div>
+          <div class="dl"><span class="k">Passaram a ser elegíveis</span><span class="v">${N(paraEl)}</span></div>
+          <div class="dl"><span class="k">Deixaram de ser elegíveis</span><span class="v">${N(alt - paraEl)}</span></div>
           <div class="dl"><span class="k">Sem alteração</span><span class="v">${N(proc - alt)}</span></div>
         </div>
         <div class="res-f">
-          <button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='todos'; ir('#/elegibilidade')">Ver as matrículas alteradas →</button>
+          <button class="btn sm" onclick="${alterTodos}">Ver as ${N(alt)} matrículas alteradas →</button>
         </div>
       </div>
 
@@ -1242,58 +1918,37 @@ function telaJanela(){
           </div>
         </div>
         <div class="res-f">
-          <button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='todos'; ir('#/pagamento')">Ver os pagamentos ${tv('deste processamento', 'desta janela de processamento')} →</button>
+          <button class="btn sm" onclick="irCom('#/pagamento', {janela:'${j.id}', ciclo:'todos'})">Ver os pagamentos ${tv('deste processamento', 'desta janela de processamento')} →</button>
         </div>
       </div>
     </div>
 
     <div class="section-title" style="margin-top:34px"><span class="ico">▥</span> Parcelas liberadas, por ciclo
-      <span class="act"><button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='todos'; ir('#/pagamento')">Abrir na tela de Pagamento</button></span>
+      <span class="act"><button class="btn sm" onclick="irCom('#/pagamento', {janela:'${j.id}', ciclo:'todos'})">Abrir na tela de Pagamento</button></span>
     </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr>
-          <th style="width:110px">Ciclo</th>
-          <th>Incentivo</th>
-          <th class="r">Parcelas</th>
-          <th class="r">Valor</th>
-        </tr></thead>
-        <tbody>
-          ${j.ciclos.flatMap(c => c.parcelas.map(p => `<tr>
-            <td>${pillCiclo(c.ano)}</td>
-            <td><div class="prim">${incDe(p.cod)}</div>${p.faixa ? `<div class="sec">nove parcelas do ciclo ${c.ano}</div>` : ''}</td>
-            <td class="r num">${N(p.qtd)}</td>
-            <td class="r num">${R$(p.valor)}</td>
-          </tr>`)).join('')}
-          <tr style="background:var(--surface-2)">
-            <td colspan="2"><b>${tv('Total do processamento', 'Total da janela de processamento')}</b></td>
-            <td class="r num"><b>${N(totalP)}</b></td>
-            <td class="r num"><b style="color:var(--green)">${R$(totalV)}</b></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    ${tabelaParcelas(j.ciclos, true)}
 
     ${mudancas.length ? `
     <div class="section-title" style="margin-top:34px"><span class="ico">◍</span> Matrículas com situação alterada ${tv('neste processamento', 'nesta janela de processamento')}
-      <span class="act"><button class="btn sm" onclick="state.janela='${j.id}'; state.ciclo='todos'; ir('#/elegibilidade')">Ver todas as matrículas ${tv('deste processamento', 'desta janela de processamento')} →</button></span>
+      <span class="act"><button class="btn sm" onclick="${alterTodos}">Ver todas as ${N(alt)} matrículas alteradas →</button></span>
     </div>
     <div class="tbl-wrap">
-      <table>
+      <table class="tquebra">
         <thead><tr>
           <th>Matrícula</th><th>Estudante</th><th>Unidade de Ensino</th>
-          <th>Ciclo</th><th>Situação anterior</th><th>Situação atual</th><th></th>
+          <th>Ciclo</th><th>Situação anterior</th><th>Passou a</th><th>Motivo da alteração</th><th></th>
         </tr></thead>
         <tbody>
           ${mudancas.map(a => {
-            const m = a.alt.find(x => x.jan === j.id);
+            const m = a.alt.find(x => x.jan === j.id), para = sitEm(a, m.ciclo, j.id);
             return `<tr>
               <td class="num">${a.mat}</td>
               <td class="prim">${a.nome}<div class="sec num">CPF ${a.cpf}</div></td>
               <td><div style="font-size:12.5px">${a.escola}</div><div class="sec">Código INEP: ${a.inep}</div></td>
               <td>${pillCiclo(m.ciclo)}</td>
-              <td><span class="pill ${m.de==='Não elegível'?'no':'wait'}">${m.de}</span></td>
-              <td><span class="pill ${a.sit[m.ciclo]==='Elegível'?'ok':'no'}">${a.sit[m.ciclo]}</span></td>
+              <td><span class="pill ${pillSitE(m.de)}">${m.de}</span></td>
+              <td><span class="pill ${pillSitE(para)}">${para}</span>${itip(tipSituacao(a, m.ciclo, j.id))}</td>
+              <td style="font-size:12.5px; color:var(--ink-2)">${motivoAlt(a, m)}</td>
               <td class="r"><button class="eye" title="Ver detalhes" onclick="abrirDetalhe('${a.mat}')">👁</button></td>
             </tr>`;
           }).join('')}
@@ -1306,31 +1961,73 @@ function telaJanela(){
     `
   };
 }
+function tabelaParcelas(ciclos, comTotal){
+  const tP = ciclos.reduce((s, c) => s + parcelasC(c), 0), tV = ciclos.reduce((s, c) => s + valorC(c), 0);
+  return `<div class="tbl-wrap">
+    <table>
+      <thead><tr><th style="width:110px">Ciclo</th><th>Incentivo</th><th class="r">Parcelas</th><th class="r">Valor</th></tr></thead>
+      <tbody>
+        ${ciclos.flatMap(c => c.parcelas.map(p => `<tr>
+          <td>${pillCiclo(c.ano)}</td>
+          <td><div class="prim">${incDe(p.cod)}</div>${p.faixa ? `<div class="sec">nove parcelas do ciclo ${c.ano}</div>` : ''}</td>
+          <td class="r num">${N(p.qtd)}</td>
+          <td class="r num">${R$(p.valor)}</td>
+        </tr>`)).join('')}
+        ${comTotal ? `<tr style="background:var(--surface-2)">
+          <td colspan="2"><b>${tv('Total do processamento', 'Total da janela de processamento')}</b></td>
+          <td class="r num"><b>${N(tP)}</b></td>
+          <td class="r num"><b style="color:var(--green)">${R$(tV)}</b></td>
+        </tr>` : ''}
+      </tbody>
+    </table>
+  </div>`;
+}
 
 /* ══════════════════════════════════════════════════════════════════
    TELA — ELEGIBILIDADE
    ══════════════════════════════════════════════════════════════════ */
 function telaElegibilidade(){
   const j = state.janela ? jan(state.janela) : null;
-  const anos = ciclosEmFoco();
-  const r = redeDe(state.ciclo);
+  if (!j) state.altF = false;
+  const jid = j ? j.id : '';
+  const anos = ciclosEmFoco(), anosC = anosRecorte();
+  const r = retrato(anosC, jid);
 
-  /* Base: uma linha por matrícula-ciclo. A janela NÃO altera as colunas da tabela —
-     ela apenas restringe a lista às matrículas processadas naquela janela. */
-  let base = [];
-  ALUNOS.forEach(a => {
-    anos.forEach(ano => {
-      if (!a.sit[ano]) return;
-      base.push({a, ano});
-    });
-  });
+  /* Base: uma linha por matrícula-ciclo, com a situação daquele processamento.
+     "Só alteradas" restringe às que mudaram de situação nele. */
+  const base = [];
+  ALUNOS.forEach(a => { if (!naMod(a)) return; anos.forEach(ano => {
+    if (!a.sit[ano]) return;
+    const m = j ? a.alt.find(x => x.jan === j.id && x.ciclo === ano) : null;
+    if (state.altF && !m) return;
+    base.push({a, ano, m, s:sitEm(a, ano, jid), ks:motEm(a, ano, jid)});
+  }); });
+  /* o motivo pertence a uma situação: trocar a situação limpa o motivo */
+  if (state.motF && SIT_DO_GRUPO[MOTIVOS[state.motF].g] !== state.sitF) state.motF = '';
   let lista = base.filter(x => casa(x.a, state.busca));
   if (state.mun) lista = lista.filter(x => x.a.mun === state.mun);
-  if (state.sitF) lista = lista.filter(x => x.a.sit[x.ano] === state.sitF);
-  /* total do recorte: com janela, as matrículas processadas nela; senão, a rede */
-  const totalDecl = (state.busca || state.mun || state.sitF) ? lista.length
-    : (j ? j.ciclos.filter(c => anos.includes(c.ano)).reduce((t,c) => t + c.processadas, 0) : r.rede);
+  if (state.sitF) lista = lista.filter(x => x.s === state.sitF);
+  if (state.motF) lista = lista.filter(x => x.ks[0] === state.motF);
+
+  /* total do recorte — o mesmo número dos cartões */
+  const chave = {'Elegível':'eleg', 'Não elegível':'nao', 'Elegibilidade indefinida':'indef'}[state.sitF];
+  let total, totMot;
+  if (state.altF) {
+    const cs = jMod(j).ciclos.filter(c => anosC.includes(c.ano));
+    const alt = cs.reduce((s, c) => s + c.alteradas, 0), pe = cs.reduce((s, c) => s + c.paraElegivel, 0);
+    totMot = {nao:alt - pe, indef:0};
+    total = !state.sitF ? alt : state.sitF === 'Elegível' ? pe : state.sitF === 'Não elegível' ? alt - pe : 0;
+  } else {
+    totMot = {nao:r.nao, indef:r.indef};
+    total = chave ? r[chave] : r.rede;
+  }
+  /* com um motivo escolhido, o total é a parte daquele motivo na situação */
+  if (state.motF) { const M = MOTIVOS[state.motF]; total = qtdMotivos(M.g, totMot[M.g]).find(i => i.k === state.motF).q; }
+  if (state.busca || state.mun) total = lista.length;
   const pagina = lista.slice(0, LIM);
+  const sub = state.altF ? `Matrículas que mudaram de situação ${noProc()} ${j.rotulo}, com a situação anterior`
+    : j ? `Situação ${noProc()} ${j.rotulo}` : 'Situação atual das matrículas da rede no recorte selecionado';
+  const geral = state.mod === 'geral';
 
   return {
     crumbs:[{txt:'Status de elegibilidade'}],
@@ -1340,11 +2037,7 @@ function telaElegibilidade(){
       <div class="mark">PÉ·DE·MEIA</div>
     </div>
 
-    <div class="tabs">
-      <button class="on">Ensino Médio Regular</button>
-      <button>Educação de Jovens e Adultos (EJA)</button>
-    </div>
-
+    ${abasMod()}
     ${filtros()}
     ${windowBar()}
 
@@ -1356,18 +2049,9 @@ function telaElegibilidade(){
       ${kpi('Não elegível', r.nao, 'var(--ink)', 'Matrículas que não atendem às condições.')}
     </div>
 
-    <div class="export" style="margin-top:24px">
-      <h3>Exportar Dados de Elegibilidade</h3>
-      <div class="box">
-        <div><b>Planilha completa</b>
-        <p>Faça a solicitação do download da planilha completa para visualizar os status dos estudantes da rede${j?` <b>${tv('no processamento de', 'na janela de processamento de')} ${j.rotulo}</b>`:''}.</p></div>
-        <button class="btn solid" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações.')">⬓ Solicitar Planilha</button>
-      </div>
-      <p style="margin:14px 0 0"><a href="#/elegibilidade">↺ Visualizar Solicitações</a></p>
-    </div>
-
-    ${searchbar('Pesquisar por Nome, CPF, NIS ou Matrícula', pagina.length, totalDecl)}
-    <div class="filters" style="margin-bottom:14px">
+    ${listHead('Matrículas', total, pagina.length, sub)}
+    ${searchbar(PH_BUSCA)}
+    <div class="filters" style="margin-bottom:10px">
       <div class="field"><label>Filtrar por</label><select disabled><option>Bahia</option></select></div>
       ${selMun(ALUNOS)}
       <div class="field"><label for="f-sit">Situação</label>
@@ -1375,57 +2059,83 @@ function telaElegibilidade(){
           <option value="">Todas</option>
           ${['Elegível','Não elegível','Elegibilidade indefinida'].map(s => `<option ${state.sitF===s?'selected':''}>${s}</option>`).join('')}
         </select></div>
+      ${['Não elegível', 'Elegibilidade indefinida'].includes(state.sitF) ? `<div class="field" data-new="filtro novo"><label for="f-mot">Motivo</label>
+        <select id="f-mot" style="max-width:300px" onchange="state.motF=this.value; render()">
+          <option value="">Todos</option>
+          ${Object.keys(MOTIVOS).filter(k => SIT_DO_GRUPO[MOTIVOS[k].g] === state.sitF && MOTIVOS[k].p > 0)
+            .map(k => `<option value="${k}" ${state.motF === k ? 'selected' : ''}>${MOTIVOS[k].nome}</option>`).join('')}
+        </select></div>` : ''}
+      ${j ? `<label class="fcheck" data-new="filtro novo"><input type="checkbox" ${state.altF ? 'checked' : ''} onchange="state.altF=this.checked; render()">
+        Só com situação alterada ${tv('neste processamento', 'nesta janela de processamento')}</label>` : ''}
     </div>
+    ${chipsFiltros()}
 
     <div class="tbl-wrap">
       ${lista.length === 0 ? `<div class="empty"><b>Nenhuma matrícula encontrada</b>
-        Revise a busca ou os filtros. ${state.busca?`Termo pesquisado: “${state.busca}”.`:''}</div>` : `
-      <table>
+        Revise a busca ou os filtros em uso, logo acima. ${state.busca?`Termo pesquisado: “${state.busca.replace(/</g, '&lt;')}”.`:''}</div>` : `
+      <table class="tquebra">
         <thead><tr>
           <th>Matrícula</th><th>CPF</th><th>NIS</th><th>Nome</th>
           <th>Unidade de Ensino e Código INEP</th>
           <th>Ciclo</th>
+          ${geral ? '<th data-new="coluna nova">Modalidade</th>' : ''}
           <th>Situação no Pé-de-Meia</th>
+          ${state.altF ? `<th data-new="coluna nova">Antes ${tv('deste processamento', 'desta janela de processamento')}</th>` : ''}
           <th></th>
         </tr></thead>
         <tbody>
           ${pagina.map(x => `<tr>
             <td class="num">${x.a.mat}</td>
-            <td class="num">${x.a.cpf}</td>
+            <td class="num" style="white-space:nowrap">${x.a.cpf}</td>
             <td class="num">${x.a.nis || '–'}</td>
             <td>${x.a.nome}</td>
-            <td><div style="font-size:12.5px">${x.a.escola}</div><div class="sec">Código INEP: ${x.a.inep}</div></td>
+            <td style="min-width:160px"><div style="font-size:12.5px">${x.a.escola}</div><div class="sec">Código INEP: ${x.a.inep}</div></td>
             <td>${pillCiclo(x.ano)}</td>
-            <td><span class="pill ${x.a.sit[x.ano]==='Elegível'?'ok':'no'}">${x.a.sit[x.ano]}</span></td>
+            ${geral ? `<td>${pillMod(x.a)}</td>` : ''}
+            <td style="min-width:150px"><span class="pill ${pillSitE(x.s)}">${x.s}</span>${itip(tipSituacao(x.a, x.ano, jid))}${x.ks.length ? `<div class="mot-l">${MOTIVOS[x.ks[0]].nome}</div>` : ''}</td>
+            ${state.altF ? `<td><span class="pill ${pillSitE(x.m.de)}">${x.m.de}</span></td>` : ''}
             <td class="r"><button class="eye" title="Ver detalhes" onclick="abrirDetalhe('${x.a.mat}')">👁</button></td>
           </tr>`).join('')}
         </tbody>
       </table>`}
     </div>
     ${j?`<p style="color:var(--ink-2); font-size:12.5px; margin-top:12px">
-      Exibindo as matrículas processadas ${tv('no processamento de', 'na janela de processamento de')} ${j.rotulo}. A lista é a mesma de sempre — ${tv('o processamento', 'a janela de processamento')} apenas restringe quais matrículas aparecem.
-    </p>`:''}`
+      ${state.altF ? `Amostra das matrículas que mudaram de situação ${noProc()} ${j.rotulo}.`
+        : `Exibindo a situação das matrículas ${noProc()} ${j.rotulo}. A lista é a mesma de sempre — ${tv('o processamento', 'a janela de processamento')} mostra como cada matrícula estava naquele momento.`}
+    </p>`:''}
+
+    ${exportRecorte('Exportar Dados de Elegibilidade', total, 'os status dos estudantes')}`
   };
 }
 
 /* ══════════════════════════════════════════════════════════════════
    TELA — FREQUÊNCIA
+   As colunas são os meses já apurados até o processamento escolhido
+   (sem processamento, todos); a lista traz as matrículas elegíveis naquele
+   momento — o mesmo total do bloco de frequência do Início.
    ══════════════════════════════════════════════════════════════════ */
+const fmtF = v => v == null ? '—' : pct(v);
+const clsF = v => v == null ? '' : v >= 80 ? 'hi' : v >= 75 ? 'mid' : 'lo';
+function acumF(a, meses){
+  const vs = meses.map(m => a.freq[m]).filter(v => v != null);
+  return vs.length ? Math.round(vs.reduce((s, v) => s + v, 0) / vs.length * 100) / 100 : null;
+}
 function telaFrequencia(){
-  const j = state.janela ? jan(state.janela) : null;
-  const anos = ciclosEmFoco();
+  const j = state.janela ? jan(state.janela) : null, jid = j ? j.id : '';
+  const anos = ciclosEmFoco(), anosC = anosRecorte();
+  const meses = mesesAte(jid);
+  const fq = freqResumo(anosC, jid);
 
-  let base = ALUNOS.filter(a => anos.some(ano => a.sit[ano]));
-  if (j) base = base.filter(a => a.alt.some(x => x.jan === j.id) || PARCELAS.some(p => p.mat === a.mat && p.jan === j.id));
-
+  const base = ALUNOS.filter(a => naMod(a) && anos.some(ano => sitEm(a, ano, jid) === 'Elegível'));
   let lista = base.filter(a => casa(a, state.busca));
   if (state.mun) lista = lista.filter(a => a.mun === state.mun);
-  if (state.faixaF === 'acima') lista = lista.filter(a => a.freq.acum >= 80);
-  if (state.faixaF === 'abaixo') lista = lista.filter(a => a.freq.acum < 80);
-  const totalDecl = (state.busca || state.mun || state.faixaF) ? lista.length : base.length;
-  const pagina = lista.slice(0, LIM);
-
-  const cls = v => v >= 80 ? 'hi' : v >= 75 ? 'mid' : 'lo';
+  if (state.faixaF === 'acima') lista = lista.filter(a => acumF(a, meses) >= 80);
+  if (state.faixaF === 'abaixo') lista = lista.filter(a => acumF(a, meses) != null && acumF(a, meses) < 80);
+  const total = (state.busca || state.mun) ? lista.length
+    : state.faixaF === 'acima' ? fq.acima : state.faixaF === 'abaixo' ? fq.abaixo : fq.eleg;
+  const pagina = meses.length ? lista.slice(0, LIM) : [];
+  const ultimo = meses[meses.length - 1];
+  const geral = state.mod === 'geral';
 
   return {
     crumbs:[{txt:'Frequência de estudantes'}],
@@ -1435,26 +2145,15 @@ function telaFrequencia(){
       <div class="mark">PÉ·DE·MEIA</div>
     </div>
 
-    <div class="tabs">
-      <button class="on">Ensino Médio Regular</button>
-      <button>Educação de Jovens e Adultos (EJA)</button>
-    </div>
-
+    ${abasMod()}
     ${filtros()}
     ${windowBar()}
 
-    <div class="export">
-      <h3>Exportar Dados de Frequência</h3>
-      <div class="box">
-        <div><b>Planilha completa</b>
-        <p>Faça a solicitação do download da planilha completa para visualizar as frequências informadas dos estudantes da rede.</p></div>
-        <button class="btn solid" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações.')">⬓ Solicitar Planilha</button>
-      </div>
-      <p style="margin:14px 0 0"><a href="#/frequencia">↺ Visualizar Solicitações</a></p>
-    </div>
-
-    ${searchbar('Pesquisar por Nome, CPF, NIS ou Matrícula', pagina.length, totalDecl)}
-    <div class="filters" style="margin-bottom:14px">
+    ${listHead('Estudantes elegíveis', meses.length ? total : 0, pagina.length,
+      meses.length ? `Frequência mensal e acumulada${j ? ` até ${tv('o processamento de', 'a janela de processamento de')} ${j.rotulo}` : ''} — o último mês apurado é <b>${NOME_MES[ultimo]}</b>${j ? '' : `, ${tv('no processamento de', 'na janela de processamento de')} ${jan(JAN_DO_MES[ultimo]).rotulo}`}`
+        : `${tv('O processamento', 'A janela de processamento')} de ${j.rotulo} tratou só a matrícula`)}
+    ${searchbar(PH_BUSCA)}
+    <div class="filters" style="margin-bottom:10px">
       ${selMun(ALUNOS)}
       <div class="field"><label for="f-faixa">Frequência acumulada</label>
         <select id="f-faixa" onchange="state.faixaF=this.value; render()">
@@ -1463,43 +2162,49 @@ function telaFrequencia(){
           <option value="abaixo" ${state.faixaF==='abaixo'?'selected':''}>Abaixo de 80%</option>
         </select></div>
     </div>
+    ${chipsFiltros()}
 
     <div class="tbl-wrap">
-      ${lista.length === 0 ? `<div class="empty"><b>Nenhuma matrícula encontrada</b>
-        Revise a busca ou os filtros.</div>` : `
+      ${!meses.length ? `<div class="empty"><b>Nenhuma frequência apurada ainda</b>
+        A frequência de fevereiro foi apurada ${tv('no processamento de', 'na janela de processamento de')} ${jan(JAN_DO_MES.fev).rotulo}.</div>`
+      : lista.length === 0 ? `<div class="empty"><b>Nenhuma matrícula encontrada</b>
+        Revise a busca ou os filtros em uso, logo acima.</div>` : `
       <table>
         <thead><tr>
           <th>Nome, CPF e NIS do Estudante</th>
           <th>Unidade de Ensino e código INEP</th>
           <th>Matrícula SGP</th>
-          <th class="r">Fev</th><th class="r">Mar</th><th class="r">Abr</th>
+          ${geral ? '<th data-new="coluna nova">Modalidade</th>' : ''}
+          ${meses.map(m => `<th class="r" title="Apurada ${tv('no processamento de', 'na janela de processamento de')} ${jan(JAN_DO_MES[m]).rotulo}">${m.charAt(0).toUpperCase() + m.slice(1)}</th>`).join('')}
           <th class="r">Acumulado</th><th></th>
         </tr></thead>
         <tbody>
-          ${pagina.map(a => `<tr>
+          ${pagina.map(a => { const ac = acumF(a, meses); return `<tr>
             <td><div class="prim">${a.nome}</div><div class="sec num">CPF: ${a.cpf}${a.nis?` | NIS: ${a.nis}`:''}</div></td>
             <td><div style="font-size:12.5px">${a.escola}</div><div class="sec">Código INEP: ${a.inep}</div></td>
             <td class="num">${a.mat}</td>
-            <td class="freq ${cls(a.freq.fev)}">${pct(a.freq.fev)}</td>
-            <td class="freq ${cls(a.freq.mar)}">${pct(a.freq.mar)}</td>
-            <td class="freq ${cls(a.freq.abr)}">${pct(a.freq.abr)}</td>
-            <td class="freq acc ${cls(a.freq.acum)}">${pct(a.freq.acum)}</td>
+            ${geral ? `<td>${pillMod(a)}</td>` : ''}
+            ${meses.map(m => `<td class="freq ${clsF(a.freq[m])}">${fmtF(a.freq[m])}</td>`).join('')}
+            <td class="freq acc ${clsF(ac)}">${fmtF(ac)}</td>
             <td class="r"><button class="eye" title="Ver detalhes" onclick="abrirDetalhe('${a.mat}')">👁</button></td>
-          </tr>`).join('')}
+          </tr>`; }).join('')}
         </tbody>
       </table>`}
-    </div>`
+    </div>
+
+    ${exportRecorte('Exportar Dados de Frequência', meses.length ? total : 0, 'as frequências dos estudantes')}`
   };
 }
 
 /* ══════════════════════════════════════════════════════════════════
    TELA — PAGAMENTO
    ══════════════════════════════════════════════════════════════════ */
+const SIT_PAG_F = ['Pago', 'Aguardando Pagamento', 'Bloqueado'];
 function telaPagamento(){
   const j = state.janela ? jan(state.janela) : null;
-  const anos = ciclosEmFoco();
+  const anos = ciclosEmFoco(), anosC = anosRecorte();
 
-  let base = PARCELAS.filter(p => anos.includes(p.ciclo));
+  let base = PARCELAS.filter(p => anos.includes(p.ciclo) && naMod(aluno(p.mat)));
   if (j) base = base.filter(p => p.jan === j.id);
 
   let lista = base.filter(p => casa(aluno(p.mat), state.busca));
@@ -1507,35 +2212,25 @@ function telaPagamento(){
   if (state.incF) lista = lista.filter(p => incDe(p.cod) === state.incF);
   if (state.sitPagF) lista = lista.filter(p => p.sit === state.sitPagF);
 
-  /* cartões de situação: da janela quando houver, senão o consolidado do Portal */
-  let cards;
-  if (j) {
-    const sel = state.ciclo === 'todos' ? j.ciclos : j.ciclos.filter(c => c.ano === +state.ciclo);
-    const qtd = sel.reduce((s,c) => s + parcelasC(c), 0);
-    const val = sel.reduce((s,c) => s + valorC(c), 0);
-    const pagos = Math.round(qtd * 0.754);
-    cards = {total:qtd, vTotal:val, pagos, vPagos:Math.round(val*0.754), aguard:qtd-pagos, vAguard:val-Math.round(val*0.754), bloq:0};
-  } else {
-    cards = {total:1396680, vTotal:343279400, pagos:979964, vPagos:195992800, aguard:319714, vAguard:63942800, bloq:3};
-  }
+  /* situações: do processamento quando houver, senão o consolidado */
+  const cards = pagResumo(anosC, state.janela);
 
-  /* Total do recorte: o mesmo número dos cartões e do gráfico. Com filtro de
-     situação aplicado, usa o total daquela situação — é o que mantém a lista
-     coerente com o que o gráfico mostra. */
-  const totalDecl = (state.busca || state.mun || state.incF) ? lista.length
+  /* Total do recorte: o mesmo número das situações acima. */
+  const total = (state.busca || state.mun || state.incF) ? lista.length
     : state.sitPagF === 'Pago' ? cards.pagos
     : state.sitPagF === 'Aguardando Pagamento' ? cards.aguard
+    : state.sitPagF === 'Bloqueado' ? cards.bloq
     : cards.total;
   const pagina = lista.slice(0, LIM);
 
   /* gráfico: por ciclo quando há janela; por situação no consolidado */
   let donut, legenda;
   if (j) {
-    const sel = state.ciclo === 'todos' ? j.ciclos : j.ciclos.filter(c => c.ano === +state.ciclo);
+    const sel = jMod(j).ciclos.filter(c => anosC.includes(c.ano));
     const totalV = sel.reduce((s,c) => s + valorC(c), 0);
     let acc = 0;
     const fs = sel.map(c => {
-      const pct = valorC(c) / totalV * 100; const seg = `${CORC[c.ano]} ${acc}% ${acc+pct}%`; acc += pct;
+      const pct = totalV ? valorC(c) / totalV * 100 : 0; const seg = `${CORC[c.ano]} ${acc}% ${acc+pct}%`; acc += pct;
       return {ano:c.ano, pct, seg, valor:valorC(c)};
     });
     donut = `conic-gradient(${fs.map(f => f.seg).join(', ')})`;
@@ -1543,11 +2238,16 @@ function telaPagamento(){
       <span class="nm">Ciclo ${f.ano}</span><span class="vl">${f.pct.toFixed(1)}%</span>
       <span class="money">${R$(f.valor)}</span></div>`).join('');
   } else {
-    const pct = cards.pagos / cards.total * 100;
-    donut = `conic-gradient(var(--green) 0 ${pct}%, #9B5DE5 ${pct}% 100%)`;
-    legenda = `<div class="lrow"><i style="background:var(--green)"></i><span class="nm">Pagos</span><span class="vl">${pct.toFixed(1)}%</span></div>
-      <div class="lrow"><i style="background:#9B5DE5"></i><span class="nm">Aguardando Pagamento</span><span class="vl">${(100-pct).toFixed(1)}%</span></div>`;
+    /* as situações fecham com o total: pagos, depositados, aguardando e bloqueados */
+    const fat = [['Pagos', cards.pagos, 'var(--green)'], ['Depositados', cards.depos, '#2670E8'],
+      ['Aguardando Pagamento', cards.aguard, '#9B5DE5'], ['Bloqueados', cards.bloq, 'var(--yellow)']].filter(f => f[1] > 0);
+    let acc = 0;
+    donut = `conic-gradient(${fat.map(f => { const p = cards.total ? f[1] / cards.total * 100 : 0; const s = `${f[2]} ${acc}% ${acc + p}%`; acc += p; return s; }).join(', ')})`;
+    legenda = fat.map(f => `<div class="lrow"><i style="background:${f[2]}"></i><span class="nm">${f[0]}</span>
+      <span class="vl">${f[1] / cards.total < .0005 ? '< 0,1' : (f[1] / cards.total * 100).toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1})}%</span></div>`).join('');
   }
+  const geral = state.mod === 'geral';
+  const tipBloqs = `<div class="tt">Motivos de parcela bloqueada</div><ul>${Object.values(MOT_BLOQ).map(M => `<li>${M.nome}</li>`).join('')}</ul><p class="tc">O motivo de cada parcela aparece na lista e no 👁 do estudante.</p>`;
 
   return {
     crumbs:[{txt:'Visualizar pagamentos'}],
@@ -1557,16 +2257,12 @@ function telaPagamento(){
       <div class="mark">PÉ·DE·MEIA</div>
     </div>
 
-    <div class="tabs">
-      <button class="on">Ensino Médio Regular</button>
-      <button>Educação de Jovens e Adultos (EJA)</button>
-    </div>
-
+    ${abasMod()}
     ${filtros()}
     ${windowBar()}
 
     <div class="panel" style="overflow:hidden">
-      <div style="background:var(--blue); color:#fff; padding:11px 18px; font-weight:600; font-size:13.5px">▥ Visão geral</div>
+      <div style="background:var(--blue); color:#fff; padding:11px 18px; font-weight:600; font-size:13.5px">▥ ${MODS.find(m => m.id === state.mod).nome}</div>
       <div style="display:grid; grid-template-columns:1.35fr 1fr">
         <div>
           <div style="background:#F0F5FC; color:var(--blue-dark); padding:9px 18px; font-size:12.5px; font-weight:600; border-bottom:1px solid var(--line-2)">Incentivos</div>
@@ -1578,14 +2274,14 @@ function telaPagamento(){
                 <div class="num" style="color:var(--ink-2)">${R$(cards.vTotal)}</div>
               </div>
             </div>
-            ${cellPag('Pagos', cards.pagos, cards.vPagos, 'var(--green)')}
-            ${cellPag('Depositados', 0, 0, '#2670E8')}
-            ${cellPag('Em Análise Mec', 0, 0, 'var(--blue-dark)')}
-            ${cellPag('Em Processamento', 0, 0, 'var(--ink-3)')}
-            ${cellPag('Aguardando Pagamento', cards.aguard, cards.vAguard, '#9B5DE5')}
-            ${cellPag('Bloqueados', cards.bloq, cards.bloq*200, 'var(--yellow)')}
-            ${cellPag('Rejeitados', 0, 0, 'var(--red)')}
-            ${cellPag('Suspensos', 0, 0, '#E9B949')}
+            ${cellPag('Pagos', cards.pagos, cards.vPagos)}
+            ${cellPag('Depositados', cards.depos, cards.vDepos)}
+            ${cellPag('Em Análise Mec', 0, 0)}
+            ${cellPag('Em Processamento', 0, 0)}
+            ${cellPag('Aguardando Pagamento', cards.aguard, cards.vAguard)}
+            ${cellPag('Bloqueados', cards.bloq, cards.vBloq, itip(tipBloqs, 'Ver os motivos de bloqueio'))}
+            ${cellPag('Rejeitados', 0, 0)}
+            ${cellPag('Suspensos', 0, 0)}
           </div>
         </div>
         <div style="border-left:1px solid var(--line-2)">
@@ -1595,7 +2291,7 @@ function telaPagamento(){
           <div style="display:flex; align-items:center; justify-content:center; gap:24px; padding:30px 20px; flex-wrap:wrap">
             <div class="donut" style="width:150px; height:150px; background:${donut}">
               <div class="hole" style="width:92px; height:92px">
-                <b style="font-size:14px">${j ? curto(cards.vTotal) : N(cards.total)}</b>
+                <b style="font-size:${j ? 14 : 12.5}px">${j ? curto(cards.vTotal) : N(cards.total)}</b>
                 <small>${j ? 'liberados' : 'incentivos'}</small>
               </div>
             </div>
@@ -1605,54 +2301,33 @@ function telaPagamento(){
       </div>
     </div>
 
-    ${j ? `<div class="section-title"><span class="ico">▤</span> Parcelas ${tv('deste processamento', 'desta janela de processamento')}, por ciclo</div>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr><th style="width:110px">Ciclo</th><th>Incentivo</th><th class="r">Parcelas</th><th class="r">Valor</th></tr></thead>
-        <tbody>
-          ${j.ciclos.filter(c => anos.includes(c.ano)).flatMap(c => c.parcelas.map(p => `<tr>
-            <td>${pillCiclo(c.ano)}</td>
-            <td><div class="prim">${incDe(p.cod)}</div>${p.faixa ? `<div class="sec">nove parcelas do ciclo ${c.ano}</div>` : ''}</td>
-            <td class="r num">${N(p.qtd)}</td>
-            <td class="r num">${R$(p.valor)}</td>
-          </tr>`)).join('')}
-        </tbody>
-      </table>
-    </div>` : ''}
-
-    <div class="export" style="margin-top:26px">
-      <h3>Exportar Dados de Pagamentos</h3>
-      <div class="box">
-        <div><b>Planilha completa</b>
-        <p>Faça a solicitação do download da planilha completa para visualizar os pagamentos realizados aos estudantes da rede${j?` <b>${tv('no processamento de', 'na janela de processamento de')} ${j.rotulo}</b>`:''}.</p></div>
-        <button class="btn solid" onclick="alert('Protótipo: a solicitação apareceria em Visualizar Solicitações.')">⬓ Solicitar Planilha</button>
-      </div>
-      <p style="margin:14px 0 0"><a href="#/pagamento">↺ Visualizar Solicitações</a></p>
-    </div>
-
-    ${searchbar('Pesquisar por Nome, CPF, NIS ou Matrícula', pagina.length, totalDecl)}
-    <div class="filters" style="margin-bottom:14px">
+    ${listHead('Parcelas', total, pagina.length,
+      (state.sitPagF ? `Situação: <b>${state.sitPagF}</b> · ` : '') + (j ? `${tv('Processamento de', 'Janela de processamento de')} ${j.rotulo}` : 'Todos os pagamentos da rede no recorte'))}
+    ${searchbar(PH_BUSCA)}
+    <div class="filters" style="margin-bottom:10px">
       <div class="field"><label>Filtrar por</label><select disabled><option>Bahia</option></select></div>
       ${selMun(ALUNOS)}
       <div class="field"><label for="f-inc">Tipo de Incentivo</label>
         <select id="f-inc" onchange="state.incF=this.value; render()">
           <option value="">Todos</option>
-          ${['Matrícula','Frequência','Conclusão','Enem'].map(s => `<option ${state.incF===s?'selected':''}>${s}</option>`).join('')}
+          ${INCS.map(s => `<option ${state.incF===s?'selected':''}>${s}</option>`).join('')}
         </select></div>
       <div class="field"><label for="f-sitp">Situação</label>
         <select id="f-sitp" onchange="state.sitPagF=this.value; render()">
           <option value="">Todas</option>
-          ${['Pago','Aguardando Pagamento'].map(s => `<option ${state.sitPagF===s?'selected':''}>${s}</option>`).join('')}
+          ${SIT_PAG_F.map(s => `<option ${state.sitPagF===s?'selected':''}>${s}</option>`).join('')}
         </select></div>
     </div>
+    ${chipsFiltros()}
 
     <div class="tbl-wrap">
       ${pagina.length === 0 ? `<div class="empty"><b>Nenhum pagamento encontrado</b>
-        Revise a busca ou os filtros aplicados.</div>` : `
+        Revise a busca ou os filtros em uso, logo acima.</div>` : `
       <table>
         <thead><tr>
           <th>Estudante</th>
           <th>Unidade de Ensino e código INEP</th>
+          ${geral ? '<th data-new="coluna nova">Modalidade</th>' : ''}
           <th>Incentivo</th>
           <th>Ciclo</th>
           <th>Processado em</th>
@@ -1666,22 +2341,29 @@ function telaPagamento(){
             return `<tr>
               <td><div class="prim">${a.nome}</div><div class="sec num">CPF: ${a.cpf}</div></td>
               <td><div style="font-size:12.5px">${a.escola}</div><div class="sec">Código INEP: ${a.inep}</div></td>
+              ${geral ? `<td>${pillMod(a)}</td>` : ''}
               <td><div class="prim">${incDe(p.cod)}</div></td>
               <td>${pillCiclo(p.ciclo)}</td>
               <td class="num">${p.proc}</td>
-              ${!state.janela?`<td class="num"><a href="#/janela/${p.jan}">${jan(p.jan).rotulo}</a></td>`:''}
-              <td><span class="pill ${p.sit==='Pago'?'ok':'wait'}">${p.sit}</span>${p.dt?`<div class="sec">Data do Pagamento: ${p.dt}</div>`:''}</td>
+              ${!state.janela?`<td class="num"><a href="#/janela/${p.jan}" onclick="event.preventDefault(); irCom('#/janela/${p.jan}')">${jan(p.jan).rotulo}</a></td>`:''}
+              <td style="min-width:190px">${sitParcela(p, 'Data do Pagamento: ')}</td>
               <td class="r"><button class="eye" title="Ver detalhes" onclick="abrirDetalhe('${p.mat}')">👁</button></td>
             </tr>`;
           }).join('')}
         </tbody>
       </table>`}
-    </div>`
+    </div>
+
+    ${exportRecorte('Exportar Dados de Pagamentos', total, 'os pagamentos dos estudantes')}
+
+    ${j ? `<div class="section-title" style="margin-top:30px"><span class="ico">▤</span> Parcelas ${tv('deste processamento', 'desta janela de processamento')}, por ciclo</div>
+    ${tabelaParcelas(jMod(j).ciclos.filter(c => anosC.includes(c.ano)), false)}` : ''}`
   };
 }
-function cellPag(lbl, qtd, valor, cor){
-  return `<div class="cell" style="border-top:3px solid ${cor}">
-    <div class="lbl">${lbl} <span class="info">i</span></div>
+/* Pedido do MEC (13/11): sem as cores nas categorias de pagamento */
+function cellPag(lbl, qtd, valor, extra){
+  return `<div class="cell">
+    <div class="lbl">${lbl} ${extra || '<span class="info">i</span>'}</div>
     <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px">
       <div class="val num">${N(qtd)}</div>
       <div class="num" style="color:var(--ink-2); font-size:12.5px">${R$(valor)}</div>
@@ -1692,16 +2374,20 @@ function cellPag(lbl, qtd, valor, cor){
 /* ══════════════════════════════════════════════════════════════════
    MODAL DE DETALHE DA MATRÍCULA
    ══════════════════════════════════════════════════════════════════ */
-function abrirDetalhe(mat){ state.modal = mat; renderModal(); }
-function fecharDetalhe(){ state.modal = null; renderModal(); }
+function abrirDetalhe(mat){ state.modal = mat; tipFixo = null; esconderTip(); renderModal(); }
+function fecharDetalhe(){ state.modal = null; tipFixo = null; esconderTip(); renderModal(); }
 
 function renderModal(){
   const box = document.getElementById('modal');
   if (!state.modal) { box.innerHTML = ''; return; }
   const a = aluno(state.modal);
-  const ps = PARCELAS.filter(p => p.mat === a.mat);
+  const ps = PARCELAS.filter(p => p.mat === a.mat).sort((x, y) => y.jan.localeCompare(x.jan) || x.cod - y.cod);
   const pagas = ps.filter(p => p.sit === 'Pago');
   const valor = pagas.reduce((s,p) => s + MARCO[+String(p.cod).slice(4)].valor, 0);
+  /* visão por estudante: as outras matrículas da mesma pessoa (EMR e EJA) */
+  const todas = ALUNOS.filter(x => x.cpf === a.cpf);
+  const anos26 = !!a.sit[2026];
+  const acum = acumF(a, MESES_F);
 
   box.innerHTML = `
   <div class="overlay" onclick="if(event.target===this) fecharDetalhe()">
@@ -1709,36 +2395,60 @@ function renderModal(){
       <div class="modal-h">
         <div>
           <h3>${a.nome}</h3>
-          <div class="sec num">Matrícula SGP ${a.mat} · CPF ${a.cpf}${a.nis?` · NIS ${a.nis}`:''}</div>
+          <div class="sec num">Matrícula SGP ${a.mat} · ${MODS.find(m => m.id === a.mod).nome} · CPF ${a.cpf}${a.nis?` · NIS ${a.nis}`:''}</div>
         </div>
         <button title="Fechar" onclick="fecharDetalhe()">×</button>
       </div>
       <div class="modal-b">
+        ${todas.length > 1 ? `<h4 data-new="visão por estudante">Matrículas do estudante — ${todas.length}</h4>
+        <div class="outras">${todas.map(x => `<button class="${x.mat === a.mat ? 'on' : ''}" onclick="abrirDetalhe('${x.mat}')">${pillMod(x)} ${x.mat} · ciclo ${Object.keys(x.sit).join(', ')}
+          <span class="pill ${pillSitE(Object.values(x.sit)[0])}">${Object.values(x.sit)[0]}</span></button>`).join('')}</div>` : ''}
+
         <h4>Identificação</h4>
         <div class="idgrid">
           <div><div class="k">Unidade de Ensino</div><div class="v" style="font-size:12.5px; font-variant-numeric:normal">${a.escola}</div></div>
           <div><div class="k">Código INEP</div><div class="v">${a.inep}</div></div>
           <div><div class="k">Município</div><div class="v" style="font-variant-numeric:normal">${a.mun}</div></div>
-          <div><div class="k">Frequência acumulada</div><div class="v" style="color:${a.freq.acum>=80?'var(--green)':'var(--red)'}">${pct(a.freq.acum)}</div></div>
+          <div><div class="k">Frequência acumulada</div><div class="v" style="color:${acum>=80?'var(--green)':'var(--red)'}">${fmtF(acum)}</div></div>
         </div>
+
+        ${anos26 ? `<h4 data-new="frequência por mês">Frequência mensal — ciclo 2026</h4>
+        <div class="fmes">${MESES_F.map(m => `<div class="${a.freq[m] == null ? 'na' : clsF(a.freq[m])}">
+          <div class="m">${NOME_MES[m]}</div><div class="p">${fmtF(a.freq[m])}</div>
+          <div class="a">apurada em ${jan(JAN_DO_MES[m]).rotulo}${a.freq[m] != null && a.freq[m] < 80 ? ' · sem parcela' : ''}</div></div>`).join('')}</div>
+        <p class="explica" style="margin:8px 2px 0">A parcela de frequência de cada mês só é liberada quando a frequência fica em 80% ou mais.</p>` : ''}
 
         <h4>Situação por ciclo</h4>
         <div class="tbl-wrap">
-          <table>
-            <thead><tr><th>Ciclo</th><th>Situação no Pé-de-Meia</th><th>Situação anterior</th><th>${tv('Alterada no processamento', 'Alterada na janela de processamento')}</th></tr></thead>
+          <table class="tquebra">
+            <thead><tr><th>Ciclo</th><th>Situação no Pé-de-Meia</th><th>Situação anterior</th><th>${tv('Alterada no processamento', 'Alterada na janela de processamento')}</th><th data-new="coluna nova">Motivo da alteração</th></tr></thead>
             <tbody>
               ${Object.keys(a.sit).sort((x,y)=>y-x).map(ano => {
                 const m = a.alt.find(x => x.ciclo === +ano);
                 return `<tr>
                   <td>${pillCiclo(+ano)}</td>
-                  <td><span class="pill ${a.sit[ano]==='Elegível'?'ok':'no'}">${a.sit[ano]}</span></td>
-                  <td>${m?`<span class="pill ${m.de==='Não elegível'?'no':'wait'}">${m.de}</span>`:'<span class="sec">sem alteração</span>'}</td>
-                  <td>${m?`<a href="#/janela/${m.jan}" onclick="fecharDetalhe()">${jan(m.jan).rotulo}</a>`:'–'}</td>
+                  <td style="white-space:nowrap"><span class="pill ${pillSitE(a.sit[ano])}">${a.sit[ano]}</span>${itip(tipSituacao(a, +ano, ''))}</td>
+                  <td>${m?`<span class="pill ${pillSitE(m.de)}">${m.de}</span>`:'<span class="sec">sem alteração</span>'}</td>
+                  <td>${m?`<a href="#/janela/${m.jan}" onclick="event.preventDefault(); fecharDetalhe(); irCom('#/janela/${m.jan}')">${jan(m.jan).rotulo}</a>`:'–'}</td>
+                  <td style="font-size:12.5px; color:var(--ink-2)">${m ? motivoAlt(a, m) : '–'}</td>
                 </tr>`;
               }).join('')}
             </tbody>
           </table>
         </div>
+        ${Object.keys(a.sit).sort((x,y)=>y-x).filter(ano => a.sit[ano] !== 'Elegível').map(ano => {
+          const ks = (a.mot && a.mot[ano]) || [], g = a.sit[ano] === 'Não elegível' ? 'nao' : 'indef';
+          const st = ks.length && MOTIVOS[ks[0]].st ? MOTIVOS[ks[0]].st : (g === 'nao' ? 402 : 200);
+          const tcis = ks.filter(k => MOTIVOS[k].txt);
+          return `<div class="sitbox" data-new="motivo da situação">
+            <div class="sbt">${pillCiclo(+ano)} <span class="pill ${pillSitE(a.sit[ano])}">${a.sit[ano]}</span>
+              <span class="cod">${typeof st === 'number' ? 'status ' + st : MOTIVOS[ks[0]].cod.toLowerCase()}</span></div>
+            <p class="sbd">${ST_ELEG[st]}</p>
+            ${tcis.length ? `<div class="sbl">${g === 'nao' ? 'Confira os critérios para a inelegibilidade:' : 'Confira o detalhamento da situação:'}</div>
+              ${tcis.map(k => `<div class="crit"><span class="x">✕</span><div><b>${MOTIVOS[k].nome}</b> <span class="cod">${MOTIVOS[k].cod}</span>
+                <p>${MOTIVOS[k].txt}</p></div></div>`).join('')}` : ''}
+          </div>`;
+        }).join('')}
 
         <h4>Pagamentos — ${N(ps.length)} ${ps.length===1?'parcela':'parcelas'}, ${R$(valor)} ${pagas.length===ps.length?'pagos':'já pagos'}</h4>
         <div class="tbl-wrap">
@@ -1749,8 +2459,8 @@ function renderModal(){
                 ps.map(p => `<tr>
                   <td>${pillCiclo(p.ciclo)}</td>
                   <td>${incDe(p.cod)}</td>
-                  <td><a href="#/janela/${p.jan}" onclick="fecharDetalhe()">${jan(p.jan).rotulo}</a></td>
-                  <td><span class="pill ${p.sit==='Pago'?'ok':'wait'}">${p.sit}</span>${p.dt?`<div class="sec">em ${p.dt}</div>`:''}</td>
+                  <td><a href="#/janela/${p.jan}" onclick="event.preventDefault(); fecharDetalhe(); irCom('#/janela/${p.jan}')">${jan(p.jan).rotulo}</a></td>
+                  <td>${sitParcela(p, 'em ')}</td>
                 </tr>`).join('')}
             </tbody>
           </table>
@@ -1764,6 +2474,7 @@ function renderModal(){
    RENDER
    ══════════════════════════════════════════════════════════════════ */
 function render(){
+  TIPS.length = 0; tipFixo = null; esconderTip();
   const telas = {
     inicio: telaInicio,
     elegibilidade: telaElegibilidade,
@@ -1780,7 +2491,7 @@ function render(){
     <div class="foot">
       <span>Protótipo de proposta — ${nomeProc()}</span><span>·</span>
       <span>Dados ilustrativos, ancorados nas telas atuais do Portal do Usuário</span><span>·</span>
-      <span>Revisão 5 — outubro de 2026</span>
+      <span>Revisão 6 — novembro de 2026</span>
     </div>`;
   renderModal();
 }

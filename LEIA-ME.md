@@ -128,7 +128,8 @@ Decidido com o MEC ao longo de duas rodadas de revisão. **Seguir isso em qualqu
 | identificador de apuração (`202608`, `202422`) | nada — foi removido da tela |
 | competência / códigos `AAAAMM` | nada na interface; só **incentivo** (Matrícula, Frequência, Conclusão, Enem) |
 | elegibilidade (nos cartões de resumo) | **matrículas** |
-| EMR e EJA separados na visão de janela | visão única; as abas existem só nas listagens |
+| EMR e EJA separados na visão de janela | ~~visão única~~ — **desde a Revisão 6:** aba **Visão geral** (EMR + EJA) em todas as telas, com EMR e EJA ao lado |
+| data do processamento com dia (`26/08/2026`) | **mês e ano** (`agosto/2026`) — desde a Revisão 6 |
 
 O filtro de **Competência saiu** das listagens. Ficaram **Janela de processamento (filtro pai)** e
 **Ciclo (filho)**, dependentes nos dois sentidos: escolher um ciclo reduz as janelas oferecidas,
@@ -496,6 +497,44 @@ O protótipo não mudou (segue na revisão 5). Mudou só o roteiro, e os dois PD
 10. **Diagramação:** a seção 2 deixou de abrir página própria (o conteúdo novo estouraria o limite). Os PDFs foram de 11
     para 12 páginas.
 
+
+### Revisão 6 — 13/11/2026 (reunião com o MEC sobre as mudanças propostas)
+
+Devolutiva do MEC aplicada ao protótipo das entrevistas. Parte dos ajustes repete o que já tinha sido feito no
+Painel de Gestão (`fontes/painel-de-gestao.html`, ver `PAINEL-DE-GESTAO.md`); nem tudo do painel veio para cá —
+só os 23 itens abaixo. **O roteiro não foi mexido** e os gabaritos mudaram (ver seção 10).
+
+| # | Ajuste | Como ficou |
+|---|---|---|
+| 1 | Aviso "Os últimos dados consolidados são de Junho" | Removido do Início |
+| 2 | Filtros entre telas | Trocar de tela pelo menu volta ao padrão; atalhos ("Ver…", bloco do processamento, botões das telas) levam o recorte junto (`irCom`). Etiquetas "Filtros em uso", removíveis, e "Limpar filtros" |
+| 3 | "Matrículas processadas" e "situação alterada" | (i) explicando no Início; texto explicativo e colunas *passaram a ser elegíveis* / *deixaram de ser elegíveis* no detalhe e no Comparar |
+| 4 | Ciclos anteriores | Aviso "também alterou os ciclos anteriores…" com "Por que isso acontece?" (Início e detalhe) e etiqueta "! inclui ciclos anteriores" na lista |
+| 5 | Lista de afetados perto do número | "Ver as N alteradas" em cada ciclo do detalhe → Elegibilidade com o filtro "Só com situação alterada neste processamento" e a coluna "Antes" |
+| 6 | Motivo da situação | Na Elegibilidade: motivo na linha, filtro "Motivo" e um **(i)** que abre (mouse ou clique) o porquê de estar elegível, indefinida ou não elegível. No 👁: o mesmo (i) na tabela "Situação por ciclo" e o bloco do Portal com os critérios (TCI/status, textos da wiki) |
+| 7 | Visão por estudante (EMR + EJA) | Aba **Visão geral** em Início, Elegibilidade, Frequência, Pagamento, Processamentos e detalhe; coluna Modalidade nas listas; no 👁, "Matrículas do estudante" (caso: CPF `468.135.792-46`, EMR 2025 + EJA 2026). Totais de EMR e EJA derivados com pesos fixos (`PART_EMR`) e EMR + EJA = Visão geral |
+| 8 | Listas em destaque | Cabeçalho da lista logo abaixo dos cartões, com busca, Município e demais filtros logo embaixo; exportação depois da lista |
+| 9 | Exportação | Texto diz que a planilha considera o que está **filtrado e visível na lista**, com o número de registros e o recorte |
+| 10 | Comparar em destaque | Aba com ícone e selo "novo", chamada na lista de processamentos, seletores A → B em caixas |
+| 11 | Parcela bloqueada | Situação **Bloqueado** com motivo (linha + (i)) na lista de Pagamento e no 👁; filtro de situação; (i) com os motivos no cartão "Bloqueados". 3 parcelas = o cartão do consolidado (motivos ilustrativos em `MOT_BLOQ`) |
+| 12 | Só mês e ano | `agosto/2026` em todo lugar que identifica o processamento; saíram Início/Término e "Concluído em …" (ficaram "Processado em" e data de pagamento da parcela, que são da parcela) |
+| 13 | Calendário operacional | Faixa com (i) e link "Consultar o calendário operacional ↗" na tela de Processamentos (não abre nada) |
+| 14 | Calendário de processamentos | Aberto (verde) e próximos (cinza) acima dos concluídos, **sem** ciclos afetados e sem observações |
+| 15 | Faixa no topo do Início | O bloco do processamento vem antes dos totais e acompanha o filtro |
+| 16 | Consulta Estudante | Removido do Início |
+| 17 | Total das listas | "Exibindo 25 de **132.213** registros", com o total em destaque |
+| 18 | Gráfico de pagamentos | Mantido; saíram as cores das categorias (a linha colorida de cada cartão). O consolidado passou a mostrar os **Depositados** (96.999) para as situações fecharem com o total, e o total em valor foi recalculado das parcelas (R$ 279.336.000,00) |
+| 19, 23 | Números mudam por processamento | Cartões de matrícula, frequência e pagamento do Início e das telas mudam com o processamento e o ciclo. `RETRATO` volta no tempo a partir de `REDE`; a **elegibilidade indefinida cai** a cada processamento (2026: 5.193 → 3.899 → 2.877 → 2.076 → **1.139 em julho** → **66 em agosto**) |
+| 20 | Indefinida → elegível | Com um processamento escolhido, a lista mostra a situação **naquele momento** (`sitEm`): em julho, 30195562, 30203317 e 29993866 aparecem como indefinidas; em agosto, elegíveis (e no filtro "só alteradas") |
+| 21 | Frequência abaixo e acima de 80% | `890.123.456-78` (28330614) passou para o ciclo 2026: maio 74,1% (apurada em julho, sem parcela) e junho 86,3% (apurada em agosto, parcela paga). A Frequência mostra os meses apurados até o processamento escolhido |
+| 22 | Motivo no 👁 | Coluna "Motivo da alteração" na tabela "Situação por ciclo" e no detalhe do processamento |
+
+**Integridade (conferido no navegador em 13/11/2026):** 1.178 telas (2 roteiros × 5 telas × processamento × ciclo ×
+modalidade × filtros, 6 detalhes × 3 modalidades, 15 comparações e o 👁 de todos os estudantes) sem erro, sem "NaN", sem
+"janela" na versão A (fora o texto oficial "próxima janela de envio de dados" das mensagens do Portal) e sem data com dia
+no Início, na Elegibilidade, na Frequência, na lista e no detalhe dos processamentos (fora o período de envio de dados do calendário); cartões de matrícula fecham (rede = elegível + pendência + indefinida + não elegível) e
+EMR + EJA = Visão geral em todos os recortes; nenhuma tabela rola na horizontal em 1366 px.
+
 ---
 
 ## 10. Dados do protótipo e gabaritos das 15 tarefas
@@ -520,6 +559,14 @@ dados, refaça essa conferência antes de usar o roteiro.
 | Aguardando pagamento na janela de agosto | 56.074 |
 
 ### Gabaritos
+
+> ⚠️ **Revisão 6 (13/11/2026):** o protótipo mudou e alguns gabaritos abaixo deixaram de valer. O roteiro **não** foi
+> atualizado. O que muda: **T1** — o processamento aparece como *agosto/2026* (sem dia nem hora); **T13** — a lista
+> de frequência traz só os elegíveis e o acumulado dos meses apurados: com todos os ciclos e todos os processamentos,
+> "abaixo de 80%" mostra **1** estudante (8142093375) de 77.314; 5712230375 virou não elegível e 6180442379
+> (890.123.456-78) passou para o ciclo 2026, acima de 80% no acumulado. Continuam valendo: T2 (1.319.109), T3 (6),
+> T4 (227.942), T5, T6 (R$ 1.879.800,00), T7 (3.417), T8 (R$ 7.810.400,00), T9, T10, T11 (56.074 · 1.609 · 52.153),
+> T12, T14 e T15. Na T4 a T11, onde o roteiro diz "26/08/2026", a tela diz "agosto/2026".
 
 | # | Tarefa | Resposta |
 |---|---|---|
