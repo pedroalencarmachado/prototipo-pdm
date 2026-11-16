@@ -175,7 +175,8 @@ select:hover{border-color:var(--blue-line)}
 
 /* ─────────── cartões de indicador ─────────── */
 .kpis{display:grid; grid-template-columns:repeat(5,1fr); background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden}
-.kpi{padding:14px 16px 16px; border-left:1px solid var(--line-2); border-top:3px solid var(--c,var(--blue))}
+.kpi{padding:14px 16px 16px; border-left:1px solid var(--line-2)}
+.kpi .sub{color:var(--ink-3); font-size:12px; margin-top:2px; font-variant-numeric:tabular-nums}
 .kpi:first-child{border-left:0}
 .kpi .lbl{display:flex; align-items:center; gap:6px; justify-content:space-between; color:var(--ink-2); font-size:12.5px; min-height:32px}
 .kpi .val{font-size:26px; font-weight:700; color:var(--c,var(--blue)); margin-top:4px}
@@ -269,7 +270,8 @@ td.r,th.r{text-align:right}
 /* calendário: aberto (verde) e próximos (cinza, sem clique) */
 .cal-h{display:flex; align-items:baseline; gap:10px; margin:4px 0 10px; font-size:15px; font-weight:700}
 .cal-h span{font-size:12.5px; font-weight:400; color:var(--ink-3)}
-.window-card.fut{cursor:default; background:var(--surface-2); border-style:dashed; border-left:4px solid #C8D0DB; padding:12px 20px; color:var(--ink-3); grid-template-columns:200px 1fr}
+.fut-list{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+.window-card.fut{cursor:default; background:var(--surface-2); border-style:dashed; border-left:4px solid #C8D0DB; padding:12px 18px; color:var(--ink-3); grid-template-columns:1fr}
 .window-card.fut:hover{box-shadow:none; border-color:var(--line); border-left-color:#C8D0DB}
 .window-card.fut .day{font-size:17px; color:var(--ink-2)}
 .window-card.aberta{background:#F3FAF4; border-style:solid; border-left-color:var(--green); color:var(--ink)}
@@ -434,6 +436,7 @@ td.r.num{white-space:nowrap}
   .kpi{border-left:1px solid var(--line-2)}
   .grid-2,.res-grid{grid-template-columns:1fr}
   .window-card{grid-template-columns:1fr; gap:14px}
+  .fut-list{grid-template-columns:repeat(2,1fr)}
   .idgrid{grid-template-columns:repeat(2,1fr)}
   .nav{width:100%; overflow-x:auto}
   .topbar-inner{height:auto; flex-wrap:wrap; padding:12px 16px; gap:12px}
@@ -447,11 +450,6 @@ td.r.num{white-space:nowrap}
   <strong>Protótipo</strong>
   <span class="msg">Proposta de evolução do Portal do Usuário · dados ilustrativos · não é o portal oficial</span>
   <div class="spacer"></div>
-  <div class="seg" role="group" aria-label="Versão do roteiro" title="A: processamento · B: janela de processamento">
-    <span class="rot">Roteiro</span>
-    <button type="button" id="rtA" data-roteiro="a" aria-pressed="true">A</button>
-    <button type="button" id="rtB" data-roteiro="b" aria-pressed="false">B</button>
-  </div>
   <button class="toggle t-new" id="tgNew" aria-pressed="false">
     <span class="dot" aria-hidden="true"></span> Destacar o que é novo
   </button>
@@ -682,10 +680,10 @@ function retrato(anos, jid){
 }
 
 /* ── frequência das matrículas elegíveis ───────────────────────────
-   Ciclo 2026: apurada de abril (frequência de fevereiro) a agosto (junho); o
-   processamento de março só tratou a matrícula. Elegíveis = ≥ 80% + < 80% + não
-   informada, sempre fechando com o cartão "Elegível" do mesmo recorte.
-   Ciclos 2025 e 2024 já terminaram: proporções fixas do retrato final. */
+   Revisão 7 (pedido do Pedro, 16/11): com uma janela escolhida, a frequência informada
+   NAQUELA janela; com "Todas as janelas", a frequência acumulada do ciclo. A janela de
+   março tratou só a matrícula. Elegíveis = ≥ 80% + < 80% + não informada, fechando com o
+   cartão "Elegível" do mesmo recorte. Ciclos 2025 e 2024: proporções fixas. */
 const FREQ26 = {
   '2026-04-24':{pct:.889, ni:2410, ni3:0},
   '2026-05-26':{pct:.902, ni:1380, ni3:0},
@@ -693,23 +691,37 @@ const FREQ26 = {
   '2026-07-24':{pct:.901, ni:3950, ni3:702},
   '2026-08-26':{abaixo:27834, ni:823, ni3:795}
 };
+const FREQ26_ACUM = {abaixo:24906, ni:412, ni3:395};
 function freqResumo(anos, jid){
   const t = {eleg:0, acima:0, abaixo:0, ni:0, ni3:0, semFreq:false};
   anos.forEach(ano => {
     const eleg = retratoAno(ano, jid).eleg;
     let abaixo, ni, ni3;
     if (ano === 2026) {
-      const fid = Object.keys(FREQ26).sort().reverse().find(id => !jid || id <= jid);
-      if (!fid) { t.semFreq = true; return; }
-      const f = FREQ26[fid];
+      if (jid && !FREQ26[jid]) { t.semFreq = true; return; }
+      const f = jid ? FREQ26[jid] : FREQ26_ACUM;
       ni = f.ni; ni3 = f.ni3;
       abaixo = f.abaixo != null ? f.abaixo : eleg - Math.round(eleg * f.pct) - ni;
-    } else {
+    } else if (jid) {
       abaixo = Math.round(eleg * .074); ni = Math.round(eleg * .0021); ni3 = Math.round(ni * .9);
+    } else {
+      abaixo = Math.round(eleg * .069); ni = Math.round(eleg * .0012); ni3 = Math.round(ni * .9);
     }
     const eM = emMod(eleg, 'eleg'), abM = emMod(abaixo, 'abaixo'), niM = emMod(ni, 'ni');
     t.eleg += eM; t.abaixo += abM; t.ni += niM; t.ni3 += Math.min(niM, emMod(ni3, 'ni')); t.acima += eM - abM - niM;
   });
+  return t;
+}
+
+/* ── o que aconteceu: numa janela, ou somado em todas as janelas do ciclo ── */
+function movimento(anos, jid){
+  const t = {nj:0, proc:0, alt:0, pe:0, parc:0, val:0};
+  JANELAS.filter(j => !jid || j.id === jid).map(jMod).forEach(j => {
+    const cs = j.ciclos.filter(c => anos.includes(c.ano));
+    if (cs.length) t.nj++;
+    cs.forEach(c => { t.proc += c.processadas; t.alt += c.alteradas; t.pe += c.paraElegivel; t.parc += parcelasC(c); t.val += valorC(c); });
+  });
+  t.deixou = t.alt - t.pe;
   return t;
 }
 
@@ -1057,7 +1069,7 @@ const PARCELAS = [
 
 const state = {
   rota:'inicio', arg:null,
-  roteiro:'a',          /* versão do roteiro: A = "processamento", B = "janela de processamento" */
+  roteiro:'b',          /* Revisão 7: só a versão B ("janela de processamento"); tv() continua por compatibilidade */
   janela:'', ciclo:'2026',
   mod:'geral',          /* aba: Visão geral (EMR + EJA), EMR ou EJA */
   busca:'', mun:'', sitF:'', motF:'', incF:'', sitPagF:'', faixaF:'',
@@ -1117,23 +1129,18 @@ function setRoteiro(v){
 }
 document.querySelectorAll('[data-roteiro]').forEach(b =>
   b.addEventListener('click', () => { setRoteiro(b.dataset.roteiro); render(); }));
-{
-  let v = new URLSearchParams(location.search).get('roteiro');
-  if (!v) { try { v = localStorage.getItem('pdm-roteiro'); } catch (e) {} }
-  setRoteiro(String(v || 'a').toLowerCase());
-}
+setRoteiro('b');   /* Revisão 7: só a versão B */
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && state.modal) fecharDetalhe(); });
 
 /* ── filtros dependentes ────────────────────────────────────────── */
 function setJanela(v){
   state.janela = v;
   if (v && state.ciclo !== 'todos' && !anosDa(jan(v)).includes(+state.ciclo)) state.ciclo = 'todos';
-  if (!v) state.altF = false;
   render();
 }
 function setCiclo(v){
   state.ciclo = v;
-  if (v !== 'todos' && state.janela && !anosDa(jan(state.janela)).includes(+v)) { state.janela = ''; state.altF = false; }
+  if (v !== 'todos' && state.janela && !anosDa(jan(state.janela)).includes(+v)) state.janela = '';
   render();
 }
 function janelasDisponiveis(){
@@ -1253,11 +1260,11 @@ function motEm(a, ano, jid){
 function motivoAlt(a, m){
   const para = sitEm(a, m.ciclo, m.jan);
   if (para === 'Elegível') {
-    if (m.mot) return `Regularizado: ${MOTIVOS[m.mot].nome} (${MOTIVOS[m.mot].cod})`;
+    if (m.mot) return MOTIVOS[m.mot].nome;
     return m.de === 'Elegibilidade indefinida' ? 'Informações de matrícula confirmadas pela rede' : 'Inscrição no CadÚnico confirmada';
   }
   const ks = motEm(a, m.ciclo, m.jan);
-  if (ks.length) return `Novo critério identificado: ${MOTIVOS[ks[0]].nome} (${MOTIVOS[ks[0]].cod})`;
+  if (ks.length) return MOTIVOS[ks[0]].nome;
   return 'Divergência de cadastro com a base do CadÚnico';
 }
 
@@ -1317,7 +1324,7 @@ function tipSituacao(a, ano, jid){
     const m = a.alt.filter(x => x.ciclo === ano && (!jid || x.jan <= jid)).sort((x, y) => y.jan.localeCompare(x.jan))[0];
     return `<div class="tt">Por que está elegível</div>Atende a todos os critérios do Programa:
       <ul>${CRIT_ELEG.map(c => `<li>${c}</li>`).join('')}</ul>
-      ${m && sitEm(a, ano, m.jan) === 'Elegível' ? `<p>Passou a elegível ${noProc()} ${jan(m.jan).rotulo}.<br>${motivoAlt(a, m)}.</p>` : ''}`;
+      ${m && sitEm(a, ano, m.jan) === 'Elegível' ? `<p>Passou a elegível ${noProc()} ${jan(m.jan).rotulo}.<br>Motivo da alteração: ${motivoAlt(a, m)}.</p>` : ''}`;
   }
   const g = s === 'Não elegível' ? 'nao' : 'indef';
   const st = ks.length && MOTIVOS[ks[0]].st ? MOTIVOS[ks[0]].st : (g === 'nao' ? 402 : 200);
@@ -1464,13 +1471,13 @@ function chipsFiltros(){
   if (state.janela) c.push(x(`${tv('Processamento', 'Janela de processamento')}: ${jan(state.janela).rotulo}`, "setJanela('')"));
   c.push(x(state.ciclo === 'todos' ? `Ciclos: ${ciclosDisponiveis().join(', ')}` : `Ciclo ${state.ciclo}`,
     state.ciclo === '2026' ? '' : (state.janela && !anosDa(jan(state.janela)).includes(2026) ? '' : "setCiclo('2026')")));
-  if (state.altF) c.push(x(`Só com situação alterada ${tv('neste processamento', 'nesta janela de processamento')}`, 'state.altF=false; render()'));
+  if (state.altF) c.push(x(`Só com situação alterada ${state.janela ? 'nesta janela de processamento' : 'em alguma janela de processamento'}`, 'state.altF=false; render()'));
   if (state.mun) c.push(x(`Município: ${state.mun}`, "state.mun=''; render()"));
   if (state.sitF) c.push(x(`Situação: ${state.sitF}`, "state.sitF=''; state.motF=''; render()"));
   if (state.motF) c.push(x(`Motivo: ${MOTIVOS[state.motF].nome}`, "state.motF=''; render()"));
   if (state.incF) c.push(x(`Incentivo: ${state.incF}`, "state.incF=''; render()"));
   if (state.sitPagF) c.push(x(`Situação: ${state.sitPagF}`, "state.sitPagF=''; render()"));
-  if (state.faixaF) c.push(x(`Frequência acumulada: ${state.faixaF === 'acima' ? 'igual ou acima de 80%' : 'abaixo de 80%'}`, "state.faixaF=''; render()"));
+  if (state.faixaF) c.push(x(`Frequência: ${state.faixaF === 'acima' ? 'igual ou acima de 80%' : 'abaixo de 80%'}`, "state.faixaF=''; render()"));
   if (state.busca) c.push(x(`Busca: “${state.busca.replace(/</g, '&lt;')}”`, "state.busca=''; render()"));
   const algum = state.mod !== 'geral' || state.janela || state.ciclo !== '2026' || state.altF || state.mun || state.sitF || state.motF || state.incF || state.sitPagF || state.faixaF || state.busca;
   return `<div class="fchips" data-new="filtros em uso"><span class="flb">Filtros em uso:</span>${c.join('')}
@@ -1515,6 +1522,28 @@ function selMun(lista){
     </select></div>`;
 }
 
+/* Revisão 7 (item 2): com uma janela, o que aconteceu nela; com "Todas as janelas", o
+   acumulado de todas as janelas do ciclo. A situação da rede fica no bloco seguinte. */
+function blocoMovimento(anos, jid, comBotao){
+  const mv = movimento(anos, jid);
+  const rotC = state.ciclo === 'todos' ? (jid ? `ciclos ${anos.join(', ')}` : 'todos os ciclos') : `ciclo ${state.ciclo}`;
+  const card = (lbl, val, cor, dica, sub) => `<div class="kpi" style="--c:${cor}">
+    <div class="lbl"><span>${lbl}</span><span class="info" title="${dica}">i</span></div>
+    <div class="val num">${N(val)}</div>${sub ? `<div class="sub">${sub}</div>` : ''}</div>`;
+  const ver = comBotao ? `<span class="act"><button class="btn new sm" onclick="irCom('#/elegibilidade', {janela:'${jid}', ciclo:'${state.ciclo}', altF:true})">Ver as matrículas alteradas</button></span>` : '';
+  return `<div class="section-title" style="margin-top:30px" data-new="bloco novo"><span class="ico" style="color:var(--new)">◈</span>
+      ${jid ? `O que aconteceu na janela de processamento de ${jan(jid).rotulo}` : 'O que aconteceu em todas as janelas de processamento'}
+      <span class="pill gray">${rotC}</span> <span class="pos">${jid ? '' : 'acumulado'}</span>${ver}</div>
+    <div class="kpis">
+      ${jid ? card('Matrículas processadas', mv.proc, 'var(--blue)', 'Matrículas dos ciclos do recorte avaliadas de novo nesta janela de processamento.')
+            : card('Janelas de processamento', mv.nj, 'var(--blue)', 'Quantas janelas de processamento concluídas trataram os ciclos do recorte.')}
+      ${card('Situação de elegibilidade alterada', mv.alt, 'var(--ink)', jid ? 'Matrículas que mudaram de situação nesta janela.' : 'Soma das mudanças de situação em todas as janelas do recorte.')}
+      ${card('Passaram a ser elegíveis', mv.pe, 'var(--green)', 'Parte das alteradas que passou a ser elegível.')}
+      ${card('Deixaram de ser elegíveis', mv.deixou, 'var(--red)', 'Parte das alteradas que deixou de ser elegível.')}
+      ${card('Parcelas liberadas', mv.parc, 'var(--blue-dark)', jid ? 'Parcelas liberadas nesta janela.' : 'Soma das parcelas liberadas em todas as janelas do recorte.', R$(mv.val))}
+    </div>`;
+}
+
 /* ══════════════════════════════════════════════════════════════════
    TELA — INÍCIO
    ══════════════════════════════════════════════════════════════════ */
@@ -1526,7 +1555,7 @@ function telaInicio(){
   const fq = freqResumo(anos, state.janela);
   const pg = pagResumo(anos, state.janela);
   const rotuloCiclo = state.ciclo === 'todos' ? (state.janela ? `ciclos ${anos.join(', ')}` : 'todos os ciclos') : `ciclo ${state.ciclo}`;
-  const pos = state.janela ? `situação ${noProc()} ${j0.rotulo}` : `situação atual, depois ${tv('do processamento de', 'da janela de processamento de')} ${ULTIMA.rotulo}`;
+  const pos = state.janela ? `situação depois da janela de processamento de ${j0.rotulo}` : 'situação atual da rede';
   const alt = somaJ(j, 'alteradas');
   const atalho = hash => `irCom('${hash}', {janela:'${state.janela}', ciclo:'${state.ciclo}'})`;
   const cellF = (lbl, v, dica) => `<div class="cell"><div class="lbl">${lbl} <span class="info" title="${dica}">i</span></div><div class="val num">${fq.semFreq && !fq.eleg ? '—' : N(v)}</div></div>`;
@@ -1541,6 +1570,7 @@ function telaInicio(){
 
     ${abasMod()}
     ${filtros()}
+    ${linkCalendario()}
 
     <div class="section-title" data-new="bloco no topo">
       <span class="ico" style="color:var(--new)">▣</span> ${state.janela ? tv('Processamento selecionado', 'Janela de processamento selecionada') : tv('Último processamento', 'Última janela de processamento')}
@@ -1556,7 +1586,7 @@ function telaInicio(){
         <div class="pills">${anosDa(j0).map(pillCiclo).join('')}</div>
       </div>
       <div class="wc-res">
-        <div class="cap">Matrículas processadas <span class="info" title="Todas as matrículas dos ciclos afetados, avaliadas de novo ${tv('neste processamento', 'nesta janela de processamento')}. A maioria continua com a mesma situação.">i</span></div>
+        <div class="cap">Matrículas processadas <span class="info" title="Todas as matrículas dos ciclos afetados, avaliadas de novo nesta janela de processamento.">i</span></div>
         <div class="big">${N(somaJ(j,'processadas'))}</div>
         <div class="wc-sub" data-new="detalhe novo">${N(alt)} com situação de elegibilidade alterada</div>
       </div>
@@ -1568,7 +1598,9 @@ function telaInicio(){
     </button>
     ${avisoCiclos(j0)}
 
-    <div class="section-title" style="margin-top:34px"><span class="ico">▤</span> Matrículas <span class="pill gray">${rotuloCiclo}</span> <span class="pos" data-new="muda com o filtro">${pos}</span>
+    ${blocoMovimento(anos, state.janela, false)}
+
+    <div class="section-title" style="margin-top:30px"><span class="ico">▤</span> Situação das matrículas <span class="pill gray">${rotuloCiclo}</span> <span class="pos" data-new="muda com o filtro">${pos}</span>
       <span class="act"><button class="btn sm" onclick="${atalho('#/elegibilidade')}">Status de Elegibilidade</button></span>
     </div>
     <div class="kpis">
@@ -1581,17 +1613,17 @@ function telaInicio(){
 
     <div class="grid-2" style="margin-top:26px">
       <div>
-        <div class="section-title"><span class="ico">▦</span> Frequência das matrículas
+        <div class="section-title"><span class="ico">▦</span> Frequência das matrículas <span class="pos">${state.janela ? 'informada nesta janela' : 'acumulada no ciclo'}</span>
           <span class="act"><button class="btn sm" onclick="${atalho('#/frequencia')}">Visualizar Detalhamento</button></span>
         </div>
         <div class="panel panel-rows">
           <div class="cell wide"><div class="lbl">Total de Matrículas Elegíveis <span class="info" title="As matrículas elegíveis do recorte. Somam: igual ou acima de 80% + abaixo de 80% + não informada.">i</span></div><div class="val num">${N(r.eleg)}</div></div>
-          ${cellF('Igual ou Acima de 80%', fq.acima, 'Elegíveis com frequência acumulada igual ou acima de 80%.')}
-          ${cellF('Abaixo de 80%', fq.abaixo, 'Elegíveis com frequência acumulada abaixo de 80%.')}
-          ${cellF('Não Informada', fq.ni, 'Elegíveis sem frequência informada pela rede no último mês apurado.')}
+          ${cellF('Igual ou Acima de 80%', fq.acima, 'Elegíveis com frequência igual ou acima de 80%.')}
+          ${cellF('Abaixo de 80%', fq.abaixo, 'Elegíveis com frequência abaixo de 80%.')}
+          ${cellF('Não Informada', fq.ni, 'Elegíveis sem frequência informada pela rede.')}
           ${cellF('Não Informada (3 Meses)', fq.ni3, 'Parte das não informadas que está sem frequência há três meses seguidos.')}
         </div>
-        ${fq.semFreq && !fq.eleg ? `<p class="explica" style="margin:8px 2px 0">${tv('O processamento', 'A janela de processamento')} de ${j0.rotulo} tratou só a matrícula: a frequência de fevereiro foi apurada em ${jan(JAN_DO_MES.fev).rotulo}.</p>` : ''}
+        ${fq.semFreq && !fq.eleg ? `<p class="explica" style="margin:8px 2px 0">${tv('O processamento', 'A janela de processamento')} de ${j0.rotulo} tratou só a matrícula; não houve frequência nela.</p>` : ''}
       </div>
       <div>
         <div class="section-title"><span class="ico">▩</span> Pagamentos <span class="pos">${state.janela ? `${tv('neste processamento', 'nesta janela de processamento')}` : 'acumulado'}</span>
@@ -1639,7 +1671,7 @@ function telaProcessamentos(){
 
     <div class="tabs" data-new="tela nova">
       <button class="${state.aba==='lista'?'on':''}" onclick="state.aba='lista'; render()">${tv('Processamentos', 'Janelas de processamento')}</button>
-      <button class="cmp-tab ${state.aba==='cmp'?'on':''}" data-new="aba em evidência" onclick="state.aba='cmp'; render()">⇄ ${tv('Comparar processamentos', 'Comparar janelas de processamento')} <span class="nv">novo</span></button>
+      <button class="cmp-tab ${state.aba==='cmp'?'on':''}" data-new="aba em evidência" onclick="state.aba='cmp'; render()">⇄ ${tv('Comparar processamentos', 'Comparar janelas de processamento')}</button>
     </div>
 
     ${state.aba === 'lista' ? listaJanelas() : comparativo()}`
@@ -1650,24 +1682,20 @@ function telaProcessamentos(){
 function calendarioFuturo(){
   if (!['todos', '2026'].includes(state.ciclo)) return '';
   return `<div data-new="calendário">
-    <div class="cal-h">${tv('Próximos processamentos', 'Próximas janelas de processamento')} <span>para a rede organizar o envio de dados</span></div>
-    <div class="window-list" style="margin-bottom:26px">
+    <div class="cal-h">Próximas janelas de processamento</div>
+    <div class="fut-list" style="margin-bottom:26px">
       ${FUTUROS.map(f => `<div class="window-card fut ${f.aberto ? 'aberta' : ''}">
         <div class="wc-date"><div class="day">${f.rotulo}</div>
-          <span class="stj ${f.aberto ? 'ab' : ''}">${f.aberto ? tv('Aberto para envio de dados', 'Janela aberta') : tv('Fechado', 'Janela fechada')}</span></div>
-        <div class="wc-res wc-env">
-          <div class="cap">Envio de dados</div>
-          <div>Frequência de <b>${f.freq}</b> (${f.parcela}) · envio de <b>${f.envio}</b></div>
-        </div>
+          <span class="stj ${f.aberto ? 'ab' : ''}">${f.aberto ? 'Janela aberta' : 'Janela fechada'}</span></div>
       </div>`).join('')}
     </div>
-    <div class="cal-h">${tv('Processamentos concluídos', 'Janelas de processamento concluídas')}</div>
+    <div class="cal-h">Janelas de processamento concluídas</div>
   </div>`;
 }
 /* Pedido do MEC (13/11): link evidente para o calendário operacional (no protótipo, não abre nada) */
 function linkCalendario(){
   return `<div class="cal-link" data-new="link novo"><span class="info">i</span>
-    <span>As datas ${tv('dos processamentos', 'das janelas de processamento')} e do envio de dados seguem o calendário operacional do Pé-de-Meia.</span>
+    <span>As datas das janelas de processamento e do envio de dados seguem o calendário operacional do Pé-de-Meia.</span>
     <a href="#" onclick="event.preventDefault()" title="No protótipo, este link não abre outra página">Consultar o calendário operacional ↗</a></div>`;
 }
 function listaJanelas(){
@@ -1840,10 +1868,11 @@ function telaJanela(){
       </div>
     </div>
 
+    ${linkCalendario()}
     ${avisoCiclos(j)}
 
     <div class="section-title"><span class="ico">▤</span> O que foi processado, por ciclo</div>
-    <p class="explica" data-new="explicação nova"><b>Matrículas processadas</b> são todas as matrículas do ciclo, avaliadas de novo ${tv('neste processamento', 'nesta janela de processamento')} — a maioria continua com a mesma situação.
+    <p class="explica" data-new="explicação nova"><b>Matrículas processadas</b> são todas as matrículas do ciclo, avaliadas de novo nesta janela de processamento.
       <b>Situação de elegibilidade alterada</b> são as que mudaram: elas se dividem entre as que <b>passaram a ser elegíveis</b> e as que <b>deixaram de ser elegíveis</b>.</p>
     <div class="tbl-wrap">
       <table class="tquebra">
@@ -1969,7 +1998,7 @@ function tabelaParcelas(ciclos, comTotal){
       <tbody>
         ${ciclos.flatMap(c => c.parcelas.map(p => `<tr>
           <td>${pillCiclo(c.ano)}</td>
-          <td><div class="prim">${incDe(p.cod)}</div>${p.faixa ? `<div class="sec">nove parcelas do ciclo ${c.ano}</div>` : ''}</td>
+          <td><div class="prim">${incDe(p.cod)}</div></td>
           <td class="r num">${N(p.qtd)}</td>
           <td class="r num">${R$(p.valor)}</td>
         </tr>`)).join('')}
@@ -1988,7 +2017,6 @@ function tabelaParcelas(ciclos, comTotal){
    ══════════════════════════════════════════════════════════════════ */
 function telaElegibilidade(){
   const j = state.janela ? jan(state.janela) : null;
-  if (!j) state.altF = false;
   const jid = j ? j.id : '';
   const anos = ciclosEmFoco(), anosC = anosRecorte();
   const r = retrato(anosC, jid);
@@ -1998,7 +2026,7 @@ function telaElegibilidade(){
   const base = [];
   ALUNOS.forEach(a => { if (!naMod(a)) return; anos.forEach(ano => {
     if (!a.sit[ano]) return;
-    const m = j ? a.alt.find(x => x.jan === j.id && x.ciclo === ano) : null;
+    const m = a.alt.find(x => x.ciclo === ano && (!j || x.jan === j.id));
     if (state.altF && !m) return;
     base.push({a, ano, m, s:sitEm(a, ano, jid), ks:motEm(a, ano, jid)});
   }); });
@@ -2013,8 +2041,7 @@ function telaElegibilidade(){
   const chave = {'Elegível':'eleg', 'Não elegível':'nao', 'Elegibilidade indefinida':'indef'}[state.sitF];
   let total, totMot;
   if (state.altF) {
-    const cs = jMod(j).ciclos.filter(c => anosC.includes(c.ano));
-    const alt = cs.reduce((s, c) => s + c.alteradas, 0), pe = cs.reduce((s, c) => s + c.paraElegivel, 0);
+    const mv = movimento(anosC, jid), alt = mv.alt, pe = mv.pe;
     totMot = {nao:alt - pe, indef:0};
     total = !state.sitF ? alt : state.sitF === 'Elegível' ? pe : state.sitF === 'Não elegível' ? alt - pe : 0;
   } else {
@@ -2025,7 +2052,7 @@ function telaElegibilidade(){
   if (state.motF) { const M = MOTIVOS[state.motF]; total = qtdMotivos(M.g, totMot[M.g]).find(i => i.k === state.motF).q; }
   if (state.busca || state.mun) total = lista.length;
   const pagina = lista.slice(0, LIM);
-  const sub = state.altF ? `Matrículas que mudaram de situação ${noProc()} ${j.rotulo}, com a situação anterior`
+  const sub = state.altF ? `Matrículas que mudaram de situação ${j ? `${noProc()} ${j.rotulo}` : 'em alguma janela de processamento'}, com a situação anterior`
     : j ? `Situação ${noProc()} ${j.rotulo}` : 'Situação atual das matrículas da rede no recorte selecionado';
   const geral = state.mod === 'geral';
 
@@ -2040,7 +2067,11 @@ function telaElegibilidade(){
     ${abasMod()}
     ${filtros()}
     ${windowBar()}
+    ${linkCalendario()}
 
+    ${blocoMovimento(anosC, jid, true)}
+
+    <div class="section-title" style="margin-top:30px"><span class="ico">▤</span> Situação das matrículas <span class="pos">${j ? `situação depois da janela de processamento de ${j.rotulo}` : 'situação atual da rede'}</span></div>
     <div class="kpis">
       ${kpi('Matrículas na Rede', r.rede, 'var(--blue)', 'Total de matrículas da rede no recorte selecionado.')}
       ${kpi('Elegível', r.eleg, 'var(--green)', 'Matrículas que atendem às condições do Programa.')}
@@ -2065,8 +2096,8 @@ function telaElegibilidade(){
           ${Object.keys(MOTIVOS).filter(k => SIT_DO_GRUPO[MOTIVOS[k].g] === state.sitF && MOTIVOS[k].p > 0)
             .map(k => `<option value="${k}" ${state.motF === k ? 'selected' : ''}>${MOTIVOS[k].nome}</option>`).join('')}
         </select></div>` : ''}
-      ${j ? `<label class="fcheck" data-new="filtro novo"><input type="checkbox" ${state.altF ? 'checked' : ''} onchange="state.altF=this.checked; render()">
-        Só com situação alterada ${tv('neste processamento', 'nesta janela de processamento')}</label>` : ''}
+      <label class="fcheck" data-new="filtro novo"><input type="checkbox" ${state.altF ? 'checked' : ''} onchange="state.altF=this.checked; render()">
+        Só com situação alterada ${j ? 'nesta janela de processamento' : 'em alguma janela de processamento'}</label>
     </div>
     ${chipsFiltros()}
 
@@ -2080,7 +2111,7 @@ function telaElegibilidade(){
           <th>Ciclo</th>
           ${geral ? '<th data-new="coluna nova">Modalidade</th>' : ''}
           <th>Situação no Pé-de-Meia</th>
-          ${state.altF ? `<th data-new="coluna nova">Antes ${tv('deste processamento', 'desta janela de processamento')}</th>` : ''}
+          ${state.altF ? `<th data-new="coluna nova">Antes da alteração</th>` : ''}
           <th></th>
         </tr></thead>
         <tbody>
@@ -2100,7 +2131,7 @@ function telaElegibilidade(){
       </table>`}
     </div>
     ${j?`<p style="color:var(--ink-2); font-size:12.5px; margin-top:12px">
-      ${state.altF ? `Amostra das matrículas que mudaram de situação ${noProc()} ${j.rotulo}.`
+      ${state.altF ? `Amostra das matrículas que mudaram de situação na janela de processamento de ${j.rotulo}.`
         : `Exibindo a situação das matrículas ${noProc()} ${j.rotulo}. A lista é a mesma de sempre — ${tv('o processamento', 'a janela de processamento')} mostra como cada matrícula estava naquele momento.`}
     </p>`:''}
 
@@ -2126,11 +2157,13 @@ function telaFrequencia(){
   const meses = mesesAte(jid);
   const fq = freqResumo(anosC, jid);
 
+  /* com janela, vale a frequência informada nela; sem janela, a acumulada */
+  const valF = a => jid ? (APURA[jid] ? a.freq[APURA[jid]] : null) : acumF(a, meses);
   const base = ALUNOS.filter(a => naMod(a) && anos.some(ano => sitEm(a, ano, jid) === 'Elegível'));
   let lista = base.filter(a => casa(a, state.busca));
   if (state.mun) lista = lista.filter(a => a.mun === state.mun);
-  if (state.faixaF === 'acima') lista = lista.filter(a => acumF(a, meses) >= 80);
-  if (state.faixaF === 'abaixo') lista = lista.filter(a => acumF(a, meses) != null && acumF(a, meses) < 80);
+  if (state.faixaF === 'acima') lista = lista.filter(a => valF(a) != null && valF(a) >= 80);
+  if (state.faixaF === 'abaixo') lista = lista.filter(a => valF(a) != null && valF(a) < 80);
   const total = (state.busca || state.mun) ? lista.length
     : state.faixaF === 'acima' ? fq.acima : state.faixaF === 'abaixo' ? fq.abaixo : fq.eleg;
   const pagina = meses.length ? lista.slice(0, LIM) : [];
@@ -2148,14 +2181,24 @@ function telaFrequencia(){
     ${abasMod()}
     ${filtros()}
     ${windowBar()}
+    ${linkCalendario()}
+
+    <div class="section-title" style="margin-top:6px" data-new="cartões novos"><span class="ico">▦</span> Frequência das matrículas elegíveis
+      <span class="pos">${j ? `informada na janela de processamento de ${j.rotulo}` : 'acumulada no ciclo'}</span></div>
+    <div class="kpis" style="grid-template-columns:repeat(4,1fr)">
+      ${kpi('Matrículas Elegíveis', fq.eleg, 'var(--blue)', 'Elegíveis do recorte: igual ou acima de 80% + abaixo de 80% + não informada.')}
+      ${fq.semFreq && !fq.eleg ? '' : `${kpi('Igual ou Acima de 80%', fq.acima, 'var(--green)', 'Elegíveis com frequência igual ou acima de 80%.')}
+      ${kpi('Abaixo de 80%', fq.abaixo, 'var(--red)', 'Elegíveis com frequência abaixo de 80%.')}
+      ${kpi('Não Informada', fq.ni, 'var(--ink)', 'Elegíveis sem frequência informada pela rede.')}`}
+    </div>
 
     ${listHead('Estudantes elegíveis', meses.length ? total : 0, pagina.length,
-      meses.length ? `Frequência mensal e acumulada${j ? ` até ${tv('o processamento de', 'a janela de processamento de')} ${j.rotulo}` : ''} — o último mês apurado é <b>${NOME_MES[ultimo]}</b>${j ? '' : `, ${tv('no processamento de', 'na janela de processamento de')} ${jan(JAN_DO_MES[ultimo]).rotulo}`}`
-        : `${tv('O processamento', 'A janela de processamento')} de ${j.rotulo} tratou só a matrícula`)}
+      meses.length ? `Frequência mensal e acumulada${j ? ` até a janela de processamento de ${j.rotulo}` : ''}`
+        : `A janela de processamento de ${j.rotulo} tratou só a matrícula`)}
     ${searchbar(PH_BUSCA)}
     <div class="filters" style="margin-bottom:10px">
       ${selMun(ALUNOS)}
-      <div class="field"><label for="f-faixa">Frequência acumulada</label>
+      <div class="field"><label for="f-faixa">${j ? 'Frequência na janela' : 'Frequência acumulada'}</label>
         <select id="f-faixa" onchange="state.faixaF=this.value; render()">
           <option value="">Todas</option>
           <option value="acima" ${state.faixaF==='acima'?'selected':''}>Igual ou acima de 80%</option>
@@ -2165,8 +2208,8 @@ function telaFrequencia(){
     ${chipsFiltros()}
 
     <div class="tbl-wrap">
-      ${!meses.length ? `<div class="empty"><b>Nenhuma frequência apurada ainda</b>
-        A frequência de fevereiro foi apurada ${tv('no processamento de', 'na janela de processamento de')} ${jan(JAN_DO_MES.fev).rotulo}.</div>`
+      ${!meses.length ? `<div class="empty"><b>Nenhuma frequência nesta janela</b>
+        A janela de processamento de ${j.rotulo} tratou só a matrícula.</div>`
       : lista.length === 0 ? `<div class="empty"><b>Nenhuma matrícula encontrada</b>
         Revise a busca ou os filtros em uso, logo acima.</div>` : `
       <table>
@@ -2175,7 +2218,7 @@ function telaFrequencia(){
           <th>Unidade de Ensino e código INEP</th>
           <th>Matrícula SGP</th>
           ${geral ? '<th data-new="coluna nova">Modalidade</th>' : ''}
-          ${meses.map(m => `<th class="r" title="Apurada ${tv('no processamento de', 'na janela de processamento de')} ${jan(JAN_DO_MES[m]).rotulo}">${m.charAt(0).toUpperCase() + m.slice(1)}</th>`).join('')}
+          ${meses.map(m => `<th class="r">${m.charAt(0).toUpperCase() + m.slice(1)}</th>`).join('')}
           <th class="r">Acumulado</th><th></th>
         </tr></thead>
         <tbody>
@@ -2260,6 +2303,7 @@ function telaPagamento(){
     ${abasMod()}
     ${filtros()}
     ${windowBar()}
+    ${linkCalendario()}
 
     <div class="panel" style="overflow:hidden">
       <div style="background:var(--blue); color:#fff; padding:11px 18px; font-weight:600; font-size:13.5px">▥ ${MODS.find(m => m.id === state.mod).nome}</div>
@@ -2415,8 +2459,7 @@ function renderModal(){
         ${anos26 ? `<h4 data-new="frequência por mês">Frequência mensal — ciclo 2026</h4>
         <div class="fmes">${MESES_F.map(m => `<div class="${a.freq[m] == null ? 'na' : clsF(a.freq[m])}">
           <div class="m">${NOME_MES[m]}</div><div class="p">${fmtF(a.freq[m])}</div>
-          <div class="a">apurada em ${jan(JAN_DO_MES[m]).rotulo}${a.freq[m] != null && a.freq[m] < 80 ? ' · sem parcela' : ''}</div></div>`).join('')}</div>
-        <p class="explica" style="margin:8px 2px 0">A parcela de frequência de cada mês só é liberada quando a frequência fica em 80% ou mais.</p>` : ''}
+          </div>`).join('')}</div>` : ''}
 
         <h4>Situação por ciclo</h4>
         <div class="tbl-wrap">
@@ -2491,7 +2534,7 @@ function render(){
     <div class="foot">
       <span>Protótipo de proposta — ${nomeProc()}</span><span>·</span>
       <span>Dados ilustrativos, ancorados nas telas atuais do Portal do Usuário</span><span>·</span>
-      <span>Revisão 6 — novembro de 2026</span>
+      <span>Revisão 7 — novembro de 2026</span>
     </div>`;
   renderModal();
 }

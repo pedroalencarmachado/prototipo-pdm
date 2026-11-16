@@ -498,6 +498,26 @@ O protótipo não mudou (segue na revisão 5). Mudou só o roteiro, e os dois PD
     para 12 páginas.
 
 
+### Revisão 7 — 16/11/2026 (ajustes do Pedro antes do vídeo demonstrativo)
+
+| # | Ajuste | Como ficou |
+|---|---|---|
+| 1 | Só a versão B | Saiu a chave *Roteiro A \| B*; o protótipo usa sempre "janela de processamento" (o `?roteiro=` é ignorado) |
+| 2 | Agosto × "Todas as janelas" iguais | Bloco novo **"O que aconteceu…"** no Início e na Elegibilidade: com uma janela, o que aconteceu nela (matrículas processadas, situação alterada, passaram/deixaram de ser elegíveis, parcelas e valor); com "Todas as janelas", o **acumulado do ciclo** (ex.: ciclo 2026: 6 janelas, 22.809 alteradas, 20.123 passaram a ser elegíveis, 1.396.680 parcelas). A **situação das matrículas** fica no bloco seguinte (atual, ou depois da janela escolhida). Frequência: com janela, a informada nela; sem janela, a acumulada (cartões novos na tela de Frequência). "Só com situação alterada" vale também sem janela ("em alguma janela de processamento") |
+| 3 | Frase dos 80% no 👁 | Removida |
+| 4, 5 | Motivo da alteração | Só o nome do critério: sem código TCI, sem "Regularizado:" e "Novo critério identificado:" |
+| 6 | "nove parcelas do ciclo 2024" | Removido das tabelas de parcelas |
+| 7 | Selo "novo" no Comparar | Removido |
+| 8 | Calendário operacional | Faixa com o link em todas as telas (Início, Elegibilidade, Frequência, Pagamento, Janelas e detalhe) |
+| 9 | Próximas janelas | Só mês/ano e "Janela aberta"/"Janela fechada", em quatro cartões numa linha |
+| 10 | "a maioria continua com a mesma situação" | Removido |
+| 11 | Linhas coloridas dos cartões | Removidas (cartões de matrícula e os demais do mesmo componente) |
+| 12 | "apurada em …" | Removido do 👁 e da Frequência (a frequência de um mês pode entrar em mais de uma janela) |
+
+Conferido no navegador: 435 telas (5 telas × janela × ciclo × modalidade, "só alteradas", 6 detalhes e o 👁 de todos os
+estudantes) sem erro, sem "NaN", sem os textos removidos e sem tabela rolando na horizontal em 1366 px. O roteiro do vídeo
+(`entregaveis/roteiro-video-demonstrativo.md`) foi atualizado.
+
 ### Revisão 6 — 13/11/2026 (reunião com o MEC sobre as mudanças propostas)
 
 Devolutiva do MEC aplicada ao protótipo das entrevistas. Parte dos ajustes repete o que já tinha sido feito no
