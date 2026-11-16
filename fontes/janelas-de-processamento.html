@@ -1643,7 +1643,7 @@ function calendarioFuturo(){
       ${FUTUROS.map(f => `<div class="window-card fut ${f.aberto ? 'aberta' : ''}">
         <div class="wc-date"><div class="day">${f.rotulo}</div>
           <span class="stj ${f.aberto ? 'ab' : ''}">${f.aberto ? 'Janela aberta' : 'Janela fechada'}</span></div>
-        <div class="wc-env">Frequência de <b>${f.freq}</b> (${f.parcela})<br>Envio de <b>${f.envio}</b></div>
+        <div class="wc-env">Envio de <b>${f.envio}</b></div>
       </div>`).join('')}
     </div>
     <div class="cal-h">Janelas de processamento concluídas</div>
