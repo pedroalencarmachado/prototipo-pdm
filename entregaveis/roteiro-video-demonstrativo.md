@@ -41,24 +41,22 @@ quantas tiveram a situação de elegibilidade alterada."
 
 **▶ Ação:** Passar o mouse no **(i)** de "Matrículas processadas".
 
-**🎙 Fala:** "Matrícula processada é toda matrícula avaliada de novo nesta janela de processamento — a maioria continua
-com a mesma situação."
+**🎙 Fala:** "Matrícula processada é toda matrícula avaliada de novo nesta janela de processamento."
 
 **▶ Ação:** Clicar em **"Por que isso acontece?"** no aviso laranja.
 
 **🎙 Fala:** "Como esta janela também mexeu nos ciclos 2024 e 2025, o portal avisa e explica por que um ciclo que já
 terminou volta a ser processado."
 
-**▶ Ação:** Rolar até **O que aconteceu em todas as janelas de processamento** (ciclo 2026).
+**▶ Ação:** Rolar até os cartões de **Matrículas** (ciclo 2026) e apontar o texto ao lado do título.
 
-**🎙 Fala:** "Com 'Todas as janelas de processamento', este bloco soma o que aconteceu no ciclo inteiro: seis janelas,
-22.809 mudanças de situação, 20.123 matrículas que passaram a ser elegíveis e 1,4 milhão de parcelas liberadas. Logo
-abaixo fica a situação atual da rede."
+**🎙 Fala:** "Sem uma janela escolhida, vejo a situação atual da rede — que hoje é a mesma de depois da última janela,
+agosto."
 
 **▶ Ação:** No filtro **Janela de processamento**, escolher **julho/2026**.
 
-**🎙 Fala:** "Quando escolho uma janela, o bloco mostra só o que aconteceu nela, e a situação da rede passa a ser a de
-depois daquela janela. Em julho, o ciclo 2026 tinha 1.139 matrículas com elegibilidade indefinida…"
+**🎙 Fala:** "Quando escolho uma janela, os números mostram a situação logo depois dela. Em julho, o ciclo 2026 tinha
+1.139 matrículas com elegibilidade indefinida…"
 
 **▶ Ação:** Trocar o filtro para **agosto/2026**.
 

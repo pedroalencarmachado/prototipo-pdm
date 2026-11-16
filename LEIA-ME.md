@@ -503,7 +503,7 @@ O protótipo não mudou (segue na revisão 5). Mudou só o roteiro, e os dois PD
 | # | Ajuste | Como ficou |
 |---|---|---|
 | 1 | Só a versão B | Saiu a chave *Roteiro A \| B*; o protótipo usa sempre "janela de processamento" (o `?roteiro=` é ignorado) |
-| 2 | Agosto × "Todas as janelas" iguais | Bloco novo **"O que aconteceu…"** no Início e na Elegibilidade: com uma janela, o que aconteceu nela (matrículas processadas, situação alterada, passaram/deixaram de ser elegíveis, parcelas e valor); com "Todas as janelas", o **acumulado do ciclo** (ex.: ciclo 2026: 6 janelas, 22.809 alteradas, 20.123 passaram a ser elegíveis, 1.396.680 parcelas). A **situação das matrículas** fica no bloco seguinte (atual, ou depois da janela escolhida). Frequência: com janela, a informada nela; sem janela, a acumulada (cartões novos na tela de Frequência). "Só com situação alterada" vale também sem janela ("em alguma janela de processamento") |
+| 2 | Agosto × "Todas as janelas" iguais | Testado um bloco "O que aconteceu…" com o acumulado do ciclo; **revertido no mesmo dia** a pedido do Pedro: volta o comportamento da Revisão 6 (com uma janela, a situação logo depois dela; sem janela, a atual). Agosto e "Todas as janelas" coincidem porque agosto é a janela mais recente; o texto ao lado de "Matrículas" agora diz "situação atual — igual à de depois da última janela de processamento, agosto/2026". Os pagamentos já diferiam (acumulado × só a janela) |
 | 3 | Frase dos 80% no 👁 | Removida |
 | 4, 5 | Motivo da alteração | Só o nome do critério: sem código TCI, sem "Regularizado:" e "Novo critério identificado:" |
 | 6 | "nove parcelas do ciclo 2024" | Removido das tabelas de parcelas |
@@ -514,7 +514,7 @@ O protótipo não mudou (segue na revisão 5). Mudou só o roteiro, e os dois PD
 | 11 | Linhas coloridas dos cartões | Removidas (cartões de matrícula e os demais do mesmo componente) |
 | 12 | "apurada em …" | Removido do 👁 e da Frequência (a frequência de um mês pode entrar em mais de uma janela) |
 
-Conferido no navegador: 435 telas (5 telas × janela × ciclo × modalidade, "só alteradas", 6 detalhes e o 👁 de todos os
+Conferido no navegador, depois da reversão do item 2: 423 telas (5 telas × janela × ciclo × modalidade, "só alteradas", 6 detalhes e o 👁 de todos os
 estudantes) sem erro, sem "NaN", sem os textos removidos e sem tabela rolando na horizontal em 1366 px. O roteiro do vídeo
 (`entregaveis/roteiro-video-demonstrativo.md`) foi atualizado.
 
