@@ -1623,10 +1623,10 @@ function telaProcessamentos(){
     html:`
     <div class="page-head">
       <div>
-        <h1>${nomeProc()}</h1>
-        <div class="sub">${tv('Cada processamento', 'Cada janela de processamento')} mostra o que foi processado num mesmo período: quantas matrículas, de quais ciclos,
-        e quanto foi liberado em pagamento. É a leitura por <b>mês do processamento</b> — complementar ao ciclo,
-        que é a leitura por <b>ano do dado</b>.</div>
+        <h1 style="display:flex; align-items:center; gap:4px">${nomeProc()} ${itip(`<div class="tt">O que é uma janela de processamento</div>
+          Cada janela de processamento mostra o que foi processado num mesmo período: quantas matrículas, de quais ciclos,
+          e quanto foi liberado em pagamento. É a leitura por <b>mês do processamento</b> — complementar ao ciclo,
+          que é a leitura por <b>ano do dado</b>.`, 'O que é uma janela de processamento')}</h1>
       </div>
       <div class="mark">PÉ·DE·MEIA</div>
     </div>
@@ -1651,6 +1651,7 @@ function calendarioFuturo(){
       ${FUTUROS.map(f => `<div class="window-card fut ${f.aberto ? 'aberta' : ''}">
         <div class="wc-date"><div class="day">${f.rotulo}</div>
           <span class="stj ${f.aberto ? 'ab' : ''}">${f.aberto ? 'Janela aberta' : 'Janela fechada'}</span></div>
+        <div class="wc-env">Frequência de <b>${f.freq}</b> (${f.parcela})<br>Envio de <b>${f.envio}</b></div>
       </div>`).join('')}
     </div>
     <div class="cal-h">Janelas de processamento concluídas</div>

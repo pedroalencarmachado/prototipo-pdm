@@ -509,7 +509,8 @@ O protótipo não mudou (segue na revisão 5). Mudou só o roteiro, e os dois PD
 | 6 | "nove parcelas do ciclo 2024" | Removido das tabelas de parcelas |
 | 7 | Selo "novo" no Comparar | Removido |
 | 8 | Calendário operacional | Faixa com o link em todas as telas (Início, Elegibilidade, Frequência, Pagamento, Janelas e detalhe) |
-| 9 | Próximas janelas | Só mês/ano e "Janela aberta"/"Janela fechada", em quatro cartões numa linha |
+| 9 | Próximas janelas | Quatro cartões numa linha: mês/ano, "Janela aberta"/"Janela fechada", a frequência que a janela recebe (com a parcela) e o período de envio — o envio voltou a pedido do Pedro (16/11) |
+| — | Texto do topo de Janelas de Processamento | "Cada janela de processamento mostra…" saiu de baixo do título e foi para um (i) ao lado dele, para ganhar espaço (16/11) |
 | 10 | "a maioria continua com a mesma situação" | Removido |
 | 11 | Linhas coloridas dos cartões | Removidas (cartões de matrícula e os demais do mesmo componente) |
 | 12 | "apurada em …" | Removido do 👁 e da Frequência (a frequência de um mês pode entrar em mais de uma janela) |
