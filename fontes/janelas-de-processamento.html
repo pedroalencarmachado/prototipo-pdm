@@ -256,9 +256,6 @@ td.r,th.r{text-align:right}
 .wc-cycles .pills{display:flex; gap:6px; flex-wrap:wrap}
 .wc-res .big{font-size:19px; font-weight:700; font-variant-numeric:tabular-nums}
 .wc-res .money{color:var(--green); font-weight:600; font-variant-numeric:tabular-nums; font-size:13px}
-.bar{height:5px; border-radius:99px; background:var(--line-2); overflow:hidden; margin-top:7px}
-.bar span{display:block; height:100%; background:var(--blue); border-radius:99px}
-.window-card.hot .bar span{background:var(--new)}
 .wc-date .day::first-letter{text-transform:uppercase}
 /* calendário: aberto (verde) e próximos (cinza, sem clique) */
 .cal-h{display:flex; align-items:baseline; gap:10px; margin:4px 0 10px; font-size:15px; font-weight:700}
@@ -1661,7 +1658,6 @@ function linkCalendario(){
 }
 function listaJanelas(){
   const lista = janelasDisponiveis();
-  const max = Math.max(...JANELAS.map(x => parcelasJ(jMod(x))));
   return `
     <div class="cmp-cta" data-new="comparar em evidência">
       <span class="ic">⇄</span>
@@ -1699,7 +1695,6 @@ function listaJanelas(){
             <div class="cap">Parcelas liberadas</div>
             <div class="big">${N(parcelasJ(j))}</div>
             <div class="money">${R$(valorJ(j))}</div>
-            <div class="bar"><span style="width:${(parcelasJ(j)/max*100).toFixed(1)}%"></span></div>
           </div>
         </button>`; }).join('')}
     </div>
