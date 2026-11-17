@@ -511,6 +511,9 @@ O protótipo não mudou (segue na revisão 5). Mudou só o roteiro, e os dois PD
 | 8 | Calendário operacional | Faixa com o link em todas as telas (Início, Elegibilidade, Frequência, Pagamento, Janelas e detalhe) |
 | 9 | Próximas janelas | Quatro cartões numa linha: mês/ano, "Janela aberta"/"Janela fechada", e o período de envio de dados — o envio voltou a pedido do Pedro (16/11); a frequência que a janela recebe não aparece |
 | — | Texto do topo de Janelas de Processamento | "Cada janela de processamento mostra…" saiu de baixo do título e foi para um (i) ao lado dele, para ganhar espaço (16/11) |
+| — | Mensagem abaixo da tabela do Comparar | Removida (16/11) |
+| — | **Ciclo 2024 é ciclo encerrado** | Regra do MEC (17/11): o envio de dados de 2024 encerrou em **out/2025**, então numa janela de 2026 uma matrícula de 2024 **não passa de "Não elegível" para "Elegível"** — só sai de **"Elegibilidade indefinida"** (o estudante ainda pode corrigir o CadÚnico). As 5 matrículas de 2024 alteradas em agosto/2026 passaram a vir de elegibilidade indefinida, com motivos de divergência cadastral (nome, data de nascimento e CPF divergentes do CadÚnico). Para 2025 o prazo vai até out/2026, então as mudanças das janelas de 2026 seguem válidas. Nada disso é dito na tela, a pedido do MEC, para não confundir |
+| — | Períodos de envio das próximas janelas | Conferidos com o calendário operacional (MEC, 17/11): setembro 11/08 a 04/09, outubro 08/09 a 02/10, novembro 06/10 a 06/11 e dezembro 10/11 a 04/12 |
 | 10 | "a maioria continua com a mesma situação" | Removido |
 | 11 | Linhas coloridas dos cartões | Removidas (cartões de matrícula e os demais do mesmo componente) |
 | 12 | "apurada em …" | Removido do 👁 e da Frequência (a frequência de um mês pode entrar em mais de uma janela) |
@@ -587,7 +590,7 @@ dados, refaça essa conferência antes de usar o roteiro.
 > "abaixo de 80%" mostra **1** estudante (8142093375) de 77.314; 5712230375 virou não elegível e 6180442379
 > (890.123.456-78) passou para o ciclo 2026, acima de 80% no acumulado. Continuam valendo: T2 (1.319.109), T3 (6),
 > T4 (227.942), T5, T6 (R$ 1.879.800,00), T7 (3.417), T8 (R$ 7.810.400,00), T9, T10, T11 (56.074 · 1.609 · 52.153),
-> T12, T14 e T15. Na T4 a T11, onde o roteiro diz "26/08/2026", a tela diz "agosto/2026".
+> T12 e T15. **T14** (26440817): a janela e o ciclo continuam, mas a situação anterior passou de "Não elegível" para **"Elegibilidade indefinida"** (ciclo 2024 é ciclo encerrado — ver a Revisão 7). Na T4 a T11, onde o roteiro diz "26/08/2026", a tela diz "agosto/2026".
 
 | # | Tarefa | Resposta |
 |---|---|---|

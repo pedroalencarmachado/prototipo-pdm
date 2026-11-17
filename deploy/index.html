@@ -588,13 +588,13 @@ function aloca(total, pesos){
 
 /* ── próximos processamentos (calendário) ───────────────────────────
    Sugestão de um operador, aplicada no Painel de Gestão e trazida para cá (MEC, 13/11):
-   o processamento com envio de dados aberto e os próximos, com a frequência que cada um
-   recebe. Datas ilustrativas, no ritmo do calendário operacional. */
+   a janela com envio de dados aberto e as próximas. Períodos de envio conferidos com o
+   calendário operacional do Programa (MEC, 17/11). */
 const FUTUROS = [
-  {rotulo:'setembro/2026', freq:'julho', parcela:'6ª parcela', envio:'01/09 a 15/09/2026', aberto:true},
-  {rotulo:'outubro/2026', freq:'agosto', parcela:'7ª parcela', envio:'01/10 a 15/10/2026'},
-  {rotulo:'novembro/2026', freq:'setembro', parcela:'8ª parcela', envio:'03/11 a 16/11/2026'},
-  {rotulo:'dezembro/2026', freq:'outubro', parcela:'9ª parcela', envio:'01/12 a 08/12/2026'}
+  {rotulo:'setembro/2026', envio:'11/08 a 04/09/2026', aberto:true},
+  {rotulo:'outubro/2026', envio:'08/09 a 02/10/2026'},
+  {rotulo:'novembro/2026', envio:'06/10 a 06/11/2026'},
+  {rotulo:'dezembro/2026', envio:'10/11 a 04/12/2026'}
 ];
 
 /* ── frequência: o mês que cada processamento apura (o pagamento sai dois meses depois) ── */
@@ -847,20 +847,24 @@ const ALUNOS = [
    escola:'CENTRO ESTADUAL DE EDUCAÇÃO DE JOVENS E ADULTOS DE SALVADOR', inep:'29199417', mun:'Salvador',
    sit:{2026:'Elegível'}, alt:[], freq:{fev:85.9, mar:83.4, abr:86.7, mai:84.8, jun:88.2}},
 
-  /* matrículas do ciclo 2024 cuja situação mudou na janela de agosto de 2026 */
+  /* Matrículas do ciclo 2024 cuja situação mudou na janela de agosto de 2026.
+     Regra do MEC (17/11): o envio de dados do ciclo 2024 encerrou em outubro de 2025, então
+     numa janela de 2026 uma matrícula de 2024 NÃO passa de "Não elegível" para "Elegível" —
+     só sai de "Elegibilidade indefinida", porque o estudante ainda pode corrigir o CadÚnico.
+     Por isso os motivos aqui são todos de divergência cadastral (grupo "indefinida"). */
   {mat:'26440817', nome:'Estudante 3308417720', cpf:'123.456.789-01', nis:'20055510005', mod:'EMR',
    escola:'COLÉGIO ESTADUAL LUÍS PRISCO VIANA', inep:'29248132', mun:'Salvador',
-   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível', mot:'cadunico'}],
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Elegibilidade indefinida', mot:'nomeCad'}],
    freq:{fev:96.1, mar:94.7, abr:95.9, mai:95.2, jun:96.4}},
 
   {mat:'26512093', nome:'Estudante 9780279998', cpf:'234.567.890-12', nis:'', mod:'EMR',
    escola:'COLÉGIO ESTADUAL TIRADENTES', inep:'29210399', mun:'Salvador',
-   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível', mot:'cadunico'}],
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Elegibilidade indefinida', mot:'dnCad'}],
    freq:{fev:89.3, mar:91.2, abr:88.4, mai:90.0, jun:89.1}},
 
   {mat:'26498330', nome:'Estudante 5598060616', cpf:'345.678.901-23', nis:'20055510006', mod:'EMR',
    escola:'COLÉGIO ESTADUAL AURELINO LEAL TEMPO INTEGRAL', inep:'29306760', mun:'Aurelino Leal',
-   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível', mot:'renda'}],
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Elegibilidade indefinida', mot:'cpfDiv'}],
    freq:{fev:93.5, mar:90.8, abr:92.1, mai:91.4, jun:92.8}},
 
   {mat:'26603741', nome:'Estudante 2008115717', cpf:'456.789.012-34', nis:'', mod:'EMR',
@@ -870,7 +874,7 @@ const ALUNOS = [
 
   {mat:'26551208', nome:'Estudante 3133702743', cpf:'567.890.123-45', nis:'20055510007', mod:'EMR',
    escola:'COLÉGIO ESTADUAL TEIXEIRA DE FREITAS TEMPO INTEGRAL', inep:'29056144', mun:'Teixeira de Freitas',
-   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Não elegível', mot:'cadunico'}],
+   sit:{2024:'Elegível'}, alt:[{jan:'2026-08-26', ciclo:2024, de:'Elegibilidade indefinida', mot:'nomeCad'}],
    freq:{fev:85.2, mar:82.6, abr:80.9, mai:81.7, jun:83.0}},
 
   /* matrículas do ciclo 2025 */
